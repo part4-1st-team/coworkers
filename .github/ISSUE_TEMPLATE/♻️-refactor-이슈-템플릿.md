@@ -1,10 +1,9 @@
 ---
-name: "♻️ refactor 이슈 템플릿"
+name: '♻️ refactor 이슈 템플릿'
 about: 리팩토링 관련 이슈는 이 템플릿을 사용해주세요
 title: ''
 labels: ''
 assignees: ''
-
 ---
 
 ## ♻️ 리팩토링 설명
@@ -12,6 +11,7 @@ assignees: ''
 어떤 부분을 리팩토링하는지 설명해주세요
 
 ## ♻️ 작업 내용
+
 - [ ] To do
 - [ ] To do
 

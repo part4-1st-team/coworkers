@@ -1,10 +1,9 @@
 ---
-name: "✨ feature 이슈 템플릿"
+name: '✨ feature 이슈 템플릿'
 about: 기능 개발 이슈는 이 템플릿을 사용해주세요
 title: ''
 labels: ''
 assignees: ''
-
 ---
 
 ## ✨ 만들고자 하는 기능
@@ -12,6 +11,7 @@ assignees: ''
 기능에 대해 설명해주세요
 
 ## ✨ 구현 내용
+
 - [ ] To do
 - [ ] To do
 

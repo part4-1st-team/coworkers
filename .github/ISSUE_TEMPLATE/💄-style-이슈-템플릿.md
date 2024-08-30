@@ -4,7 +4,6 @@ about: html, css 변경과 같은 코드에 영향을 주지 않을 경우 이 �
 title: ''
 labels: ''
 assignees: ''
-
 ---
 
 ## 💄 작업 설명
@@ -12,6 +11,7 @@ assignees: ''
 해당 작업 설명을 해주세요
 
 ## 💄 작업 목록
+
 - [ ] To do
 - [ ] To do
 
