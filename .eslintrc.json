@@ -15,11 +15,17 @@
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
     "plugin:prettier/recommended",
-    "prettier"
+    "prettier",
+    "plugin:storybook/recommended"
   ],
   "rules": {
     "react/react-in-jsx-scope": "off",
-    "react/jsx-filename-extension": ["warn", { "extensions": [".ts", ".tsx"] }],
+    "react/jsx-filename-extension": [
+      "warn",
+      {
+        "extensions": [".ts", ".tsx"]
+      }
+    ],
     "@typescript-eslint/camelcase": "off",
     "import/extensions": ["error", "ignorePackages"],
     "no-console": "error",
