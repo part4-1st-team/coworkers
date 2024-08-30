@@ -1,0 +1,32 @@
+name: Build and Deploy to Netlify
+
+on:
+  pull_request:
+    branches:
+      - "feature/**"
+      - "fix/**"
+      - "refactor/**"
+      - "style/**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v2.0
+        with:
+          publish-dir: './next'
+          production-branch: develop
+          deploy-message: "Deploy from GitHub Actions"
+          enable-pull-request-comment: true
+          enable-commit-comment: true
+        # env: env 키 여기에 추가하기
