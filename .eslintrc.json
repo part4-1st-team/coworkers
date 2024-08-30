@@ -5,7 +5,12 @@
     "node": true,
     "es6": true
   },
-  "plugins": ["import", "@typescript-eslint", "react", "prettier"],
+  "plugins": [
+    "import",
+    "@typescript-eslint",
+    "react",
+    "prettier"
+  ],
   "extends": [
     "airbnb",
     "airbnb-typescript",
@@ -15,13 +20,25 @@
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
     "plugin:prettier/recommended",
-    "prettier"
+    "prettier",
+    "plugin:storybook/recommended"
   ],
   "rules": {
     "react/react-in-jsx-scope": "off",
-    "react/jsx-filename-extension": ["warn", { "extensions": [".ts", ".tsx"] }],
+    "react/jsx-filename-extension": [
+      "warn",
+      {
+        "extensions": [
+          ".ts",
+          ".tsx"
+        ]
+      }
+    ],
     "@typescript-eslint/camelcase": "off",
-    "import/extensions": ["error", "ignorePackages"],
+    "import/extensions": [
+      "error",
+      "ignorePackages"
+    ],
     "no-console": "error",
     "react/jsx-props-no-spreading": "off"
   },
@@ -34,5 +51,9 @@
     },
     "project": "./tsconfig.json"
   },
-  "ignorePatterns": ["build", "dist", "public"]
+  "ignorePatterns": [
+    "build",
+    "dist",
+    "public"
+  ]
 }
