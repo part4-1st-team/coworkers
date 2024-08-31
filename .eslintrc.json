@@ -20,6 +20,13 @@
   ],
   "rules": {
     "react/react-in-jsx-scope": "off",
+    "react/function-component-definition": [
+      "warn",
+      {
+        "namedComponents": "function-declaration",
+        "unnamedComponents": "arrow-function"
+      }
+    ],
     "react/jsx-filename-extension": [
       "warn",
       {
@@ -27,8 +34,15 @@
       }
     ],
     "@typescript-eslint/camelcase": "off",
-    "import/extensions": ["error", "ignorePackages"],
-    "no-console": "error",
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
+    "no-console": "warn",
     "react/jsx-props-no-spreading": "off"
   },
   "parser": "@typescript-eslint/parser",

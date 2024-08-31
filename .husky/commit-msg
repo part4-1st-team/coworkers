@@ -67,4 +67,3 @@ elif [[ $RES == "clear" ]]; then
 fi
 
 exit 0
-출처: https://canoe726.tistory.com/66 [this-is-blog:티스토리]
