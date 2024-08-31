@@ -16,7 +16,7 @@ const meta: Meta<typeof Button> = {
   args: {
     variant: 'primary', // 기본값 설정
     size: 'large', // 기본값 설정
-    onClick: () => console.log('Button clicked!'),
+    onClick: () => alert('버튼 클릭'),
   },
 };
 

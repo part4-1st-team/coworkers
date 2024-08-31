@@ -27,7 +27,12 @@
       }
     ],
     "@typescript-eslint/camelcase": "off",
-    "import/extensions": ["error", "ignorePackages"],
+    "import/extensions": ["error",
+    "ignorePackages",
+    {
+      "ts": "never",
+      "tsx": "never"
+    }],
     "no-console": "error",
     "react/jsx-props-no-spreading": "off"
   },
