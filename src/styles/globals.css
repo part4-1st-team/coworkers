@@ -50,4 +50,10 @@
   --icon-primary: #64748b;
   --icon-inverse: #f8fafc;
   --icon-brand: #10b981;
+
+  /* ------ */
+  /* Shadows */
+  /* ------ */
+
+  --shadow-xl: box-shadow: 0px 25px 50px -12px #00000040;
 }

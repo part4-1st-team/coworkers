@@ -80,6 +80,9 @@ const config: Config = {
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
         'brand-gradient': 'linear-gradient(to right, #10B981, #A3E635)',
       },
+      boxShadow: {
+        'shadow-xl': 'var(--shadow-xl)',
+      },
     },
     keyframes: {},
     animation: {},
