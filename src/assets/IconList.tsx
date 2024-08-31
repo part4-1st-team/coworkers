@@ -1,0 +1,55 @@
+import IconX from './icons/ic_x.svg';
+import IconToggleDown from './icons/ic_toggle_down.svg';
+import IconVisibilityOff from './icons/ic_visibility_off.svg';
+import IconVisibilityOn from './icons/ic_visibility_on.svg';
+import IconCheckBrand from './icons/ic_check_brand.svg';
+import IconUser from './icons/ic_user.svg';
+import IconCalendar from './icons/ic_calendar.svg';
+import IconComment from './icons/ic_comment.svg';
+import IconList from './icons/ic_list.svg';
+import IconDone from './icons/ic_done.svg';
+import IconTime from './icons/ic_time.svg';
+import IconImg from './icons/ic_img.svg';
+import IconPlus from './icons/ic_plus.svg';
+import IconCheckWhite from './icons/ic_check_white.svg';
+import IconRepairLarge from './icons/ic_repair_large.svg';
+import IconRepairMedium from './icons/ic_repair_medium.svg';
+import IconRepairSmall from './icons/ic_repair_small.svg';
+import IconImgCircle from './icons/ic_img_circle.svg';
+import IconKebabSmall from './icons/ic_kebab_small.svg';
+import IconKebabLarge from './icons/ic_kebab_large.svg';
+import IconArrowRight from './icons/ic_arrow_right.svg';
+import IconArrowLeft from './icons/ic_arrow_left.svg';
+import IconProgressDone from './icons/ic_progress_done.svg';
+import IconProgressOngoing from './icons/ic_progress_ongoing.svg';
+import IconCheckboxDefault from './icons/ic_checkbox_default.svg';
+import IconCheckboxActive from './icons/ic_checkbox_active.svg';
+
+export {
+  IconX,
+  IconToggleDown,
+  IconVisibilityOn,
+  IconVisibilityOff,
+  IconCheckBrand,
+  IconUser,
+  IconCalendar,
+  IconComment,
+  IconList,
+  IconDone,
+  IconTime,
+  IconImg,
+  IconPlus,
+  IconCheckWhite,
+  IconRepairLarge,
+  IconRepairMedium,
+  IconRepairSmall,
+  IconImgCircle,
+  IconKebabSmall,
+  IconKebabLarge,
+  IconArrowRight,
+  IconArrowLeft,
+  IconProgressDone,
+  IconProgressOngoing,
+  IconCheckboxDefault,
+  IconCheckboxActive,
+};
