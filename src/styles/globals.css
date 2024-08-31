@@ -1,3 +1,59 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard-dynamic-subset.css');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+}
+
+:root {
+  font-family: pretendard;
+
+  /* ------ */
+  /* Colors */
+  /* ------ */
+
+  --brand-primary: #10b981;
+  --brand-secondary: #34d399;
+  --brand-tertiary: #a3e635;
+
+  --point-purple: #a855f7;
+  --point-blue: #3b82f6;
+  --point-cyan: #06b6d4;
+  --point-pink: #ec4899;
+  --point-rose: #f43f5e;
+  --point-orange: #f97316;
+  --point-yellow: #eab308;
+
+  --background-primary: #0f172a;
+  --background-secondary: #1e293b;
+  --background-tertiary: #334155;
+  --background-inverse: #ffffff;
+
+  --intersection-inactive: #94a3b8;
+  --intersection-hover: #059669;
+  --intersection-pressed: #047857;
+  --intersection-focus: #10b981;
+
+  --border-primary: rgba(248, 250, 252, 0.5); /* #f8fafc, 50% */
+
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-tertiary: #e2e8f0;
+  --text-default: #64748b;
+  --text-inverse: #ffffff;
+  --text-disabled: #94a3b8;
+
+  --status-danger: #dc2626;
+
+  --icon-primary: #64748b;
+  --icon-inverse: #f8fafc;
+  --icon-brand: #10b981;
+
+  /* ------ */
+  /* Shadows */
+  /* ------ */
+
+  --shadow-xl: box-shadow: 0px 25px 50px -12px #00000040;
+}
