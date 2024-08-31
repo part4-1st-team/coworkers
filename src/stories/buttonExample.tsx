@@ -1,12 +1,11 @@
 import clsx from 'clsx';
 
-export type props = {
+export type Props = {
   variant: 'primary' | 'secondary';
   size: 'large' | 'small';
-  onClick: () => void;
 };
 
-function ButtonExample({ variant, size, onClick }: props) {
+function ButtonExample({ variant, size }: Props) {
   const btnClassNames = clsx('rounded-lg flex items-center justify-center', {
     'bg-brand-primary': variant === 'primary',
     'bg-brand-secondary': variant === 'secondary',
@@ -15,7 +14,7 @@ function ButtonExample({ variant, size, onClick }: props) {
   });
 
   return (
-    <button onClick={onClick} type='button' className={btnClassNames}>
+    <button type='button' className={btnClassNames}>
       버튼 예시입니다
     </button>
   );

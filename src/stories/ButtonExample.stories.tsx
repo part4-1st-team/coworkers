@@ -1,7 +1,7 @@
 import type { Meta, StoryFn } from '@storybook/react';
 
 // 문서화할 컴포넌트 가져오기
-import Button, { props } from './buttonExample';
+import Button, { Props } from './buttonExample';
 
 // 스토리북에서 컴포넌트를 어떻게 문서화할지 설정하는 메타데이터
 const meta: Meta<typeof Button> = {
@@ -16,7 +16,6 @@ const meta: Meta<typeof Button> = {
   args: {
     variant: 'primary', // 기본값 설정
     size: 'large', // 기본값 설정
-    onClick: () => alert('버튼 클릭'),
   },
 };
 
@@ -31,7 +30,7 @@ export default meta;
  * @param args - 버튼 컴포넌트에 전달될 속성들입니다. 예를 들어, variant, size, onClick 등.
  * @returns 버튼 컴포넌트를 렌더링하는 JSX 엘리먼트입니다.
  */
-const Template: StoryFn<props> = (args) => <Button {...args} />;
+const Template: StoryFn<Props> = (args) => <Button {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
