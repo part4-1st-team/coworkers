@@ -3,7 +3,21 @@ import { ReactNode, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 function ModalOverlay({ onClose }: { onClose: () => void }) {
-  return <div className='modal-overlay' onClick={onClose} />;
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      onClose();
+    }
+  };
+
+  return (
+    <div
+      className='modal-overlay'
+      onClick={onClose}
+      role='button'
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
+    />
+  );
 }
 
 function ModalContainer({ children }: { children: ReactNode }) {

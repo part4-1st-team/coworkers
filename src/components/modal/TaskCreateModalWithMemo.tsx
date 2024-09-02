@@ -28,9 +28,7 @@ function TaskCreateModalWithMemo() {
             <ModalDescription description='할 일은 실제로 행동 가능한 작업 중심으로<br/>작성해주시면 좋습니다.' />
           </div>
           <div className='my-[16px]'>
-            <label htmlFor='title' className='text-lg font-medium text-white '>
-              할 일 제목
-            </label>
+            <span className='text-lg font-medium text-white '>할 일 제목</span>
             <input
               id='title'
               {...register('title')}
@@ -40,12 +38,9 @@ function TaskCreateModalWithMemo() {
           </div>
 
           <div>
-            <label
-              htmlFor='memo'
-              className='text-lg font-medium text-white mb-[8px]'
-            >
+            <span className='text-lg font-medium text-white mb-[8px]'>
               할 일 메모
-            </label>
+            </span>
             <input
               id='memo'
               {...register('memo')}
