@@ -16,6 +16,7 @@ function ModalOverlay({ onClose }: { onClose: () => void }) {
       role='button'
       tabIndex={0}
       onKeyDown={handleKeyDown}
+      aria-label='Close modal'
     />
   );
 }
