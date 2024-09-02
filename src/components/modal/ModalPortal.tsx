@@ -22,24 +22,15 @@ function ModalPortal({ children }: { children: ReactNode }) {
     setMounted(true);
     document.body.style.overflow = 'hidden';
 
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setModalClose();
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-
     return () => {
       setMounted(false);
       document.body.style.overflow = 'auto';
-      window.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
 
-  if (typeof window === 'undefined') return <></>; // 클라이언트 렌더링
-  if (!mounted) return <></>;
-  if (!isModalOpen) return <></>;
+  if (typeof window === 'undefined') return null; // 클라이언트 렌더링
+  if (!mounted) return null;
+  if (!isModalOpen) return null;
 
   const modalElement = document.getElementById('_modal');
 

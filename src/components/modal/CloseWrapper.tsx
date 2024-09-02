@@ -3,20 +3,13 @@
 
 import { IconX } from '@/assets/IconList';
 import useModalStore from '@/stores/ModalStore';
-import { clsx } from 'clsx';
 import { ReactNode } from 'react';
 
-function CloseWrapper({
-  className,
-  children,
-}: {
-  className?: string;
-  children: ReactNode;
-}) {
+function CloseWrapper({ children }: { children: ReactNode }) {
   const { setModalClose } = useModalStore();
 
   return (
-    <div className={clsx('relative', className)}>
+    <div className='relative'>
       <IconX
         className='absolute right-0 top-0 cursor-pointer'
         onClick={setModalClose}

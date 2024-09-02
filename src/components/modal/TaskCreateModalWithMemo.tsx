@@ -56,7 +56,10 @@ function TaskCreateModalWithMemo() {
         </div>
         {/* TODO: input 컴포넌트로 변경 */}
 
-        <button className='bg-brand-primary text-white rounded-[12px] w-[280px] h-[48px]'>
+        <button
+          type='submit'
+          className='bg-brand-primary text-white rounded-[12px] w-[280px] h-[48px]'
+        >
           만들기
         </button>
 

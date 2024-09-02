@@ -16,12 +16,14 @@ function LogoutModal() {
 
         <div className='flex gap-[8px]'>
           <button
+            type='button'
             className='bg-white w-[136px] h-[48px] rounded-[12px]'
             onClick={setModalClose}
           >
             닫기
           </button>
           <button
+            type='button'
             className='bg-modal-danger w-[136px] h-[48px] rounded-[12px] text-white'
             onClick={handleLogout}
           >

@@ -2,7 +2,8 @@ import CloseWrapper from './CloseWrapper';
 import ModalPortal from './ModalPortal';
 
 function ProfileModal({ member }: { member: IMember }) {
-  const { userImage, userName, userEmail } = member;
+  // const { userImage, userName, userEmail } = member;
+  const { userName, userEmail } = member;
 
   const handleEmailCopy = () => {
     // NOTE: 이메일 카피하는 기능 추가
@@ -24,6 +25,7 @@ function ProfileModal({ member }: { member: IMember }) {
           </div>
 
           <button
+            type='button'
             onClick={handleEmailCopy}
             className='bg-brand-primary text-white rounded-[12px] w-[280px] h-[47px]'
           >

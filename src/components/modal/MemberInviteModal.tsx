@@ -1,5 +1,3 @@
-import { IconX } from '@/assets/IconList';
-import useModalStore from '@/stores/ModalStore';
 import CloseWrapper from './CloseWrapper';
 import ModalDescription from './ModalDescription';
 import ModalPortal from './ModalPortal';
@@ -17,6 +15,7 @@ function MemberInviteModal() {
           <ModalTitle title='멤버 초대' />
           <ModalDescription description='그룹에 참여할 수 있는 링크를 복사합니다.' />
           <button
+            type='button'
             onClick={handleLinkCopy}
             className='mt-[40px] w-[280px] h-[47px] rounded-[12px] bg-brand-primary text-white'
           >

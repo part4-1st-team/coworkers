@@ -1,6 +1,5 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import CloseWrapper from './CloseWrapper';
-import ModalDescription from './ModalDescription';
 import ModalPortal from './ModalPortal';
 import ModalTitle from './ModalTitle';
 
@@ -31,7 +30,10 @@ function TaskCreateModal() {
               {...register('list')}
             />
           </div>
-          <button className='bg-brand-primary text-white rounded-[12px] w-[280px] h-[48px]'>
+          <button
+            type='submit'
+            className='bg-brand-primary text-white rounded-[12px] w-[280px] h-[48px]'
+          >
             만들기
           </button>
         </form>
