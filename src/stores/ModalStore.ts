@@ -3,16 +3,17 @@ import { create } from 'zustand';
 
 interface ModalStoreState {
   isModalOpen: boolean;
-  modal: ReactNode | null;
-  setModalOpen: (modal: ReactNode) => void;
+  modalId: string | null;
+  setModalOpen: (id: string) => void;
   setModalClose: () => void;
 }
 
 const useModalStore = create<ModalStoreState>((set) => ({
   isModalOpen: false,
   modal: null,
-  setModalOpen: (modal) => set({ isModalOpen: true, modal: modal }),
-  setModalClose: () => set({ isModalOpen: false, modal: null }),
+  modalId: null,
+  setModalOpen: (id) => set({ isModalOpen: true, modalId: id }),
+  setModalClose: () => set({ isModalOpen: false, modalId: null }),
 }));
 
 export default useModalStore;
