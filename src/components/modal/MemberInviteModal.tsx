@@ -1,5 +1,6 @@
 import { IconX } from '@/assets/IconList';
 import useModalStore from '@/stores/ModalStore';
+import CloseWrapper from './CloseWrapper';
 import ModalDescription from './ModalDescription';
 import ModalPortal from './ModalPortal';
 import ModalTitle from './ModalTitle';
@@ -10,15 +11,9 @@ import ModalTitle from './ModalTitle';
  * @returns 멤버 초대할 수 있게 링크 복사하는 모달 컴포넌트
  */
 function MemberInviteModal({ onClick }: { onClick: () => void }) {
-  const { setModalClose } = useModalStore();
   return (
     <ModalPortal>
-      <div className='relative'>
-        <IconX
-          className='absolute right-0 top-0 cursor-pointer'
-          onClick={setModalClose}
-        />
-
+      <CloseWrapper>
         <div className='px-[36px] pt-[32px] flex flex-col items-center '>
           <ModalTitle title='멤버 초대' />
           <ModalDescription description='그룹에 참여할 수 있는 링크를 복사합니다.' />
@@ -30,7 +25,7 @@ function MemberInviteModal({ onClick }: { onClick: () => void }) {
           </button>
           {/* TODO: 버튼 공통 컴포넌트로 수정하기 */}
         </div>
-      </div>
+      </CloseWrapper>
     </ModalPortal>
   );
 }
