@@ -22,9 +22,9 @@
     "prettier/prettier": [
       "error",
       {
-          "endOfLine": "LE"
+        "endOfLine": "LE"
       }
-  ],
+    ],
     "react/react-in-jsx-scope": "off",
     "react/function-component-definition": [
       "warn",
