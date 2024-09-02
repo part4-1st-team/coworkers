@@ -19,6 +19,12 @@
     "plugin:storybook/recommended"
   ],
   "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+          "endOfLine": "LE"
+      }
+  ],
     "react/react-in-jsx-scope": "off",
     "react/function-component-definition": [
       "warn",
