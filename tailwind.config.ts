@@ -61,6 +61,9 @@ const config: Config = {
         inverse: 'var(--icon-inverse)',
         brand: 'var(--icon-brand)',
       },
+      modal: {
+        danger: 'var(--modal-danger)',
+      },
     },
 
     fontSize: {
