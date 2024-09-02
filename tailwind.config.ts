@@ -14,6 +14,8 @@ const config: Config = {
       desktop: '1200px',
     },
     colors: {
+      black: '#000000',
+      white: '#ffffff',
       brand: {
         primary: 'var(--brand-primary)',
         secondary: 'var(--brand-secondary)',
@@ -82,6 +84,10 @@ const config: Config = {
       },
       boxShadow: {
         'shadow-xl': 'var(--shadow-xl)',
+      },
+      zIndex: {
+        modal: '350',
+        'modal-overlay': '300',
       },
     },
     keyframes: {},
