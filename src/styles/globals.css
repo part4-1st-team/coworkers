@@ -5,10 +5,26 @@
 @tailwind utilities;
 
 @layer components {
+  .modal-overlay {
+    @apply fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-modal-overlay;
+  }
+
+  .modal-container {
+    @apply fixed z-modal bg-background-secondary pt-[16px] pr-[16px] pb-[32px] pl-[16px];
+  }
+
+  .modal-container-position {
+    @apply top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-[12px] w-auto bottom-auto;
+  }
+
+  .modal-container-position-mobile {
+    @apply bottom-0 left-0 rounded-t-[12px] w-full;
+  }
 }
 
 :root {
   font-family: pretendard;
+  -webkit-font-smoothing: antialiased;
 
   /* ------ */
   /* Colors */
@@ -50,6 +66,8 @@
   --icon-primary: #64748b;
   --icon-inverse: #f8fafc;
   --icon-brand: #10b981;
+
+  --modal-danger: #ef4444;
 
   /* ------ */
   /* Shadows */
