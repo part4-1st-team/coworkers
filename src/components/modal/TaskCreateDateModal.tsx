@@ -6,12 +6,12 @@ import ModalDescription from './ModalDescription';
 import ModalPortal from './ModalPortal';
 import ModalTitle from './ModalTitle';
 
-type frequencyType = 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'ONCE';
+type FrequencyType = 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'ONCE';
 
 interface FormState {
   title: string;
   startDate: string;
-  frequencyType: frequencyType;
+  frequencyType: FrequencyType;
   memo: string;
 }
 
