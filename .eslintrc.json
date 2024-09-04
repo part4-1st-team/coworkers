@@ -22,7 +22,7 @@
     "prettier/prettier": [
       "error",
       {
-        "endOfLine": "LE"
+        "endOfLine": "auto"
       }
     ],
     "react/react-in-jsx-scope": "off",
