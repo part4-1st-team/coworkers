@@ -153,7 +153,7 @@ type SizeType = 'square' | 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL' | '';
 type ButtonType = 'bar' | 'fullRounded' | 'circle';
 
 interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
-  type?: ButtonType;
+  buttonType?: ButtonType;
   color?: ColorType;
   size?: SizeType;
   fullWidth?: boolean;
@@ -198,7 +198,7 @@ const fullWidthMap = 'w-full';
 // Button 컴포넌트 함수 선언식
 function Button({
   children,
-  type = 'bar',
+  buttonType = 'bar',
   color = '',
   size = '',
   fullWidth = false,
@@ -208,7 +208,7 @@ function Button({
 }: ButtonProps) {
   const buttonClass = clsx(
     baseButton,
-    buttonKind[type],
+    buttonKind[buttonType],
     colorMap[color],
     sizeMap[size],
     fullWidth && fullWidthMap,
