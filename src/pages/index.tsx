@@ -14,6 +14,7 @@ export default function Home() {
           label='이메일'
           id='email'
           placeholder='이메일을 입력해 주세요'
+          disabled
           // errorMessage='에러있음'
         />
         <Input
@@ -21,7 +22,8 @@ export default function Home() {
           label='비밀번호 '
           id='password'
           placeholder='비밀번호를 입력해주세요'
-          errorMessage='비밀번호가 틀렸습니다.'
+          // errorMessage='비밀번호가 틀렸습니다.'
+          disabled
         />
       </div>
     </main>
