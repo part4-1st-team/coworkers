@@ -93,8 +93,12 @@ function TaskList() {
               5월 18일 (월)
             </span>
             <div>
-              <button type='button'>&lt;</button>
-              <button type='button'>&gt;</button>
+              <button type='button' aria-label='이전 날짜'>
+                &lt;
+              </button>
+              <button type='button' aria-label='다음 날짜'>
+                &gt;
+              </button>
             </div>
             <button type='button'>
               <IconCalendar />

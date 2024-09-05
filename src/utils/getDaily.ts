@@ -7,9 +7,9 @@ function getDaily(daily: string) {
     return '매달 반복';
   } else if (daily === 'ONCE') {
     return '매일 반복';
-  } else {
-    return '기타';
   }
+
+  return '기타';
 }
 
 export default getDaily;
