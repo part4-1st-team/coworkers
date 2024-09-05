@@ -1,27 +1,77 @@
-// type FrequencyType = 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'ONCE';
-
-interface IUser {}
-
-interface IWriter {
-  id: number;
-  nickname: string;
-  image: string;
-}
-
-interface ITask {
-  id: number;
+interface PostTask {
   name: string;
   description: string;
-  date: string;
-  doneAt: string | null;
+  startDate: string;
+  frequencyType: FrequencyType;
+  monthDay?: number;
+  weekDays?: number[];
+}
+
+interface Recurring {
+  writerId: number;
+  groupId: number;
+  taskListId: number;
+  monthDay: number | null;
+  weekDays: number[] | null;
+  frequencyType: FrequencyType;
+  startDate: string;
   updatedAt: string;
-  user: IUser | null;
-  recurringId: number;
-  deletedAt: string | null;
-  displayIndex: number;
-  writer: IWriter;
+  createdAt: string;
+  description: string;
+  name: string;
+  id: number;
+}
+
+interface TaskRecurring {
+  recurring: Recurring;
+}
+
+interface IUser {
+  user: BaseUser | null;
+}
+
+interface DateTask {
   doneBy: IUser | null;
+  writer: Writer | null;
+  displayIndex: number;
   commentCount: number;
-  frequency: 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'ONCE';
-  // TODO 머지하고 타입 수정
+  deletedAt: string | null;
+  recurringId: number;
+  frequency: FrequencyType;
+  updatedAt: string;
+  doneAt: string | null;
+  date: string;
+  description: string | null;
+  name: string;
+  id: number;
+}
+
+interface PatchTask {
+  name?: string;
+  description?: string;
+  done?: boolean;
+}
+
+interface PatchAfterTask {
+  displayIndex: number;
+  writerId: number;
+  userId: number;
+  deletedAt: number;
+  frequency: FrequencyType;
+  description: string;
+  name: string;
+  recurringId: number;
+  doneAt: string;
+  date: string;
+  updatedAt: string;
+  id: number;
+}
+
+interface PostRecurring {
+  name: string;
+  description: string;
+  startDate: string;
+  frequencyType: FrequencyType;
+  monthDay?: number | null;
+  weekDays?: number[] | null;
 }

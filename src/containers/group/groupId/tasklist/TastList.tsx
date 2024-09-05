@@ -10,7 +10,7 @@ import useModalStore from '@/stores/ModalStore';
 import Link from 'next/link';
 import List from './List';
 
-const tasks: ITask[] = [
+const tasks: DateTask[] = [
   {
     id: 7949,
     name: '응원하기',
@@ -18,7 +18,6 @@ const tasks: ITask[] = [
     date: '2024-09-05T09:00:00+09:00',
     doneAt: null,
     updatedAt: '2024-09-05T10:54:25+09:00',
-    user: null,
     recurringId: 1082,
     deletedAt: null,
     displayIndex: 0,
@@ -39,7 +38,6 @@ const tasks: ITask[] = [
     date: '2024-09-05T09:00:00+09:00',
     doneAt: null,
     updatedAt: '2024-09-05T10:54:25+09:00',
-    user: null,
     recurringId: 1083,
     deletedAt: null,
     displayIndex: 1,
@@ -133,7 +131,7 @@ function TaskList() {
             ))}
           </div>
           <div className='flex flex-col gap-[16px]'>
-            {tasks.map((task: ITask) => (
+            {tasks.map((task: DateTask) => (
               <List task={task} key={task.id} />
             ))}
           </div>

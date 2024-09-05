@@ -8,7 +8,7 @@ import {
 import getDaily from '@/utils/getDaily';
 import getDate from '@/utils/getDate';
 
-function List({ task }: { task: ITask }) {
+function List({ task }: { task: DateTask }) {
   const { name, commentCount, updatedAt, frequency } = task;
   return (
     <div className='bg-background-secondary flex flex-col gap-[10px] rounded-[8px] py-[12px] px-[14px]'>
