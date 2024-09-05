@@ -20,10 +20,12 @@ function AccountSetting() {
     <main className='main-container'>
       <div className='flex flex-col gap-[24px]'>
         <h2 className='text-xl font-bold text-text-primary'>계정 설정</h2>
+        {/* TODO 프로필 변경 컴포넌트로 바꾸기 */}
         <div className='size-[64px] rounded-[50%] bg-background-tertiary text-text-primary flex justify-center items-center'>
           임시
         </div>
         <form className='flex flex-col gap-[24px]'>
+          {/* TODO input들 defaultValue 변경 */}
           <Controller
             name='name'
             control={control}
@@ -49,6 +51,7 @@ function AccountSetting() {
                 <Input label='비밀번호' type='password' {...field} />
               )}
             />
+            {/* TODO 버튼 변경 */}
             <button
               className='absolute right-[10px] bottom-[6px]  bg-brand-primary w-[96px] h-[36px] rounded-xl text-white text-xs'
               type='button'
