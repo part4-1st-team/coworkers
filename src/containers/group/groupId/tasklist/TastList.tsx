@@ -1,4 +1,9 @@
-import { IconCalendar, IconPlus } from '@/assets/IconList';
+import {
+  IconArrowLeft,
+  IconArrowRight,
+  IconCalendar,
+  IconPlus,
+} from '@/assets/IconList';
 import TaskCreateDateModal from '@/components/modal/TaskCreateDateModal';
 import TaskCreateModal from '@/components/modal/TaskCreateModal';
 import useModalStore from '@/stores/ModalStore';
@@ -94,10 +99,10 @@ function TaskList() {
             </span>
             <div>
               <button type='button' aria-label='이전 날짜'>
-                &lt;
+                <IconArrowLeft />
               </button>
               <button type='button' aria-label='다음 날짜'>
-                &gt;
+                <IconArrowRight />
               </button>
             </div>
             <button type='button'>
