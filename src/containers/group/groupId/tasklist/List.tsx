@@ -5,22 +5,8 @@ import {
   IconKebabSmall,
   IconRepeat,
 } from '@/assets/IconList';
+import getDaily from '@/utils/getDaily';
 import getDate from '@/utils/getDate';
-
-function getDaily(daily: string) {
-  switch (daily) {
-    case 'DAILY':
-      return '매일 반복';
-    case 'WEEKLY':
-      '매주 반복';
-    case 'MONTHLY':
-      '매달 반복';
-    case 'ONCE':
-      '매일 반복';
-    default:
-      '기타';
-  }
-}
 
 function List({ task }: { task: ITask }) {
   const { name, commentCount, updatedAt, frequency } = task;

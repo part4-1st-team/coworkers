@@ -1,5 +1,4 @@
 import { IconCalendar, IconPlus } from '@/assets/IconList';
-import Button from '@/components/button';
 import TaskCreateDateModal from '@/components/modal/TaskCreateDateModal';
 import TaskCreateModal from '@/components/modal/TaskCreateModal';
 import useModalStore from '@/stores/ModalStore';
@@ -114,7 +113,11 @@ function TaskList() {
         <div className='flex flex-col gap-[16px]'>
           <div className='flex items-center gap-[12px]'>
             {taskLists.map((taskList) => (
-              <Link href={`/group/816/tasklist/${taskList.id}`} className=''>
+              <Link
+                key={taskList.id}
+                href={`/group/816/tasklist/${taskList.id}`}
+                className=''
+              >
                 {/* TODO href 주소 수정, active 시 스타일 수정 */}
                 {taskList.name}
               </Link>
@@ -122,12 +125,13 @@ function TaskList() {
           </div>
           <div className='flex flex-col gap-[16px]'>
             {tasks.map((task: ITask) => (
-              <List task={task} />
+              <List task={task} key={task.id} />
             ))}
           </div>
         </div>
       </div>
       <button
+        type='button'
         onClick={() => setModalOpen('add-task-date')}
         className='absolute right-[24px] bottom-[24px] tablet:bottom-[25px] desktop:right-[328px] desktop:bottom-[49px] bg-brand-primary flex gap-[4px] items-center px-[21px] py-[14px] rounded-[40px]'
       >
