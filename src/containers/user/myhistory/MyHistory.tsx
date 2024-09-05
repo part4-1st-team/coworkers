@@ -71,7 +71,7 @@ function MyHistory() {
         </h2>
         <div className='space-y-[40px]'>
           {groupedByDate.map((history: IHistory) => (
-            <DailyTaskHistory history={history} />
+            <DailyTaskHistory history={history} key={history.date} />
           ))}
         </div>
       </div>
