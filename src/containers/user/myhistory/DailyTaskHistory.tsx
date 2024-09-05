@@ -6,7 +6,7 @@ function DailyTaskHistory({ history }: { history: IHistory }) {
     <div className='w-full flex flex-col gap-[16px]'>
       <h2 className='text-lg font-medium text-text-primary'>{date}</h2>
       {tasks.map((task) => (
-        <HistoryList task={task} />
+        <HistoryList task={task} key={task.id} />
       ))}
     </div>
   );
