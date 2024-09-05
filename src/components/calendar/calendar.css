@@ -1,0 +1,116 @@
+/* 캘린더 - button style은 Tailwind CSS 적용*/
+
+/* Datepicker 디스플레이 속성 변경 */
+.react-datepicker-popper {
+  margin-left: 65px !important;
+}
+
+/* 캘린더 - 달력 style - 연 */
+.react-datepicker__header {
+  background-color: transparent !important;
+  border-bottom: none !important;
+  padding: 0 !important;
+}
+
+.react-datepicker__current-month {
+  width: 304px;
+  height: 34px !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  padding: 5px 0 5px 0 !important;
+  line-height: 24px !important;
+}
+
+.react-datepicker__current-month,
+.react-datepicker-time__header,
+.react-datepicker-year-header {
+  color: #f8fafc !important;
+}
+
+/* 캘린더 - 달력 style - 요일 */
+.react-datepicker__day-names {
+  width: 304px !important;
+  font-weight: 600 !important;
+  margin-bottom: 0 !important;
+}
+
+/* 캘린더 - 달력 style - 월 */
+.react-datepicker {
+  width: 336px !important;
+  height: 258px !important;
+  border-radius: 12px !important;
+  border: 1px solid #f8fafc1a !important;
+}
+
+.react-datepicker__month-container {
+  width: 336px !important;
+  height: 258px !important;
+  border-radius: 12px !important;
+  border: 1px solid #f8fafc1a !important;
+  background-color: #1e293b !important;
+  padding: 16px !important;
+}
+
+.react-datepicker__month-container:hover {
+  border: 1px solid #059669 !important;
+}
+
+.react-datepicker__month {
+  width: 304px !important;
+  margin: 0 !important;
+}
+
+/* 캘린더 - 달력 style - 일 */
+.react-datepicker__day-name,
+.react-datepicker__day,
+.react-datepicker__time-name {
+  color: #f8fafc !important;
+  display: inline-block !important;
+  width: 43.43px !important;
+  height: 32px !important;
+  line-height: 12px !important;
+  text-align: center !important;
+  padding: 7.5px 10px 7.5px 10px !important;
+  font-size: 14px !important;
+  margin: 0 !important;
+}
+
+/* 캘린더 - 달력 style - 일(hover, selected) */
+.react-datepicker__day:hover {
+  background-color: #059669 !important;
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--in-selecting-range,
+.react-datepicker__day--in-range,
+.react-datepicker__month-text--selected,
+.react-datepicker__month-text--in-selecting-range,
+.react-datepicker__month-text--in-range,
+.react-datepicker__quarter-text--selected,
+.react-datepicker__quarter-text--in-selecting-range,
+.react-datepicker__quarter-text--in-range,
+.react-datepicker__year-text--selected,
+.react-datepicker__year-text--in-selecting-range,
+.react-datepicker__year-text--in-range {
+  background-color: #059669 !important;
+}
+
+/* Datepicker 버튼, 달력 사이 UI 요소 숨김 처리 */
+.react-datepicker__triangle {
+  display: none !important;
+}
+
+/* 캘린더 - 달력 style - 연도 이동 버튼 */
+.react-datepicker__navigation--next {
+  top: 24px !important;
+  right: 16px !important;
+  width: 24px !important;
+  height: 24px !important;
+}
+
+.react-datepicker__navigation--previous {
+  top: 24px !important;
+  left: 20px !important;
+  width: 24px !important;
+  height: 24px !important;
+}
