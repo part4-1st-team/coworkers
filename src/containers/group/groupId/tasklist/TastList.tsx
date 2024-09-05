@@ -105,7 +105,7 @@ function TaskList() {
                 <IconArrowRight />
               </button>
             </div>
-            <button type='button'>
+            <button type='button' aria-label='캘린더'>
               <IconCalendar />
             </button>
             {/* TODO 버튼들 수정하기 */}
