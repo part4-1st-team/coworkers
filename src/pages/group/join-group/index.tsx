@@ -42,7 +42,9 @@ function JoinGroupPage() {
           <section className='w-[full] h-[224px] bg-background-secondary rounded-[12px] flex justify-between pl-[48px] pr-[24px] pt-[24px] pb-[24px]'>
             <div className='flex gap-[64px] items-center'>
               {/* TODO 도넛 차트 */}
-              <div className='w-[140px] h-[140px] rounded-[9999px] bg-brand-secondary'></div>
+              <div className='w-[140px] h-[140px] rounded-[9999px] bg-brand-secondary'>
+                chart
+              </div>
               <div className='flex flex-col gap-[16px]'>
                 <div className='text-md'>
                   <p>오늘의</p>
