@@ -120,3 +120,17 @@ video {
   max-width: none !important;
   height: auto;
 }
+
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+::-webkit-scrollbar-track {
+  width: 11px;
+  height: 47px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--background-tertiary);
+  padding-right: 5px;
+}
