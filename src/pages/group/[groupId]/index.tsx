@@ -43,7 +43,7 @@ function GroupPage() {
               <div className='w-[140px] h-[140px] rounded-[9999px] bg-brand-secondary'>
                 <div className='w-full h-full flex flex-col items-center justify-center tablet:hidden '>
                   <p className='text-xs'>오늘</p>
-                  {/* TODO 텍스트 그라데이션 적용*/}
+                  {/* TODO 텍스트 그라데이션 적용 */}
                   <p className='text-[20px] font-[700]'>00%</p>
                 </div>
               </div>
