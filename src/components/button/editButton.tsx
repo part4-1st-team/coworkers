@@ -1,6 +1,7 @@
 /* eslint-disable react/require-default-props */
 import Button from '@/components/button/button';
-import Image from 'next/image';
+// import Image from 'next/image';
+import { IconCalendar } from '@/assets/IconList';
 
 type SizeType = 'large' | 'small';
 
@@ -32,13 +33,18 @@ function EditButton({ size = 'large' }: EditButtonProps) {
       rounded
       className={`${buttonClass} ${borderClass} bg-background-tertiary flex items-center justify-center`}
     >
-      <Image
+      {/* <Image
         src='/svgs/ic_edit.svg'
         alt='Edit Icon'
         width={iconWidth}
         height={iconHeight}
         layout='fixed'
         className='inline-block object-contain '
+      /> */}
+      <IconCalendar
+        width={iconWidth}
+        height={iconHeight}
+        className='text-white'
       />
     </Button>
   );
