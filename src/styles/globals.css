@@ -114,3 +114,9 @@
 body {
   background-color: #0f172a;
 }
+
+
+img, video {
+  max-width: none !important;
+  height: auto;
+}
