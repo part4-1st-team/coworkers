@@ -126,11 +126,12 @@ video {
 }
 
 ::-webkit-scrollbar-track {
-  width: 11px;
+  width: 3px;
   height: 47px;
 }
 
 ::-webkit-scrollbar-thumb {
   background-color: var(--background-tertiary);
   padding-right: 5px;
+  height: 31px;
 }
