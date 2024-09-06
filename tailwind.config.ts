@@ -1,6 +1,9 @@
 import type { Config } from 'tailwindcss';
 
+const pxToRem = require('tailwindcss-preset-px-to-rem');
+
 const config: Config = {
+  presets: [pxToRem],
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -36,11 +39,11 @@ const config: Config = {
         tertiary: 'var(--background-tertiary)',
         inverse: 'var(--background-inverse)',
       },
-      intersection: {
-        inactive: 'var(--intersection-inactive)',
-        hover: 'var(--intersection-hover)',
-        pressed: 'var(--intersection-pressed)',
-        focus: 'var(--intersection-focus)',
+      interaction: {
+        inactive: 'var(--interaction-inactive)',
+        hover: 'var(--interaction-hover)',
+        pressed: 'var(--interaction-pressed)',
+        focus: 'var(--interaction-focus)',
       },
       border: {
         primary: 'var(--border-primary)',
@@ -91,6 +94,35 @@ const config: Config = {
       zIndex: {
         modal: '350',
         'modal-overlay': '300',
+      },
+      margin: {
+        '3px': '3px',
+        '14px': '14px',
+      },
+      padding: {
+        '10px': '10px',
+        '8px': '8px',
+        '7.5px': '7.5px',
+        '14.5px': '14.5px',
+        '12px': '12px',
+        '16px': '16px',
+      },
+      width: {
+        '78px': '78px',
+        '336px': '336px',
+        '124px': '124px',
+        '220px': '220px',
+      },
+      height: {
+        '19px': '19px',
+        '176px': '176px',
+        '48px': '48px',
+        '40px': '40px',
+        '152px': '152px',
+        '34px': '34px',
+      },
+      borderRadius: {
+        '12px': '12px',
       },
     },
     keyframes: {},
