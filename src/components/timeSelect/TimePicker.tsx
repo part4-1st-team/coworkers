@@ -42,6 +42,7 @@ function TimePicker() {
     setSelectedTime(time);
     setIsDropdown(false); // 시간 선택 후 드롭다운 닫기
   }
+
   // 드롭다운 포커싱 핸들러
   function handleFocus() {
     setIsFocus(isDropdown);
