@@ -25,6 +25,8 @@ import IconProgressOngoing from './icons/ic_progress_ongoing.svg';
 import IconCheckboxDefault from './icons/ic_checkbox_default.svg';
 import IconCheckboxActive from './icons/ic_checkbox_active.svg';
 import IconAlert from './icons/ic_alert.svg';
+import IconRepeat from './icons/ic_repeat.svg';
+import IconSecession from './icons/ic_secession.svg';
 
 export {
   IconX,
@@ -54,4 +56,6 @@ export {
   IconCheckboxDefault,
   IconCheckboxActive,
   IconAlert,
+  IconRepeat,
+  IconSecession,
 };
