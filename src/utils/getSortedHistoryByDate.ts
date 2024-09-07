@@ -3,9 +3,8 @@ function getSortedHistoryByDate(tasks: DoneTask[]): SortDoneTask[] {
     const dateObj = new Date(task.doneAt);
     const formattedDate = `${dateObj.getFullYear()}년 ${dateObj.getMonth() + 1}월 ${dateObj.getDate()}일`;
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const existingGroup = acc.find(
-      (group: any) => group.date === formattedDate,
+      (group: SortDoneTask) => group.date === formattedDate,
     );
 
     if (existingGroup) {
@@ -15,7 +14,7 @@ function getSortedHistoryByDate(tasks: DoneTask[]): SortDoneTask[] {
     }
     return acc;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  }, [] as any);
+  }, [] as SortDoneTask[]);
 
   return groupedHistoryByDate;
 }
