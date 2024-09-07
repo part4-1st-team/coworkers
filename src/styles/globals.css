@@ -80,10 +80,10 @@
   --background-tertiary: #ffffff;
   --background-inverse: #0f172a; */
 
-  --intersection-inactive: #94a3b8;
-  --intersection-hover: #4d65e0;
-  --intersection-pressed: #3d3bc2;
-  --intersection-focus: #1c74a6;
+  --interaction-inactive: #94a3b8;
+  --interaction-hover: #4d65e0;
+  --interaction-pressed: #3d3bc2;
+  --interaction-focus: #1c74a6;
 
   /* --border-primary: #5d73e8;
   --border-secondary: #cbd5e1; */
@@ -113,4 +113,25 @@
 
 body {
   background-color: #0f172a;
+}
+
+img,
+video {
+  max-width: none !important;
+  height: auto;
+}
+
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+::-webkit-scrollbar-track {
+  width: 3px;
+  height: 47px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--background-tertiary);
+  padding-right: 5px;
+  height: 31px;
 }
