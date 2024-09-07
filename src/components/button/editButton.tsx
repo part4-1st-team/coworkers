@@ -1,14 +1,36 @@
 /* eslint-disable react/require-default-props */
 import Button from '@/components/button/button';
-// import Image from 'next/image';
-import { IconCalendar } from '@/assets/IconList';
+import { IconEdit } from '@/assets/IconList';
 
 type SizeType = 'large' | 'small';
 
 interface EditButtonProps {
+  /**
+   * 버튼의 크기를 정의합니다.
+   * - `large`: 큰 버튼
+   * - `small`: 작은 버튼
+   *
+   * @default 'large'
+   */
   size?: SizeType;
 }
 
+/**
+ * `EditButton` 컴포넌트는 편집 아이콘을 가진 버튼입니다.
+ *
+ * 이 버튼은 `size` prop을 통해 크기를 조절할 수 있으며, 두 가지 크기 옵션 (`large`와 `small`)이 있습니다. 크기에 따라 버튼의 스타일과 아이콘의 크기가 변경됩니다.
+ *
+ * @param {EditButtonProps} props - 버튼의 크기를 정의하는 속성
+ * @param {SizeType} [props.size='large'] - 버튼의 크기. 기본값은 'large'입니다.
+ *
+ * @returns {JSX.Element} 렌더링된 편집 버튼 요소
+ *
+ * @example
+ * ```tsx
+ * <EditButton size='small' />
+ * <EditButton size='large' />
+ * ```
+ */
 function EditButton({ size = 'large' }: EditButtonProps) {
   const sizeStyles = {
     large: {
@@ -18,7 +40,7 @@ function EditButton({ size = 'large' }: EditButtonProps) {
       borderClass: 'border-none',
     },
     small: {
-      buttonClass: 'w-6 h-6',
+      buttonClass: 'w-[18px] h-[18px]',
       iconWidth: 8,
       iconHeight: 10,
       borderClass: 'border-2 border-background-primary',
@@ -31,58 +53,15 @@ function EditButton({ size = 'large' }: EditButtonProps) {
     <Button
       type='button'
       rounded
-      className={`${buttonClass} ${borderClass} bg-background-tertiary flex items-center justify-center`}
+      className={`${buttonClass} ${borderClass} bg-background-tertiary flex items-center justify-center hover:bg-interaction-hover active:bg-interaction-pressed`}
     >
-      {/* <Image
-        src='/svgs/ic_edit.svg'
-        alt='Edit Icon'
+      <IconEdit
         width={iconWidth}
         height={iconHeight}
-        layout='fixed'
-        className='inline-block object-contain '
-      /> */}
-      <IconCalendar
-        width={iconWidth}
-        height={iconHeight}
-        className='text-white'
+        className='flex-shrink-0'
       />
     </Button>
   );
 }
 
 export default EditButton;
-
-/*
- * `EditButton` 컴포넌트는 '편집' 아이콘을 가진 버튼을 렌더링합니다.
- *
- * ## Props
- *
- * - `size` (선택적): 버튼의 크기를 결정합니다.
- *   - `large`: 큰 버튼 (기본값)
- *   - `small`: 작은 버튼
- *
- * ## 사용 방법
- *
- * ```tsx
- * <EditButton size='large' />  // 기본값, 큰 버튼
- * <EditButton size='small' />  // 작은 버튼
- * ```
- *
- * ## 스타일
- *
- * - 버튼 크기:
- *   - `large`: `w-[32px] h-[32px]`
- *   - `small`: `w-6 h-6`
- * - 버튼의 보더:
- *   - `large`: `border-none`
- *   - `small`: `border-2 border-background-primary`
- * - 버튼 배경 색상: `bg-background-tertiary`
- * - 아이콘 크기:
- *   - `large`: `width={12} height={16}`
- *   - `small`: `width={8} height={10}`
- *
- * ## 아이콘
- *
- * - 아이콘 경로: `/svgs/ic_edit.svg`
- * - 아이콘 대체 텍스트: `Edit Icon`
- */

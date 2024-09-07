@@ -2,11 +2,24 @@ import { useState } from 'react';
 import clsx from 'clsx';
 import Button from '@/components/button/button';
 
+/**
+ * `PickerButton` 컴포넌트는 버튼 클릭 시 활성화 상태를 토글하며,
+ * 활성화 상태에 따라 버튼의 배경색과 텍스트 색상을 변경합니다.
+ *
+ * @returns {JSX.Element} 렌더링된 버튼 요소
+ *
+ * @example
+ * ```tsx
+ * <PickerButton />
+ * ```
+ */
 function PickerButton() {
+  // 버튼의 활성화 상태를 관리하는 상태 변수
   const [isActive, setIsActive] = useState(false);
 
+  // 클릭 시 버튼의 활성화 상태를 토글하는 핸들러
   const handleClick = () => {
-    setIsActive(!isActive);
+    setIsActive((prev) => !prev);
   };
 
   return (
@@ -14,7 +27,7 @@ function PickerButton() {
       type='button'
       size='md'
       className={clsx(
-        'w-11 h-[48px]',
+        'w-[44px] h-[48px]',
         isActive
           ? 'bg-brand-primary text-text-primary'
           : 'bg-background-secondary text-text-default',
@@ -27,33 +40,3 @@ function PickerButton() {
 }
 
 export default PickerButton;
-
-/*
- * `EnterButton` 컴포넌트는 활성화 상태에 따라 아이콘과 배경색이 변경되는 버튼입니다.
- *
- * ## 동작
- *
- * - 버튼을 클릭하면 활성화 상태가 토글됩니다.
- * - 활성화 상태에 따라 아이콘과 배경색이 변경됩니다.
- *
- * ## 아이콘
- *
- * - 비활성화 상태: `'/svgs/ic_arrow_btn_top_white.svg'`
- * - 활성화 상태: `'/svgs/ic_arrow_btn_top_gray.svg'`
- *
- * ## 배경색
- *
- * - 비활성화 상태: `bg-icon-primary`
- * - 활성화 상태: `bg-icon-brand`
- *
- * ## 사용 방법
- *
- * ```tsx
- * <EnterButton />
- * ```
- *
- * ## 스타일
- *
- * - 버튼의 크기: `w-6 h-6`
- * - 버튼의 배경색은 활성화 상태에 따라 달라집니다.
- */
