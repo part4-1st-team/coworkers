@@ -22,7 +22,7 @@
   }
 
   .main-container {
-    @apply mt-[24px] mx-[16px] w-full desktop:mx-auto desktop:mt-[100px] desktop:w-[1200px];
+    @apply mt-24 px-16 w-full desktop:mx-auto desktop:mt-100 desktop:w-1200;
   }
 }
 
