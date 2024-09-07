@@ -38,7 +38,7 @@ interface DoneTask {
   displayIndex: number;
   writerId: number;
   userId: number;
-  deletedAt: string;
+  deletedAt: string | null;
   frequency: FrequencyType;
   description: string;
   name: string;
@@ -51,4 +51,9 @@ interface DoneTask {
 
 interface History {
   tasksDone: DoneTask[];
+}
+
+interface SortDoneTask {
+  date: string;
+  tasks: DoneTask[];
 }
