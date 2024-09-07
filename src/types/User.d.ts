@@ -1,6 +1,6 @@
 type Role = 'ADMIN' | 'MEMBER';
 
-interface Group {
+interface ResponseGroup {
   teamId: string;
   updatedAt: string;
   createdAt: string;
@@ -10,7 +10,7 @@ interface Group {
 }
 
 interface Membership {
-  group: Group;
+  group: ResponseGroup;
   role: Role;
   userImage: string;
   userEmail: string;
