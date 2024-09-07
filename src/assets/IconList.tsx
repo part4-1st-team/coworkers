@@ -26,6 +26,8 @@ import IconCheckboxDefault from './icons/ic_checkbox_default.svg';
 import IconCheckboxActive from './icons/ic_checkbox_active.svg';
 import IconAlert from './icons/ic_alert.svg';
 import IconRepeat from './icons/ic_repeat.svg';
+import IconMenu from './icons/ic_menu.svg';
+import IconCheck from './icons/ic_check.svg';
 import IconSecession from './icons/ic_secession.svg';
 
 export {
@@ -57,5 +59,7 @@ export {
   IconCheckboxActive,
   IconAlert,
   IconRepeat,
+  IconMenu,
+  IconCheck,
   IconSecession,
 };
