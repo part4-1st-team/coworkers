@@ -12,6 +12,8 @@ function TimePicker() {
   const [selectedTime, setSelectedTime] = useState<string>('12:00');
   // 드롭다운 활성화 상태
   const [isDropdown, setIsDropdown] = useState<boolean>(false);
+  // 드롭다운 활성화 시 포커스 상태
+  const [isFocus, setIsFocus] = useState<boolean>(false);
 
   // 오전 시간 리스트 (12:00 AM ~ 11:30 AM) with IDs
   const amTimes: TimeItem[] = Array.from({ length: 12 * 2 }, (_, i) => {
@@ -41,9 +43,15 @@ function TimePicker() {
     setIsDropdown(false); // 시간 선택 후 드롭다운 닫기
   }
 
+  // 드롭다운 포커싱 핸들러
+  function handleFocus() {
+    setIsFocus(isDropdown);
+  }
+
   // 드롭다운 토글 핸들러
   function handleDropdown() {
-    setIsDropdown(!isDropdown);
+    setIsDropdown((prev) => !prev);
+    handleFocus();
   }
 
   return (
@@ -52,9 +60,10 @@ function TimePicker() {
       <button
         type='button'
         onClick={handleDropdown}
-        className='w-124px h-48px rounded-12px px-16px py-14.5px ml-0.5 mb-0.5 bg-background-secondary text-text-default border border-border-primary focus:border-interaction-focus'
+        className={`w-124px h-48px rounded-12px px-16px py-14.5px ml-0.5 mb-0.5 bg-background-secondary text-text-default border 
+          ${isFocus ? 'border-border-primary' : 'border-interaction-focus'}`} // 동적 border-color
       >
-        <p className='text-lg leading-none '>
+        <p className='text-lg leading-none'>
           {isAm ? '오전' : '오후'} {selectedTime}
         </p>
       </button>
@@ -84,7 +93,7 @@ function TimePicker() {
           </div>
 
           {/* 시간 선택 */}
-          <div className='w-220px h-152px px-16px py-8px text-text-default bg-background-primary ml-14px rounded-12px overflow-y-auto relative'>
+          <div className='w-220px h-152px px-16px py-8px text-text-default bg-background-primary ml-14px rounded-tl-12px rounded-bl-12px overflow-y-auto relative'>
             <div className='text-text-default'>
               {(isAm ? amTimes : pmTimes).map((item) => (
                 <button
@@ -92,12 +101,15 @@ function TimePicker() {
                   key={item.id} // 고유 ID 사용
                   value={item.time}
                   onClick={() => handleTimeChange(item.time)}
-                  className='focus:text-interaction-focus hover:text-interaction-focus pt-7.5px rounded w-full h-34px text-left leading-none'
+                  className='focus:text-interaction-focus hover:text-interaction-focus py-7.5px rounded w-full h-34px text-left leading-none'
                 >
                   {item.time}
                 </button>
               ))}
             </div>
+          </div>
+          <div className='bg-background-primary h-152px w-15 text-background-primary rounded-tr-12px rounded-br-12px'>
+            .
           </div>
         </div>
       )}
