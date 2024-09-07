@@ -29,6 +29,10 @@ import IconRepeat from './icons/ic_repeat.svg';
 import IconMenu from './icons/ic_menu.svg';
 import IconCheck from './icons/ic_check.svg';
 import IconSecession from './icons/ic_secession.svg';
+import IconEdit from './icons/ic_edit.svg';
+import IconArrowTOP from './icons/ic_arrow_top.svg';
+import IconCheckGray from './icons/ic_check_gray.svg';
+import IconCheckGreen from './icons/ic_check_green.svg';
 
 export {
   IconX,
@@ -62,4 +66,8 @@ export {
   IconMenu,
   IconCheck,
   IconSecession,
+  IconEdit,
+  IconArrowTOP,
+  IconCheckGray,
+  IconCheckGreen,
 };

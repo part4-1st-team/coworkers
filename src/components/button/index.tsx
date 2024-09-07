@@ -32,8 +32,8 @@ const buttonKind = {
 
 const colorMap = {
   primary: 'bg-brand-primary',
-  hover: 'bg-intersection-hover',
-  disabled: 'bg-intersection-inactive',
+  hover: 'bg-interaction-hover',
+  disabled: 'bg-interaction-inactive',
   danger: 'bg-status-danger',
   outline:
     'bg-background-tertiary border-border-primary border text-text-primary',
