@@ -1,6 +1,7 @@
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import Button from '../button/button';
+import Input from '../input/input';
 import ModalDescription from './ModalDescription';
-import ModalPortal from './ModalPortal';
 import ModalTitle from './ModalTitle';
 
 interface FormState {
@@ -9,7 +10,7 @@ interface FormState {
 }
 
 function TaskCreateModalWithMemo() {
-  const { register, handleSubmit } = useForm<FormState>();
+  const { control, handleSubmit } = useForm<FormState>();
 
   const onSubmit: SubmitHandler<FormState> = (data) => {
     // NOTE: 할 일 만드는 함수로 수정
@@ -17,50 +18,54 @@ function TaskCreateModalWithMemo() {
   };
 
   return (
-    <ModalPortal>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className='pt-[32px] px-[36px] flex flex-col items-center'
-      >
-        <div className='mb-[24px] w-full'>
-          <div className='flex flex-col items-center text-center'>
-            <ModalTitle title='할 일 만들기' />
-            <ModalDescription description='할 일은 실제로 행동 가능한 작업 중심으로<br/>작성해주시면 좋습니다.' />
-          </div>
-          <div className='my-[16px]'>
-            <span className='text-lg font-medium text-white '>할 일 제목</span>
-            <input
-              id='title'
-              {...register('title')}
-              placeholder='할 일 제목을 입력해주세요.'
-              className='w-full h-[48px] mt-[8px]'
-            />
-          </div>
-
-          <div>
-            <span className='text-lg font-medium text-white mb-[8px]'>
-              할 일 메모
-            </span>
-            <input
-              id='memo'
-              {...register('memo')}
-              placeholder='메모 입력해주세요.'
-              className='w-full h-[75px] '
-            />
-          </div>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className='pt-32 px-36 flex flex-col items-center'
+    >
+      <div className='mb-24 w-full'>
+        <div className='flex flex-col items-center text-center'>
+          <ModalTitle title='할 일 만들기' />
+          <ModalDescription description='할 일은 실제로 행동 가능한 작업 중심으로<br/>작성해주시면 좋습니다.' />
         </div>
-        {/* TODO: input 컴포넌트로 변경 */}
+        <div className='my-16'>
+          <span className='text-lg font-medium text-white '>할 일 제목</span>
 
-        <button
-          type='submit'
-          className='bg-brand-primary text-white rounded-[12px] w-[280px] h-[48px]'
-        >
-          만들기
-        </button>
+          <Controller
+            name='title'
+            control={control}
+            render={({ field }) => (
+              <Input
+                placeholder='할 일 제목을 입력해주세요.'
+                {...field}
+                className='w-full h-48 tablet:min-w-280 mt-8'
+              />
+            )}
+          />
+        </div>
 
-        {/* TODO: 버튼 컴포넌트로 변경 */}
-      </form>
-    </ModalPortal>
+        <div>
+          <span className='text-lg font-medium text-white mb-8'>
+            할 일 메모
+          </span>
+
+          <Controller
+            name='memo'
+            control={control}
+            render={({ field }) => (
+              <Input
+                placeholder='메모를 입력해주세요.'
+                {...field}
+                className='w-full h-48 tablet:min-w-280'
+              />
+            )}
+          />
+        </div>
+      </div>
+
+      <Button type='submit' className='w-full' color='primary'>
+        만들기
+      </Button>
+    </form>
   );
 }
 
