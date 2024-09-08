@@ -31,10 +31,10 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 function Input({ children, className, ...props }: InputProps) {
   // 기본 클래스들
   const baseClasses =
-    'w-full py-[10.5px] px-[16px] rounded-xl bg-background-secondary border-background-secondary text-text-primary font-font-normal';
+    'w-full px-16 py-14 rounded-xl bg-background-secondary border border-border-primary text-text-primary font-font-normal';
   const placeholderClasses = 'placeholder-text-default text-lg font-normal';
   const focusClasses =
-    'focus:border-interaction-focus border focus:outline-none';
+    'pl-16 focus:border-interaction-focus border focus:outline-none';
 
   // 조건부 클래스
   const hoverClasses = !props.disabled

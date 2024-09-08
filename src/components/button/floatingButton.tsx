@@ -38,19 +38,19 @@ const iconMap: Record<
     icon: <IconPlus />,
     color: 'primary',
     text: '할 일 추가',
-    size: 'w-[125px] h-[48px]',
+    size: 'w-auto h-48',
   },
   complete: {
     icon: <IconCheckWhite className='text-text-inverse' />,
     color: 'primary',
     text: '완료하기',
-    size: 'w-[111px] h-[40px]',
+    size: 'w-auto h-40',
   },
   cancel: {
     icon: <IconCheckGreen />,
     color: 'white',
     text: '완료 취소하기',
-    size: 'w-[138px] h-[40px]',
+    size: 'w-auto h-40',
     disabledIcon: <IconCheckGray />,
   },
 };
