@@ -20,6 +20,7 @@ function ArticleCard() {
             <div className='w-32 h-32 pb-12 rounded-[9999px] bg-white' />
             {/* TODO : 프로필 컴포넌트로 변경하기 */}
             <p className='text-text-primary text-md font-medium '>우지은</p>
+            {/* TODO : 드롭다운 컴포넌트로 변경하기 */}
           </div>
           <div className='flex items-center gap-8'>
             <p className='text-md text-text-disabled flex items-center'>
