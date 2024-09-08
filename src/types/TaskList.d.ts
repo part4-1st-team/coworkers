@@ -21,9 +21,7 @@ interface Task {
   commentCount: number;
   displayIndex: number;
   writer: Writer;
-  doneBy: {
-    user: BaseUser;
-  };
+  doneBy: IUser | null;
 }
 
 interface TaskListInform {

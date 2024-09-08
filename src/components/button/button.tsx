@@ -14,6 +14,28 @@ interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   className?: string; // 추가적인 커스텀 클래스 네임
 }
 
+/**
+ * Button 컴포넌트는 다양한 스타일과 기능을 제공하는 재사용 가능한 버튼 컴포넌트입니다.
+ *
+ * @param {React.ReactNode} children - 버튼 안에 들어갈 텍스트나 컴포넌트
+ * @param {React.ReactNode} icon - 버튼 안에 들어갈 아이콘
+ * @param {'button' | 'submit'} type - 버튼의 타입, 기본값은 'button'
+ * @param {'primary' | 'white' | 'red' | 'outline'} [color] - 버튼의 색상 스타일
+ * @param {'lg' | 'md' | 'sm'} [size='md'] - 버튼의 텍스트 크기
+ * @param {boolean} [rounded=false] - 버튼 모서리가 둥글게 설정될지 여부
+ * @param {boolean} [disabled=false] - 버튼이 비활성화될지 여부
+ * @param {string} [className] - 추가적인 커스텀 클래스 네임
+ * @param {React.ButtonHTMLAttributes<HTMLButtonElement>} props - HTML button 속성들
+ *
+ * @returns {JSX.Element} Button 컴포넌트
+ *
+ * @example
+ * ```tsx
+ * <Button type="button" color="primary" size="lg" rounded>
+ *   클릭하세요
+ * </Button>
+ * ```
+ */
 function Button({
   children,
   icon,
@@ -26,34 +48,33 @@ function Button({
   ...props
 }: ButtonProps) {
   const baseButton =
-    'font-semibold inline-flex items-center justify-center font-semibold p-3.5 ';
+    'font-semibold inline-flex items-center justify-center font-semibold px-15 py-15';
 
   /* 컬러에 따른 분기  */
   const colorStyle = {
     primary:
-      'bg-brand-primary text-text-inverse hover:bg-intersection-hover active:bg-intersection-pressed',
+      'px-5 bg-brand-primary text-text-inverse hover:bg-interaction-hover active:bg-interaction-pressed disabled:bg-interaction-inactive',
     white:
-      'bg-background-inverse text-brand-primary border border-border-primary hover:text-intersection-hover hover:border hover:border-intersection-hover active:borer-intersection-pressed  active:text-intersection-pressed',
+      'bg-background-inverse text-brand-primary border border-border-primary hover:text-interaction-hover hover:border hover:border-interaction-hover active:borer-interaction-pressed active:text-interaction-pressed disabled:bg-interaction-inactive',
     red: 'bg-status-danger text-text-inverse',
     outline:
-      'bg-none text-border-primary border border-border-primary hover:border hover:border-intersection-hover hover:text-intersection-hover active:text-intersection-pressed',
+      'px-8 bg-none text-brand-primary border border-brand-primary hover:border hover:border-interaction-hover hover:text-interaction-hover active:text-interaction-pressed  disabled:border-interaction-inactive',
   };
 
   /* 디스에이블에 따른 스타일 분기 */
   const disabledColorStyle = {
-    primary: 'bg-intersection-inactive cursor-not-allowed text-text-inverse',
-    white:
-      'text-intersection-inactive cursor-not-allowed bg-background-inverse',
+    primary: 'bg-interaction-inactive cursor-not-allowed text-text-inverse',
+    white: 'text-interaction-inactive cursor-not-allowed bg-background-inverse',
     outline:
-      'border border-intersection-inactive text-intersection-inactive cursor-not-allowed',
+      'border border-interaction-inactive text-interaction-inactive cursor-not-allowed',
     red: '',
   };
 
   // 텍스트 사이즈에 따른 스타일 분기
   const sizeStyle = {
-    lg: 'text-lg leading-lg',
-    md: 'text-md leading-md',
-    sm: 'text-sm leading-sm',
+    lg: 'text-lg',
+    md: 'text-md',
+    sm: 'text-sm',
   };
 
   const roundedStyle = rounded ? 'rounded-full' : 'rounded-xl';
@@ -68,9 +89,9 @@ function Button({
 
   return (
     // eslint-disable-next-line react/button-has-type
-    <button {...props} className={buttonClass}>
+    <button type={type} {...props} className={buttonClass}>
       <span
-        className={clsx('flex items-center', icon && children ? 'gap-2' : '')}
+        className={clsx('flex items-center', icon && children ? 'gap-8' : '')}
       >
         {icon && <span className='icon'>{icon}</span>}
         {children && <span className='text'>{children}</span>}
@@ -89,50 +110,3 @@ Button.defaultProps = {
 };
 
 export default Button;
-
-/**
- * `Button` 컴포넌트
- *
- * 사용 방법:
- *
- * 기본적인 버튼으로 아이콘, 텍스트, 색상, 사이즈 등을 조정할 수 있습니다.
- *
- * Props:
- * - `type`: 필수. 버튼의 타입을 정의합니다. ('button' 또는 'submit')
- * - `color`: 버튼의 색상을 선택할 수 있습니다. ('primary', 'white', 'red', 'outline')
- * - `icon`: 버튼에 추가할 아이콘 (ReactNode 형식으로 전달)
- * - `size`: 텍스트 크기를 정의합니다. ('lg', 'md', 'sm')
- * - `rounded`: true일 경우 버튼의 모서리가 둥글게 처리됩니다.
- * - `disabled`: 버튼을 비활성화 시킬 수 있습니다.
- * - `className`: 추가적인 Tailwind CSS 클래스를 적용할 수 있습니다.
- *
- * 예시:
- *
- * 1. 기본적인 버튼 사용:
- * ```tsx
- * <Button type='button' color='primary'>
- *   확인
- * </Button>
- * ```
- *
- * 2. 아이콘이 있는 버튼:
- * ```tsx
- * <Button type='button' color='primary' icon={<YourIcon />}>
- *   확인
- * </Button>
- * ```
- *
- * 3. 사이즈가 큰 버튼:
- * ```tsx
- * <Button type='button' size='lg' color='red'>
- *   경고
- * </Button>
- * ```
- *
- * 4. 비활성화 버튼:
- * ```tsx
- * <Button type='submit' color='primary' disabled>
- *   제출
- * </Button>
- * ```
- */
