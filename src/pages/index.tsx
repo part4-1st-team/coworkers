@@ -1,6 +1,6 @@
-import MemberInfo from '@/components/memberInfo/MemberInfo';
+import ProfileDropdown from '@/components/dropdowns/ProfileDropDown';
 
 export default function Home() {
-  return <MemberInfo />;
+  return <ProfileDropdown />;
   // return <main>main page</main>;
 }
