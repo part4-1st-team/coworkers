@@ -26,7 +26,13 @@ import IconCheckboxDefault from './icons/ic_checkbox_default.svg';
 import IconCheckboxActive from './icons/ic_checkbox_active.svg';
 import IconAlert from './icons/ic_alert.svg';
 import IconRepeat from './icons/ic_repeat.svg';
+import IconMenu from './icons/ic_menu.svg';
+import IconCheck from './icons/ic_check.svg';
 import IconSecession from './icons/ic_secession.svg';
+import IconEdit from './icons/ic_edit.svg';
+import IconArrowTOP from './icons/ic_arrow_top.svg';
+import IconCheckGray from './icons/ic_check_gray.svg';
+import IconCheckGreen from './icons/ic_check_green.svg';
 
 export {
   IconX,
@@ -57,5 +63,11 @@ export {
   IconCheckboxActive,
   IconAlert,
   IconRepeat,
+  IconMenu,
+  IconCheck,
   IconSecession,
+  IconEdit,
+  IconArrowTOP,
+  IconCheckGray,
+  IconCheckGreen,
 };
