@@ -35,9 +35,9 @@ export async function deleteUser(): Promise<void> {
 
 /**
  * 유저가 속한 그룹들을 확인
- * @returns (type: Group) 유저가 속한 그룹 배열 반환
+ * @returns (type: ResponseGroup) 유저가 속한 그룹 배열 반환
  */
-export async function getUserGroups(): Promise<Group[]> {
+export async function getUserGroups(): Promise<ResponseGroup[]> {
   const res = await axios.get('/user/groups');
   return res.data;
 }

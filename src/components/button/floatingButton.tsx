@@ -1,7 +1,13 @@
+// /* eslint-disable react/require-default-props */
 /* eslint-disable react/require-default-props */
 import Button from '@/components/button/button';
-import Image from 'next/image';
 import clsx from 'clsx';
+import {
+  IconPlus,
+  IconCheckWhite,
+  IconCheckGray,
+  IconCheckGreen,
+} from '@/assets/IconList';
 
 type FloatingButtonType = 'add' | 'complete' | 'cancel';
 type ColorType = 'primary' | 'white';
@@ -10,6 +16,7 @@ interface FloatingButtonProps {
   type: FloatingButtonType;
   disabled?: boolean;
   className?: string;
+  text?: string; // 외부에서 커스텀 가능한 텍스트 prop 추가
 }
 
 /**
@@ -22,31 +29,31 @@ interface FloatingButtonProps {
 const iconMap: Record<
   FloatingButtonType,
   {
-    src: string;
+    icon: React.ReactNode;
     color: ColorType;
     text: string;
     size: string;
-    disabledSrc?: string;
+    disabledIcon?: React.ReactNode;
   }
 > = {
   add: {
-    src: '/svgs/ic_plus.svg',
+    icon: <IconPlus width={16} height={16} />,
     color: 'primary',
     text: '할 일 추가',
-    size: 'w-[125px] h-[48px]',
+    size: 'h-48',
   },
   complete: {
-    src: '/svgs/ic_check_white.svg',
+    icon: <IconCheckWhite className='text-text-inverse' />,
     color: 'primary',
     text: '완료하기',
-    size: 'w-[111px] h-[40px]',
+    size: 'w-auto h-40',
   },
   cancel: {
-    src: '/svgs/ic_check_green.svg',
+    icon: <IconCheckGreen />,
     color: 'white',
     text: '완료 취소하기',
-    size: 'w-[138px] h-[40px]',
-    disabledSrc: '/svgs/ic_check_gray.svg',
+    size: 'h-40',
+    disabledIcon: <IconCheckGray />,
   },
 };
 
@@ -54,16 +61,25 @@ function FloatingButton({
   type,
   disabled = false,
   className,
+  text, // 외부에서 전달받을 text prop
 }: FloatingButtonProps) {
-  const { src, color, text, size, disabledSrc } = iconMap[type] || {
-    src: '/svgs/ic_plus.svg',
+  const {
+    icon,
+    color,
+    text: defaultText,
+    size,
+    disabledIcon,
+  } = iconMap[type] || {
+    icon: <IconCheckWhite />,
     color: 'primary',
     text: '할 일 추가',
-    size: 'w-10 h-10',
+    size: 'h-10',
   };
 
-  // 디스에이블 상태에 따른 아이콘 소스 결정
-  const iconSrc = disabled && disabledSrc ? disabledSrc : src;
+  // 외부에서 전달된 text가 있으면 그 값을 사용하고, 없으면 기본 text를 사용
+  const buttonText = text || defaultText;
+
+  const iconNode = disabled && disabledIcon ? disabledIcon : icon;
 
   return (
     <Button
@@ -71,42 +87,12 @@ function FloatingButton({
       rounded
       color={color}
       disabled={disabled}
-      icon={<Image src={iconSrc} alt={`${type} Icon`} width={16} height={16} />}
+      icon={iconNode}
       className={clsx(size, className)}
     >
-      {text}
+      {buttonText}
     </Button>
   );
 }
 
 export default FloatingButton;
-
-/*
- * `FloatingButton` 컴포넌트는 다양한 유형의 플로팅 버튼을 렌더링합니다.
- *
- * ## 속성
- *
- * - `type`: 버튼의 유형을 설정합니다. `'add'`, `'complete'`, `'cancel'` 중 하나를 선택할 수 있습니다.
- * - `disabled`: 버튼이 비활성화 상태인지 여부를 설정합니다. 기본값은 `false`입니다.
- * - `className`: 버튼에 추가할 사용자 정의 클래스입니다.
- *
- * ## 동작
- *
- * - 버튼이 비활성화되면, `disabledSrc` 속성이 설정된 경우, 비활성화된 상태의 아이콘을 사용합니다.
- * - 버튼의 크기와 색상은 `type` 속성에 따라 다릅니다.
- *
- * ## 사용 방법
- *
- * ```tsx
- * <FloatingButton type="add" />
- * <FloatingButton type="complete" disabled />
- * <FloatingButton type="cancel" className="custom-class" />
- * ```
- *
- * ## 스타일
- *
- * - 버튼 크기: `size` 속성에 따라 설정됩니다.
- * - 버튼 색상: `color` 속성에 따라 설정됩니다.
- * - 아이콘 경로: `type` 속성에 따라 설정됩니다.
- * - 비활성화 상태 아이콘 경로: `disabledSrc` 속성에 따라 설정됩니다.
- */
