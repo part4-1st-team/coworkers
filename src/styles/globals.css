@@ -10,19 +10,19 @@
   }
 
   .modal-container {
-    @apply fixed z-modal bg-background-secondary pt-[16px] pr-[16px] pb-[32px] pl-[16px];
+    @apply fixed z-modal bg-background-secondary pt-16 pr-16 pb-32 pl-16;
   }
 
   .modal-container-position {
-    @apply top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-[12px] w-auto bottom-auto;
+    @apply top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-12 w-auto bottom-auto;
   }
 
   .modal-container-position-mobile {
-    @apply bottom-0 left-0 rounded-t-[12px] w-full;
+    @apply bottom-0 left-0 rounded-t-12 w-full;
   }
 
   .main-container {
-    @apply mt-[24px] mx-[16px] w-full desktop:mx-auto desktop:mt-[100px] desktop:w-[1200px];
+    @apply mt-24 px-16 w-full desktop:mx-auto desktop:mt-100 desktop:w-1200;
   }
 }
 
@@ -34,38 +34,18 @@
   /* Colors */
   /* ------ */
 
-  /* --brand-primary: #10b981;
-  --brand-secondary: #34d399;
-  --brand-tertiary: #a3e635;
-*/
-
-  --background-primary: #0f172a;
-  --background-secondary: #1e293b;
-  --background-tertiary: #334155;
-  --background-inverse: #ffffff;
-
-  --border-primary: rgba(248, 250, 252, 0.5); /* #f8fafc, 50% */
-
-  --text-primary: #f8fafc;
-  --text-secondary: #cbd5e1;
-  --text-tertiary: #e2e8f0;
-  --text-default: #64748b;
-  --text-inverse: #ffffff;
-  --text-disabled: #94a3b8;
-
-  /*
-  --status-danger: #dc2626;
-
-  --icon-primary: #64748b;
-  --icon-inverse: #f8fafc;
-  --icon-brand: #10b981; */
-
-  /* --- */
+  /* ------------ */
+  /* brand Colors */
+  /* ------------ */
 
   --brand-primary: #5d73e8;
   --brand-secondary: #8194fb;
   --brand-tertiary: #a3e635;
   --brand-gradient: linear-gradient(90deg, #10b981, #a3e635);
+
+  /* ------------ */
+  /* point Colors */
+  /* ------------ */
 
   --point-purple: #a855f7;
   --point-blue: #3b82f6;
@@ -75,19 +55,56 @@
   --point-orange: #f97316;
   --point-yellow: #eab308;
 
+  /* ----------------- */
+  /* background Colors */
+  /* ----------------- */
+
+  /* 다크모드 background */
+  --background-primary: #0f172a;
+  --background-secondary: #1e293b;
+  --background-tertiary: #334155;
+  --background-inverse: #ffffff;
+
+  /* 라이트모드 background */
   /* --background-primary: #fcfaf5;
   --background-secondary: #f0efec;
   --background-tertiary: #ffffff;
   --background-inverse: #0f172a; */
 
+  /* ------------------ */
+  /* interaction Colors */
+  /* ------------------ */
   --interaction-inactive: #94a3b8;
   --interaction-hover: #4d65e0;
   --interaction-pressed: #3d3bc2;
   --interaction-focus: #1c74a6;
 
+  /* --border-primary: #5d73e8; */
+
+  /* ------------- */
+  /* border Colors */
+  /* ------------- */
+
+  /* 다크모드 보더 */
+  --border-primary: rgba(248, 250, 252, 0.5); /* #f8fafc, 50% */
+
+  /* 라이트모드 보더 */
   /* --border-primary: #5d73e8;
   --border-secondary: #cbd5e1; */
 
+  /* ----------- */
+  /* text Colors */
+  /* ----------- */
+
+  /* 다크모드 텍스트 컬러 */
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-tertiary: #e2e8f0;
+  --text-default: #64748b;
+  --text-inverse: #ffffff;
+  --text-disabled: #94a3b8;
+
+  /* 라이트모드 텍스트 컬러 */
   /* --text-primary: #5d73e8;
   --text-primary: #0f172a;
   --text-secondary: #1e293b;
@@ -95,6 +112,10 @@
   --text-default: #64748b;
   --text-inverse: #ffffff;
   --text-disabled: #94a3b8; */
+
+  /* ---------- */
+  /* etc Colors */
+  /* ---------- */
 
   --status-danger: #dc2626;
 
@@ -104,9 +125,9 @@
 
   --modal-danger: #ef4444;
 
-  /* ------ */
+  /* ------- */
   /* Shadows */
-  /* ------ */
+  /* ------- */
 
   --shadow-xl: box-shadow: 0px 25px 50px -12px #00000040;
 }
@@ -115,8 +136,23 @@ body {
   background-color: #0f172a;
 }
 
-img,
+/* img,
 video {
   max-width: none !important;
   height: auto;
+} */
+
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+::-webkit-scrollbar-track {
+  width: 3px;
+  height: 47px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--background-tertiary);
+  padding-right: 5px;
+  height: 31px;
 }
