@@ -1,6 +1,8 @@
+// import useHistory from '@/hooks/useHistory';
+import getSortedHistoryByDate from '@/utils/getSortedHistoryByDate';
 import DailyTaskHistory from './DailyTaskHistory';
 
-const tasksDone = [
+const tasksDone: DoneTask[] = [
   {
     id: 7947,
     updatedAt: '2024-09-04T16:14:56+09:00',
@@ -45,24 +47,17 @@ const tasksDone = [
   },
 ];
 
-const groupedByDate = tasksDone.reduce((acc, task) => {
-  // const formattedDate = task.doneAt.split('T')[0]; // doneAt에서 날짜 부분만 추출
-  const dateObj = new Date(task.doneAt);
-  const formattedDate = `${dateObj.getFullYear()}년 ${dateObj.getMonth() + 1}월 ${dateObj.getDate()}일`;
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const existingGroup = acc.find((group: any) => group.date === formattedDate);
-
-  if (existingGroup) {
-    existingGroup.tasks.push(task);
-  } else {
-    acc.push({ date: formattedDate, tasks: [task] });
-  }
-  return acc;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-}, [] as any);
-
 function MyHistory() {
+  // const { history, isLoading } = useHistory();
+
+  // const sortedHistory: SortDoneTask[] = history
+  //   ? groupHistoryByDate(history)
+  //   : [];
+
+  const sortedHistory: SortDoneTask[] = getSortedHistoryByDate(tasksDone);
+
+  // if (isLoading) return <>임시 로딩중</>;
+
   return (
     <main className='main-container'>
       <div>
@@ -70,7 +65,7 @@ function MyHistory() {
           마이 히스토리
         </h2>
         <div className='space-y-[40px]'>
-          {groupedByDate.map((history: IHistory) => (
+          {sortedHistory.map((history: SortDoneTask) => (
             <DailyTaskHistory history={history} key={history.date} />
           ))}
         </div>

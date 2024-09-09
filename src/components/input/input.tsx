@@ -1,32 +1,47 @@
 import clsx from 'clsx';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  label?: string;
-  errorMessage?: string;
-  fullWidth?: boolean;
+  /**
+   * 추가적인 커스텀 클래스 네임을 설정합니다.
+   */
   className?: string;
+
+  /**
+   * 입력 필드에 포함할 자식 노드를 설정합니다.
+   */
+  children?: React.ReactNode;
 }
 
-function Input({
-  label = '',
-  errorMessage,
-  fullWidth = false,
-  className,
-  ...props
-}: InputProps) {
+/**
+ * `Input` 컴포넌트는 기본적인 입력 필드를 렌더링하며, 다양한 스타일과 상태를 지원합니다.
+ *
+ * @param {InputProps} props - 입력 필드의 속성
+ * @returns {JSX.Element} 렌더링된 입력 필드 요소
+ *
+ * @example
+ * ```tsx
+ * <Input
+ *   id="username"
+ *   placeholder="Enter your username"
+ *   disabled={false}
+ *   className="custom-class"
+ * />
+ * ```
+ */
+function Input({ children, className, ...props }: InputProps) {
   // 기본 클래스들
   const baseClasses =
-    'p-3.5 rounded-xl bg-gray-100 bg-background-secondary border-background-secondary';
-  const placeholderClasses = 'placeholder-text-default text-lg py-3.5 pl-4';
+    'w-full px-16 py-14 rounded-xl bg-background-secondary border border-border-primary text-text-primary font-font-normal';
+  const placeholderClasses = 'placeholder-text-default text-lg font-normal';
   const focusClasses =
-    'focus:border-intersection-focus border focus:outline-none';
-  const hoverClasses =
-    'hover:border-intersection-hover border hover:outline-none';
+    'pl-16 focus:border-interaction-focus border focus:outline-none';
 
   // 조건부 클래스
-  const errorClasses = errorMessage ? '!border-status-danger border' : '';
+  const hoverClasses = !props.disabled
+    ? 'hover:border-interaction-hover border hover:outline-none'
+    : '';
   const disabledClasses = props.disabled
-    ? 'cursor-not-allowed placeholder-text-disabled'
+    ? 'cursor-not-allowed placeholder-text-disabled focus:outline-none'
     : '';
 
   // 전체 클래스명 생성
@@ -35,45 +50,24 @@ function Input({
     placeholderClasses,
     focusClasses,
     hoverClasses,
-    errorClasses,
     disabledClasses,
     className,
   );
 
   return (
-    <div className={clsx('flex flex-col', { 'w-full': fullWidth })}>
-      {/* 라벨이 있을경우 */}
-      {label && (
-        <label
-          htmlFor={props.id}
-          className='text-lg font-semibold text-text-primary mb-2'
-        >
-          {label}
-        </label>
-      )}
-      {/* 외부에서 disabled상태 전달되면 disable 적용됩니다 */}
-      {/* hight값은 className 프롭으로 지정해 줍니다 */}
-      <input
-        id={props.id}
-        disabled={props.disabled}
-        className={classNames}
-        {...props}
-      />
-      {/* 에러메세지가 전달되면 에러메세지가 생성됩니다  */}
-      {errorMessage && (
-        <p className='text-md font-semibold text-status-danger mt-2'>
-          {errorMessage}
-        </p>
-      )}
-    </div>
+    <input
+      id={props.id}
+      disabled={props.disabled}
+      className={classNames}
+      {...props}
+    />
   );
 }
 
+// 기본 속성값 설정
 Input.defaultProps = {
-  label: '',
-  errorMessage: '',
-  fullWidth: false,
   className: '',
+  children: '',
 };
 
 export default Input;

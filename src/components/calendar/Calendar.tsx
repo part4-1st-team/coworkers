@@ -15,7 +15,7 @@ function ExampleCustomInput({
   return (
     <button
       type='button'
-      className='w-[204px] h-[48px] text-left text-[#64748B] bg-[#1E293B] px-[16px] py-[14.5px] rounded-xl leading-4 hover:ring-intersection-hover focus:ring-1'
+      className='w-204px h-48px text-left text-text-default bg-background-secondary px-16px py-14.5px rounded-xl leading-4 hover:ring-interaction-hover focus:ring-1'
       onClick={onClick}
     >
       {value}
