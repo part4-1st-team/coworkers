@@ -94,6 +94,7 @@ const config: Config = {
       zIndex: {
         modal: '350',
         'modal-overlay': '300',
+        dropdown: '20',
       },
       margin: {
         '3px': '3px',
