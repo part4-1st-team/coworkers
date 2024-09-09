@@ -21,6 +21,7 @@ function AddPostPage() {
           </Button>
         </div>
       </div>
+
       <div className='mt-32  w-full border-t border-border-primary' />
 
       <div className='flex flex-col mt-24 tablet:mt-40  '>

@@ -1,7 +1,5 @@
-import CloseWrapper from './CloseWrapper';
-import ModalDescription from './ModalDescription';
-import ModalPortal from './ModalPortal';
-import ModalTitle from './ModalTitle';
+import Button from '@/components/button/button';
+import Modal from './Modal';
 
 function MemberInviteModal() {
   const handleLinkCopy = () => {
@@ -9,22 +7,20 @@ function MemberInviteModal() {
   };
 
   return (
-    <ModalPortal>
-      <CloseWrapper>
-        <div className='px-[36px] pt-[32px] flex flex-col items-center '>
-          <ModalTitle title='멤버 초대' />
-          <ModalDescription description='그룹에 참여할 수 있는 링크를 복사합니다.' />
-          <button
-            type='button'
-            onClick={handleLinkCopy}
-            className='mt-[40px] w-[280px] h-[47px] rounded-[12px] bg-brand-primary text-white'
-          >
-            링크 복사하기
-          </button>
-          {/* TODO: 버튼 공통 컴포넌트로 수정하기 */}
-        </div>
-      </CloseWrapper>
-    </ModalPortal>
+    <Modal.Close>
+      <div className='px-36 pt-32 flex flex-col items-center '>
+        <Modal.Title title='멤버 초대' />
+        <Modal.Description description='그룹에 참여할 수 있는 링크를 복사합니다.' />
+        <Button
+          type='button'
+          color='primary'
+          onClick={handleLinkCopy}
+          className='w-full mt-40'
+        >
+          링크 복사하기
+        </Button>
+      </div>
+    </Modal.Close>
   );
 }
 

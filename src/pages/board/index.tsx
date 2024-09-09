@@ -1,6 +1,6 @@
 import SearchInput from '@/components/input/searchInput';
 import BestArticleList from '@/containers/board/bestArticleList/bestArticleList';
-import ArticleList from '@/containers/board/articleList/artcivleList';
+import ArticleList from '@/containers/board/articleList/artticleList';
 
 import FloatingButton from '@/components/button/floatingButton';
 
@@ -11,6 +11,7 @@ function BoardPage() {
         <div className='text-2lg tablet:text-2xl font-bold text-text-primary'>
           자유게시판
         </div>
+
         <SearchInput placeholder='검색어를 입력해 주세요' />
         <BestArticleList />
         <div className=''>

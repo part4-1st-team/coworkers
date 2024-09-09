@@ -1,6 +1,8 @@
-import { SubmitHandler, useForm } from 'react-hook-form';
-import CloseWrapper from './CloseWrapper';
-import ModalPortal from './ModalPortal';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import Button from '../button/button';
+import Input from '../input/input';
+
+import Modal from './Modal';
 import ModalTitle from './ModalTitle';
 
 interface FormState {
@@ -8,7 +10,7 @@ interface FormState {
 }
 
 function TaskCreateModal() {
-  const { handleSubmit, register } = useForm<FormState>();
+  const { handleSubmit, control } = useForm<FormState>();
 
   const onSubmit: SubmitHandler<FormState> = (data) => {
     // NOTE: alert 지우고 할 일 만드는 함수 구현하기
@@ -16,29 +18,31 @@ function TaskCreateModal() {
   };
 
   return (
-    <ModalPortal>
-      <CloseWrapper>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className='px-[36px] pt-[32px] flex flex-col gap-[24px] items-center'
-        >
-          <div className=' flex flex-col items-center gap-[16px] '>
-            <ModalTitle title='할 일 목록' />
-            <input
-              placeholder='목록 명을 입력해주세요'
-              className='w-[280px] h-[48px]'
-              {...register('list')}
-            />
-          </div>
-          <button
-            type='submit'
-            className='bg-brand-primary text-white rounded-[12px] w-[280px] h-[48px]'
-          >
-            만들기
-          </button>
-        </form>
-      </CloseWrapper>
-    </ModalPortal>
+    <Modal.Close>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className='px-36 pt-32 flex flex-col gap-24 items-center w-full'
+      >
+        <div className='flex flex-col items-center gap-16 w-full'>
+          <ModalTitle title='할 일 목록' />
+          <Controller
+            name='list'
+            control={control}
+            render={({ field }) => (
+              <Input
+                placeholder='목록 명을 입력해주세요'
+                {...field}
+                className='w-full h-48'
+              />
+            )}
+          />
+        </div>
+
+        <Button type='submit' className='w-full' color='primary'>
+          만들기
+        </Button>
+      </form>
+    </Modal.Close>
   );
 }
 
