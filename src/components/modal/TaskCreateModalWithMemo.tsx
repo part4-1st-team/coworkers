@@ -1,8 +1,7 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import Button from '../button/button';
 import Input from '../input/input';
-import ModalDescription from './ModalDescription';
-import ModalTitle from './ModalTitle';
+import Modal from './Modal';
 
 interface FormState {
   title: string;
@@ -24,8 +23,8 @@ function TaskCreateModalWithMemo() {
     >
       <div className='mb-24 w-full'>
         <div className='flex flex-col items-center text-center'>
-          <ModalTitle title='할 일 만들기' />
-          <ModalDescription description='할 일은 실제로 행동 가능한 작업 중심으로<br/>작성해주시면 좋습니다.' />
+          <Modal.Title title='할 일 만들기' />
+          <Modal.Description description='할 일은 실제로 행동 가능한 작업 중심으로<br/>작성해주시면 좋습니다.' />
         </div>
         <div className='my-16'>
           <span className='text-lg font-medium text-white '>할 일 제목</span>

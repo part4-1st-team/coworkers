@@ -2,8 +2,7 @@ import Button from '@/components/button/button';
 import Input from '@/components/input/input';
 import useModalStore from '@/stores/ModalStore';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import ModalDescription from './ModalDescription';
-import ModalTitle from './ModalTitle';
+import Modal from './Modal';
 
 interface FormState {
   email: string;
@@ -23,8 +22,8 @@ function PasswordResetModal() {
       onSubmit={handleSubmit(handleSendLink)}
       className='px-36 pt-32 flex flex-col items-center'
     >
-      <ModalTitle title='비밀번호 재설정' />
-      <ModalDescription description='비밀번호 재설정 링크를 보내드립니다.' />
+      <Modal.Title title='비밀번호 재설정' />
+      <Modal.Description description='비밀번호 재설정 링크를 보내드립니다.' />
 
       <div className='w-full'>
         <Controller
@@ -40,7 +39,7 @@ function PasswordResetModal() {
         />
       </div>
 
-      <div className='flex items-center gap-8 w-full'>
+      <Modal.Buttons>
         <Button
           type='button'
           color='white'
@@ -52,7 +51,7 @@ function PasswordResetModal() {
         <Button type='submit' color='primary' className='w-full'>
           링크 보내기
         </Button>
-      </div>
+      </Modal.Buttons>
     </form>
   );
 }

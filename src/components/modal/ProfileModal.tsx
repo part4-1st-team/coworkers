@@ -1,6 +1,6 @@
 import Button from '@/components/button/button';
 import MemberInfo from '../memberInfo/MemberInfo';
-import CloseWrapper from './CloseWrapper';
+import Modal from './Modal';
 
 function ProfileModal({ member }: { member: IMember }) {
   // const { userImage, userName, userEmail } = member;
@@ -11,7 +11,7 @@ function ProfileModal({ member }: { member: IMember }) {
   };
 
   return (
-    <CloseWrapper>
+    <Modal.Close>
       <div className='px-16 pt-32 flex flex-col items-center gap-24'>
         <MemberInfo />
         <div className='w-52 h-52 rounded-[9999px] bg-white' />
@@ -34,7 +34,7 @@ function ProfileModal({ member }: { member: IMember }) {
           이메일 복사하기
         </Button>
       </div>
-    </CloseWrapper>
+    </Modal.Close>
   );
 }
 

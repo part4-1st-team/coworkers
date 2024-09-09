@@ -2,7 +2,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import Button from '../button/button';
 import Input from '../input/input';
 
-import CloseWrapper from './CloseWrapper';
+import Modal from './Modal';
 import ModalTitle from './ModalTitle';
 
 interface FormState {
@@ -18,7 +18,7 @@ function TaskCreateModal() {
   };
 
   return (
-    <CloseWrapper>
+    <Modal.Close>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className='px-36 pt-32 flex flex-col gap-24 items-center w-full'
@@ -42,7 +42,7 @@ function TaskCreateModal() {
           만들기
         </Button>
       </form>
-    </CloseWrapper>
+    </Modal.Close>
   );
 }
 

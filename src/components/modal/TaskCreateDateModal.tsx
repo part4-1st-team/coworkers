@@ -5,8 +5,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import Button from '../button/button';
 import BoxInput from '../input/boxInput';
 import Input from '../input/input';
-import ModalDescription from './ModalDescription';
-import ModalTitle from './ModalTitle';
+import Modal from './Modal';
 
 interface FormState {
   title: string;
@@ -27,10 +26,10 @@ function TaskCreateDateModal() {
   };
 
   return (
-    <div className='flex flex-col gap-24 itmes-center pt-32 px-8  overflow-y-auto'>
+    <div className='flex flex-col gap-24 itmes-center pt-32 px-8 overflow-y-auto'>
       <div className='flex flex-col text-center gap-8'>
-        <ModalTitle title='할 일 만들기' />
-        <ModalDescription description='할 일은 실제로 행동 가능한 작업 중심으로<br/>작성해주시면 좋습니다.' />
+        <Modal.Title title='할 일 만들기' />
+        <Modal.Description description='할 일은 실제로 행동 가능한 작업 중심으로<br/>작성해주시면 좋습니다.' />
       </div>
       <form
         className='flex flex-col gap-24'

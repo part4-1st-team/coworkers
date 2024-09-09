@@ -2,7 +2,7 @@ import Input from '@/components/input/input';
 import useModalStore from '@/stores/ModalStore';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import Button from '../button/button';
-import ModalTitle from './ModalTitle';
+import Modal from './Modal';
 
 interface FormState {
   password: string;
@@ -23,7 +23,7 @@ function PasswordChangeModal() {
       className='pt-32 px-36 flex flex-col items-center gap-16'
       onSubmit={handleSubmit(handleChangePassword)}
     >
-      <ModalTitle title='비밀번호 변경하기' />
+      <Modal.Title title='비밀번호 변경하기' />
 
       <div className='flex flex-col gap-8 w-full'>
         <span className='text-lg font-medium text-text-primary'>
@@ -60,7 +60,7 @@ function PasswordChangeModal() {
         />
       </div>
 
-      <div className='flex items-center gap-8 w-full'>
+      <Modal.Buttons>
         <Button
           type='button'
           color='white'
@@ -72,7 +72,7 @@ function PasswordChangeModal() {
         <Button type='submit' color='primary' className='w-full'>
           변경하기
         </Button>
-      </div>
+      </Modal.Buttons>
     </form>
   );
 }

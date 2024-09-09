@@ -1,6 +1,6 @@
 import useModalStore from '@/stores/ModalStore';
 import Button from '../button/button';
-import ModalTitle from './ModalTitle';
+import Modal from './Modal';
 
 function LogoutModal() {
   const { setModalClose } = useModalStore();
@@ -11,9 +11,9 @@ function LogoutModal() {
 
   return (
     <div className='px-36 pt-32 flex flex-col items-center gap-24'>
-      <ModalTitle title='로그아웃 하시겠어요?' />
+      <Modal.Title title='로그아웃 하시겠어요?' />
 
-      <div className='flex gap-8 w-full'>
+      <Modal.Buttons>
         <Button
           type='button'
           color='white'
@@ -30,7 +30,7 @@ function LogoutModal() {
         >
           로그아웃
         </Button>
-      </div>
+      </Modal.Buttons>
     </div>
   );
 }
