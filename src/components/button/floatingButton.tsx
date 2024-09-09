@@ -1,3 +1,4 @@
+// /* eslint-disable react/require-default-props */
 /* eslint-disable react/require-default-props */
 import Button from '@/components/button/button';
 import clsx from 'clsx';
@@ -15,6 +16,7 @@ interface FloatingButtonProps {
   type: FloatingButtonType;
   disabled?: boolean;
   className?: string;
+  text?: string; // 외부에서 커스텀 가능한 텍스트 prop 추가
 }
 
 /**
@@ -35,22 +37,22 @@ const iconMap: Record<
   }
 > = {
   add: {
-    icon: <IconPlus />,
+    icon: <IconPlus width={16} height={16} />,
     color: 'primary',
     text: '할 일 추가',
-    size: 'w-[125px] h-[48px]',
+    size: 'h-48',
   },
   complete: {
     icon: <IconCheckWhite className='text-text-inverse' />,
     color: 'primary',
     text: '완료하기',
-    size: 'w-[111px] h-[40px]',
+    size: 'w-auto h-40',
   },
   cancel: {
     icon: <IconCheckGreen />,
     color: 'white',
     text: '완료 취소하기',
-    size: 'w-[138px] h-[40px]',
+    size: 'h-40',
     disabledIcon: <IconCheckGray />,
   },
 };
@@ -59,15 +61,24 @@ function FloatingButton({
   type,
   disabled = false,
   className,
+  text, // 외부에서 전달받을 text prop
 }: FloatingButtonProps) {
-  const { icon, color, text, size, disabledIcon } = iconMap[type] || {
+  const {
+    icon,
+    color,
+    text: defaultText,
+    size,
+    disabledIcon,
+  } = iconMap[type] || {
     icon: <IconCheckWhite />,
     color: 'primary',
     text: '할 일 추가',
-    size: 'w-10 h-10',
+    size: 'h-10',
   };
 
-  // 디스에이블 상태에 따른 아이콘 소스 결정
+  // 외부에서 전달된 text가 있으면 그 값을 사용하고, 없으면 기본 text를 사용
+  const buttonText = text || defaultText;
+
   const iconNode = disabled && disabledIcon ? disabledIcon : icon;
 
   return (
@@ -79,7 +90,7 @@ function FloatingButton({
       icon={iconNode}
       className={clsx(size, className)}
     >
-      {text}
+      {buttonText}
     </Button>
   );
 }

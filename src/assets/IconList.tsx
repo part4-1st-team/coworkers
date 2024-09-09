@@ -33,6 +33,10 @@ import IconEdit from './icons/ic_edit.svg';
 import IconArrowTOP from './icons/ic_arrow_top.svg';
 import IconCheckGray from './icons/ic_check_gray.svg';
 import IconCheckGreen from './icons/ic_check_green.svg';
+import IconSearch from './icons/ic_search.svg';
+import IconMedal from './icons/ic_medal.svg';
+import IconMember from './icons/ic_member.svg';
+import IconHeart from './icons/ic_heart.svg';
 
 export {
   IconX,
@@ -70,4 +74,8 @@ export {
   IconArrowTOP,
   IconCheckGray,
   IconCheckGreen,
+  IconSearch,
+  IconMedal,
+  IconMember,
+  IconHeart,
 };
