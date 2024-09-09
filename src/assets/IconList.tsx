@@ -37,8 +37,6 @@ import IconSearch from './icons/ic_search.svg';
 import IconMedal from './icons/ic_medal.svg';
 import IconMember from './icons/ic_member.svg';
 import IconHeart from './icons/ic_heart.svg';
-import IconMenu from './icons/ic_menu.svg';
-import IconCheck from './icons/ic_check.svg';
 
 export {
   IconX,
@@ -69,4 +67,15 @@ export {
   IconCheckboxActive,
   IconAlert,
   IconRepeat,
+  IconMenu,
+  IconCheck,
+  IconSecession,
+  IconEdit,
+  IconArrowTOP,
+  IconCheckGray,
+  IconCheckGreen,
+  IconSearch,
+  IconMedal,
+  IconMember,
+  IconHeart,
 };
