@@ -21,7 +21,7 @@ function Header() {
               <IconCheck className='fill-text-inverse' />
               {/* TODO 드롭다운 컴포넌트로 수정 */}
             </button>
-            <Link href='/board' className='ml-40'>
+            <Link href='/board' className='ml-32 desktop:ml-40'>
               자유게시판
             </Link>
           </div>
