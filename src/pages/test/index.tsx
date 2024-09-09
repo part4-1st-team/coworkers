@@ -5,9 +5,10 @@ function BoardPage() {
     <div className='flex justify-center'>
       <BaseButton
         type='button'
+        color='bgNon'
+        className='w-[333px] h-55 '
         text='생성하기'
-        className='w-332 h-32 '
-        color='primary'
+        disabled
       />
     </div>
   );
