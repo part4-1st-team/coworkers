@@ -1,5 +1,6 @@
-import CloseWrapper from './CloseWrapper';
-import ModalPortal from './ModalPortal';
+import Button from '@/components/button/button';
+import MemberInfo from '../memberInfo/MemberInfo';
+import Modal from './Modal';
 
 function ProfileModal({ member }: { member: IMember }) {
   // const { userImage, userName, userEmail } = member;
@@ -10,31 +11,30 @@ function ProfileModal({ member }: { member: IMember }) {
   };
 
   return (
-    <ModalPortal>
-      <CloseWrapper>
-        <div className='px-[16px] pt-[32px] flex flex-col items-center gap-[24px]'>
-          <div className='w-[52px] h-[52px] rounded-[9999px] bg-white' />
-          {/* TODO : 프로필 컴포넌트로 변경하기 */}
-          <div className='text-center'>
-            <p className='text-text-primary text-md font-medium mb-[8px]'>
-              {userName}
-            </p>
-            <p className='text-text-secondary text-xs font-normal '>
-              {userEmail}
-            </p>
-          </div>
-
-          <button
-            type='button'
-            onClick={handleEmailCopy}
-            className='bg-brand-primary text-white rounded-[12px] w-[280px] h-[47px]'
-          >
-            이메일 복사하기
-          </button>
-          {/* TODO : 버튼 컴포넌트로 변경하기 */}
+    <Modal.Close>
+      <div className='px-16 pt-32 flex flex-col items-center gap-24'>
+        <MemberInfo />
+        <div className='w-52 h-52 rounded-[9999px] bg-white' />
+        {/* TODO : 프로필 컴포넌트로 변경하기 */}
+        <div className='text-center'>
+          <p className='text-text-primary text-md font-medium mb-[8px]'>
+            {userName}
+          </p>
+          <p className='text-text-secondary text-xs font-normal '>
+            {userEmail}
+          </p>
         </div>
-      </CloseWrapper>
-    </ModalPortal>
+
+        <Button
+          type='button'
+          onClick={handleEmailCopy}
+          color='primary'
+          className='w-full'
+        >
+          이메일 복사하기
+        </Button>
+      </div>
+    </Modal.Close>
   );
 }
 

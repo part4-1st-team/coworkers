@@ -48,12 +48,12 @@ function Button({
   ...props
 }: ButtonProps) {
   const baseButton =
-    'font-semibold inline-flex items-center justify-center font-semibold px-15 py-15';
+    'font-semibold inline-flex  items-center justify-center  px-15 py-15';
 
   /* 컬러에 따른 분기  */
   const colorStyle = {
     primary:
-      'px-5 bg-brand-primary text-text-inverse hover:bg-interaction-hover active:bg-interaction-pressed disabled:bg-interaction-inactive',
+      'px-5 bg-brand-primary text-text-inverse  border border-border-primary hover:bg-interaction-hover active:bg-interaction-pressed disabled:bg-interaction-inactive',
     white:
       'bg-background-inverse text-brand-primary border border-border-primary hover:text-interaction-hover hover:border hover:border-interaction-hover active:borer-interaction-pressed active:text-interaction-pressed disabled:bg-interaction-inactive',
     red: 'bg-status-danger text-text-inverse',
