@@ -1,14 +1,20 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import AuthInput from '@/components/input/authInput';
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import Image from 'next/image';
+
+type FormValues = {
+  email: string;
+  password: string;
+};
 
 function SignInPage() {
   const router = useRouter();
-  const { control, handleSubmit } = useForm();
+  const { control, handleSubmit } = useForm<FormValues>();
   const [error, setError] = useState<string | null>(null);
 
-  const onSubmit = (data: { email: string; password: string }) => {
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
     const { email, password } = data;
 
     // 간단한 유효성 검사
@@ -24,7 +30,7 @@ function SignInPage() {
       } else {
         setError('이메일 또는 비밀번호가 잘못되었습니다.');
       }
-    } catch (error) {
+    } catch (er) {
       setError('로그인 중 오류가 발생했습니다.');
     }
   };
@@ -32,7 +38,7 @@ function SignInPage() {
   return (
     <div className='flex justify-center items-center h-screen bg-transparent'>
       <div className='w-full max-w-md bg-transparent p-8 rounded-md shadow-md'>
-        <h2 className='block text-40 text-text-primary text-center font-500 h-48'>
+        <h2 className='block text-40 text-text-primary text-center font-500 h-48 mb-80 leading-48'>
           로그인
         </h2>
         {error && <div className='text-red-500 mb-4'>{error}</div>}
@@ -70,7 +76,32 @@ function SignInPage() {
             </p>
           </span>
         </form>
-        <div>..</div>
+        <div className='flex items-center'>
+          <div className='flex-grow border-t border-border-primary' />
+          <div className='border-white mx-24 text-white'>OR</div>
+          <div className='flex-grow border-t border-border-primary' />
+        </div>
+        <div className='flex justify-between mt-16'>
+          <span className='text-text-primary'>간편 로그인하기</span>
+          <div className='flex gap-16'>
+            <button type='button'>
+              <Image
+                src='/images/img_kakaotalk.png'
+                alt='간편 로그인 카카오톡'
+                width={42}
+                height={42}
+              />
+            </button>
+            <button type='button'>
+              <Image
+                src='/images/img_google.png'
+                alt='간편 로그인 구글'
+                width={42}
+                height={42}
+              />
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
