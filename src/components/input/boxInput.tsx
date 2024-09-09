@@ -32,7 +32,7 @@ function BoxInput({
       `}</style>
 
       <textarea
-        className={`py-[12px] px-[16px] w-full text-text-inverse bg-background-secondary rounded-[12px] resize-none focus:outline-none focus:ring-0 ${className}`}
+        className={`py-[12px] px-[16px] w-full text-text-inverse bg-background-secondary rounded-12 border border-border-primary hover:border-interaction-hover resize-none focus:outline-none focus:border-interaction-focus focus:ring-0 ${className}`}
         placeholder={placeholder}
         value={value}
         onChange={onChange}

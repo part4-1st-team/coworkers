@@ -55,14 +55,12 @@ function Input({ children, className, ...props }: InputProps) {
   );
 
   return (
-    <div className={clsx('')}>
-      <input
-        id={props.id}
-        disabled={props.disabled}
-        className={classNames}
-        {...props}
-      />
-    </div>
+    <input
+      id={props.id}
+      disabled={props.disabled}
+      className={classNames}
+      {...props}
+    />
   );
 }
 

@@ -1,6 +1,6 @@
 import SearchInput from '@/components/input/searchInput';
 import BestArticleList from '@/containers/board/bestArticleList/bestArticleList';
-import ArticleList from '@/containers/board/bestArticleList/articleList/artcivleList';
+import ArticleList from '@/containers/board/articleList/artcivleList';
 
 import FloatingButton from '@/components/button/floatingButton';
 
