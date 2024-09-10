@@ -1,44 +1,45 @@
 /* eslint-disable react/button-has-type */
+/* eslint-disable react/require-default-props */
 import clsx from 'clsx';
 
-type ColorType = 'primary' | 'white' | 'red' | 'outline';
+type ButtonType = 'button' | 'submit' | 'reset';
 
 interface CircleButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
-  color?: ColorType; // 버튼의 색상 스타일
-  icon?: React.ReactNode; // 버튼 내부에 들어갈 아이콘 (ReactNode로 전달 가능)
+  disabled?: boolean;
+  type?: ButtonType;
+  text?: string;
+  icon?: React.ReactNode;
+  className?: string;
+  children?: React.ReactNode;
 }
 
 function CircleButton({
+  text,
+  type = 'button',
+  disabled = false,
   icon,
-  color = 'primary',
-
+  className,
+  children,
   ...props
 }: CircleButtonProps) {
-  const baseButton = 'inline-flex items-center justify-center rounded-full';
+  const baseButton =
+    'w-16 h-16 text-md font-semibold bg-background-tertiary text-text-inverse rounded-full flex items-center justify-center  ';
 
-  /* 컬러에 따른 스타일 분기 */
-  const colorStyles = {
-    primary:
-      'bg-background-secondary hover:bg-interaction-hover active:bg-interaction-pressed ',
-    white:
-      'bg-background-inverse text-brand-primary border border-border-primary hover:text-interaction-hover hover:border hover:border-interaction-hover active:border-interaction-pressed active:text-interaction-pressed disabled:bg-interaction-inactive',
-    red: 'bg-status-danger text-text-inverse',
-    outline:
-      'bg-none text-brand-primary border border-brand-primary hover:border hover:border-interaction-hover hover:text-interaction-hover active:text-interaction-pressed disabled:border-interaction-inactive',
-  };
-
-  const buttonClass = clsx(baseButton, colorStyles[color]);
+  const buttonClass = clsx(baseButton, className);
 
   return (
-    <button {...props} className={buttonClass}>
-      {icon && <span className='icon'>{icon}</span>}
+    <button type={type} disabled={disabled} className={buttonClass} {...props}>
+      {icon && <span>{icon}</span>}
+      {text && <span>{text}</span>}
+      {children}
     </button>
   );
 }
 
 CircleButton.defaultProps = {
-  color: 'primary',
-  icon: null,
+  disabled: false,
+  type: 'button',
+  className: '',
 };
 
 export default CircleButton;

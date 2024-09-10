@@ -1,6 +1,6 @@
 // 컴포넌트 import
 import Input from '@/components/input/input';
-import Button from '@/components/button';
+import Button from '@/components/button/button';
 
 function GroupEditPage() {
   return (
