@@ -3,35 +3,41 @@ import { useState } from 'react';
 import AuthInput from '@/components/input/authInput';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import Image from 'next/image';
+import login from '@/services/Auth.API';
 
 type FormValues = {
   email: string;
   password: string;
 };
 
+/**
+ * 테스트 계정
+ * {
+  "email": "test1234@testuser.com",
+  "nickname": "test user",
+  "password": "Test1234!",
+  "passwordConfirmation": "Test1234!"
+}
+*/
 function SignInPage() {
   const router = useRouter();
   const { control, handleSubmit } = useForm<FormValues>();
   const [error, setError] = useState<string | null>(null);
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
     const { email, password } = data;
 
-    // 간단한 유효성 검사
-    if (!email || !password) {
-      setError('이메일과 비밀번호를 입력해주세요.');
-      return;
-    }
-
     try {
-      // 임시 로그인 처리
-      if (email === 'test@test.com' && password === 'password') {
-        router.push('/dashboard'); // 로그인 성공 후 대시보드로 리다이렉트
-      } else {
-        setError('이메일 또는 비밀번호가 잘못되었습니다.');
+      // 로그인 API 요청
+      const response = await login({ email, password });
+      localStorage.setItem('accessToken', response.accessToken);
+      // 로그인 성공 시 대시보드로 리다이렉트
+      router.push('/dashboard');
+    } catch (err: unknown) {
+      // 에러 처리
+      if (err instanceof Error) {
+        setError(err.message || '이메일 또는 비밀번호가 잘못되었습니다.');
       }
-    } catch (er) {
-      setError('로그인 중 오류가 발생했습니다.');
     }
   };
 
@@ -41,7 +47,7 @@ function SignInPage() {
         <h2 className='block text-40 text-text-primary text-center font-500 h-48 mb-80 leading-48'>
           로그인
         </h2>
-        {error && <div className='text-red-500 mb-4'>{error}</div>}
+        {error && <div className='text-text-primary mb-4'>{error}</div>}
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className='mb-24 text-text-primary'>
             이메일
