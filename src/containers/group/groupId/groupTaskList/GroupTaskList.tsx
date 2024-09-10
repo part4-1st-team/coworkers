@@ -8,13 +8,13 @@ interface Props extends React.HTMLAttributes<HTMLButtonElement> {
   color?: string;
   doneCount: number;
   totalCount: number;
-  done: boolean;
+  isDone: boolean;
 }
 
 function GroupTaskList({
   children,
   color = 'purple',
-  done = false,
+  isDone = false,
   doneCount = 0,
   totalCount = 0,
 }: Props) {
@@ -26,7 +26,7 @@ function GroupTaskList({
         <div className='flex '>
           <section className=' flex items-center'>
             <div className='py-4 px-8 bg-background-primary rounded-12 flex text-brand-primary gap-4'>
-              {done ? (
+              {isDone ? (
                 <IconProgressDone className='fill-brand-primary' />
               ) : (
                 <IconProgressOngoing className='stroke-brand-primary' />
