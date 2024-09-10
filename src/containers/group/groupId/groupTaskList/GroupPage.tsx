@@ -2,12 +2,12 @@ import Image from 'next/image';
 
 import TodoImg from '@/assets/images/img_todo.png';
 import DoneImg from '@/assets/images/img_done.png';
-import GroupBar from './GroupBar';
 
 // 컴포넌트 import
 import GroupTaskList from './GroupTaskList';
 import MemberInfo from '@/components/memberInfo/MemberInfo';
 import EmptyGroup from './EmptyGroup';
+import GroupBar from './GroupBar';
 
 // mock data
 const userGroups: ResponseGroup[] = [];

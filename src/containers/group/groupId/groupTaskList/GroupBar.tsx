@@ -17,7 +17,10 @@ function GroupBar({ children }: Props) {
         <div className='flex items-center gap-32'>
           <Image src={MaskGroupBar} alt='팀 컴포넌트 마스크 이미지' />
           {/* TODO 설정 드롭다운 구현 */}
-          <button type='button'>
+          <button
+            type='button'
+            aria-label='팀 수정하기, 삭제하기 드롭다운 버튼'
+          >
             <IconGear />
           </button>
         </div>
