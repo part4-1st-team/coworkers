@@ -1,3 +1,9 @@
+import CreateGroupPage from './group/create-group';
+
 export default function Home() {
-  return <main>main page</main>;
+  return (
+    <main>
+      <CreateGroupPage />
+    </main>
+  );
 }
