@@ -31,8 +31,8 @@ function SignInPage() {
       // 로그인 API 요청
       const response = await login({ email, password });
       localStorage.setItem('accessToken', response.accessToken);
-      // 로그인 성공 시 리다이렉트
-      router.push('/');
+      // 로그인 성공 시 리다이렉트 (아무 페이지 테스트)
+      router.push('/board/index.tsx');
     } catch (err: unknown) {
       // 에러 처리
       if (err instanceof Error) {
