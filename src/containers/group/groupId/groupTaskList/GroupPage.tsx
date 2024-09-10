@@ -4,10 +4,10 @@ import TodoImg from '@/assets/images/img_todo.png';
 import DoneImg from '@/assets/images/img_done.png';
 
 // 컴포넌트 import
-import GroupTaskList from './GroupTaskList';
 import MemberInfo from '@/components/memberInfo/MemberInfo';
 import EmptyGroup from './EmptyGroup';
 import GroupBar from './GroupBar';
+import GroupTaskList from './GroupTaskList';
 
 // mock data
 const userGroups: ResponseGroup[] = [];
