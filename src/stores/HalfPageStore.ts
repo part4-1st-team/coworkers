@@ -3,16 +3,16 @@ import { create } from 'zustand';
 
 interface HalfPageStoreState {
   isHalfPageOpen: boolean;
-  HalfPage: ReactNode | null;
+  halfPage: ReactNode | null;
   setHalfPageOpen: (HalfPage: ReactNode) => void;
   setHalfPageClose: () => void;
 }
 
 const useHalfPageStore = create<HalfPageStoreState>((set) => ({
   isHalfPageOpen: false,
-  HalfPage: null,
-  setHalfPageOpen: (HalfPage) => set({ isHalfPageOpen: true, HalfPage }),
-  setHalfPageClose: () => set({ isHalfPageOpen: false, HalfPage: null }),
+  halfPage: null,
+  setHalfPageOpen: (halfPage) => set({ isHalfPageOpen: true, halfPage }),
+  setHalfPageClose: () => set({ isHalfPageOpen: false, halfPage: null }),
 }));
 
 export default useHalfPageStore;

@@ -2,9 +2,9 @@ import useHalfPageStore from '@/stores/HalfPageStore';
 import HalfPortal from './HalfPortal';
 
 function HalfPage() {
-  const { HalfPage } = useHalfPageStore();
+  const { halfPage } = useHalfPageStore();
 
-  return <HalfPortal>{HalfPage}</HalfPortal>;
+  return <HalfPortal>{halfPage}</HalfPortal>;
 }
 
 export default HalfPage;

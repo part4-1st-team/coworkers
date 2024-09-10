@@ -33,7 +33,7 @@ function Comment() {
     patchTaskCommentMutation.mutate(content);
   };
 
-  const { handleSubmit, control, register } = useForm<CommentState>({
+  const { handleSubmit, register } = useForm<CommentState>({
     mode: 'onSubmit',
     defaultValues: {
       content: '혹시 관련해서 미팅 오늘 중으로 가능하신가요?',

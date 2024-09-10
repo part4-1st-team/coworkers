@@ -26,6 +26,7 @@ function HalfPageContent() {
         className='absolute top-40 left-40'
         type='button'
         onClick={setHalfPageClose}
+        aria-label='페이지 닫기 버튼'
       >
         <IconX />
       </button>

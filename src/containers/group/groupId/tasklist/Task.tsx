@@ -15,7 +15,15 @@ function Task({ task }: { task: DateTask }) {
   const { setHalfPageOpen } = useHalfPageStore();
 
   return (
+    /* eslint-disable jsx-a11y/click-events-have-key-events */
     <div
+      role='button'
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          setHalfPageOpen(<HalfPageContent />);
+        }
+      }}
       onClick={() => setHalfPageOpen(<HalfPageContent />)}
       className='cursor-pointer bg-background-secondary flex flex-col gap-10 rounded-8 py-12 px-14'
     >

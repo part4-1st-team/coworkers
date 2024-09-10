@@ -19,8 +19,8 @@ function CommentInput() {
 
   const handleSubmitComment: SubmitHandler<TaskCommentState> = (data) => {
     const { content } = data;
-    console.log(content);
-    // postTaskCommentMutation.mutate(content);
+
+    postTaskCommentMutation.mutate(content);
   };
 
   return (
