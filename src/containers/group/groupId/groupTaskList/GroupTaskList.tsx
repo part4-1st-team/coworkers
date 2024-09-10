@@ -5,7 +5,7 @@ import {
 } from '@/assets/IconList';
 
 interface Props extends React.HTMLAttributes<HTMLButtonElement> {
-  color?: string;
+  color: string;
   doneCount: number;
   totalCount: number;
   isDone: boolean;
