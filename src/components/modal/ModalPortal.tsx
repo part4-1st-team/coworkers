@@ -1,3 +1,4 @@
+import useEscapeClose from '@/hooks/useEscapeClose';
 import useModalStore from '@/stores/ModalStore';
 import { ReactNode, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
@@ -32,6 +33,7 @@ function ModalContainer({ children }: { children: ReactNode }) {
 function ModalPortal({ children }: { children: ReactNode }) {
   const [mounted, setMounted] = useState<boolean>(false);
   const { isModalOpen, setModalClose } = useModalStore();
+  useEscapeClose(setModalClose);
 
   useEffect(() => {
     setMounted(true);
