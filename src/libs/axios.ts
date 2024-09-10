@@ -29,6 +29,7 @@ instance.interceptors.response.use(
     // 에러 메시지를 처리할 수 있음
     if (error.response?.status === 401) {
       // 401 Unauthorized 처리 예시
+      // eslint-disable-next-line no-console
       console.error('Unauthorized, 다시 로그인하세요.');
     }
     return Promise.reject(error);
