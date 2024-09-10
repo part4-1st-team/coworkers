@@ -28,7 +28,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
  * />
  * ```
  */
-function Input({ children, className, ...props }: InputProps) {
+function Input({ children = '', className = '', ...props }: InputProps) {
   // 기본 클래스들
   const baseClasses =
     'w-full px-16 py-14 rounded-xl bg-background-secondary border border-border-primary text-text-primary font-font-normal';
