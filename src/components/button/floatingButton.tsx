@@ -1,104 +1,5 @@
 /* eslint-disable react/button-has-type */
 /* eslint-disable react/require-default-props */
-// // /* eslint-disable react/require-default-props */
-// /* eslint-disable react/require-default-props */
-// import Button from '@/components/button/button';
-// import clsx from 'clsx';
-// import {
-//   IconPlus,
-//   IconCheckWhite,
-//   IconCheckGray,
-//   IconCheckGreen,
-// } from '@/assets/IconList';
-
-// type FloatingButtonType = 'add' | 'complete' | 'cancel';
-// type ColorType = 'primary' | 'white';
-
-// interface FloatingButtonProps {
-//   type: FloatingButtonType;
-//   disabled?: boolean;
-//   className?: string;
-//   text?: string; // 외부에서 커스텀 가능한 텍스트 prop 추가
-// }
-
-// /**
-//  * 버튼의 유형을 정의합니다.
-//  * - `'add'`: 할 일을 추가하는 버튼
-//  * - `'complete'`: 완료하는 버튼
-//  * - `'cancel'`: 취소하는 버튼
-//  */
-
-// const iconMap: Record<
-//   FloatingButtonType,
-//   {
-//     icon: React.ReactNode;
-//     color: ColorType;
-//     text: string;
-//     size: string;
-//     disabledIcon?: React.ReactNode;
-//   }
-// > = {
-//   add: {
-//     icon: <IconPlus width={16} height={16} />,
-//     color: 'primary',
-//     text: '할 일 추가',
-//     size: 'h-48',
-//   },
-//   complete: {
-//     icon: <IconCheckWhite className='text-text-inverse' />,
-//     color: 'primary',
-//     text: '완료하기',
-//     size: 'w-auto h-40',
-//   },
-//   cancel: {
-//     icon: <IconCheckGreen />,
-//     color: 'white',
-//     text: '완료 취소하기',
-//     size: 'h-40',
-//     disabledIcon: <IconCheckGray />,
-//   },
-// };
-
-// function FloatingButton({
-//   type,
-//   disabled = false,
-//   className,
-//   text, // 외부에서 전달받을 text prop
-// }: FloatingButtonProps) {
-//   const {
-//     icon,
-//     color,
-//     text: defaultText,
-//     size,
-//     disabledIcon,
-//   } = iconMap[type] || {
-//     icon: <IconCheckWhite />,
-//     color: 'primary',
-//     text: '할 일 추가',
-//     size: 'h-10',
-//   };
-
-//   // 외부에서 전달된 text가 있으면 그 값을 사용하고, 없으면 기본 text를 사용
-//   const buttonText = text || defaultText;
-
-//   const iconNode = disabled && disabledIcon ? disabledIcon : icon;
-
-//   return (
-//     <Button
-//       type='button'
-//       rounded
-//       color={color}
-//       disabled={disabled}
-//       icon={iconNode}
-//       className={clsx(size, className)}
-//     >
-//       {buttonText}
-//     </Button>
-//   );
-// }
-
-// export default FloatingButton;
-
 import clsx from 'clsx';
 import {
   IconPlus,
@@ -120,6 +21,31 @@ interface FloatingButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   className?: string;
 }
 
+/**
+ * FloatingButton 컴포넌트는 원형 버튼으로, 아이콘과 텍스트를 지원하며, 색상과 비활성화 상태를 조정할 수 있습니다.
+ *
+ * @component
+ * @example
+ * <FloatingButton
+ *   color="primary"
+ *   text="Click me"
+ *   type="button"
+ *   disabled={false}
+ *   icon="plus"
+ *   className="my-custom-class"
+ * />
+ *
+ * @param {Object} props - 컴포넌트의 속성입니다.
+ * @param {'primary' | 'outlined'} [props.color='primary'] - 버튼의 색상을 결정합니다. 'primary'는 기본 색상, 'outlined'는 테두리만 있는 스타일을 나타냅니다.
+ * @param {boolean} [props.disabled=false] - 버튼의 비활성화 상태를 설정합니다. true일 경우 버튼이 비활성화됩니다.
+ * @param {'button' | 'submit' | 'reset'} [props.type='button'] - 버튼의 HTML 타입을 설정합니다. 'button', 'submit', 또는 'reset'이 가능합니다.
+ * @param {string} [props.text] - 버튼에 표시할 텍스트입니다.
+ * @param {'plus' | 'checkWhite' | 'checkGray' | 'checkGreen'} [props.icon] - 버튼에 표시할 아이콘을 결정합니다. 'plus', 'checkWhite', 'checkGray', 'checkGreen' 중 하나입니다.
+ * @param {string} [props.className] - 버튼에 적용할 선택적인 추가 클래스 이름입니다.
+ * @param {React.ButtonHTMLAttributes<HTMLButtonElement>} [props] - 기타 HTML 버튼 요소의 기본 속성입니다.
+ *
+ * @returns {JSX.Element} 주어진 스타일과 속성을 적용한 원형 버튼을 반환합니다. 아이콘과 텍스트를 함께 사용할 수 있으며, 비활성화 상태에 따라 버튼의 외관이 변경됩니다.
+ */
 function FloatingButton({
   color = 'primary',
   text,
@@ -130,7 +56,7 @@ function FloatingButton({
   ...props
 }: FloatingButtonProps) {
   const baseButton =
-    'w-full text-md font-semibold text-text-inverse px-21 py-11 rounded-full flex items-center justify-center ';
+    'w-full text-md font-semibold text-text-inverse px-18 py-11 rounded-full flex items-center justify-center ';
 
   const colorStyle = {
     primary:
@@ -141,7 +67,6 @@ function FloatingButton({
     // 임시로 text-point-blue 사용 했습니다.
   };
 
-  // 아이콘 컴포넌트 매핑
   const iconComponents = {
     plus: <IconPlus className='w-16 h-16' />,
     checkWhite: <IconCheckWhite className='w-16 h-16' />,
@@ -149,7 +74,6 @@ function FloatingButton({
     checkGreen: <IconCheckGreen className='w-16 h-16 ' />,
   };
 
-  // 아이콘이 있을 경우 텍스트와 아이콘을 함께 렌더링
   const buttonContent = (
     <div className='flex items-center gap-4'>
       {icon &&
