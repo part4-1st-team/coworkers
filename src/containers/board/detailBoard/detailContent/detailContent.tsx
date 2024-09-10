@@ -9,7 +9,8 @@ function DetailContent() {
         게시물 제목 영역입니다.
       </div>
       {/* TODO : 제목 데이터 받아 수정하기 */}
-      <div className='mt-16 w-full border border-border-primary' />
+
+      <div className='mt-16 w-full border-t border-border-primary' />
 
       <div className='mt-16 flex justify-between gap-16 '>
         <div className='flex items-center gap-10'>
@@ -25,7 +26,8 @@ function DetailContent() {
             <IconComment />
             <p className='text-md text-text-disabled flex items-center'>3</p>
           </div>
-          <div className='flex gap-4'>
+
+          <div className='flex items-center gap-4'>
             <IconHeart />
             <p className='text-md text-text-disabled flex items-center'>
               9999+

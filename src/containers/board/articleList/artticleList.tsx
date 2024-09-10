@@ -13,7 +13,8 @@ function ArticleList() {
         {/* TODO : 드롭다운 컴포넌트로 변경하기 */}
         {}
       </div>
-      <div className='flex flex-col gap-24'>
+
+      <div className='flex flex-col gap-24 desktop:grid desktop:grid-cols-2'>
         <ArticleCard />
         <ArticleCard />
         <ArticleCard />
