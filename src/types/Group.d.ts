@@ -7,15 +7,15 @@ interface Member {
   userId: number;
 }
 
-interface TaskList {
-  displayIndex: number;
-  groupId: number;
-  updatedAt: string;
-  createdAt: string;
-  name: string;
-  id: number;
-  tasks: string[];
-}
+// interface TaskList {
+//   displayIndex: number;
+//   groupId: number;
+//   updatedAt: string;
+//   createdAt: string;
+//   name: string;
+//   id: number;
+//   tasks: string[];
+// }
 
 interface Group {
   teamId: string;

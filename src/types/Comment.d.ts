@@ -12,3 +12,7 @@ interface Comment extends BaseComment {
 }
 
 interface ResponseComment extends BaseComment {}
+
+interface CommentState {
+  content: string;
+}

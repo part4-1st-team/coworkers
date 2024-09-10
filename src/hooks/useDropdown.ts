@@ -14,7 +14,6 @@ function useDropdown() {
 
   const handleToggleDropdown = () => {
     setIsOpen((prev) => !prev);
-    console.log(isOpen);
   };
 
   const handleOffDropdown = () => {
