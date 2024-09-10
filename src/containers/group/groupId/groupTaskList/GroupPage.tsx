@@ -7,6 +7,7 @@ import EmptyGroup from './EmptyGroup';
 
 import TodoImg from '@/assets/images/img_todo.png';
 import DoneImg from '@/assets/images/img_done.png';
+import GroupBar from './GroupBar';
 
 // mock data
 const userGroups: ResponseGroup[] = [];
@@ -51,15 +52,13 @@ const taskLists: TaskList[] = [
 ];
 
 function GroupPage() {
-  return userGroups.length === 0 ? (
+  return userGroups.length !== 0 ? (
     <EmptyGroup />
   ) : (
     <div className='w-full h-full bg-background-primary text-text-primary text-lg px-24'>
       <section className='w-full desktop:w-1200 desktop:mx-auto pt-24'>
         {/* TODO 컴포넌트로 변경, 데이터 연동, 설정 클릭 구현 */}
-        <section className='w-full h-64 bg-border-primary rounded-12 font-medium p-24'>
-          현재 팀/설정 컴포넌트
-        </section>
+        <GroupBar>현재 팀 이름</GroupBar>
         <section className='w-full mt-24 flex flex-col gap-16'>
           <div className='w-full flex justify-between'>
             <div className='flex gap-8'>
