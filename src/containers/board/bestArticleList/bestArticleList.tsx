@@ -20,7 +20,8 @@ function BestArticleList() {
           <BestArticleCard />
         </div>
       </div>
-      <div className='w-full border border-border-primary' />
+
+      <div className='w-full border-t border-border-primary' />
     </div>
   );
 }
