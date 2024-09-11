@@ -1,6 +1,8 @@
 // import { useEffect, useState } from 'react';
 import GroupTaskList from './GroupTaskList';
 
+const colors = ['purple', 'blue', 'cyan', 'pink', 'rose', 'orange', 'yellow'];
+
 // NOTE 무한 랜딩 됨... 왜....?
 
 function GroupTask({ Lists }: { Lists: MockTaskLists[] }) {
@@ -12,7 +14,7 @@ function GroupTask({ Lists }: { Lists: MockTaskLists[] }) {
   // function countDone({ tasks }: { tasks: MockTasks[] }) {
   //   setTotalCount(tasks.length);
 
-  //   let cnt = 0;
+  // let cnt = 0;
 
   //   tasks.map((item) => (item.done === true ? cnt++ : cnt));
   //   setDoneCount(cnt);
@@ -27,7 +29,7 @@ function GroupTask({ Lists }: { Lists: MockTaskLists[] }) {
       <div className='w-full flex justify-between'>
         <div className='flex gap-8'>
           <p>할 일 목록</p>
-          <p className='text-text-default'>(4개)</p>
+          <p className='text-text-default'>({Lists.length}개)</p>
         </div>
         <p className='text-brand-primary '>+ 새로운 목록 추가하기</p>
       </div>
@@ -44,7 +46,7 @@ function GroupTask({ Lists }: { Lists: MockTaskLists[] }) {
                 key={tasklist.id}
                 doneCount={3}
                 totalCount={5}
-                color='purple'
+                color={colors[tasklist.id % 7]}
                 isDone={false}
               >
                 {tasklist.name}
@@ -52,10 +54,6 @@ function GroupTask({ Lists }: { Lists: MockTaskLists[] }) {
             </>
           ))
         )}
-
-        <GroupTaskList doneCount={3} totalCount={5} color='point-orange' isDone>
-          리스트 컴포넌트
-        </GroupTaskList>
       </div>
     </section>
   );
