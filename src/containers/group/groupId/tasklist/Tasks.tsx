@@ -21,15 +21,33 @@ function Tasks() {
   const router = useRouter();
   const { groupId, tasklistId } = router.query;
 
-  const { tasks, isLoading, error } = useTasks(
+  const { tasks, isLoading } = useTasks(
     Number(groupId),
     Number(tasklistId),
+    String(date),
   );
 
   const { taskLists, isLoading: isListLoading } = useTaskLists(Number(groupId));
 
-  if (isLoading) return <>로딩중 ... </>;
-  if (isListLoading) return <>리스트 로딩</>;
+  const handlePreviousDay = () => {
+    setDate((prevDate) => {
+      const newDate = new Date(prevDate); // 이전 상태 복사
+      newDate.setDate(newDate.getDate() - 1); // 하루 전날로 변경
+      return newDate;
+    });
+  };
+
+  const handleNextDay = () => {
+    setDate((prevDate) => {
+      const newDate = new Date(prevDate); // 이전 상태 복사
+      newDate.setDate(newDate.getDate() + 1); // 하루 전날로 변경
+      return newDate;
+    });
+  };
+
+  if (isLoading) return <>임시 로딩중 ... </>;
+  if (isListLoading) return <>임시 리스트 로딩</>;
+  // TODO 로딩 처리하기
 
   return (
     <main className='main-container relative h-[80vh]'>
@@ -41,8 +59,9 @@ function Tasks() {
               {getMonthDay(date)}
             </span>
             <div className='flex gap-4'>
-              <ArrowButton direction='left' />
-              <ArrowButton direction='right' />
+              <ArrowButton direction='left' onClick={handlePreviousDay} />
+              <ArrowButton direction='right' onClick={handleNextDay} />
+              {/* TODO setDate 설정 */}
             </div>
             <button type='button' aria-label='캘린더'>
               <IconCalendar width={16} height={16} />
@@ -71,7 +90,6 @@ function Tasks() {
                     'text-white underline underline-offset-4',
                 )}
               >
-                {/* TODO href 주소 수정 */}
                 {taskList.name}
               </Link>
             ))}
@@ -85,7 +103,14 @@ function Tasks() {
       </div>
       <button
         type='button'
-        onClick={() => setModalOpen(<TaskCreateDateModal />)}
+        onClick={() =>
+          setModalOpen(
+            <TaskCreateDateModal
+              groupId={Number(groupId)}
+              taskListId={Number(tasklistId)}
+            />,
+          )
+        }
         className='absolute right-24 bottom-24 tablet:bottom-25 desktop:right-0 desktop:bottom-49 bg-brand-primary flex gap-4 items-center px-21 py-14 rounded-40'
       >
         <IconPlus width={16} height={16} />
