@@ -2,6 +2,8 @@ import React from 'react';
 import Image from 'next/image';
 import { IconGear } from '@/assets/IconList';
 import MaskGroupBar from '@/assets/images/img_mask_group_bar.png';
+import Dropdown from '@/components/dropdown/Dropdown';
+import GroupDropDown from './GroupDropDown';
 
 interface Props {
   children: React.ReactNode;
@@ -21,7 +23,7 @@ function GroupBar({ children }: Props) {
             type='button'
             aria-label='팀 수정하기, 삭제하기 드롭다운 버튼'
           >
-            <IconGear />
+            <GroupDropDown icon='gear' />
           </button>
         </div>
       </div>
