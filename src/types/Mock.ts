@@ -1,7 +1,7 @@
-//mock data
+// mock data
 interface MockMember {
   id: number;
-  role: string; //ADMIN | MEMBER
+  role: string; // ADMIN | MEMBER
   userImage: string;
   userEmail: string;
   userName: string;
