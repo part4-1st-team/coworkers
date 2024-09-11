@@ -12,7 +12,8 @@ function useDropdown() {
   const [currentValue, setCurrentValue] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const handleToggleDropdown = () => {
+  const handleToggleDropdown = (e: any) => {
+    e.stopPropagation();
     setIsOpen((prev) => !prev);
   };
 
