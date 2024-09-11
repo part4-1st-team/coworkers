@@ -41,17 +41,15 @@ function GroupTask({ Lists }: { Lists: MockTaskLists[] }) {
           </div>
         ) : (
           Lists.map((tasklist) => (
-            <>
-              <GroupTaskList
-                key={tasklist.id}
-                doneCount={3}
-                totalCount={5}
-                color={colors[tasklist.id % 7]}
-                isDone={false}
-              >
-                {tasklist.name}
-              </GroupTaskList>
-            </>
+            <GroupTaskList
+              key={tasklist.id}
+              doneCount={3}
+              totalCount={5}
+              color={colors[tasklist.id % 7]}
+              isDone={false}
+            >
+              {tasklist.name}
+            </GroupTaskList>
           ))
         )}
       </div>
