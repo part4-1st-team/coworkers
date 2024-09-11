@@ -1,7 +1,7 @@
 interface PostTask {
   name: string;
   description: string;
-  startDate: string;
+  startDate: Date | string;
   frequencyType: FrequencyType;
   monthDay?: number;
   weekDays?: number[];
@@ -32,7 +32,7 @@ interface IUser {
 
 interface DateTask {
   doneBy: IUser | null;
-  writer: Writer | null;
+  writer: Writer;
   displayIndex: number;
   commentCount: number;
   deletedAt: string | null;
