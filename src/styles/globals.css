@@ -26,6 +26,12 @@
   }
 }
 
+@layer utilities {
+  .underline-offset-4 {
+    text-underline-offset: 4px;
+  }
+}
+
 :root {
   font-family: pretendard;
   -webkit-font-smoothing: antialiased;

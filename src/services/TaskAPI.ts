@@ -29,13 +29,13 @@ export async function postTask(
  * @param groupId 할 일 목록을 가지고 있는 그룹 id
  * @param taskListId 조회할 할 일 목록의 id
  * @param date 찾아보고 싶은 특정일자 (선택)
- * @returns (type: DateTask) 할 일 리스트에 대한 배열 반환
+ * @returns (type: DateTask[]) 할 일 리스트에 대한 배열 반환
  */
 export async function getTasks(
   groupId: number,
   taskListId: number,
   date?: string,
-): Promise<DateTask> {
+): Promise<DateTask[]> {
   const res = await axios.get(
     `/groups/${groupId}/task-lists/${taskListId}/tasks`,
     {

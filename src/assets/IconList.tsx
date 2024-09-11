@@ -37,6 +37,7 @@ import IconSearch from './icons/ic_search.svg';
 import IconMedal from './icons/ic_medal.svg';
 import IconMember from './icons/ic_member.svg';
 import IconHeart from './icons/ic_heart.svg';
+import IconPencil from './icons/ic_pencil.svg';
 
 export {
   IconX,
@@ -78,4 +79,5 @@ export {
   IconMedal,
   IconMember,
   IconHeart,
+  IconPencil,
 };

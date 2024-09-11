@@ -55,7 +55,7 @@ export async function deleteTaskList(
 /**
  * 새로운 할 일 목록 생성
  * @param groupId 할 일 목록을 가지고 있는 그룹 id
- * @param taskListId 조회할 할 일 목록의 id
+ * @param name: 수정할 할 일 목록 이름
  * @returns (type: TaskListInform) 할 일 목록에 대한 정보 반환
  */
 export async function postTaskList(

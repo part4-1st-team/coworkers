@@ -1,3 +1,5 @@
+import { postTaskList } from '@/services/TaskListAPI';
+import { useMutation } from '@tanstack/react-query';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import Button from '../button/button';
 import Input from '../input/input';
@@ -12,9 +14,18 @@ interface FormState {
 function TaskCreateModal() {
   const { handleSubmit, control } = useForm<FormState>();
 
+  const groupId = 3;
+
+  const postTaskMutation = useMutation({
+    mutationFn: (name: string) => postTaskList(groupId, name),
+    onSuccess: () => {},
+    onError: () => {},
+  });
+
   const onSubmit: SubmitHandler<FormState> = (data) => {
-    // NOTE: alert 지우고 할 일 만드는 함수 구현하기
-    alert(JSON.stringify(data));
+    const { list } = data;
+
+    postTaskMutation.mutate(list);
   };
 
   return (
