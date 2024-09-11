@@ -1,7 +1,9 @@
 import useEscapeClose from '@/hooks/useEscapeClose';
 import useModalStore from '@/stores/ModalStore';
+import { motion } from 'framer-motion';
 import { ReactNode, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { useMediaQuery } from 'react-responsive';
 
 function ModalOverlay({ onClose }: { onClose: () => void }) {
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -23,10 +25,27 @@ function ModalOverlay({ onClose }: { onClose: () => void }) {
 }
 
 function ModalContainer({ children }: { children: ReactNode }) {
+  const isMobile = useMediaQuery({ maxWidth: 768 });
+
   return (
-    <div className='modal-container modal-container-position-mobile tablet:modal-container-position'>
+    <motion.div
+      initial={{
+        scale: 0.8,
+        translateX: isMobile ? 0 : '-50%',
+        translateY: isMobile ? '50%' : '50%',
+        opacity: 0,
+      }}
+      animate={{
+        scale: 1,
+        translateX: isMobile ? 0 : '-50%',
+        translateY: isMobile ? 0 : '-50%',
+        opacity: 1,
+      }}
+      transition={{ duration: 0.7, ease: [0.165, 0.84, 0.44, 1] }}
+      className='modal-container modal-container-position-mobile tablet:modal-container-position text-center'
+    >
       {children}
-    </div>
+    </motion.div>
   );
 }
 
