@@ -2,10 +2,12 @@
 import clsx from 'clsx';
 import { IconArrowLeft, IconArrowRight } from '@/assets/IconList';
 import CircleButton from './CircleButton';
+import { SetStateAction } from 'react';
 
 type ArrowButtonProps = {
   direction: 'left' | 'right';
   className?: string;
+  onClick: () => SetStateAction<any>;
 };
 
 /**
@@ -22,7 +24,7 @@ type ArrowButtonProps = {
  *
  * @returns {JSX.Element} 사전 정의된 스타일과 선택적 클래스를 적용한 왼쪽 또는 오른쪽 방향의 화살표 아이콘이 있는 원형 버튼을 반환합니다.
  */
-function ArrowButton({ direction, className }: ArrowButtonProps) {
+function ArrowButton({ direction, className, onClick }: ArrowButtonProps) {
   const isLeft = direction === 'left';
 
   const buttonClass = clsx(
@@ -34,6 +36,7 @@ function ArrowButton({ direction, className }: ArrowButtonProps) {
     <CircleButton
       type='button'
       icon={isLeft ? <IconArrowLeft /> : <IconArrowRight />}
+      onClick={onClick}
       className={buttonClass} // 병합된 클래스를 CircleButton에 전달
     />
   );
