@@ -1,4 +1,5 @@
 import { getTasks } from '@/services/TaskAPI';
+import getMonthDay from '@/utils/getMonthDay';
 import { useQuery } from '@tanstack/react-query';
 
 function useTasks(groupId: number, taskListId: number, date?: string) {
@@ -8,7 +9,7 @@ function useTasks(groupId: number, taskListId: number, date?: string) {
     error,
   } = useQuery<DateTask[]>({
     queryKey: date
-      ? ['getTasks', groupId, taskListId, date]
+      ? ['getTasks', groupId, taskListId, getMonthDay(date)]
       : ['getTasks', groupId, taskListId],
     queryFn: () => getTasks(groupId, taskListId, date),
   });
