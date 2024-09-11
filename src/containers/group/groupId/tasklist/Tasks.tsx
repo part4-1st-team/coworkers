@@ -1,14 +1,12 @@
-import {
-  IconArrowLeft,
-  IconArrowRight,
-  IconCalendar,
-  IconPlus,
-} from '@/assets/IconList';
+import { IconCalendar, IconPlus } from '@/assets/IconList';
+import ArrowButton from '@/components/button/arrowButton';
 import TaskCreateDateModal from '@/components/modal/TaskCreateDateModal';
 import TaskCreateModal from '@/components/modal/TaskCreateModal';
 import useModalStore from '@/stores/ModalStore';
+import clsx from 'clsx';
 import Link from 'next/link';
-import List from './List';
+import { useRouter } from 'next/router';
+import Task from './Task';
 
 const tasks: DateTask[] = [
   {
@@ -83,11 +81,14 @@ const taskLists = [
   },
 ];
 
-function TaskList() {
-  const { isModalOpen, setModalOpen } = useModalStore();
+function Tasks() {
+  const { setModalOpen } = useModalStore();
+
+  const router = useRouter();
+  const { groupId, tasklistId } = router.query;
 
   return (
-    <main className='main-container '>
+    <main className='main-container relative h-[80vh]'>
       <div className='flex flex-col gap-[24px]'>
         <h2 className='text-xl font-bold text-text-primary'>할 일</h2>
         <div className='flex justify-between items-center'>
@@ -95,58 +96,57 @@ function TaskList() {
             <span className='text-lg font-medium text-text-primary'>
               5월 18일 (월)
             </span>
-            <div>
-              <button type='button' aria-label='이전 날짜'>
-                <IconArrowLeft />
-              </button>
-              <button type='button' aria-label='다음 날짜'>
-                <IconArrowRight />
-              </button>
+            <div className='flex gap-4'>
+              <ArrowButton direction='left' />
+              <ArrowButton direction='right' />
             </div>
             <button type='button' aria-label='캘린더'>
-              <IconCalendar />
+              <IconCalendar width={16} height={16} />
             </button>
             {/* TODO 버튼들 수정하기 */}
           </div>
           <button
             type='button'
-            onClick={() => setModalOpen('add-task')}
+            onClick={() => setModalOpen(<TaskCreateModal />)}
             className='text-brand-primary'
           >
             + 새로운 목록 추가하기
           </button>
-          {isModalOpen && <TaskCreateModal />}
         </div>
         <div className='flex flex-col gap-[16px]'>
           <div className='flex items-center gap-[12px]'>
             {taskLists.map((taskList) => (
               <Link
                 key={taskList.id}
-                href={`/group/816/tasklist/${taskList.id}`}
-                className=''
+                href={`/group/${groupId}/tasklist/${taskList.id}`}
+                className={clsx(
+                  'text-text-default text-lg font-medium',
+                  Number(tasklistId) === taskList.id &&
+                    'text-white underline underline-offset-4',
+                )}
               >
-                {/* TODO href 주소 수정, active 시 스타일 수정 */}
+                {/* TODO href 주소 수정 */}
                 {taskList.name}
               </Link>
             ))}
           </div>
           <div className='flex flex-col gap-[16px]'>
             {tasks.map((task: DateTask) => (
-              <List task={task} key={task.id} />
+              <Task task={task} key={task.id} />
             ))}
           </div>
         </div>
       </div>
       <button
         type='button'
-        onClick={() => setModalOpen('add-task-date')}
-        className='absolute right-[24px] bottom-[24px] tablet:bottom-[25px] desktop:right-[328px] desktop:bottom-[49px] bg-brand-primary flex gap-[4px] items-center px-[21px] py-[14px] rounded-[40px]'
+        onClick={() => setModalOpen(<TaskCreateDateModal />)}
+        className='absolute right-24 bottom-24 tablet:bottom-25 desktop:right-0 desktop:bottom-49 bg-brand-primary flex gap-4 items-center px-21 py-14 rounded-40'
       >
-        <IconPlus /> <span className='text-white'>할 일 추가</span>
+        <IconPlus width={16} height={16} />
+        <span className='text-white'>할 일 추가</span>
       </button>
-      {isModalOpen && <TaskCreateDateModal />}
     </main>
   );
 }
 
-export default TaskList;
+export default Tasks;

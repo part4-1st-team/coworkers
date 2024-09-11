@@ -7,6 +7,7 @@ export default function Document() {
       <body>
         <Main />
         <div id='_modal' />
+        <div id='_half' />
         <NextScript />
       </body>
     </Html>

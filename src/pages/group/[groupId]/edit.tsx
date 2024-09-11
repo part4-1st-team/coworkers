@@ -4,21 +4,21 @@ import Button from '@/components/button/button';
 
 function GroupEditPage() {
   return (
-    <div className='w-full h-full bg-background-primary text-text-primary text-lg px-[16px] pt-[56px] font-medium'>
-      <section className='w-full flex flex-col gap-[24px] tablet:w-[460px] mx-auto'>
-        <div className='w-full text-center text-[24px]'>팀 수정하기</div>
+    <div className='w-full h-full bg-background-primary text-text-primary text-lg px-16 pt-56 font-medium'>
+      <section className='w-full flex flex-col gap-24 tablet:w-460 mx-auto'>
+        <div className='w-full text-center text-24'>팀 수정하기</div>
         <section>
-          <div className='mb-[12px]'>팀 프로필</div>
+          <div className='mb-12'>팀 프로필</div>
           {/* TODO 이미지 컴포넌트 적용 */}
           <div>이미지 컴포넌트</div>
         </section>
         <section>
-          <div className='mb-[12px]'>팀 이름</div>
+          <div className='mb-12'>팀 이름</div>
           {/* TODO focus 적용 */}
           <Input placeholder='현재 팀 이름' />
         </section>
         {/* TODO 수정 제출 기능 구현 */}
-        <Button type='submit' color='primary' className='py-[14px] mt-[40px]'>
+        <Button type='submit' color='primary' className='py-14 mt-40'>
           수정하기
         </Button>
         <section className='w-full text-center font-normal'>
