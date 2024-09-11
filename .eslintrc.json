@@ -19,6 +19,7 @@
     "plugin:storybook/recommended"
   ],
   "rules": {
+    "react/prop-types": "off",
     "prettier/prettier": [
       "error",
       {
