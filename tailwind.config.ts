@@ -87,6 +87,7 @@ const config: Config = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
         'brand-gradient': 'linear-gradient(to right, #10B981, #A3E635)',
+        modifyProfile: "url('/public/svgs/ic_modifyProfile.svg')",
       },
       boxShadow: {
         'shadow-xl': 'var(--shadow-xl)',
