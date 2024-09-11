@@ -67,6 +67,9 @@ const config: Config = {
       modal: {
         danger: 'var(--modal-danger)',
       },
+      dropdown: {
+        button: '#18212F',
+      },
     },
 
     fontSize: {
@@ -95,6 +98,7 @@ const config: Config = {
         modal: '350',
         'modal-overlay': '300',
         dropdown: '20',
+        'time-picker': '30',
       },
       margin: {
         '3px': '3px',

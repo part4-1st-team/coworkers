@@ -42,7 +42,7 @@ function ModalContainer({ children }: { children: ReactNode }) {
         opacity: 1,
       }}
       transition={{ duration: 0.7, ease: [0.165, 0.84, 0.44, 1] }}
-      className='modal-container modal-container-position-mobile tablet:modal-container-position text-center'
+      className='modal-container modal-container-position-mobile tablet:modal-container-position'
     >
       {children}
     </motion.div>
