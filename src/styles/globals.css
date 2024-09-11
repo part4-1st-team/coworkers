@@ -26,6 +26,12 @@
   }
 }
 
+@layer utilities {
+  .underline-offset-4 {
+    text-underline-offset: 4px;
+  }
+}
+
 :root {
   font-family: pretendard;
   -webkit-font-smoothing: antialiased;
@@ -141,6 +147,21 @@ video {
   max-width: none !important;
   height: auto;
 } */
+
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+::-webkit-scrollbar-track {
+  width: 3px;
+  height: 47px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--background-tertiary);
+  padding-right: 5px;
+  height: 31px;
+}
 
 ::-webkit-scrollbar {
   width: 3px;
