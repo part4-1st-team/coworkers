@@ -7,11 +7,13 @@ function useTasks(groupId: number, taskListId: number, date?: string) {
     isLoading,
     error,
   } = useQuery<DateTask[]>({
-    queryKey: ['getTasks', groupId, taskListId, date],
+    queryKey: date
+      ? ['getTasks', groupId, taskListId, date]
+      : ['getTasks', groupId, taskListId],
     queryFn: () => getTasks(groupId, taskListId, date),
   });
 
-  return { tasks, isLoading, error };
+  return { tasks: tasks ?? [], isLoading, error };
 }
 
 export default useTasks;
