@@ -32,7 +32,7 @@ function HalfPageContent({ task }: { task: DateTask }) {
     // doneBy,
   } = task;
 
-  const { nickname, image } = writer;
+  const { nickname } = writer;
 
   return (
     <motion.div

@@ -12,7 +12,7 @@ import { ReactNode } from 'react';
 function DropdownMenu({
   children,
   isOpen,
-  className,
+  className = '',
   position = 'top-30 l-0',
 }: {
   children: ReactNode;

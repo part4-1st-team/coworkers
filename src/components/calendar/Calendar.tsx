@@ -32,7 +32,7 @@ function Calendar({ date, setDate }: { date: Date; setDate: any }) {
   return (
     <DatePicker
       selected={date}
-      onChange={(date: Date | null) => setDate(date)}
+      onChange={(nextDate: Date | null) => setDate(nextDate)}
       customInput={<ExampleCustomInput />}
       dateFormat='yyyy년 MM월 dd일'
     />

@@ -1,8 +1,8 @@
 /* eslint-disable react/require-default-props */
+import { SetStateAction } from 'react';
 import clsx from 'clsx';
 import { IconArrowLeft, IconArrowRight } from '@/assets/IconList';
 import CircleButton from './CircleButton';
-import { SetStateAction } from 'react';
 
 type ArrowButtonProps = {
   direction: 'left' | 'right';
