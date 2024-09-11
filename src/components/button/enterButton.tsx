@@ -5,9 +5,10 @@ import CircleButton from './CircleButton';
 
 type EnterButtonProps = {
   className?: string;
+  disabled?: boolean;
 };
 
-function EnterButton({ className }: EnterButtonProps) {
+function EnterButton({ className, disabled }: EnterButtonProps) {
   const buttonClass = clsx(
     'w-24 h-24 border-none bg-icon-primary hover:bg-interaction-hover active:bg-icon-brand',
     className,
@@ -15,9 +16,10 @@ function EnterButton({ className }: EnterButtonProps) {
 
   return (
     <CircleButton
-      type='button'
+      type='submit'
       icon={<IconArrowTOP />}
-      className={buttonClass} // 병합된 클래스를 CircleButton에 전달
+      className={buttonClass}
+      disabled={disabled}
     />
   );
 }

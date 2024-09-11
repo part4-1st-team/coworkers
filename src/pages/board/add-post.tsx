@@ -1,4 +1,4 @@
-import Button from '@/components/button/button';
+import BaseButton from '@/components/button/baseButton';
 import Input from '@/components/input/input';
 import BoxInput from '@/components/input/boxInput';
 import { IconPlus } from '@/assets/IconList';
@@ -11,14 +11,9 @@ function AddPostPage() {
           게시글 쓰기
         </p>
         <div className='hidden tablet:block'>
-          <Button
-            type='button'
-            color='primary'
-            size='lg'
-            className=' w-184 h-48'
-          >
+          <BaseButton type='button' color='primary' className=' w-183 h-48'>
             등록
-          </Button>
+          </BaseButton>
         </div>
       </div>
 
@@ -48,14 +43,9 @@ function AddPostPage() {
           <p className='text-text-default text-lg'>이미지 등록</p>
         </div>
         <div className='block tablet:hidden mt-32 '>
-          <Button
-            type='button'
-            color='primary'
-            size='lg'
-            className='w-full h-48'
-          >
+          <BaseButton type='button' color='primary' className='w-full h-48'>
             등록
-          </Button>
+          </BaseButton>
         </div>
       </div>
     </div>

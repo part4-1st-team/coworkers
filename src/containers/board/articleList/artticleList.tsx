@@ -2,7 +2,7 @@ import ArticleCard from './articleListCard/articleListCard';
 
 function ArticleList() {
   return (
-    <div className='max-w-desktop mx-auto my-auto flex flex-col gap-32'>
+    <div className='max-w-desktop h-auto overflow-hidden mx-auto my-auto flex flex-col gap-32'>
       <div className='flex items-center justify-between'>
         <p className='text-lg font-medium tablet:text-xl  tablet:font-bold text-text-primary'>
           게시글
