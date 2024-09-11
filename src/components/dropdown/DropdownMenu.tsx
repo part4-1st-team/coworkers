@@ -12,11 +12,13 @@ import { ReactNode } from 'react';
 function DropdownMenu({
   children,
   isOpen,
+  className,
   position = 'top-30 l-0',
 }: {
   children: ReactNode;
   isOpen: boolean;
   position?: string;
+  className?: string;
 }) {
   if (!isOpen) return null;
 
@@ -27,8 +29,9 @@ function DropdownMenu({
       transition={{ duration: 0.3 }} // 애니메이션 지속 시간
       exit={{ opacity: 0, y: -20 }}
       className={clsx(
-        'absolute z-dropdown bg-background-secondary border border-border-primary border-opacity-10 rounded-12 w-fit p-8 space-y-6',
+        'absolute z-dropdown bg-background-secondary border border-border-primary border-opacity-10 rounded-12 p-8 space-y-6',
         position,
+        className,
       )}
     >
       {children}
