@@ -1,28 +1,68 @@
-import { IconToggleDown } from '@/assets/IconList';
+import RepeatDropdown from '@/containers/group/groupId/dropdown/RepeatDropdown';
+import { postTask } from '@/services/TaskAPI';
+import useModalStore from '@/stores/ModalStore';
+import combineDateTime from '@/utils/combineDateTime';
+import getMonthDay from '@/utils/getMonthDay';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import Button from '../button/button';
+import Calendar from '../calendar/Calendar';
 import BoxInput from '../input/boxInput';
 import Input from '../input/input';
+import TimePicker from '../timeSelect/TimePicker';
 import Modal from './Modal';
 
 interface FormState {
   title: string;
-  startDate: string;
-  frequencyType: FrequencyType;
   memo: string;
 }
 
-function TaskCreateDateModal() {
+function TaskCreateDateModal({
+  groupId,
+  taskListId,
+}: {
+  groupId: number;
+  taskListId: number;
+}) {
   const { control, handleSubmit } = useForm<FormState>();
 
-  const [isCalendarShow, setIsCalendarShow] = useState<boolean>(false);
-  const [isTimeShow, setIsTimeShow] = useState<boolean>(false);
+  // 현재 선택한 시간 (오후/오전 시간)
+  const [time, setTime] = useState<string>('12:00');
+
+  // 선택한 날짜
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+
+  // 반복 설정 (default: 한 번)
+  const [frequency, setFrequency] = useState<FrequencyType>('ONCE');
+
+  const queryClient = useQueryClient();
+
+  const { setModalClose } = useModalStore();
+
+  const TaskCreateMutation = useMutation({
+    mutationFn: (data: PostTask) => postTask(groupId, taskListId, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['getTasks', groupId, taskListId, getMonthDay(selectedDate)],
+      });
+      setModalClose();
+    },
+    onError: () => {},
+  });
 
   const handleTaskCreate: SubmitHandler<FormState> = (data) => {
-    // NOTE: 할 일 만들기 로직
-    alert(JSON.stringify(data));
+    const { title, memo } = data;
+
+    const task: PostTask = {
+      name: title,
+      description: memo,
+      startDate: combineDateTime(selectedDate, time),
+      frequencyType: frequency,
+    };
+
+    TaskCreateMutation.mutate(task);
   };
 
   return (
@@ -56,49 +96,23 @@ function TaskCreateDateModal() {
           <span className='text-lg font-medium text-text-primary mb-16'>
             시작 날짜 및 시간
           </span>
-          <div className='flex gap-8'>
-            <input
-              onClick={() => {
-                setIsTimeShow(false);
-                setIsCalendarShow((prev) => !prev);
-              }}
-              placeholder='2024년 7월 29일'
-              className='w-204 h-48 bg-background-secondary border-solid border-white border rounded-12 p-12'
-            />
-            <input
-              onClick={() => {
-                setIsCalendarShow(false);
-                setIsTimeShow((prev) => !prev);
-              }}
-              placeholder='오후 3:30'
-              className='w-124 h-48 bg-background-secondary border-solid border-white border rounded-12 p-12'
-            />
+          <div className='flex'>
+            <Calendar date={selectedDate} setDate={setSelectedDate} />
+            <TimePicker setTime={setTime} />
           </div>
-          <div
-            className={clsx(
-              'mt-8 border border-solid border-brand-primary w-full h-258 rounded-12',
-              !isCalendarShow && 'hidden',
-            )}
-          />
-          <div
-            className={clsx(
-              'mt-8 border border-solid border-brand-primary w-full h-126 rounded-12',
-              !isTimeShow && 'hidden',
-            )}
-          />
         </div>
         <div className='flex flex-col gap-16'>
           <span className='text-lg font-medium text-text-primary'>
             반복 설정
           </span>
-          <button
-            type='button'
-            className='flex gap-8 items-center w-109 h-[44px] text-md font-medium text-text-secondary bg-background-primary px-[12.5px] py-[10px] rounded-[12px]'
-          >
-            반복 안함 <IconToggleDown />
-          </button>
+          <RepeatDropdown frequency={frequency} handleClick={setFrequency} />
         </div>
-        <div className='flex flex-col  gap-16 mb-8'>
+        <div
+          className={clsx(
+            'flex flex-col gap-16 mb-8',
+            frequency === 'WEEKLY' ? 'block' : 'hidden',
+          )}
+        >
           <span className='text-lg font-medium text-text-primary'>
             반복 요일
           </span>
@@ -108,7 +122,14 @@ function TaskCreateDateModal() {
           <span className='text-lg font-medium text-text-primary'>
             할 일 메모
           </span>
-          <BoxInput placeholder='메모를 입력해주세요' />
+
+          <Controller
+            name='memo'
+            control={control}
+            render={({ field }) => (
+              <BoxInput placeholder='메모를 입력해주세요' {...field} />
+            )}
+          />
         </div>
         <Button type='submit' color='primary' className=''>
           만들기
