@@ -1,4 +1,4 @@
-import ModifyProfile from '@/components/profile/ModifyProfile.tsx';
+import ModifyProfile from '@/components/profile/ModifyProfile';
 
 const meta = {
   title: 'Test/ModifyProfile',
