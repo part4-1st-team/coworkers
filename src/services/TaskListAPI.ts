@@ -1,13 +1,32 @@
 import axios from '@/libs/axios';
 
 /**
+ * 할 일 목록 리스트 조회
+ * @param groupId 할 일 목록을 가지고 있는 그룹 id
+ * @param date 특정 날짜 (선택)
+ * @returns (type: ResponseTaskLists) 할 일 목록 리스트 데이터 반환
+ */
+export async function getTaskLists(
+  groupId: number,
+  date?: string,
+): Promise<ResponseTaskLists> {
+  const res = await axios.get(`/groups/${groupId}`, {
+    params: {
+      date,
+    },
+  });
+
+  return res.data;
+}
+
+/**
  * 할 일 목록 조회
  * @param groupId 할 일 목록을 가지고 있는 그룹 id
  * @param taskListId 조회할 할 일 목록의 id
  * @param date 특정 날짜 (선택)
  * @returns (type: TaskList) 할 일 목록 데이터 반환
  */
-export async function getTaskLists(
+export async function getTaskList(
   groupId: number,
   taskListId: number,
   date?: string,
