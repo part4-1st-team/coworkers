@@ -2,90 +2,34 @@ import { IconCalendar, IconPlus } from '@/assets/IconList';
 import ArrowButton from '@/components/button/arrowButton';
 import TaskCreateDateModal from '@/components/modal/TaskCreateDateModal';
 import TaskCreateModal from '@/components/modal/TaskCreateModal';
+import useTaskLists from '@/hooks/useTaskLists';
+import useTasks from '@/hooks/useTasks';
 import useModalStore from '@/stores/ModalStore';
+import getMonthDay from '@/utils/getMonthDay';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 import Task from './Task';
-
-const tasks: DateTask[] = [
-  {
-    id: 7949,
-    name: '응원하기',
-    description: '',
-    date: '2024-09-05T09:00:00+09:00',
-    doneAt: null,
-    updatedAt: '2024-09-05T10:54:25+09:00',
-    recurringId: 1082,
-    deletedAt: null,
-    displayIndex: 0,
-    writer: {
-      id: 22,
-      nickname: '지현이',
-      image:
-        'https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/Coworkers/user/22/mulddungkitty.jpeg',
-    },
-    doneBy: null,
-    commentCount: 0,
-    frequency: 'DAILY',
-  },
-  {
-    id: 7950,
-    name: '져도 화내지 않기',
-    description: '',
-    date: '2024-09-05T09:00:00+09:00',
-    doneAt: null,
-    updatedAt: '2024-09-05T10:54:25+09:00',
-    recurringId: 1083,
-    deletedAt: null,
-    displayIndex: 1,
-    writer: {
-      id: 22,
-      nickname: '지현이',
-      image:
-        'https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/Coworkers/user/22/mulddungkitty.jpeg',
-    },
-    doneBy: null,
-    commentCount: 0,
-    frequency: 'DAILY',
-  },
-];
-
-const taskLists = [
-  {
-    id: 1300,
-    name: '할일',
-    createdAt: '2024-09-04T15:27:01+09:00',
-    updatedAt: '2024-09-05T10:38:01+09:00',
-    groupId: 816,
-    displayIndex: 0,
-    tasks: [],
-  },
-  {
-    id: 1301,
-    name: '추가',
-    createdAt: '2024-09-04T15:27:05+09:00',
-    updatedAt: '2024-09-05T10:38:01+09:00',
-    groupId: 816,
-    displayIndex: 0,
-    tasks: [],
-  },
-  {
-    id: 1303,
-    name: 'ㅇㄴㄹ',
-    createdAt: '2024-09-05T11:06:43+09:00',
-    updatedAt: '2024-09-05T11:06:43+09:00',
-    groupId: 816,
-    displayIndex: 2,
-    tasks: [],
-  },
-];
 
 function Tasks() {
   const { setModalOpen } = useModalStore();
 
+  // 기본으로는 현재 날짜, 화살표 버튼을 통해 날짜 변경함
+  const [date, setDate] = useState<Date>(new Date());
+
   const router = useRouter();
   const { groupId, tasklistId } = router.query;
+
+  const { tasks, isLoading, error } = useTasks(
+    Number(groupId),
+    Number(tasklistId),
+  );
+
+  const { taskLists, isLoading: isListLoading } = useTaskLists(Number(groupId));
+
+  if (isLoading) return <>로딩중 ... </>;
+  if (isListLoading) return <>리스트 로딩</>;
 
   return (
     <main className='main-container relative h-[80vh]'>
@@ -94,7 +38,7 @@ function Tasks() {
         <div className='flex justify-between items-center'>
           <div className='flex gap-[12px] items-center'>
             <span className='text-lg font-medium text-text-primary'>
-              5월 18일 (월)
+              {getMonthDay(date)}
             </span>
             <div className='flex gap-4'>
               <ArrowButton direction='left' />
@@ -107,7 +51,9 @@ function Tasks() {
           </div>
           <button
             type='button'
-            onClick={() => setModalOpen(<TaskCreateModal />)}
+            onClick={() =>
+              setModalOpen(<TaskCreateModal groupId={Number(groupId)} />)
+            }
             className='text-brand-primary'
           >
             + 새로운 목록 추가하기
