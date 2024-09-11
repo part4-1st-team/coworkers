@@ -3,6 +3,7 @@ import {
   IconProgressDone,
   IconProgressOngoing,
 } from '@/assets/IconList';
+import GroupDropDown from './GroupDropDown';
 
 interface Props extends React.HTMLAttributes<HTMLButtonElement> {
   color: string;
@@ -34,7 +35,7 @@ function GroupTaskList({
               {`${doneCount}/${totalCount}`}
             </div>
           </section>
-          <IconKebabLarge />
+          <GroupDropDown icon='kebab' />
         </div>
       </div>
     </div>
