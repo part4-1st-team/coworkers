@@ -1,31 +1,36 @@
-/* eslint-disable react/require-default-props */
-/* eslint-disable no-nested-ternary */
 import { useState } from 'react';
-import { Controller, UseFormReturn } from 'react-hook-form';
+import { Controller, Control, FieldValues, Path } from 'react-hook-form';
 import { IconVisibilityOff, IconVisibilityOn } from '@/assets/IconList';
 import Input from './input';
 
-interface AuthInputProps {
-  control: UseFormReturn['control'];
-  name: string;
+interface AuthInputProps<T extends FieldValues> {
+  control: Control<T>;
+  name: Path<T>;
   type: 'password' | 'email' | 'text';
   errorMessage?: string;
   className?: string;
-  placeholder?: string; // 플레이스홀더 프롭 추가
+  placeholder?: string;
 }
 
-function AuthInput({
+function AuthInput<T extends FieldValues>({
   control,
   name,
   type,
   errorMessage,
   className = '',
-  placeholder = '', // 플레이스홀더 기본값 설정
-}: AuthInputProps) {
+  placeholder = '',
+}: AuthInputProps<T>) {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible((prev) => !prev);
+  };
+
+  const inputType = () => {
+    if (type === 'password') {
+      return isPasswordVisible ? 'text' : 'password';
+    }
+    return type;
   };
 
   return (
@@ -35,17 +40,13 @@ function AuthInput({
         control={control}
         render={({ field }) => (
           <>
-            <div className='relative '>
+            <div className='relative'>
               <Input
-                type={
-                  type === 'password'
-                    ? isPasswordVisible
-                      ? 'text'
-                      : 'password'
-                    : type
-                }
-                className={`w-full py-[10.5px] px-[16px]  ${errorMessage ? 'border-status-danger border' : ''} ${className}`}
-                placeholder={placeholder} // 플레이스홀더 전달
+                type={inputType()}
+                className={`w-full py-[10.5px] px-[16px]  ${
+                  errorMessage ? 'border-status-danger border' : ''
+                } ${className}`}
+                placeholder={placeholder}
                 {...field}
                 style={{ color: '#64748B' }}
               />
@@ -68,7 +69,7 @@ function AuthInput({
               {errorMessage && (
                 <p className='text-md font-semibold text-status-danger mt-8'>
                   {errorMessage}
-                </p> // 에러 메시지 표시
+                </p>
               )}
             </div>
           </>
