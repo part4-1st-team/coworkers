@@ -1,6 +1,5 @@
 import axios from 'axios';
 import type { InternalAxiosRequestConfig } from 'axios';
-import jwt_decode from 'jwt-decode';
 import { refreshAccessToken, isTokenExpired } from './tokenUtils'; // 토큰 유틸 함수들
 
 const instance = axios.create({
