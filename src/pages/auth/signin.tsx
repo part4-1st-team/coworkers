@@ -30,7 +30,10 @@ function SignInPage() {
     try {
       // 로그인 API 요청
       const response = await login({ email, password });
+      // 액세스 토큰 설정
       localStorage.setItem('accessToken', response.accessToken);
+      // 리프레시 토큰 설정
+      localStorage.setItem('refreshToken', response.refreshToken);
       // 로그인 성공 시 팀 페이지로 리다이렉트 (팀 페이지 없어서 임시 페이지 설정)
       router.push('/board/index.tsx');
     } catch (err: unknown) {
