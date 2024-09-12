@@ -14,7 +14,7 @@ function Comment({ comment }: { comment: Comment }) {
     user,
     createdAt,
     updatedAt,
-    content,
+    content: commentContent,
     taskId,
     userId,
   } = comment;
@@ -57,7 +57,7 @@ function Comment({ comment }: { comment: Comment }) {
   const { handleSubmit, register } = useForm<CommentState>({
     mode: 'onSubmit',
     defaultValues: {
-      content: content,
+      content: commentContent,
     },
   });
 
@@ -95,7 +95,9 @@ function Comment({ comment }: { comment: Comment }) {
   return (
     <div className='w-full flex flex-col gap-16 border-b border-background-tertiary pb-16 border-opacity-10'>
       <div className='flex justify-between items-center'>
-        <span className='text-md font-normal text-text-primary'>{content}</span>
+        <span className='text-md font-normal text-text-primary'>
+          {commentContent}
+        </span>
         <KebabDropdown
           handleEdit={handleEditing}
           handleDelete={deleteTaskCommentMutation.mutate}
