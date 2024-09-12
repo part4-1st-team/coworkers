@@ -1,5 +1,5 @@
+import axios from '@/libs/axios';
 import jwt_decode from 'jwt-decode';
-import axios from 'axios';
 
 // Token 구조를 정의하여 사용할 수 있습니다.
 interface DecodedToken {
@@ -12,7 +12,7 @@ export async function refreshAccessToken(): Promise<string> {
   if (!refreshToken) throw new Error('리프레시 토큰이 없습니다.');
 
   try {
-    const response = await axios.post('/auth/refresh', { refreshToken });
+    const response = await axios.post('/auth/refresh-token', { refreshToken });
     const { accessToken, newRefreshToken } = response.data;
 
     localStorage.setItem('accessToken', accessToken);
@@ -30,7 +30,12 @@ export async function refreshAccessToken(): Promise<string> {
 export function isTokenExpired(token: string): boolean {
   if (!token) return true;
 
-  const decodedToken = jwt_decode<{ exp: number }>(token);
-  const currentTime = Date.now() / 1000;
-  return decodedToken.exp < currentTime;
+  try {
+    const decodedToken = jwt_decode<DecodedToken>(token);
+    const currentTime = Date.now() / 1000; // 현재 시간을 초 단위로 변환
+    return decodedToken.exp < currentTime;
+  } catch (error) {
+    console.error('토큰 디코딩 실패:', error);
+    return true;
+  }
 }
