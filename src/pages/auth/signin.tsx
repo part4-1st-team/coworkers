@@ -34,8 +34,8 @@ function SignInPage() {
       localStorage.setItem('accessToken', response.accessToken);
       // 리프레시 토큰 설정
       localStorage.setItem('refreshToken', response.refreshToken);
-      // 로그인 성공 시 팀 페이지로 리다이렉트 (팀 페이지 없어서 임시 페이지 설정)
-      router.push('/board/index.tsx');
+      // 로그인 성공 시 그룹 가입 페이지로 이동
+      router.push('/group/join-group.index.tsx');
     } catch (err: unknown) {
       // 에러 처리
       if (err instanceof Error) {
