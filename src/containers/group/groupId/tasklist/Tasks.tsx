@@ -1,5 +1,6 @@
 import { IconCalendar, IconPlus } from '@/assets/IconList';
 import ArrowButton from '@/components/button/arrowButton';
+import Checkbox from '@/components/checkbox/Checkbox';
 import TaskCreateDateModal from '@/components/modal/TaskCreateDateModal';
 import TaskCreateModal from '@/components/modal/TaskCreateModal';
 import useTaskLists from '@/hooks/useTaskLists';
@@ -10,6 +11,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import TaskAddButton from '../TaskAddButton';
 import Task from './Task';
 
 function Tasks() {
@@ -68,15 +70,7 @@ function Tasks() {
             </button>
             {/* TODO 버튼들 수정하기 */}
           </div>
-          <button
-            type='button'
-            onClick={() =>
-              setModalOpen(<TaskCreateModal groupId={Number(groupId)} />)
-            }
-            className='text-brand-primary'
-          >
-            + 새로운 목록 추가하기
-          </button>
+          <TaskAddButton />
         </div>
         <div className='flex flex-col gap-[16px]'>
           <div className='flex items-center gap-[12px]'>
