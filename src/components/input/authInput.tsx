@@ -8,7 +8,7 @@ import Input from './input';
 interface AuthInputProps {
   control: UseFormReturn['control'];
   name: string;
-  type: 'password' | 'email';
+  type: 'password' | 'email' | 'text';
   errorMessage?: string;
   className?: string;
   placeholder?: string; // 플레이스홀더 프롭 추가
