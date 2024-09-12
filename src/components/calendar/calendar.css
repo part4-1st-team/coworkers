@@ -53,7 +53,7 @@
 }
 
 .react-datepicker__month-container:hover {
-  border: 1px solid #059669 !important;
+  border: 1px solid var(--interaction-hover) !important;
 }
 
 .react-datepicker__month {
@@ -78,7 +78,7 @@
 
 /* 캘린더 - 달력 style - 일(hover, selected) */
 .react-datepicker__day:hover {
-  background-color: #059669 !important;
+  background-color: var(--interaction-hover) !important;
 }
 
 .react-datepicker__day--selected,
