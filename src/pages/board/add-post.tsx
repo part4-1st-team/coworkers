@@ -2,14 +2,14 @@ import { useState } from 'react';
 import BaseButton from '@/components/button/baseButton';
 import Input from '@/components/input/input';
 import BoxInput from '@/components/input/boxInput';
-import { IconPlus } from '@/assets/IconList';
 import { postArticle } from '@/services/ArticleAPI';
 import postImageUpload from '@/services/ImageAPI'; // postImageUpload 함수 가져오기
+import ImageAddButton from '@/components/button/ImageAddButton';
 
 function AddPostPage() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [image, setImage] = useState<File | null>(null);
+  const [imageUrl, setImageUrl] = useState<string>('');
 
   // 제목 입력 핸들러
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,11 +21,18 @@ function AddPostPage() {
     setContent(e.target.value);
   };
 
-  // 이미지 파일 선택 핸들러
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files ? e.target.files[0] : null;
+  // 이미지 변경 핸들러
+  const handleImageChange = async (file: File | null) => {
     if (file) {
-      setImage(file);
+      try {
+        const result = await postImageUpload(file); // file을 직접 넘김
+        setImageUrl(result.url);
+      } catch (error) {
+        console.error('이미지 업로드 중 오류가 발생했습니다:', error);
+        alert('이미지 업로드 중 오류가 발생했습니다.');
+      }
+    } else {
+      setImageUrl('');
     }
   };
 
@@ -36,27 +43,16 @@ function AddPostPage() {
     }
 
     try {
-      let imageUrl = '';
-      if (image) {
-        // formData 객체를 생성하여 이미지 파일 추가
-        const formData = new FormData();
-        formData.append('image', image);
-
-        // postImageUpload 함수로 이미지 업로드 처리
-        const result = await postImageUpload(formData); // formData를 전달
-        imageUrl = result.url;
-      }
-
       await postArticle({
         title,
         content,
-        image: imageUrl,
+        image: imageUrl || '', // 이미지 URL이 없으면 빈 문자열로 전송
       });
 
       // 성공 후 상태 초기화
       setTitle('');
       setContent('');
-      setImage(null);
+      setImageUrl('');
     } catch (error) {
       console.error('게시글 등록 중 오류가 발생했습니다:', error);
       alert('게시글 등록 중 오류가 발생했습니다.');
@@ -112,18 +108,7 @@ function AddPostPage() {
         <p className='mb-16 text-md mt-32 tablet:mt-40 tablet:text-lg font-medium text-text-primary'>
           이미지
         </p>
-        <div className='w-160 h-160 tablet:w-240 tablet:h-240 flex flex-col items-center gap-14 justify-center bg-background-secondary rounded-12 border border-border-primary hover:border-interaction-hover focus:border-interaction-focus'>
-          <input
-            type='file'
-            accept='image/*'
-            id='imageUpload'
-            className='hidden'
-            onChange={handleImageChange}
-          />
-
-          <IconPlus width={48} height={48} />
-          <p className='text-text-default text-lg'>이미지 등록</p>
-        </div>
+        <ImageAddButton onImageChange={handleImageChange} />
         <div className='block tablet:hidden mt-32'>
           <BaseButton
             type='button'

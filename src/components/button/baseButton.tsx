@@ -68,11 +68,4 @@ function BaseButton({
   );
 }
 
-BaseButton.defaultProps = {
-  color: 'primary',
-  disabled: false,
-  type: 'button',
-  className: '',
-};
-
 export default BaseButton;

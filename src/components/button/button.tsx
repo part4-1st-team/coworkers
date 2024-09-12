@@ -100,13 +100,4 @@ function Button({
   );
 }
 
-Button.defaultProps = {
-  color: '',
-  icon: false,
-  size: 'md',
-  rounded: null,
-  disabled: false,
-  className: '',
-};
-
 export default Button;
