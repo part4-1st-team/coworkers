@@ -1,5 +1,5 @@
 import Button from '@/components/button/button';
-import MemberInfo from '../memberInfo/MemberInfo';
+import MemberInfo from '../member/MemberInfo';
 import Modal from './Modal';
 
 function ProfileModal({ member }: { member: IMember }) {
