@@ -1,3 +1,4 @@
+import useDetectClose from '@/hooks/useDetectClose';
 import React, { useState } from 'react';
 
 interface TimeItem {
@@ -5,7 +6,7 @@ interface TimeItem {
   time: string;
 }
 
-function TimePicker() {
+function TimePicker({ setTime }: { setTime: any }) {
   // 오전/오후 선택 상태
   const [isAm, setIsAm] = useState<boolean>(true);
   // 시간 선택 상태
@@ -14,6 +15,8 @@ function TimePicker() {
   const [isDropdown, setIsDropdown] = useState<boolean>(false);
   // 드롭다운 활성화 시 포커스 상태
   const [isFocus, setIsFocus] = useState<boolean>(false);
+
+  const ref = useDetectClose(() => setIsDropdown(false));
 
   // 오전 시간 리스트 (12:00 AM ~ 11:30 AM) with IDs
   const amTimes: TimeItem[] = Array.from({ length: 12 * 2 }, (_, i) => {
@@ -41,6 +44,7 @@ function TimePicker() {
   function handleTimeChange(time: string) {
     setSelectedTime(time);
     setIsDropdown(false); // 시간 선택 후 드롭다운 닫기
+    setTime(time);
   }
 
   // 드롭다운 포커싱 핸들러
@@ -55,12 +59,12 @@ function TimePicker() {
   }
 
   return (
-    <>
+    <div className='relative z-time-picker' ref={ref}>
       {/* 선택한 시간 표시 */}
       <button
         type='button'
         onClick={handleDropdown}
-        className={`w-124px h-48px rounded-12px px-16px py-14.5px ml-0.5 mb-0.5 bg-background-secondary text-text-default border 
+        className={`w-124 h-48 rounded-12 px-16 py-14 ml-0.5 mb-0.5 bg-background-secondary text-text-default border 
           ${isFocus ? 'border-border-primary' : 'border-interaction-focus'}`} // 동적 border-color
       >
         <p className='text-lg leading-none'>
@@ -69,7 +73,7 @@ function TimePicker() {
       </button>
 
       {isDropdown && (
-        <div className='flex items-start w-336px h-176px rounded-12px bg-background-secondary p-12px border border-interaction-focus'>
+        <div className='absolute top-56 right-0 flex items-start w-336px h-176px rounded-12px bg-background-secondary p-12px border border-interaction-focus'>
           <div>
             {/* 오전/오후 선택 버튼 */}
             <div className='flex flex-col justify-center mb-4 bg-background-secondary gap-0.5'>
@@ -113,7 +117,7 @@ function TimePicker() {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }
 

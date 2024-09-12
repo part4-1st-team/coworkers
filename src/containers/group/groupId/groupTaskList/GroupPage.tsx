@@ -4,99 +4,97 @@ import TodoImg from '@/assets/images/img_todo.png';
 import DoneImg from '@/assets/images/img_done.png';
 
 // 컴포넌트 import
-import MemberInfo from '@/components/memberInfo/MemberInfo';
+import MemberInfo from '@/components/member/MemberInfo';
 import EmptyGroup from './EmptyGroup';
 import GroupBar from './GroupBar';
-import GroupTaskList from './GroupTaskList';
+import GroupTask from './GroupTask';
 
 // mock data
-const userGroups: ResponseGroup[] = [];
+const MockGroupTask: MockGroup = {
+  name: '나의 그룹',
+  id: 771,
+  tasklists: [
+    {
+      id: 7701,
+      name: '심화 프로젝트',
+      tasks: [
+        { id: 77011, name: '마이 페이지', done: false },
+        { id: 77012, name: '그룹 페이지', done: false },
+        { id: 77013, name: '로그인 페이지', done: true },
+      ],
+    },
+    {
+      id: 7702,
+      name: '고양이 돌보기',
+      tasks: [
+        { id: 77021, name: '감자 캐기', done: true },
+        { id: 77022, name: '맘마 챙기기', done: true },
+        { id: 77023, name: '놀아주기', done: true },
+        { id: 77024, name: '털 빗기', done: true },
+        { id: 77025, name: '물리기', done: true },
+      ],
+    },
+    {
+      id: 7703,
+      name: '오늘 하루 힘내기',
+      tasks: [
+        { id: 77031, name: '힘내기1', done: true },
+        { id: 77032, name: '힘내기2', done: true },
+        { id: 77033, name: '개수 채우는 데이터', done: true },
+        { id: 77034, name: '흐아앙', done: false },
+      ],
+    },
+  ],
+  members: [
+    {
+      id: 11,
+      role: 'ADMIN',
+      userImage: 'string',
+      userEmail: 'admin1@email.com',
+      userName: '그룹주인',
+    },
+    {
+      id: 12,
+      role: 'MEMBER',
+      userImage: 'string',
+      userEmail: 'member1@email.com',
+      userName: '멤버1',
+    },
+    {
+      id: 13,
+      role: 'MEMBER',
+      userImage: 'string',
+      userEmail: 'member2@email.com',
+      userName: '멤버2',
+    },
+    {
+      id: 14,
+      role: 'MEMBER',
+      userImage: 'string',
+      userEmail: 'member3@email.com',
+      userName: '멤버3',
+    },
+    {
+      id: 15,
+      role: 'MEMBER',
+      userImage: 'string',
+      userEmail: 'member4@email.com',
+      userName: '멤버4',
+    },
+  ],
+};
 
-const taskLists: TaskList[] = [
-  {
-    displayIndex: 1,
-    groupId: 41,
-    updatedAt: '2024-09-09T11:44:58.835Z',
-    createdAt: '2024-09-09T11:44:58.835Z',
-    name: '심화 프로젝트',
-    id: 78954,
-    tasks: [],
-  },
-  {
-    displayIndex: 1,
-    groupId: 41,
-    updatedAt: '2024-09-09T11:44:58.835Z',
-    createdAt: '2024-09-09T11:44:58.835Z',
-    name: '고양이 돌보기',
-    id: 78955,
-    tasks: [],
-  },
-  {
-    displayIndex: 1,
-    groupId: 41,
-    updatedAt: '2024-09-09T11:44:58.835Z',
-    createdAt: '2024-09-09T11:44:58.835Z',
-    name: '지구 정복',
-    id: 78956,
-    tasks: [],
-  },
-  {
-    displayIndex: 1,
-    groupId: 41,
-    updatedAt: '2024-09-09T11:44:58.835Z',
-    createdAt: '2024-09-09T11:44:58.835Z',
-    name: '오늘 하루 힘내기',
-    id: 78957,
-    tasks: [],
-  },
-];
+const MockGroupList: MockGroup[] = [MockGroupTask];
 
 function GroupPage() {
-  return userGroups.length !== 0 ? (
+  return MockGroupList.length === 0 ? (
     <EmptyGroup />
   ) : (
     <div className='w-full h-full bg-background-primary text-text-primary text-lg px-24'>
       <section className='w-full desktop:w-1200 desktop:mx-auto pt-24'>
         {/* TODO 컴포넌트로 변경, 데이터 연동, 설정 클릭 구현 */}
-        <GroupBar>현재 팀 이름</GroupBar>
-        <section className='w-full mt-24 flex flex-col gap-16'>
-          <div className='w-full flex justify-between'>
-            <div className='flex gap-8'>
-              <p>할 일 목록</p>
-              <p className='text-text-default'>(4개)</p>
-            </div>
-            <p className='text-brand-primary '>+ 새로운 목록 추가하기</p>
-          </div>
-          {/* TODO 데이터 연동, 설정 클릭 구현, 색상 변경 구현 */}
-          <div className='flex flex-col gap-16'>
-            {taskLists.length === 0 ? (
-              <div className='text-14 font-md text-text-default mx-auto mt-64 mb-48 desktop:mb-64'>
-                아직 할 일 목록이 없습니다.
-              </div>
-            ) : (
-              taskLists.map((tasklist) => (
-                <GroupTaskList
-                  key={tasklist.id}
-                  doneCount={3}
-                  totalCount={5}
-                  color='purple'
-                  isDone={false}
-                >
-                  {tasklist.name}
-                </GroupTaskList>
-              ))
-            )}
-
-            <GroupTaskList
-              doneCount={3}
-              totalCount={5}
-              color='point-orange'
-              isDone
-            >
-              리스트 컴포넌트
-            </GroupTaskList>
-          </div>
-        </section>
+        <GroupBar>{MockGroupTask.name}</GroupBar>
+        <GroupTask Lists={MockGroupTask.tasklists} />
         <section className='w-full mt-48 desktop:mt-64'>
           <p className='mb-16'>리포트</p>
           <section className='w-full h-224 bg-background-secondary rounded-12 flex justify-between p-24'>

@@ -67,6 +67,9 @@ const config: Config = {
       modal: {
         danger: 'var(--modal-danger)',
       },
+      dropdown: {
+        button: '#18212F',
+      },
     },
 
     fontSize: {
@@ -87,6 +90,7 @@ const config: Config = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
         'brand-gradient': 'linear-gradient(to right, #10B981, #A3E635)',
+        modifyProfile: "url('/public/svgs/ic_modifyProfile.svg')",
       },
       boxShadow: {
         'shadow-xl': 'var(--shadow-xl)',
@@ -95,6 +99,7 @@ const config: Config = {
         modal: '350',
         'modal-overlay': '300',
         dropdown: '20',
+        'time-picker': '30',
       },
       margin: {
         '3px': '3px',

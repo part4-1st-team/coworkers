@@ -36,3 +36,14 @@ interface TaskListInform {
 interface TaskList extends TaskListInform {
   tasks: Task[];
 }
+
+interface ResponseTaskLists {
+  createdAt: string;
+  id: number;
+  image: string | null;
+  members: Member[];
+  name: string;
+  taskLists: TaskList[];
+  teadId: number;
+  updatedAt: string;
+}

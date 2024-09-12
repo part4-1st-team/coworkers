@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -15,7 +14,7 @@ function ExampleCustomInput({
   return (
     <button
       type='button'
-      className='w-204px h-48px text-left text-text-default bg-background-secondary px-16px py-14.5px rounded-xl leading-4 hover:ring-interaction-hover focus:ring-1'
+      className='w-204 h-48 text-left mr-8 text-text-default bg-background-secondary px-16 py-15 rounded-xl leading-4 hover:ring-interaction-hover focus:ring-1'
       onClick={onClick}
     >
       {value}
@@ -29,13 +28,11 @@ ExampleCustomInput.defaultProps = {
   onClick: () => {},
 };
 
-function Calendar() {
-  const [startDate, setStartDate] = useState<Date | null>(new Date());
-
+function Calendar({ date, setDate }: { date: Date; setDate: any }) {
   return (
     <DatePicker
-      selected={startDate}
-      onChange={(date: Date | null) => setStartDate(date)}
+      selected={date}
+      onChange={(nextDate: Date | null) => setDate(nextDate)}
       customInput={<ExampleCustomInput />}
       dateFormat='yyyy년 MM월 dd일'
     />

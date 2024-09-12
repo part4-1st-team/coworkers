@@ -1,16 +1,28 @@
+import useDetectClose from '@/hooks/useDetectClose';
+import useEscapeClose from '@/hooks/useEscapeClose';
 import useHalfPageStore from '@/stores/HalfPageStore';
 import { ReactNode, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-function HalfPosition({ children }: { children: ReactNode }) {
+function HalfPosition({
+  children,
+  onClose,
+}: {
+  children: ReactNode;
+  onClose: () => void;
+}) {
+  const ref = useDetectClose(onClose);
   return (
-    <div className='fixed right-0 top-60 w-full tablet:w-1/2'>{children}</div>
+    <div ref={ref} className='fixed right-0 top-60 w-full tablet:w-1/2'>
+      {children}
+    </div>
   );
 }
 
 function HalfPortal({ children }: { children: ReactNode }) {
   const [mounted, setMounted] = useState<boolean>(false);
-  const { isHalfPageOpen } = useHalfPageStore();
+  const { isHalfPageOpen, setHalfPageClose } = useHalfPageStore();
+  useEscapeClose(setHalfPageClose);
 
   useEffect(() => {
     setMounted(true);
@@ -31,7 +43,7 @@ function HalfPortal({ children }: { children: ReactNode }) {
   return (
     <>
       {createPortal(
-        <HalfPosition>{children}</HalfPosition>,
+        <HalfPosition onClose={setHalfPageClose}>{children}</HalfPosition>,
         HALF as HTMLElement,
       )}
     </>
