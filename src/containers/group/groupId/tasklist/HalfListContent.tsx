@@ -104,7 +104,7 @@ function HalfPageContent({ task }: { task: DateTask }) {
         </div>
         <CommentInput taskId={id} />
         {taskCommentList.map((taskComment: Comment) => (
-          <Comment comment={taskComment} />
+          <Comment comment={taskComment} key={taskComment.id} />
         ))}
         {/* TODO 코멘트리스트 불러오기  */}
       </div>

@@ -28,8 +28,8 @@ function Comment({ comment }: { comment: Comment }) {
   };
 
   const patchTaskCommentMutation = useMutation({
-    mutationFn: (content: string) =>
-      patchTaskComment(taskId, commentId, content),
+    mutationFn: (newContent: string) =>
+      patchTaskComment(taskId, commentId, newContent),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['getTaskCommentList', taskId],
