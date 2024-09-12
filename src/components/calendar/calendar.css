@@ -2,6 +2,7 @@
 
 /* Datepicker 디스플레이 속성 변경 */
 .react-datepicker-popper {
+  border: none;
   margin-left: 65px !important;
 }
 
@@ -38,8 +39,8 @@
 .react-datepicker {
   width: 336px !important;
   height: 258px !important;
-  border-radius: 12px !important;
-  border: 1px solid #f8fafc1a !important;
+  border-radius: 15px !important;
+  border: none !important;
 }
 
 .react-datepicker__month-container {
@@ -52,7 +53,7 @@
 }
 
 .react-datepicker__month-container:hover {
-  border: 1px solid #059669 !important;
+  border: 1px solid var(--interaction-hover) !important;
 }
 
 .react-datepicker__month {
@@ -77,7 +78,7 @@
 
 /* 캘린더 - 달력 style - 일(hover, selected) */
 .react-datepicker__day:hover {
-  background-color: #059669 !important;
+  background-color: var(--interaction-hover) !important;
 }
 
 .react-datepicker__day--selected,
