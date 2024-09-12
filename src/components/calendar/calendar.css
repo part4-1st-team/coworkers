@@ -2,6 +2,7 @@
 
 /* Datepicker 디스플레이 속성 변경 */
 .react-datepicker-popper {
+  border: none;
   margin-left: 65px !important;
 }
 
@@ -38,8 +39,8 @@
 .react-datepicker {
   width: 336px !important;
   height: 258px !important;
-  border-radius: 12px !important;
-  border: 1px solid #f8fafc1a !important;
+  border-radius: 15px !important;
+  border: none !important;
 }
 
 .react-datepicker__month-container {
