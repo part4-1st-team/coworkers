@@ -44,18 +44,18 @@ function BaseButton({
   ...props
 }: BaseButtonProps) {
   const baseButton =
-    'w-full text-md font-semibold text-text-inverse px-12 py-7.5 flex items-center justify-center rounded-12 ';
+    'w-full text-md font-semibold px-12 py-7.5 flex items-center justify-center rounded-12 ';
 
   const colorStyle = {
     primary:
-      'bg-brand-primary hover:bg-interaction-hover focus:outline-none focus:bg-interaction-pressed disabled:bg-interaction-inactive',
+      'bg-brand-primary text-text-inverse hover:bg-interaction-hover focus:outline-none focus:bg-interaction-pressed disabled:bg-interaction-inactive',
     outlined:
-      'bg-background-inverse text-brand-secondary border border-brand-primary hover:text-interaction-hover hover:border-interaction-hover focus:border-interaction-pressed focus:text-interaction-pressed disabled:border-interaction-inactive disabled:text-interaction-inactive',
+      'bg-background-inverse text-brand-primary border border-brand-primary hover:text-interaction-hover hover:border-interaction-hover focus:border-interaction-pressed focus:text-interaction-pressed disabled:border-interaction-inactive disabled:text-interaction-inactive',
     outlinedSecon:
       'bg-background-inverse text-text-default border border-text-secondary',
     red: 'bg-status-danger text-text-inverse',
     bgNon:
-      'bg-none text-brand-secondary border border-brand-primary hover: hover:border-interaction-hover hover:text-interaction-hover active:text-interaction-pressed disabled:border-interaction-inactive disabled:text-interaction-inactive',
+      'bg-none text-brand-primary border border-brand-primary hover: hover:border-interaction-hover hover:text-interaction-hover active:text-interaction-pressed disabled:border-interaction-inactive disabled:text-interaction-inactive',
   };
 
   const buttonClass = clsx(baseButton, colorStyle[color], className);

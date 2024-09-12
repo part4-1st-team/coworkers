@@ -56,20 +56,24 @@ function FloatingButton({
   ...props
 }: FloatingButtonProps) {
   const baseButton =
-    'w-full text-md font-semibold text-text-inverse px-18 py-11 rounded-full flex items-center justify-center ';
+    'w-full text-md font-semibold px-18 py-11 rounded-full flex items-center justify-center';
 
   const colorStyle = {
     primary:
-      'bg-brand-primary hover:bg-interaction-hover focus:outline-none focus:bg-interaction-pressed disabled:bg-interaction-inactive',
+      'bg-brand-primary text-text-inverse hover:bg-interaction-hover active:outline-none active:bg-interaction-pressed disabled:bg-interaction-inactive',
     outlined:
-      'bg-background-inverse text-point-blue border border-brand-primary hover:text-interaction-hover hover:border-interaction-hover focus:border-interaction-pressed focus:text-interaction-pressed disabled:border-interaction-inactive disabled:text-interaction-inactive',
+      'bg-background-inverse text-brand-primary border border-brand-primary hover:text-interaction-hover hover:border-interaction-hover active:border-interaction-pressed active:text-interaction-pressed disabled:border-interaction-inactive disabled:text-interaction-inactive',
   };
 
   const iconComponents = {
     plus: <IconPlus className='w-16 h-16' />,
-    checkWhite: <IconCheckWhite className='w-16 h-16' />,
-    checkGray: <IconCheckGray className='w-16 h-16' />,
-    checkGreen: <IconCheckGreen className='w-16 h-16 ' />,
+    checkWhite: <IconCheckWhite className='w-16 h-16 text-icon-inverse' />,
+    checkGray: (
+      <IconCheckGray className='w-16 h-16 text-interaction-inactive' />
+    ),
+    checkGreen: (
+      <IconCheckGreen className='w-16 h-16 text-icon-brand hover:text-interaction-hover active:stroke-interaction-pressed ' />
+    ),
   };
 
   const buttonContent = (
@@ -78,7 +82,7 @@ function FloatingButton({
         (disabled && icon === 'checkGreen'
           ? iconComponents.checkGray
           : iconComponents[icon])}
-      {children}
+      {children && <span className=''>{children}</span>}
     </div>
   );
 

@@ -11,7 +11,7 @@ interface AuthInputProps {
   type: 'password' | 'email';
   errorMessage?: string;
   className?: string;
-  placeholder?: string; // 플레이스홀더 프롭 추가
+  placeholder?: string;
 }
 
 function AuthInput({
@@ -20,7 +20,7 @@ function AuthInput({
   type,
   errorMessage,
   className = '',
-  placeholder = '', // 플레이스홀더 기본값 설정
+  placeholder = '',
 }: AuthInputProps) {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
@@ -47,7 +47,6 @@ function AuthInput({
                 className={`w-full py-[10.5px] px-[16px]  ${errorMessage ? 'border-status-danger border' : ''} ${className}`}
                 placeholder={placeholder} // 플레이스홀더 전달
                 {...field}
-                style={{ color: '#64748B' }}
               />
               {type === 'password' && (
                 <button

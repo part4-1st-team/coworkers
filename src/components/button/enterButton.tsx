@@ -6,9 +6,10 @@ import CircleButton from './CircleButton';
 type EnterButtonProps = {
   className?: string;
   disabled?: boolean;
+  onClick?: () => void; // onClick 프로퍼티 추가
 };
 
-function EnterButton({ className, disabled }: EnterButtonProps) {
+function EnterButton({ className, disabled, onClick }: EnterButtonProps) {
   const buttonClass = clsx(
     'w-24 h-24 border-none bg-icon-primary hover:bg-interaction-hover active:bg-icon-brand',
     className,
@@ -20,6 +21,7 @@ function EnterButton({ className, disabled }: EnterButtonProps) {
       icon={<IconArrowTOP />}
       className={buttonClass}
       disabled={disabled}
+      onClick={onClick} // onClick 전달
     />
   );
 }
