@@ -8,12 +8,31 @@ import {
 } from '@/assets/IconList';
 import FloatingButton from '@/components/button/floatingButton';
 import useHalfPageStore from '@/stores/HalfPageStore';
+import getDaily from '@/utils/getDaily';
+import getDate from '@/utils/getDate';
+import getTime from '@/utils/getTime';
 import { motion } from 'framer-motion';
 import Comment from './comment/Comment';
 import CommentInput from './comment/CommentInput';
 
-function HalfPageContent() {
+function HalfPageContent({ task }: { task: DateTask }) {
   const { setHalfPageClose } = useHalfPageStore();
+
+  const {
+    name,
+    description,
+    date,
+    // doneAt,
+    updatedAt,
+    frequency,
+    // deletedAt,
+    // commentCount,
+    // displayIndex,
+    writer,
+    // doneBy,
+  } = task;
+
+  const { nickname } = writer;
 
   return (
     <motion.div
@@ -35,7 +54,7 @@ function HalfPageContent() {
           <div className='flex justify-between items-center'>
             <div className='flex gap-12 items-center'>
               <span className='text-text-primary text-xl font-bold'>
-                법인 설립 비용 안내 드리기
+                {name}
               </span>
               <IconPencil className='w-16 h-16 fill-text-default' />
               {/* TODO 제목 수정할 수 있는 로직 추가하기 */}
@@ -46,43 +65,49 @@ function HalfPageContent() {
             <div className='flex items-center gap-12'>
               <div className='w-32 h-32 rounded-[9999px] bg-white' />
               <span className='text-md font-medium text-text-primary'>
-                안해나
+                {nickname}
               </span>
             </div>
             <span className='text-md font-normal text-text-secondary'>
-              2024.09.09
+              {getDate(updatedAt, true)}
             </span>
           </div>
           <div className='flex gap-10 items-center'>
             <div className='flex items-center gap-6'>
               <IconCalendar width={16} height={16} />
               <span className='text-text-default text-xs font-normal'>
-                2024년 7월 29일
+                {getDate(date)}
               </span>
             </div>
             <div className='w-1 h-8 bg-background-tertiary rounded-4' />
             <div className='flex items-center gap-6'>
               <IconTime width={16} height={16} />
               <span className='text-text-default text-xs font-normal'>
-                오후 3시 30분
+                {getTime(date)}
               </span>
             </div>
             <div className='w-1 h-8 bg-background-tertiary rounded-4' />
             <div className='flex items-center gap-6'>
               <IconRepeat width={16} height={16} />
               <span className='text-text-default text-xs font-normal'>
-                매일 반복
+                {getDaily(frequency)}
               </span>
             </div>
           </div>
         </div>
         <div className='w-full h-200 text-md font-normal text-text-primary'>
-          필수 정보 10분 입력하면 어쩌구
+          {description}
         </div>
         <CommentInput />
         <Comment />
+        {/* TODO 코멘트리스트 불러오기  */}
       </div>
-      <FloatingButton type='complete' className='absolute bottom-40 right-40' />
+      <FloatingButton
+        text='완료하기'
+        type='button'
+        icon='checkGray'
+        className='w-fit absolute bottom-40 right-40'
+      />
     </motion.div>
   );
 }

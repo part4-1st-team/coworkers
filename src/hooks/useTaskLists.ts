@@ -1,18 +1,19 @@
 import { getTaskLists } from '@/services/TaskListAPI';
 import { useQuery } from '@tanstack/react-query';
 
-function useTaskLists(groupId: number, taskListId: number, date?: string) {
+function useTaskLists(groupId: number, date?: string) {
   const {
-    data: TaskLists,
+    data: taskLists,
     isLoading,
     error,
-  } = useQuery<Task[]>({
-    queryKey: ['getTaskLists', groupId, taskListId, date],
-    queryFn: () =>
-      getTaskLists(groupId, taskListId, date).then((data) => data.tasks),
+  } = useQuery<TaskList[]>({
+    queryKey: date
+      ? ['getTaskLists', groupId, date]
+      : ['getTaskLists', groupId],
+    queryFn: () => getTaskLists(groupId, date).then((data) => data.taskLists),
   });
 
-  return { TaskLists, isLoading, error };
+  return { taskLists: taskLists ?? [], isLoading, error };
 }
 
 export default useTaskLists;

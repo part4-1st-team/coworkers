@@ -21,10 +21,10 @@ function Task({ task }: { task: DateTask }) {
       tabIndex={0}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
-          setHalfPageOpen(<HalfPageContent />);
+          setHalfPageOpen(<HalfPageContent task={task} />);
         }
       }}
-      onClick={() => setHalfPageOpen(<HalfPageContent />)}
+      onClick={() => setHalfPageOpen(<HalfPageContent task={task} />)}
       className='cursor-pointer bg-background-secondary flex flex-col gap-10 rounded-8 py-12 px-14'
     >
       <div className='flex justify-between w-full items-center'>

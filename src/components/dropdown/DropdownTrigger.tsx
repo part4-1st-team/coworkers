@@ -10,7 +10,7 @@ function DropdownTrigger({
   onClick,
 }: {
   children: ReactNode;
-  onClick: () => void;
+  onClick: (e: any) => void;
 }) {
   return (
     <button type='button' onClick={onClick}>

@@ -1,5 +1,6 @@
 import { postTaskList } from '@/services/TaskListAPI';
-import { useMutation } from '@tanstack/react-query';
+import useModalStore from '@/stores/ModalStore';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import Button from '../button/button';
 import Input from '../input/input';
@@ -11,14 +12,20 @@ interface FormState {
   list: string;
 }
 
-function TaskCreateModal() {
+function TaskCreateModal({ groupId }: { groupId: number }) {
   const { handleSubmit, control } = useForm<FormState>();
+  const { setModalClose } = useModalStore();
 
-  const groupId = 3;
+  const queryClient = useQueryClient();
 
   const postTaskMutation = useMutation({
     mutationFn: (name: string) => postTaskList(groupId, name),
-    onSuccess: () => {},
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['getTaskLists', groupId],
+      });
+      setModalClose();
+    },
     onError: () => {},
   });
 

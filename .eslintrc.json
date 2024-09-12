@@ -19,6 +19,10 @@
     "plugin:storybook/recommended"
   ],
   "rules": {
+    "react/require-default-props": "off",
+    "react/prop-types": "off",
+    // eslint any 타입 무시
+    "@typescript-eslint/no-explicit-any": "warn",
     "prettier/prettier": [
       "error",
       {
