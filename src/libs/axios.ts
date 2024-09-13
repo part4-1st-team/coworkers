@@ -7,6 +7,7 @@ const instance = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  // withCredentials: true,
 });
 
 // 리프레시 토큰을 사용하여 액세스 토큰 갱신
@@ -16,7 +17,7 @@ async function refreshAccessToken(): Promise<string> {
 
   try {
     const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`,
+      `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh-token`,
       { refreshToken },
     );
     const { accessToken, newRefreshToken } = response.data;

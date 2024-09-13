@@ -22,9 +22,11 @@ interface LoginResponse {
 
 async function login(payload: LoginPayload): Promise<LoginResponse> {
   try {
-    const response = await axios.post<LoginResponse>('/auth/signIn', payload, {
-      withCredentials: true,
-    });
+    const response = await axios.post<LoginResponse>(
+      '/auth/signIn',
+      payload,
+      {},
+    );
     // eslint-disable-next-line no-console
     console.log(response);
     return response.data;
