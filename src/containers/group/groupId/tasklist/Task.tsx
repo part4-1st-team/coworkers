@@ -65,6 +65,7 @@ function Task({ task }: { task: DateTask }) {
 
     // 에러 나면 이전 상태로 변경하도록..
     // TODO 머지 후 토스트 뜨게
+    // eslint-disable-next-line no-empty-pattern
     onError: (err, {}, context) => {
       queryClient.setQueryData(
         ['getTasks', groupId, taskListId, getMonthDay(date)],
