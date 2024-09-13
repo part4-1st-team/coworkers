@@ -3,7 +3,7 @@ import BaseButton from '@/components/button/baseButton';
 import Input from '@/components/input/input';
 import BoxInput from '@/components/input/boxInput';
 import { postArticle } from '@/services/ArticleAPI';
-import postImageUpload from '@/services/ImageAPI'; // postImageUpload 함수 가져오기
+import postImageUpload from '@/services/ImageAPI';
 import ImageAddButton from '@/components/button/ImageAddButton';
 
 function AddPostPage() {

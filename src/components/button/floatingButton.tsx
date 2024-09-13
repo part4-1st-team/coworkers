@@ -95,11 +95,4 @@ function FloatingButton({
   );
 }
 
-FloatingButton.defaultProps = {
-  color: 'primary',
-  disabled: false,
-  type: 'button',
-  className: '',
-};
-
 export default FloatingButton;

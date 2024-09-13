@@ -36,10 +36,4 @@ function CircleButton({
   );
 }
 
-CircleButton.defaultProps = {
-  disabled: false,
-  type: 'button',
-  className: '',
-};
-
 export default CircleButton;
