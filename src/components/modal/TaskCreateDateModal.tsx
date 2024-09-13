@@ -37,10 +37,16 @@ function TaskCreateDateModal({
   // 반복 설정 (default: 한 번)
   const [frequency, setFrequency] = useState<FrequencyType>('ONCE');
 
+  // NOTE:시간은 정확한데 데이터가 이상하게 들어가서 확인용으로 냅둡니당 다음 pr때 지울게요!
+  console.log('time');
+  console.log(time);
+  console.log(combineDateTime(selectedDate, time));
+
   const queryClient = useQueryClient();
 
   const { setModalClose } = useModalStore();
 
+  // 할 일 생성하는 mutation 함수
   const TaskCreateMutation = useMutation({
     mutationFn: (data: PostTask) => postTask(groupId, taskListId, data),
     onSuccess: () => {
@@ -52,6 +58,7 @@ function TaskCreateDateModal({
     onError: () => {},
   });
 
+  // 최종적으로 submit 됐을때 실행하는 함수
   const handleTaskCreate: SubmitHandler<FormState> = (data) => {
     const { title, memo } = data;
 
@@ -61,6 +68,10 @@ function TaskCreateDateModal({
       startDate: combineDateTime(selectedDate, time),
       frequencyType: frequency,
     };
+
+    // TODO 변수들 수정하기
+    if (frequency === 'WEEKLY') task.weekDays = [];
+    if (frequency === 'MONTHLY') task.monthDay = 5;
 
     TaskCreateMutation.mutate(task);
   };
