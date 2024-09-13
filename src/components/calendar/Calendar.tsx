@@ -1,3 +1,4 @@
+import { ReactElement, ReactNode } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -22,16 +23,12 @@ function ExampleCustomInput({
   );
 }
 
-// 기본값 설정 (이 경우 이미 기본값이 함수 매개변수에서 설정됨)
-ExampleCustomInput.defaultProps = {
-  value: 'Select date',
-  onClick: () => {},
-};
-
 function Calendar({
+  trigger,
   pickDate,
   setPickDate,
 }: {
+  trigger?: ReactElement;
   pickDate: Date;
   setPickDate: any;
 }) {
@@ -39,7 +36,7 @@ function Calendar({
     <DatePicker
       selected={pickDate}
       onChange={(nextDate: Date | null) => setPickDate(nextDate)}
-      customInput={<ExampleCustomInput />}
+      customInput={trigger ? trigger : <ExampleCustomInput />}
       dateFormat='yyyy년 MM월 dd일'
     />
   );
