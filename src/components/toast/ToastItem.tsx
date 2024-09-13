@@ -67,7 +67,11 @@ function ToastItem({ toast }: { toast: Toast }) {
           </span>
         </div>
       </div>
-      <button type='button' onClick={() => removeToastList(id)}>
+      <button
+        type='button'
+        onClick={() => removeToastList(id)}
+        aria-label='토스트 닫기 버튼'
+      >
         <IconX width={16} height={16} />
       </button>
     </motion.div>
