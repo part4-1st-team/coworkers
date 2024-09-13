@@ -15,7 +15,7 @@ function EnterButton({ className }: EnterButtonProps) {
 
   return (
     <CircleButton
-      type='button'
+      type='submit'
       icon={<IconArrowTOP />}
       className={buttonClass} // 병합된 클래스를 CircleButton에 전달
     />

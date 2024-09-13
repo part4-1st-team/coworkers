@@ -52,8 +52,4 @@ Dropdown.Trigger = DropdownTrigger;
 Dropdown.Menu = DropdownMenu;
 Dropdown.List = DropdownList;
 
-Dropdown.defaultProps = {
-  className: '',
-};
-
 export default Dropdown;

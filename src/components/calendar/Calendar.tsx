@@ -28,11 +28,17 @@ ExampleCustomInput.defaultProps = {
   onClick: () => {},
 };
 
-function Calendar({ date, setDate }: { date: Date; setDate: any }) {
+function Calendar({
+  pickDate,
+  setPickDate,
+}: {
+  pickDate: Date;
+  setPickDate: any;
+}) {
   return (
     <DatePicker
-      selected={date}
-      onChange={(nextDate: Date | null) => setDate(nextDate)}
+      selected={pickDate}
+      onChange={(nextDate: Date | null) => setPickDate(nextDate)}
       customInput={<ExampleCustomInput />}
       dateFormat='yyyy년 MM월 dd일'
     />
