@@ -15,6 +15,7 @@ function PasswordResetPage() {
             type='password'
             name='password'
             control={control}
+            placeholder='비밀번호 (영문, 숫자 포함, 12자 이내)를 입력해주세요.)'
             className='flex justify-center align-middle'
           />
         </div>
@@ -24,6 +25,7 @@ function PasswordResetPage() {
             type='password'
             name='password'
             control={control}
+            placeholder='새 비밀번호를 다시 한번 입력해주세요.'
             className='flex justify-center align-middle'
           />
         </div>
