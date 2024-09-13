@@ -1,8 +1,7 @@
 import { IconCalendar, IconPlus } from '@/assets/IconList';
 import ArrowButton from '@/components/button/arrowButton';
-import Checkbox from '@/components/checkbox/Checkbox';
+import Calendar from '@/components/calendar/Calendar';
 import TaskCreateDateModal from '@/components/modal/TaskCreateDateModal';
-import TaskCreateModal from '@/components/modal/TaskCreateModal';
 import useTaskLists from '@/hooks/useTaskLists';
 import useTasks from '@/hooks/useTasks';
 import useModalStore from '@/stores/ModalStore';
@@ -18,7 +17,7 @@ function Tasks() {
   const { setModalOpen } = useModalStore();
 
   // 기본으로는 현재 날짜, 화살표 버튼을 통해 날짜 변경함
-  const [date, setDate] = useState<Date>(new Date());
+  const [pickDate, setPickDate] = useState<Date>(new Date());
 
   const router = useRouter();
   const { groupId, tasklistId } = router.query;
@@ -26,13 +25,13 @@ function Tasks() {
   const { tasks, isLoading } = useTasks(
     Number(groupId),
     Number(tasklistId),
-    String(date),
+    String(pickDate),
   );
 
   const { taskLists, isLoading: isListLoading } = useTaskLists(Number(groupId));
 
   const handlePreviousDay = () => {
-    setDate((prevDate) => {
+    setPickDate((prevDate) => {
       const newDate = new Date(prevDate); // 이전 상태 복사
       newDate.setDate(newDate.getDate() - 1); // 하루 전날로 변경
       return newDate;
@@ -40,7 +39,7 @@ function Tasks() {
   };
 
   const handleNextDay = () => {
-    setDate((prevDate) => {
+    setPickDate((prevDate) => {
       const newDate = new Date(prevDate); // 이전 상태 복사
       newDate.setDate(newDate.getDate() + 1); // 하루 전날로 변경
       return newDate;
@@ -58,17 +57,25 @@ function Tasks() {
         <div className='flex justify-between items-center'>
           <div className='flex gap-[12px] items-center'>
             <span className='text-lg font-medium text-text-primary'>
-              {getMonthDay(date)}
+              {getMonthDay(pickDate)}
             </span>
             <div className='flex gap-4'>
               <ArrowButton direction='left' onClick={handlePreviousDay} />
               <ArrowButton direction='right' onClick={handleNextDay} />
-              {/* TODO setDate 설정 */}
             </div>
-            <button type='button' aria-label='캘린더'>
-              <IconCalendar width={16} height={16} />
-            </button>
-            {/* TODO 버튼들 수정하기 */}
+            <Calendar
+              trigger={
+                <button
+                  type='button'
+                  aria-label='캘린더'
+                  className='flex items-center'
+                >
+                  <IconCalendar width={16} height={16} />
+                </button>
+              }
+              pickDate={pickDate}
+              setPickDate={setPickDate}
+            />
           </div>
           <TaskAddButton />
         </div>
