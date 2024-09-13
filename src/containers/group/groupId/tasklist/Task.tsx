@@ -1,3 +1,6 @@
+import clsx from 'clsx';
+import { useState } from 'react';
+
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 
@@ -18,9 +21,6 @@ import useHalfPageStore from '@/stores/HalfPageStore';
 
 import KebabDropdown from './comment/KebabDropdown';
 import HalfPageContent from './HalfListContent';
-
-import { useState } from 'react';
-import clsx from 'clsx';
 
 function Task({ task }: { task: DateTask }) {
   const { id, name, commentCount, updatedAt, frequency, doneAt, date } = task;

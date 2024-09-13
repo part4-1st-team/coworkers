@@ -36,7 +36,7 @@ function Calendar({
     <DatePicker
       selected={pickDate}
       onChange={(nextDate: Date | null) => setPickDate(nextDate)}
-      customInput={trigger ? trigger : <ExampleCustomInput />}
+      customInput={trigger || <ExampleCustomInput />}
       dateFormat='yyyy년 MM월 dd일'
     />
   );
