@@ -1,5 +1,6 @@
 import Header from '@/components/header/Header';
 import Modal from '@/components/modal/Modal';
+import Toast from '@/components/toast/Toast';
 import HalfPage from '@/containers/group/groupId/tasklist/HalfPage';
 import ReactQueryProviders from '@/hooks/useReactQuery';
 import '@/styles/globals.css';
@@ -12,6 +13,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <Header />
       <Modal />
       <HalfPage />
+      <Toast />
       <Component {...pageProps} />
     </ReactQueryProviders>
   );
