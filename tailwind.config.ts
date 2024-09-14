@@ -70,6 +70,10 @@ const config: Config = {
       dropdown: {
         button: '#18212F',
       },
+      toast: {
+        success: '#47cb61',
+        error: 'var(--modal-danger)',
+      },
     },
 
     fontSize: {
