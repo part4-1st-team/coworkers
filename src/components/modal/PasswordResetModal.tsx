@@ -2,6 +2,7 @@ import Button from '@/components/button/button';
 import Input from '@/components/input/input';
 import useModalStore from '@/stores/ModalStore';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { sendResetPasswordEmail } from '@/services/Auth.API';
 import Modal from './Modal';
 
 interface FormState {
@@ -12,9 +13,18 @@ function PasswordResetModal() {
   const { control, handleSubmit } = useForm<FormState>();
   const { setModalClose } = useModalStore();
 
-  const handleSendLink: SubmitHandler<FormState> = (data) => {
-    // NOTE: 링크 보내는 로직 작성, alert 제거
-    alert(JSON.stringify(data));
+  // 이메일 발송 로직
+  const handleSendLink: SubmitHandler<FormState> = async (data) => {
+    try {
+      await sendResetPasswordEmail(
+        data.email,
+        'https://coworkers.vercel.app/reset-password',
+      );
+      alert('비밀번호 재설정 링크가 발송되었습니다.');
+    } catch (error) {
+      console.error('이메일 발송 실패:', error);
+      alert('이메일 발송에 실패했습니다.');
+    }
   };
 
   return (
