@@ -74,3 +74,50 @@ export async function signup(data: SignupData) {
     throw error;
   }
 }
+
+// 비밀번호 재설정 API
+interface PasswordResetData {
+  password: string;
+  passwordConfirmation: string;
+  token: string;
+}
+
+export async function resetPassword(data: PasswordResetData) {
+  try {
+    const response = await axios.patch('/user/reset-password', data); // PATCH로 수정
+    console.log('비밀번호 재설정 성공:', response.data);
+    return response.data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      console.error(
+        '비밀번호 재설정 실패:',
+        error.response?.data || error.message,
+      );
+    } else {
+      console.error('비밀번호 재설정 실패:', error);
+    }
+    throw error;
+  }
+}
+
+// AuthAPI.ts - 비밀번호 재설정 이메일 발송 API
+export async function sendResetPasswordEmail(
+  email: string,
+  redirectUrl: string,
+) {
+  try {
+    const response = await axios.post('/user/send-reset-password-email', {
+      email,
+      redirectUrl,
+    });
+    console.log('비밀번호 재설정 이메일 발송 성공:', response.data);
+    return response.data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      console.error('이메일 발송 실패:', error.response?.data || error.message);
+    } else {
+      console.error('이메일 발송 실패:', error);
+    }
+    throw error;
+  }
+}
