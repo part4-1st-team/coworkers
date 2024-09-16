@@ -1,7 +1,7 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useRouter } from 'next/router'; // Token을 URL에서 가져오기 위함
-import { resetPassword } from '@/services/Auth.API';
+import { useState } from 'react'; // 모달 상태를 관리하기 위해 추가
 import AuthInput from '@/components/input/authInput';
+import PasswordResetModal from '@/components/modal/PasswordResetModal'; // 모달 컴포넌트 import
 
 interface PasswordResetFormValues {
   password: string;
@@ -14,26 +14,10 @@ function PasswordResetPage() {
     handleSubmit,
     formState: { errors },
   } = useForm<PasswordResetFormValues>();
-  const router = useRouter();
-  const { token } = router.query; // URL에서 token을 가져옴
+  const [isModalOpen, setModalOpen] = useState(false); // 모달 상태 추가
 
-  const onSubmit: SubmitHandler<PasswordResetFormValues> = async (data) => {
-    if (!token) {
-      console.error('토큰이 없습니다.');
-      return;
-    }
-
-    try {
-      const response = await resetPassword({
-        password: data.password,
-        passwordConfirmation: data.passwordConfirmation,
-        token: token as string,
-      });
-      console.log('비밀번호 재설정 성공:', response.message);
-      // 비밀번호 재설정 성공 후 추가 로직 (예: 로그인 페이지로 리다이렉션)
-    } catch (error) {
-      console.error('비밀번호 재설정 실패:', error);
-    }
+  const onSubmit: SubmitHandler<PasswordResetFormValues> = async () => {
+    setModalOpen(true); // 모달 열기
   };
 
   return (
@@ -71,6 +55,7 @@ function PasswordResetPage() {
           재설정
         </button>
       </form>
+      {isModalOpen && <PasswordResetModal />} {/* 모달 렌더링 */}
     </div>
   );
 }

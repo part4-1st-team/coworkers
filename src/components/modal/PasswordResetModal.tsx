@@ -18,7 +18,7 @@ function PasswordResetModal() {
     try {
       await sendResetPasswordEmail(
         data.email,
-        'https://coworkers.vercel.app/reset-password',
+        'https://coworkers.vercel.app/password-reset',
       );
       alert('비밀번호 재설정 링크가 발송되었습니다.');
     } catch (error) {
