@@ -112,7 +112,6 @@ function TaskCreateDateModal({
               pickDate={selectedDate}
               setPickDate={setSelectedDate}
             />
-            <TimePicker setTime={setTime} />
           </div>
         </div>
         <div className='flex flex-col gap-16'>
@@ -145,7 +144,7 @@ function TaskCreateDateModal({
             trigger={
               <button
                 type='button'
-                className='w-full h-44 py-10 px-12 rounded-12 bg-dropdown-button text-text-default text-md font-medium'
+                className='w-full h-48 py-10 px-12 rounded-12 bg-dropdown-button text-text-default text-md font-medium'
               >
                 {`매달 ${monthDay.getDate()}일 반복`}
               </button>

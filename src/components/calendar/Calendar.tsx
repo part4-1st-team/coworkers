@@ -15,7 +15,7 @@ export function CalendarInput({
   return (
     <button
       type='button'
-      className='w-204 h-48 text-left mr-8 text-text-default bg-background-secondary px-16 py-15 rounded-xl leading-4 hover:ring-interaction-hover focus:ring-1'
+      className='w-336 h-48 text-left text-text-default bg-background-secondary px-16 py-15 rounded-xl leading-4 hover:ring-interaction-hover focus:ring-1'
       onClick={onClick}
     >
       {value}
