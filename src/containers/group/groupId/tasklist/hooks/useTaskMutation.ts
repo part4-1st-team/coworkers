@@ -7,7 +7,7 @@ const useTaskMutation = (
   task: DateTask,
   groupId: number,
   taskListId: number,
-  setIsDone: Dispatch<SetStateAction<boolean>>,
+  setIsDone?: Dispatch<SetStateAction<boolean>>,
 ) => {
   const queryClient = useQueryClient();
   const { id, date } = task;
@@ -30,7 +30,9 @@ const useTaskMutation = (
       queryClient.invalidateQueries({
         queryKey: ['getTasks', groupId, taskListId, getMonthDay(date)],
       });
-      setIsDone(!!data.doneAt);
+      if (setIsDone) {
+        setIsDone(!!data.doneAt);
+      }
     },
     onError: (err, _, context) => {
       queryClient.setQueryData(

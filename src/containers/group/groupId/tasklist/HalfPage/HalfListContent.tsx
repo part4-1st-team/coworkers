@@ -7,20 +7,33 @@ import {
   IconX,
 } from '@/assets/IconList';
 import FloatingButton from '@/components/button/floatingButton';
+import useQueryParameter from '@/hooks/useQueryParameter';
 import useTaskCommentList from '@/hooks/useTaskCommentList';
 import useHalfPageStore from '@/stores/HalfPageStore';
 import getDaily from '@/utils/getDaily';
 import getDate from '@/utils/getDate';
 import getTime from '@/utils/getTime';
 import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import EditDeleteDropdown from '../../EditDeleteDropdown';
 import Comment from '../comment/Comment';
 import CommentInput from '../comment/CommentInput';
+import useDeleteTaskMutation from '../hooks/useDeleteTaskMutation';
+import useTaskMutation from '../hooks/useTaskMutation';
+import EditPencilButton from './EditPencilButton';
+
+interface TitleEditForm {
+  title: string;
+}
 
 function HalfPageContent({ task }: { task: DateTask }) {
   const { setHalfPageClose } = useHalfPageStore();
 
+  const [isTitleEditing, setisTitleEditing] = useState<boolean>(false);
+
   const {
-    id,
+    id: taskId,
     name,
     description,
     date,
@@ -36,7 +49,30 @@ function HalfPageContent({ task }: { task: DateTask }) {
 
   const { nickname } = writer;
 
-  const { taskCommentList } = useTaskCommentList(id);
+  const { taskCommentList } = useTaskCommentList(taskId);
+
+  const { handleSubmit, register } = useForm<TitleEditForm>({
+    mode: 'onSubmit',
+    defaultValues: {
+      title: name,
+    },
+  });
+
+  const { groupId, taskListId } = useQueryParameter();
+  const patchMutation = useTaskMutation(task, groupId, taskListId);
+  const deleteMutation = useDeleteTaskMutation(
+    groupId,
+    taskListId,
+    taskId,
+    date,
+  );
+
+  const onTitleEditSubmit: SubmitHandler<TitleEditForm> = (data) => {
+    const { title } = data;
+
+    patchMutation.mutate({ name: title });
+    setisTitleEditing(false);
+  };
 
   return (
     <motion.div
@@ -56,14 +92,31 @@ function HalfPageContent({ task }: { task: DateTask }) {
       <div className='flex flex-col gap-24'>
         <div className='flex flex-col gap-16'>
           <div className='flex justify-between items-center'>
-            <div className='flex gap-12 items-center'>
-              <span className='text-text-primary text-xl font-bold'>
-                {name}
-              </span>
-              <IconPencil className='w-16 h-16 fill-text-default' />
-              {/* TODO 제목 수정할 수 있는 로직 추가하기 */}
-            </div>
-            <IconKebabLarge />
+            <form
+              onSubmit={handleSubmit(onTitleEditSubmit)}
+              className='flex gap-12 items-center'
+            >
+              {isTitleEditing ? (
+                <input
+                  {...register('title')}
+                  className='bg-background-primary rounded-8 h-45 w-fit text-text-secondary text-xl font-medium px-10 py-10'
+                />
+              ) : (
+                <p className='text-text-primary text-xl font-bold h-45 flex items-center '>
+                  {name}
+                </p>
+              )}
+              <EditPencilButton
+                isEditing={isTitleEditing}
+                setIsEditing={setisTitleEditing}
+              />
+            </form>
+
+            <EditDeleteDropdown
+              trigger={<IconKebabLarge />}
+              handleEdit={() => console.log('수정')}
+              handleDelete={() => deleteMutation.mutate()}
+            />
           </div>
           <div className='flex justify-between items-center'>
             <div className='flex items-center gap-12'>
@@ -85,13 +138,6 @@ function HalfPageContent({ task }: { task: DateTask }) {
             </div>
             <div className='w-1 h-8 bg-background-tertiary rounded-4' />
             <div className='flex items-center gap-6'>
-              <IconTime width={16} height={16} />
-              <span className='text-text-default text-xs font-normal'>
-                {getTime(date)}
-              </span>
-            </div>
-            <div className='w-1 h-8 bg-background-tertiary rounded-4' />
-            <div className='flex items-center gap-6'>
               <IconRepeat width={16} height={16} />
               <span className='text-text-default text-xs font-normal'>
                 {getDaily(frequency)}
@@ -102,12 +148,13 @@ function HalfPageContent({ task }: { task: DateTask }) {
         <div className='w-full h-200 text-md font-normal text-text-primary'>
           {description}
         </div>
-        <CommentInput taskId={id} />
+        <CommentInput taskId={taskId} />
         {taskCommentList.map((taskComment: Comment) => (
           <Comment comment={taskComment} key={taskComment.id} />
         ))}
       </div>
       <FloatingButton
+        onClick={() => patchMutation.mutate({ done: true })}
         text='완료하기'
         type='button'
         icon='checkGray'
