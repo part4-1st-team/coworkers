@@ -1,13 +1,12 @@
 import clsx from 'clsx';
 import { useState } from 'react';
 
-import { useRouter } from 'next/router';
-
 import {
   IconCalendar,
   IconCheckboxActive,
   IconCheckboxDefault,
   IconComment,
+  IconKebabSmall,
   IconRepeat,
 } from '@/assets/IconList';
 
@@ -16,7 +15,8 @@ import getDate from '@/utils/getDate';
 
 import useHalfPageStore from '@/stores/HalfPageStore';
 
-import KebabDropdown from './comment/KebabDropdown';
+import useQueryParameter from '@/hooks/useQueryParameter';
+import EditDeleteDropdown from '../EditDeleteDropdown';
 import HalfPageContent from './HalfPage/HalfListContent';
 import useDeleteTaskMutation from './hooks/useDeleteTaskMutation';
 import useTaskMutation from './hooks/useTaskMutation';
@@ -37,19 +37,18 @@ function Task({ task }: { task: DateTask }) {
 
   const { setHalfPageOpen } = useHalfPageStore();
 
-  const router = useRouter();
-  const { groupId, taskListId } = router.query;
+  const { groupId, taskListId } = useQueryParameter();
 
   const doneTaskMutation = useTaskMutation(
     task,
-    Number(groupId),
-    Number(taskListId),
+    groupId,
+    taskListId,
     setIsDone,
   );
 
   const deleteTaskMutation = useDeleteTaskMutation(
-    Number(groupId),
-    Number(taskListId),
+    groupId,
+    taskListId,
     taskId,
     date,
   );
@@ -104,7 +103,8 @@ function Task({ task }: { task: DateTask }) {
           </div>
         </div>
 
-        <KebabDropdown
+        <EditDeleteDropdown
+          trigger={<IconKebabSmall />}
           handleEdit={() => console.log('수정')}
           handleDelete={() => deleteTaskMutation.mutate()}
         />
