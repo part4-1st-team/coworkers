@@ -51,7 +51,7 @@ function HalfPageContent({ task }: { task: DateTask }) {
         onClick={setHalfPageClose}
         aria-label='페이지 닫기 버튼'
       >
-        <IconX />
+        <IconX width={24} height={24} />
       </button>
       <div className='flex flex-col gap-24'>
         <div className='flex flex-col gap-16'>
@@ -106,7 +106,6 @@ function HalfPageContent({ task }: { task: DateTask }) {
         {taskCommentList.map((taskComment: Comment) => (
           <Comment comment={taskComment} key={taskComment.id} />
         ))}
-        {/* TODO 코멘트리스트 불러오기  */}
       </div>
       <FloatingButton
         text='완료하기'

@@ -11,6 +11,8 @@ function CloseWrapper({ children }: { children: ReactNode }) {
   return (
     <div className='relative'>
       <IconX
+        width={24}
+        height={24}
         className='absolute right-0 top-0 cursor-pointer'
         onClick={setModalClose}
       />
