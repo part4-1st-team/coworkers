@@ -9,7 +9,7 @@
 /* Datepicker 디스플레이 속성 변경 */
 .react-datepicker-popper {
   border: none;
-  margin-left: 65px !important;
+  /*margin-left: 65px !important;*/
 }
 
 /* 캘린더 - 달력 style - 연 */

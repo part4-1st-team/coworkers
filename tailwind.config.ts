@@ -74,6 +74,9 @@ const config: Config = {
         success: '#47cb61',
         error: 'var(--modal-danger)',
       },
+      button: {
+        background: '#18212F',
+      },
     },
 
     fontSize: {

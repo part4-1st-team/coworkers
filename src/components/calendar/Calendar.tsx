@@ -8,7 +8,7 @@ interface ExampleCustomInputProps {
 }
 
 // ExampleCustomInput 컴포넌트 정의
-function ExampleCustomInput({
+export function CalendarInput({
   value = 'Select date',
   onClick = () => {},
 }: ExampleCustomInputProps) {
@@ -27,17 +27,19 @@ function Calendar({
   trigger,
   pickDate,
   setPickDate,
+  format,
 }: {
   trigger?: ReactElement;
   pickDate: Date;
   setPickDate: any;
+  format?: string;
 }) {
   return (
     <DatePicker
       selected={pickDate}
       onChange={(nextDate: Date | null) => setPickDate(nextDate)}
-      customInput={trigger || <ExampleCustomInput />}
-      dateFormat='yyyy년 MM월 dd일'
+      customInput={trigger}
+      dateFormat={format ? 'dd일' : 'yyyy년 MM월 dd일'}
     />
   );
 }

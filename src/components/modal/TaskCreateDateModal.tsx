@@ -1,5 +1,6 @@
 import RepeatDropdown from '@/containers/group/groupId/dropdown/RepeatDropdown';
-import { postTask } from '@/services/TaskAPI';
+import WeeklyDatePicker from '@/containers/group/groupId/tasklist/WeeklyDatePicker';
+import { postRecurring } from '@/services/TaskAPI';
 import useModalStore from '@/stores/ModalStore';
 import combineDateTime from '@/utils/combineDateTime';
 import getMonthDay from '@/utils/getMonthDay';
@@ -8,7 +9,7 @@ import clsx from 'clsx';
 import { useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import Button from '../button/button';
-import Calendar from '../calendar/Calendar';
+import Calendar, { CalendarInput } from '../calendar/Calendar';
 import BoxInput from '../input/boxInput';
 import Input from '../input/input';
 import TimePicker from '../timeSelect/TimePicker';
@@ -37,10 +38,8 @@ function TaskCreateDateModal({
   // 반복 설정 (default: 한 번)
   const [frequency, setFrequency] = useState<FrequencyType>('ONCE');
 
-  // NOTE:시간은 정확한데 데이터가 이상하게 들어가서 확인용으로 냅둡니당 다음 pr때 지울게요!
-  console.log('time');
-  console.log(time);
-  console.log(combineDateTime(selectedDate, time));
+  const [weekDays, setWeekDays] = useState<number[]>([]);
+  const [monthDay, setMonthDay] = useState<Date>(new Date());
 
   const queryClient = useQueryClient();
 
@@ -48,7 +47,8 @@ function TaskCreateDateModal({
 
   // 할 일 생성하는 mutation 함수
   const TaskCreateMutation = useMutation({
-    mutationFn: (data: PostTask) => postTask(groupId, taskListId, data),
+    mutationFn: (data: PostRecurring) =>
+      postRecurring(groupId, taskListId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['getTasks', groupId, taskListId, getMonthDay(selectedDate)],
@@ -62,16 +62,15 @@ function TaskCreateDateModal({
   const handleTaskCreate: SubmitHandler<FormState> = (data) => {
     const { title, memo } = data;
 
-    const task: PostTask = {
+    const task: PostRecurring = {
       name: title,
       description: memo,
       startDate: combineDateTime(selectedDate, time),
       frequencyType: frequency,
     };
 
-    // TODO 변수들 수정하기
-    if (frequency === 'WEEKLY') task.weekDays = [];
-    if (frequency === 'MONTHLY') task.monthDay = 5;
+    if (frequency === 'WEEKLY') task.weekDays = weekDays;
+    if (frequency === 'MONTHLY') task.monthDay = monthDay.getDate();
 
     TaskCreateMutation.mutate(task);
   };
@@ -108,7 +107,11 @@ function TaskCreateDateModal({
             시작 날짜 및 시간
           </span>
           <div className='flex'>
-            <Calendar pickDate={selectedDate} setPickDate={setSelectedDate} />
+            <Calendar
+              trigger={<CalendarInput />}
+              pickDate={selectedDate}
+              setPickDate={setSelectedDate}
+            />
             <TimePicker setTime={setTime} />
           </div>
         </div>
@@ -127,8 +130,31 @@ function TaskCreateDateModal({
           <span className='text-lg font-medium text-text-primary'>
             반복 요일
           </span>
-          {/* TODO: 요일 버튼 넣기 / display 처리 */}
+          <WeeklyDatePicker handleClick={setWeekDays} />
         </div>
+        <div
+          className={clsx(
+            'flex flex-col gap-16 mb-8',
+            frequency === 'MONTHLY' ? 'block' : 'hidden',
+          )}
+        >
+          <span className='text-lg font-medium text-text-primary'>
+            반복 날짜
+          </span>
+          <Calendar
+            trigger={
+              <button
+                type='button'
+                className='w-full h-44 py-10 px-12 rounded-12 bg-dropdown-button text-text-default text-md font-medium'
+              >
+                {`매달 ${monthDay.getDate()}일 반복`}
+              </button>
+            }
+            pickDate={monthDay}
+            setPickDate={setMonthDay}
+          />
+        </div>
+
         <div className='flex flex-col gap-16 mb-8'>
           <span className='text-lg font-medium text-text-primary'>
             할 일 메모
