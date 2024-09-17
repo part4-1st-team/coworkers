@@ -17,7 +17,7 @@ import getDate from '@/utils/getDate';
 import useHalfPageStore from '@/stores/HalfPageStore';
 
 import KebabDropdown from './comment/KebabDropdown';
-import HalfPageContent from './HalfListContent';
+import HalfPageContent from './HalfPage/HalfListContent';
 import useDeleteTaskMutation from './hooks/useDeleteTaskMutation';
 import useTaskMutation from './hooks/useTaskMutation';
 

@@ -13,8 +13,8 @@ import getDaily from '@/utils/getDaily';
 import getDate from '@/utils/getDate';
 import getTime from '@/utils/getTime';
 import { motion } from 'framer-motion';
-import Comment from './comment/Comment';
-import CommentInput from './comment/CommentInput';
+import Comment from '../comment/Comment';
+import CommentInput from '../comment/CommentInput';
 
 function HalfPageContent({ task }: { task: DateTask }) {
   const { setHalfPageClose } = useHalfPageStore();
