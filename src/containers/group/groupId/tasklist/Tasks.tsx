@@ -2,13 +2,13 @@ import { IconCalendar, IconPlus } from '@/assets/IconList';
 import ArrowButton from '@/components/button/arrowButton';
 import Calendar from '@/components/calendar/Calendar';
 import TaskCreateDateModal from '@/components/modal/TaskCreateDateModal';
+import useQueryParameter from '@/hooks/useQueryParameter';
 import useTaskLists from '@/hooks/useTaskLists';
 import useTasks from '@/hooks/useTasks';
 import useModalStore from '@/stores/ModalStore';
 import getMonthDay from '@/utils/getMonthDay';
 import clsx from 'clsx';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { useState } from 'react';
 import TaskAddButton from '../TaskAddButton';
 import Task from './Task';
@@ -19,16 +19,11 @@ function Tasks() {
   // 기본으로는 현재 날짜, 화살표 버튼을 통해 날짜 변경함
   const [pickDate, setPickDate] = useState<Date>(new Date());
 
-  const router = useRouter();
-  const { groupId, tasklistId } = router.query;
+  const { groupId, taskListId } = useQueryParameter();
 
-  const { tasks, isLoading } = useTasks(
-    Number(groupId),
-    Number(tasklistId),
-    String(pickDate),
-  );
+  const { tasks, isLoading } = useTasks(groupId, taskListId, String(pickDate));
 
-  const { taskLists, isLoading: isListLoading } = useTaskLists(Number(groupId));
+  const { taskLists, isLoading: isListLoading } = useTaskLists(groupId);
 
   const handlePreviousDay = () => {
     setPickDate((prevDate) => {
@@ -87,7 +82,7 @@ function Tasks() {
                 href={`/group/${groupId}/tasklist/${taskList.id}`}
                 className={clsx(
                   'text-text-default text-lg font-medium',
-                  Number(tasklistId) === taskList.id &&
+                  taskListId === taskList.id &&
                     'text-white underline underline-offset-4',
                 )}
               >
@@ -106,10 +101,7 @@ function Tasks() {
         type='button'
         onClick={() =>
           setModalOpen(
-            <TaskCreateDateModal
-              groupId={Number(groupId)}
-              taskListId={Number(tasklistId)}
-            />,
+            <TaskCreateDateModal groupId={groupId} taskListId={taskListId} />,
           )
         }
         className='absolute right-24 bottom-24 tablet:bottom-25 desktop:right-0 desktop:bottom-49 bg-brand-primary flex gap-4 items-center px-21 py-14 rounded-40'
