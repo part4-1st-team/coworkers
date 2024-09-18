@@ -4,6 +4,7 @@ import {
   IconProgressOngoing,
 } from '@/assets/IconList';
 import GroupDropDown from './GroupDropDown';
+import Link from 'next/link';
 
 interface Props extends React.HTMLAttributes<HTMLButtonElement> {
   color: string;
@@ -23,7 +24,9 @@ function GroupTaskList({
     <div className='w-full h-40 rounded-12 bg-background-secondary flex text-md text-text-primary'>
       <div className={`w-12 h-full rounded-l-12 bg-point-${color}`} />
       <div className='w-full px-12 flex items-center justify-between'>
-        <section>{children}</section>
+        <Link href={`task-lists/{taskListId}`} className='w-full'>
+          {children}
+        </Link>
         <div className='flex '>
           <section className=' flex items-center'>
             <div className='py-4 px-8 bg-background-primary rounded-12 flex text-brand-primary gap-4'>
@@ -35,7 +38,12 @@ function GroupTaskList({
               {`${doneCount}/${totalCount}`}
             </div>
           </section>
-          <GroupDropDown icon='kebab' />
+          {/* TODO 그룹 목록 수정하기, 삭제하기 구현(모달???) */}
+          <GroupDropDown
+            icon='kebab'
+            handleEdit={() => {}}
+            handleDelete={() => {}}
+          />
         </div>
       </div>
     </div>
