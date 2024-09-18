@@ -7,6 +7,7 @@ import {
   IconX,
 } from '@/assets/IconList';
 import FloatingButton from '@/components/button/floatingButton';
+import useTaskCommentList from '@/hooks/useTaskCommentList';
 import useHalfPageStore from '@/stores/HalfPageStore';
 import getDaily from '@/utils/getDaily';
 import getDate from '@/utils/getDate';
@@ -19,6 +20,7 @@ function HalfPageContent({ task }: { task: DateTask }) {
   const { setHalfPageClose } = useHalfPageStore();
 
   const {
+    id,
     name,
     description,
     date,
@@ -33,6 +35,8 @@ function HalfPageContent({ task }: { task: DateTask }) {
   } = task;
 
   const { nickname } = writer;
+
+  const { taskCommentList } = useTaskCommentList(id);
 
   return (
     <motion.div
@@ -98,8 +102,10 @@ function HalfPageContent({ task }: { task: DateTask }) {
         <div className='w-full h-200 text-md font-normal text-text-primary'>
           {description}
         </div>
-        <CommentInput />
-        <Comment />
+        <CommentInput taskId={id} />
+        {taskCommentList.map((taskComment: Comment) => (
+          <Comment comment={taskComment} key={taskComment.id} />
+        ))}
         {/* TODO 코멘트리스트 불러오기  */}
       </div>
       <FloatingButton

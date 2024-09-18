@@ -39,8 +39,4 @@ function DropdownMenu({
   );
 }
 
-DropdownMenu.defaultProps = {
-  position: 'top-30 l-0',
-};
-
 export default DropdownMenu;

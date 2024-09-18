@@ -17,7 +17,7 @@ function BoardPage() {
         <div className=''>
           <ArticleList />
         </div>
-        <div className='w-104 absolute bottom-145 desktop:bottom-45 right-0'>
+        <div className='w-104 fixed bottom-145 desktop:bottom-45 right-21 tablet:right-25 desktop:right-80 '>
           <Link href='/board/add-post'>
             <FloatingButton
               type='button'

@@ -1,5 +1,13 @@
 import axios from '@/libs/axios';
 import { StdioNull } from 'child_process';
+import {
+  Article,
+  ArticleResponse,
+  RequestArticle,
+  Articles,
+  PatchResponseArticle,
+  ArticleOrder,
+} from '@/types/Article';
 
 /**
  * 게시글 작성 함수

@@ -1,29 +1,35 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { IconPlus } from '@/assets/IconList';
 import Image from 'next/image';
 import clsx from 'clsx';
 
 interface ImageAddButtonProps {
   onImageChange: (file: File | null) => void;
+  imageUrl?: string;
 }
 
-function ImageAddButton({ onImageChange }: ImageAddButtonProps) {
+function ImageAddButton({ onImageChange, imageUrl }: ImageAddButtonProps) {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (imageUrl) {
+      setImagePreview(imageUrl);
+    } else {
+      setImagePreview(null); // 빈 문자열일 때 초기화
+    }
+  }, [imageUrl]);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       onImageChange(file);
-      const previewUrl = URL.createObjectURL(file);
-      setImagePreview(previewUrl);
     }
   };
 
   const handleImageClick = () => {
-    document.getElementById('imageInput')?.click(); // input 클릭 이벤트 발생
+    document.getElementById('imageInput')?.click();
   };
 
-  // 스타일 클래스 정의
   const baseStyles =
     'relative w-160 h-160 tablet:w-240 tablet:h-240 flex flex-col items-center justify-center rounded-12 overflow-hidden';
   const imageStyles = imagePreview
@@ -34,11 +40,11 @@ function ImageAddButton({ onImageChange }: ImageAddButtonProps) {
     <>
       <div
         role='button'
-        tabIndex={0} // 키보드로 포커스를 받을 수 있도록 추가
+        tabIndex={0}
         onClick={handleImageClick}
         onKeyDown={(e) => {
           if (e.key === 'Enter' || e.key === ' ') {
-            handleImageClick(); // Enter 또는 Space 키 입력 시 이미지 클릭 이벤트 실행
+            handleImageClick();
           }
         }}
         className={clsx(baseStyles, imageStyles)}
@@ -59,7 +65,6 @@ function ImageAddButton({ onImageChange }: ImageAddButtonProps) {
         )}
       </div>
 
-      {/* 파일 선택 input (화면에서 보이지 않음) */}
       <input
         id='imageInput'
         type='file'

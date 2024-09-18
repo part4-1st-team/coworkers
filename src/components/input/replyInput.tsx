@@ -45,7 +45,7 @@ function ReplyInput({
             backgroundColor: 'transparent',
           }}
         />
-        <EnterButton onClick={onClick} />
+        <EnterButton />
       </div>
     </div>
   );

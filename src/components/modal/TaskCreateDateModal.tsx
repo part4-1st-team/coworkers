@@ -97,7 +97,7 @@ function TaskCreateDateModal({
             시작 날짜 및 시간
           </span>
           <div className='flex'>
-            <Calendar date={selectedDate} setDate={setSelectedDate} />
+            <Calendar pickDate={selectedDate} setPickDate={setSelectedDate} />
             <TimePicker setTime={setTime} />
           </div>
         </div>

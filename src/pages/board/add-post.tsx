@@ -46,7 +46,7 @@ function AddPostPage() {
       await postArticle({
         title,
         content,
-        image: imageUrl || '', // 이미지 URL이 없으면 빈 문자열로 전송
+        image: imageUrl || undefined, // 이미지 URL이 없으면 빈 문자열로 전송
       });
 
       // 성공 후 상태 초기화
@@ -108,7 +108,7 @@ function AddPostPage() {
         <p className='mb-16 text-md mt-32 tablet:mt-40 tablet:text-lg font-medium text-text-primary'>
           이미지
         </p>
-        <ImageAddButton onImageChange={handleImageChange} />
+        <ImageAddButton onImageChange={handleImageChange} imageUrl={imageUrl} />
         <div className='block tablet:hidden mt-32'>
           <BaseButton
             type='button'
