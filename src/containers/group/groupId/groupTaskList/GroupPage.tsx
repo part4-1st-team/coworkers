@@ -1,10 +1,10 @@
 // 컴포넌트 import
 import MemberInfo from '@/components/member/MemberInfo';
+import { useRouter } from 'next/router';
 import EmptyGroup from './EmptyGroup';
 import GroupBar from './GroupBar';
 import GroupTask from './GroupTask';
 import GroupReport from './GroupReport';
-import { useRouter } from 'next/router';
 import GroupMembers from './GroupMembers';
 
 // mock data

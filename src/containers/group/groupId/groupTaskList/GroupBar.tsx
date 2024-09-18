@@ -1,9 +1,9 @@
 import React, { use } from 'react';
 import Image from 'next/image';
 import MaskGroupBar from '@/assets/images/img_mask_group_bar.png';
-import GroupDropDown from './GroupDropDown';
 import { useRouter } from 'next/router';
 import useModalStore from '@/stores/ModalStore';
+import GroupDropDown from './GroupDropDown';
 import MemberDeleteModal from '@/components/modal/MemberDeleteModal';
 
 interface Props {

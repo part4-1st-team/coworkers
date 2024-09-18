@@ -3,8 +3,8 @@ import {
   IconProgressDone,
   IconProgressOngoing,
 } from '@/assets/IconList';
-import GroupDropDown from './GroupDropDown';
 import Link from 'next/link';
+import GroupDropDown from './GroupDropDown';
 
 interface Props extends React.HTMLAttributes<HTMLButtonElement> {
   color: string;
@@ -24,7 +24,7 @@ function GroupTaskList({
     <div className='w-full h-40 rounded-12 bg-background-secondary flex text-md text-text-primary'>
       <div className={`w-12 h-full rounded-l-12 bg-point-${color}`} />
       <div className='w-full px-12 flex items-center justify-between'>
-        <Link href={`task-lists/{taskListId}`} className='w-full'>
+        <Link href='`task-lists/{taskListId}`' className='w-full'>
           {children}
         </Link>
         <div className='flex '>

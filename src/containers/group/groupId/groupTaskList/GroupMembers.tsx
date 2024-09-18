@@ -15,7 +15,7 @@ function GroupMembers({ Members = [] }: { Members: IMember[] }) {
       </div>
       <section className='mt-24 grid grid-cols-2 tablet:grid-cols-3 gap-24'>
         {Members.map((item) => (
-          <MemberInfo member={item} />
+          <MemberInfo member={item} key={item.userId} />
         ))}
       </section>
     </section>

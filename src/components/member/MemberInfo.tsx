@@ -28,6 +28,7 @@ function MemberInfo({ member }: { member: IMember }) {
       <button
         type='button'
         onClick={() => setModalOpen(<ProfileModal member={member} />)}
+        aria-label='프로필 모달 케밥'
       >
         <IconKebabSmall />
       </button>

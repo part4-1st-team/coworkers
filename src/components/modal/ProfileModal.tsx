@@ -1,5 +1,4 @@
 import Button from '@/components/button/button';
-import MemberInfo from '../member/MemberInfo';
 import Modal from './Modal';
 
 function ProfileModal({ member }: { member: IMember }) {
@@ -13,7 +12,6 @@ function ProfileModal({ member }: { member: IMember }) {
   return (
     <Modal.Close>
       <div className='px-16 pt-32 flex flex-col items-center gap-24'>
-        <MemberInfo member={member} />
         <div className='w-52 h-52 rounded-[9999px] bg-white' />
         {/* TODO : 프로필 컴포넌트로 변경하기 */}
         <div className='text-center'>
@@ -29,7 +27,7 @@ function ProfileModal({ member }: { member: IMember }) {
           type='button'
           onClick={handleEmailCopy}
           color='primary'
-          className='w-full'
+          className='w-280'
         >
           이메일 복사하기
         </Button>
