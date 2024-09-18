@@ -21,5 +21,5 @@ interface MockGroup {
   name: string;
   id: number;
   tasklists: MockTaskLists[];
-  members: MockMember[];
+  members: IMember[];
 }
