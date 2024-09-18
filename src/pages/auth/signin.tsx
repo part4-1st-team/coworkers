@@ -11,15 +11,9 @@ type FormValues = {
   password: string;
 };
 
-/**
- * 테스트 계정
- * {
-  "email": "test1234@testuser.com",
-  "nickname": "test user",
-  "password": "Test1234!",
-  "passwordConfirmation": "Test1234!"
-}
-*/
+const CLIENT_ID = 'a9ead47c79fd85ed6ae8f21be7e45db5'; // 카카오 개발자 콘솔에서 발급받은 클라이언트 ID 추후 .env 환경 변수 처리 필요
+const REDIRECT_URI = 'http://localhost:3000/oauth/kakao'; // 카카오 로그인 후 리디렉션될 URI
+
 function SignInPage() {
   const router = useRouter();
   const { control, handleSubmit } = useForm<FormValues>();
@@ -53,6 +47,11 @@ function SignInPage() {
         setError('알 수 없는 오류 발생');
       }
     }
+  };
+
+  const handleKakaoLogin = () => {
+    const loginUrl = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}`;
+    window.location.href = loginUrl;
   };
 
   return (
@@ -104,7 +103,7 @@ function SignInPage() {
         <div className='flex justify-between mt-16'>
           <span className='text-text-primary'>간편 로그인하기</span>
           <div className='flex gap-16'>
-            <button type='button'>
+            <button type='button' onClick={handleKakaoLogin}>
               <Image
                 src='/images/img_kakaotalk.png'
                 alt='간편 로그인 카카오톡'
