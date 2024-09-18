@@ -1,27 +1,29 @@
 import { useEffect } from 'react';
-import axios from 'axios';
 import { useRouter } from 'next/router';
+import axios from 'axios';
 
-function KakaoCallbackPage() {
+const CLIENT_ID = 'a9ead47c79fd85ed6ae8f21be7e45db5'; // 카카오 개발자 콘솔에서 발급받은 클라이언트 ID
+const REDIRECT_URI = 'http://localhost:3000/oauth/kakao'; // 카카오 로그인 후 리디렉션될 URI
+
+function KakaoSignIn() {
   const router = useRouter();
 
   useEffect(() => {
     const fetchKakaoToken = async () => {
-      const { code } = router.query; // 카카오에서 리디렉션된 URL의 query 파라미터에서 code 추출
+      const { code } = router.query;
 
       if (code) {
         try {
-          // 카카오 인증 서버에 code를 보내서 액세스 토큰 요청
+          // 카카오 토큰 요청
           const kakaoTokenResponse = await axios.post(
             `https://kauth.kakao.com/oauth/token`,
-            null,
+            new URLSearchParams({
+              grant_type: 'authorization_code',
+              client_id: CLIENT_ID,
+              redirect_uri: REDIRECT_URI,
+              code: String(code),
+            }),
             {
-              params: {
-                grant_type: 'authorization_code',
-                client_id: 'YOUR_CLIENT_ID', // 카카오 개발자 콘솔에서 발급받은 클라이언트 ID
-                redirect_uri: 'http://localhost:3000/oauth/kakao', // 리디렉션 URI
-                code, // 카카오 로그인 성공 후 받은 인가 코드
-              },
               headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
               },
@@ -29,31 +31,37 @@ function KakaoCallbackPage() {
           );
 
           const kakaoAccessToken = kakaoTokenResponse.data.access_token;
+          console.log('카카오 Access Token:', kakaoAccessToken);
 
-          // 액세스 토큰을 서버에 전송하여 사용자 인증
-          const response = await axios.post('/auth/signIn/kakao', {
-            redirectUri: 'http://localhost:3000/oauth/kakao', // 리디렉션 URI
-            token: kakaoAccessToken, // 카카오에서 받은 액세스 토큰
-          });
+          // 백엔드에 토큰 전송
+          const backendResponse = await axios.post(
+            `https://fe-project-cowokers.vercel.app/7-1/auth/signIn/kakao`,
+            {
+              redirectUri: 'http://localhost:3000/oauth/kakao',
+              token: kakaoAccessToken,
+            },
+            {
+              headers: {
+                'Content-Type': 'application/json', // JSON 형식으로 전송
+              },
+            },
+          );
 
-          const { accessToken, refreshToken } = response.data;
-
-          // 액세스 토큰 및 리프레시 토큰 저장
-          localStorage.setItem('accessToken', accessToken);
-          localStorage.setItem('refreshToken', refreshToken);
-
-          // 로그인 성공 후 원하는 페이지로 리디렉션
-          router.push('/group/join-group.index.tsx');
+          console.log('백엔드 응답:', backendResponse.data);
         } catch (error) {
-          console.error('카카오 로그인 실패:', error);
+          if (error.response) {
+            console.error('카카오 로그인 실패:', error.response.data);
+          } else {
+            console.error('카카오 로그인 실패:', error.message);
+          }
         }
       }
     };
 
     fetchKakaoToken();
-  }, [router]);
+  }, [router.query.code]);
 
-  return <div>Loading...</div>;
+  return <div>카카오 로그인 중...</div>;
 }
 
-export default KakaoCallbackPage;
+export default KakaoSignIn;
