@@ -1,15 +1,19 @@
-import React from 'react';
+import React, { use } from 'react';
 import Image from 'next/image';
-import { IconGear } from '@/assets/IconList';
 import MaskGroupBar from '@/assets/images/img_mask_group_bar.png';
-import Dropdown from '@/components/dropdown/Dropdown';
 import GroupDropDown from './GroupDropDown';
+import { useRouter } from 'next/router';
+import useModalStore from '@/stores/ModalStore';
+import MemberDeleteModal from '@/components/modal/MemberDeleteModal';
 
 interface Props {
   children: React.ReactNode;
 }
 
 function GroupBar({ children }: Props) {
+  const router = useRouter();
+  const { setModalOpen } = useModalStore();
+
   return (
     // TODO bg 색상 변경 (slate-50 안 먹힘ㅠ)
     <section className='w-full h-64 bg-white bg-opacity-10 rounded-12 font-medium px-24 border border-border-primary'>
@@ -23,7 +27,14 @@ function GroupBar({ children }: Props) {
             type='button'
             aria-label='팀 수정하기, 삭제하기 드롭다운 버튼'
           >
-            <GroupDropDown icon='gear' />
+            {/* TODO 삭제하기/탈퇴하기 구분해서? */}
+            <GroupDropDown
+              icon='gear'
+              handleEdit={() => {
+                router.push('/edit');
+              }}
+              handleDelete={() => setModalOpen(<MemberDeleteModal />)}
+            />
           </button>
         </div>
       </div>

@@ -1,11 +1,19 @@
 // import { useEffect, useState } from 'react';
+import TaskCreateModal from '@/components/modal/TaskCreateModal';
 import GroupTaskList from './GroupTaskList';
+import TaskAddButton from '../TaskAddButton';
 
 const colors = ['purple', 'blue', 'cyan', 'pink', 'rose', 'orange', 'yellow'];
 
 // NOTE 무한 랜딩 됨... 왜....?
 
-function GroupTask({ Lists }: { Lists: MockTaskLists[] }) {
+function GroupTask({
+  groupId,
+  Lists,
+}: {
+  groupId: number;
+  Lists: MockTaskLists[];
+}) {
   // const [listCount, setListCount] = useState(0);
   // const [doneCount, setDoneCount] = useState(0);
   // const [totalCount, setTotalCount] = useState(0);
@@ -31,7 +39,7 @@ function GroupTask({ Lists }: { Lists: MockTaskLists[] }) {
           <p>할 일 목록</p>
           <p className='text-text-default'>({Lists.length}개)</p>
         </div>
-        <p className='text-brand-primary '>+ 새로운 목록 추가하기</p>
+        <TaskAddButton />
       </div>
       {/* TODO 데이터 연동, 설정 클릭 구현, 색상 변경 구현 */}
       <div className='flex flex-col gap-16'>
