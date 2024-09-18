@@ -13,7 +13,7 @@ function ProfileModal({ member }: { member: IMember }) {
   return (
     <Modal.Close>
       <div className='px-16 pt-32 flex flex-col items-center gap-24'>
-        <MemberInfo />
+        <MemberInfo member={member} />
         <div className='w-52 h-52 rounded-[9999px] bg-white' />
         {/* TODO : 프로필 컴포넌트로 변경하기 */}
         <div className='text-center'>
