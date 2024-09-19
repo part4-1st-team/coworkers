@@ -17,7 +17,8 @@ interface Props {
 function DropdownList({ children, onClick, onClose }: Props) {
   return (
     <motion.li
-      onClick={() => {
+      onClick={(e: any) => {
+        e.stopPropagation();
         onClick();
         onClose();
       }}

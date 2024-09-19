@@ -1,79 +1,57 @@
 import clsx from 'clsx';
 import { useState } from 'react';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useRouter } from 'next/router';
-
 import {
   IconCalendar,
   IconCheckboxActive,
   IconCheckboxDefault,
   IconComment,
+  IconKebabSmall,
   IconRepeat,
 } from '@/assets/IconList';
 
 import getDaily from '@/utils/getDaily';
 import getDate from '@/utils/getDate';
-import getMonthDay from '@/utils/getMonthDay';
 
-import { patchTask } from '@/services/TaskAPI';
 import useHalfPageStore from '@/stores/HalfPageStore';
 
-import KebabDropdown from './comment/KebabDropdown';
-import HalfPageContent from './HalfListContent';
+import useQueryParameter from '@/hooks/useQueryParameter';
+import EditDeleteDropdown from '../EditDeleteDropdown';
+import HalfPageContent from './HalfPage/HalfListContent';
+import useDeleteTaskMutation from './hooks/useDeleteTaskMutation';
+import useTaskMutation from './hooks/useTaskMutation';
 
 function Task({ task }: { task: DateTask }) {
-  const { id, name, commentCount, updatedAt, frequency, doneAt, date } = task;
+  const {
+    id: taskId,
+    name,
+    commentCount,
+    // updatedAt,
+    frequency,
+    doneAt,
+    date,
+  } = task;
 
   // 완료했는지 체크할 상태 (이걸로 먼저 화면 업데이트)
   const [isDone, setIsDone] = useState<boolean>(!!doneAt);
 
   const { setHalfPageOpen } = useHalfPageStore();
 
-  const router = useRouter();
+  const { groupId, taskListId } = useQueryParameter();
 
-  const { groupId, taskListId } = router.query;
+  const doneTaskMutation = useTaskMutation(
+    task,
+    groupId,
+    taskListId,
+    setIsDone,
+  );
 
-  const queryClient = useQueryClient();
-
-  const doneTaskMutation = useMutation({
-    mutationFn: (data: PatchTask) =>
-      patchTask(Number(groupId), Number(taskListId), id, data),
-
-    onMutate: async () => {
-      await queryClient.cancelQueries({
-        queryKey: ['getTasks', groupId, taskListId, getMonthDay(date)],
-      });
-
-      // 요청 보내기전 댓글리스트
-      const prevComments = queryClient.getQueryData([
-        'getTasks',
-        groupId,
-        taskListId,
-        getMonthDay(date),
-      ]);
-
-      return { prevComments };
-    },
-
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({
-        queryKey: ['getTasks', groupId, taskListId, getMonthDay(date)],
-      });
-      setIsDone(!!data.doneAt);
-    },
-
-    // 에러 나면 이전 상태로 변경하도록..
-    // TODO 머지 후 토스트 뜨게
-    // eslint-disable-next-line no-empty-pattern
-    onError: (err, {}, context) => {
-      queryClient.setQueryData(
-        ['getTasks', groupId, taskListId, getMonthDay(date)],
-        context?.prevComments,
-      );
-    },
-  });
-
+  const deleteTaskMutation = useDeleteTaskMutation(
+    groupId,
+    taskListId,
+    taskId,
+    date,
+  );
   const handleDoneTask = (e: any) => {
     e.stopPropagation();
 
@@ -125,9 +103,10 @@ function Task({ task }: { task: DateTask }) {
           </div>
         </div>
 
-        <KebabDropdown
+        <EditDeleteDropdown
+          trigger={<IconKebabSmall />}
           handleEdit={() => console.log('수정')}
-          handleDelete={() => console.log('삭제')}
+          handleDelete={() => deleteTaskMutation.mutate()}
         />
       </div>
 
@@ -136,7 +115,7 @@ function Task({ task }: { task: DateTask }) {
           <IconCalendar width={16} height={16} />
 
           <span className='text-xs font-normal text-text-default'>
-            {getDate(updatedAt)}
+            {getDate(date)}
           </span>
         </div>
 
