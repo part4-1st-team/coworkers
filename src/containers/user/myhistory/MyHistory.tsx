@@ -1,62 +1,29 @@
-// import useHistory from '@/hooks/useHistory';
+import useHistory from '@/hooks/useHistory';
 import getSortedHistoryByDate from '@/utils/getSortedHistoryByDate';
 import DailyTaskHistory from './DailyTaskHistory';
 
-const tasksDone: DoneTask[] = [
-  {
-    id: 7947,
-    updatedAt: '2024-09-04T16:14:56+09:00',
-    date: '2024-09-04T09:00:00+09:00',
-    doneAt: '2024-09-04T16:14:56+09:00',
-    recurringId: 1896,
-    name: 'asd',
-    description: 'asdf',
-    frequency: 'ONCE',
-    deletedAt: null,
-    userId: 525,
-    writerId: 525,
-    displayIndex: 1,
-  },
-  {
-    id: 7948,
-    updatedAt: '2024-09-04T16:14:56+09:00',
-    date: '2024-09-04T09:00:00+09:00',
-    doneAt: '2024-09-04T16:14:56+09:00',
-    recurringId: 1897,
-    name: 'dsfsdaf',
-    description: 'sdfsda',
-    frequency: 'ONCE',
-    deletedAt: null,
-    userId: 525,
-    writerId: 525,
-    displayIndex: 2,
-  },
-  {
-    id: 7944,
-    updatedAt: '2024-09-04T15:59:57+09:00',
-    date: '2024-09-04T09:00:00+09:00',
-    doneAt: '2024-09-05T15:59:57+09:00',
-    recurringId: 1895,
-    name: '글쓰기',
-    description: '화수에 글쓰기',
-    frequency: 'WEEKLY',
-    deletedAt: null,
-    userId: 525,
-    writerId: 525,
-    displayIndex: 0,
-  },
-];
-
 function MyHistory() {
-  // const { history, isLoading } = useHistory();
+  const { history: historyList, isLoading } = useHistory();
 
-  // const sortedHistory: SortDoneTask[] = history
-  //   ? groupHistoryByDate(history)
-  //   : [];
+  if (isLoading) return <>임시 로딩중</>;
 
-  const sortedHistory: SortDoneTask[] = getSortedHistoryByDate(tasksDone);
+  const sortedHistory: SortDoneTask[] = historyList
+    ? getSortedHistoryByDate(historyList)
+    : [];
 
-  // if (isLoading) return <>임시 로딩중</>;
+  if (sortedHistory.length === 0)
+    return (
+      <main className='main-container h-[100vh]'>
+        <div className='h-full'>
+          <h2 className='text-xl font-bold mb-[24px] text-text-primary'>
+            마이 히스토리
+          </h2>
+          <p className='w-full h-full flex justify-center items-center text-md font-medium text-text-default'>
+            아직 히스토리가 없습니다.
+          </p>
+        </div>
+      </main>
+    );
 
   return (
     <main className='main-container'>
