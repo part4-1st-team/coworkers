@@ -49,7 +49,9 @@ function ArticleCard({ board }: ArticleCardProps) {
         </p>
         <div className='mt-16 flex justify-between gap-12'>
           <div className='flex items-center gap-12'>
-            <div className='w-32 h-32 pb-12 rounded-[9999px] bg-white' />
+            <div className='w-32 h-32 pb-12 rounded-[9999px]'>
+              {writer.image}
+            </div>
             <p className='text-text-primary text-md font-medium '>
               {writer.nickname}
             </p>
@@ -85,61 +87,39 @@ function ArticleCard({ board }: ArticleCardProps) {
         className='hidden tablet:block h-220 pt-24 pb-24 px-32 bg-background-secondary rounded-12 border border-background-tertiary'
       >
         <div className='flex flex-col justify-between h-full'>
-          <div className=''>
-            {image ? (
-              <div className='flex justify-between'>
-                <p className='w-224 text-2lg leading-relaxed text-text-secondary font-medium'>
-                  {title}
-                </p>
-                <div className='flex gap-16'>
-                  <p className='w-72 h-72'>
-                    <Image
-                      src={image}
-                      alt='샘플이미지'
-                      width={72}
-                      height={72}
-                    />
-                  </p>
-                  {/* 드롭다운 트리거로 아이콘 추가 */}
-                  <Dropdown onClose={handleOffDropdown}>
-                    <Dropdown.Trigger onClick={handleToggleDropdown}>
-                      <IconKebabLarge />
-                    </Dropdown.Trigger>
-                    <Dropdown.Menu isOpen={isOpen} className='right-10'>
-                      <Dropdown.List onClick={() => console.log('수정하기')}>
-                        수정하기
-                      </Dropdown.List>
-                      <Dropdown.List onClick={() => console.log('삭제하기')}>
-                        삭제하기
-                      </Dropdown.List>
-                    </Dropdown.Menu>
-                  </Dropdown>
+          <div className='flex justify-between'>
+            <p
+              className={`w-224 ${image ? '' : 'h-72'} text-2lg leading-relaxed text-text-secondary font-medium`}
+            >
+              {title}
+            </p>
+            <div className='flex gap-16'>
+              {image && (
+                <div className='w-72 h-72'>
+                  <Image src={image} alt='샘플이미지' width={72} height={72} />
                 </div>
-              </div>
-            ) : (
-              <div className='flex justify-between'>
-                <p className='w-224 h-72 text-2lg leading-relaxed text-text-secondary font-medium'>
-                  {title}
-                </p>
-                <Dropdown onClose={handleOffDropdown}>
-                  <Dropdown.Trigger onClick={handleToggleDropdown}>
-                    <IconKebabLarge />
-                  </Dropdown.Trigger>
-                  <Dropdown.Menu isOpen={isOpen} className='right-10'>
-                    <Dropdown.List onClick={() => console.log('수정하기')}>
-                      수정하기
-                    </Dropdown.List>
-                    <Dropdown.List onClick={() => console.log('삭제하기')}>
-                      삭제하기
-                    </Dropdown.List>
-                  </Dropdown.Menu>
-                </Dropdown>
-              </div>
-            )}
+              )}
+              <Dropdown onClose={handleOffDropdown}>
+                <Dropdown.Trigger onClick={handleToggleDropdown}>
+                  <IconKebabLarge />
+                </Dropdown.Trigger>
+                <Dropdown.Menu isOpen={isOpen} className='right-10'>
+                  <Dropdown.List onClick={() => console.log('수정하기')}>
+                    수정하기
+                  </Dropdown.List>
+                  <Dropdown.List onClick={() => console.log('삭제하기')}>
+                    삭제하기
+                  </Dropdown.List>
+                </Dropdown.Menu>
+              </Dropdown>
+            </div>
           </div>
+
           <div className='mt-16 flex justify-between gap-16 '>
             <div className='flex items-center gap-10'>
-              <div className='w-32 h-32 pb-12 rounded-[9999px] bg-white' />
+              <div className='w-32 h-32 pb-12 rounded-[9999px]'>
+                {writer.image}
+              </div>
               <p className='text-text-primary text-md font-medium '>
                 {writer.nickname}
               </p>

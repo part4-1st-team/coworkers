@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { getArticles } from '@/services/ArticleAPI';
 import { Article } from '@/types/Article';
 import BestArticleCard from './bestArticleCard/bestArticleCard';
 
 function BestArticleList() {
-  const [bestBoards, setBestBoards] = useState<Article[]>([]);
-  const [loading, setLoading] = useState(true);
   const [pageSize, setPageSize] = useState<number>(1); // 기본값을 데스크탑 사이즈로 설정
 
   const handleResize = () => {
@@ -28,29 +27,18 @@ function BestArticleList() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  useEffect(() => {
-    const fetchArticles = async () => {
-      try {
-        const data = await getArticles(
-          1, // page
-          pageSize, // pageSize
-          'like', // orderBy
-        );
-        console.log('데이터확인');
-        console.log('Fetched data:', data);
-        const response = data;
-        setBestBoards(response.list);
-        setLoading(false);
-      } catch (error) {
-        console.error(error);
-        setLoading(false);
-      }
-    };
-    fetchArticles();
-  }, [pageSize]);
+  // React Query를 사용하여 데이터를 페칭
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['bestArticles', pageSize],
+    queryFn: () => getArticles(1, pageSize, 'like'),
+  });
 
-  if (loading) {
+  if (isLoading) {
     return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Something went wrong...</div>;
   }
 
   return (
@@ -62,7 +50,7 @@ function BestArticleList() {
         <div className='text-sm tablet:text-md text-text-disabled'>더보기</div>
       </div>
       <div className='flex gap-16'>
-        {bestBoards.map((board) => (
+        {data?.list.map((board: Article) => (
           <BestArticleCard key={board.id} board={board} />
         ))}
       </div>

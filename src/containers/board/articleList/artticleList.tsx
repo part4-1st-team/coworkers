@@ -1,79 +1,7 @@
-// import { useState, useEffect } from 'react';
-// import { getArticles } from '@/services/ArticleAPI';
-// import { Article } from '@/types/Article';
-// import Dropdown from '@/components/dropdown/Dropdown';
-// import useDropdown from '@/hooks/useDropdown';
-// import ArticleCard from './articleListCard/articleListCard';
-// import { IconToggleDown } from '@/assets/IconList';
-
-// function ArticleList() {
-//   const [Boards, setBoards] = useState<Article[]>([]);
-//   const [loading, setLoading] = useState(true);
-//   const [pageSize, setPageSize] = useState<number>(3);
-//   const { isOpen, handleToggleDropdown, handleOffDropdown } = useDropdown();
-
-//   const fetchArticles = async () => {
-//     try {
-//       const data = await getArticles(
-//         1, // page
-//         pageSize, // pageSize
-//         'like', // orderBy
-//       );
-//       console.log('데이터확인');
-//       console.log('Fetched data:', data);
-//       const response = data;
-//       setBoards(response.list);
-//       setLoading(false);
-//     } catch (error) {
-//       console.error(error);
-//       setLoading(false);
-//     }
-//   };
-
-//   useEffect(() => {
-//     fetchArticles();
-//   }, []);
-
-//   return (
-//     <div className='max-w-desktop h-auto overflow-hidden mx-auto my-auto flex flex-col gap-32'>
-//       <div className='flex items-center justify-between'>
-//         <p className='text-lg font-medium tablet:text-xl  tablet:font-bold text-text-primary'>
-//           게시글
-//         </p>
-//         <Dropdown onClose={handleOffDropdown}>
-//           <Dropdown.Trigger onClick={handleToggleDropdown}>
-//             <div className='bg-background-secondary text-text-primary font-normal w-120 h-44 px-14 py-10 rounded-12 flex items-center justify-between text-sm tablet:text-md text-text-disabled'>
-//               최신순
-//               <IconToggleDown className='text-icon-primary' />
-//             </div>
-//           </Dropdown.Trigger>
-//           <Dropdown.Menu isOpen={isOpen} className='w-120 absolute top-44'>
-//             <Dropdown.List onClick={() => console.log('최신순')}>
-//               최신순
-//             </Dropdown.List>
-//             <Dropdown.List onClick={() => console.log('좋아요 순')}>
-//               좋아요 순
-//             </Dropdown.List>
-//           </Dropdown.Menu>
-//         </Dropdown>
-//         {/* TODO : 드롭다운 컴포넌트로 변경하기 */}
-//         {}
-//       </div>
-
-//       <div className='flex flex-col gap-24 desktop:grid desktop:grid-cols-2'>
-//         {Boards.map((board) => (
-//           <ArticleCard key={board.id} board={board} />
-//         ))}
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default ArticleList;
-
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { getArticles } from '@/services/ArticleAPI';
-import { Article } from '@/types/Article';
+import { Articles } from '@/types/Article';
 import Dropdown from '@/components/dropdown/Dropdown';
 import useDropdown from '@/hooks/useDropdown';
 import { IconToggleDown } from '@/assets/IconList';
@@ -82,58 +10,52 @@ import ArticleCard from './articleListCard/articleListCard';
 type ArticleOrder = 'like' | 'recent';
 
 function ArticleList() {
-  const [boards, setBoards] = useState<Article[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [pageSize, setPageSize] = useState<number>(4);
-  const [page, setPage] = useState<number>(1);
-  const [hasMore, setHasMore] = useState<boolean>(true);
-  const [orderBy, setOrderBy] = useState<string>('recent');
+  const [orderBy, setOrderBy] = useState<ArticleOrder>('recent');
+  const pageSize = 4;
   const { isOpen, handleToggleDropdown, handleOffDropdown } = useDropdown();
 
-  const fetchArticles = useCallback(async () => {
-    try {
-      const data = await getArticles(
-        page, // page
-        pageSize, // pageSize
-        orderBy, // orderBy
-      );
-      if (data.list.length < pageSize) {
-        setHasMore(false); // 더 이상 로드할 데이터가 없을 경우
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+  } = useInfiniteQuery<Articles, Error>({
+    queryKey: ['articles', orderBy],
+    queryFn: ({ pageParam = 1 }) => {
+      const page = typeof pageParam === 'number' ? pageParam : undefined;
+      return getArticles(page, pageSize, orderBy);
+    },
+    getNextPageParam: (lastPage, allPages) => {
+      if (lastPage.list.length < pageSize) {
+        return undefined;
       }
-      setBoards((prev) => [...prev, ...data.list]);
-      setLoading(false);
-    } catch (error) {
-      console.error(error);
-      setLoading(false);
-    }
-  }, [page, pageSize, orderBy]);
+      return allPages.length + 1;
+    },
+    initialPageParam: 1,
+    staleTime: 0,
+  });
 
-  useEffect(() => {
-    setBoards([]); // 페이지 변경 시 데이터 초기화
-    setPage(1); // 페이지를 처음으로 초기화
-  }, [orderBy]);
+  const observerRef = useRef<IntersectionObserver | null>(null);
 
-  useEffect(() => {
-    fetchArticles();
-  }, [fetchArticles]);
+  const lastArticleRef = useCallback(
+    (node: HTMLDivElement) => {
+      if (isFetchingNextPage) return;
+      if (observerRef.current) observerRef.current.disconnect();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (
-        window.innerHeight + document.documentElement.scrollTop !==
-          document.documentElement.offsetHeight ||
-        loading
-      ) {
-        return;
-      }
-      if (hasMore) {
-        setPage((prev) => prev + 1);
-      }
-    };
+      observerRef.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasNextPage) {
+          fetchNextPage();
+        }
+      });
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [loading, hasMore]);
+      if (node) observerRef.current.observe(node);
+    },
+    [isFetchingNextPage, fetchNextPage, hasNextPage],
+  );
+
+  const articles = data?.pages.flatMap((page) => page.list) ?? [];
 
   const handleSortChange = (sortType: ArticleOrder) => {
     setOrderBy(sortType);
@@ -171,12 +93,20 @@ function ArticleList() {
       </div>
 
       <div className='flex flex-col gap-24 desktop:grid desktop:grid-cols-2'>
-        {boards.map((board) => (
-          <ArticleCard key={board.id} board={board} />
-        ))}
+        {articles.map((board, index) => {
+          if (articles.length === index + 1) {
+            return (
+              <div key={board.id} ref={lastArticleRef}>
+                <ArticleCard board={board} />
+              </div>
+            );
+          }
+          return <ArticleCard key={board.id} board={board} />;
+        })}
       </div>
 
-      {loading && <div>Loading...</div>}
+      {(isFetchingNextPage || isLoading) && <div>Loading...</div>}
+      {error && <div>에러가 발생했습니다: {error.message}</div>}
     </div>
   );
 }
