@@ -7,24 +7,17 @@ interface EditButtonProps {
 }
 
 function EditPencilButton({ isEditing, setIsEditing }: EditButtonProps) {
-  if (isEditing)
-    return (
-      <button
-        type='button'
-        onClick={() => setIsEditing(false)}
-        aria-label='제목 수정 취소 버튼'
-      >
-        <IconX width={24} height={24} />
-      </button>
-    );
-
   return (
     <button
       type='button'
-      onClick={() => setIsEditing(true)}
-      aria-label='제목 수정 버튼'
+      onClick={() => setIsEditing((prev) => !prev)}
+      aria-label={isEditing ? '제목 수정 취소 버튼' : '제목 수정 버튼'}
     >
-      <IconPencil className='w-16 h-16 fill-text-default' />
+      {isEditing ? (
+        <IconX width={24} height={24} />
+      ) : (
+        <IconPencil className='w-16 h-16 fill-text-default' />
+      )}
     </button>
   );
 }
