@@ -55,7 +55,9 @@ function DoughnutChart({ percentage }: DoughnutChartProps) {
       <div className='absolute size-90 tablet:size-108 bg-background-secondary rounded-full'>
         {' '}
       </div>
-      <canvas className='absolute -scale-x-100' ref={chartRef}></canvas>
+      <canvas className='absolute -scale-x-100' ref={chartRef}>
+        {' '}
+      </canvas>
     </div>
   );
 }
