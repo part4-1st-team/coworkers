@@ -7,7 +7,6 @@ interface UserStoreState {
   isLoggedIn: boolean;
   login: (user: User, token: string) => void;
   logout: () => void;
-  setToken: (token: string) => void;
 }
 
 const useUserStore = create<UserStoreState>()(
@@ -16,9 +15,9 @@ const useUserStore = create<UserStoreState>()(
       user: null,
       token: null,
       isLoggedIn: false,
-      login: (newUser: User) => set({ user: newUser, isLoggedIn: true }),
+      login: (newUser: User, newToken: string) =>
+        set({ user: newUser, isLoggedIn: true, token: newToken }),
       logout: () => set({ user: null, isLoggedIn: false, token: null }),
-      setToken: (token: string) => set({ token }),
     }),
     {
       name: 'User',
