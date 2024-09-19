@@ -3,8 +3,6 @@ import Image from 'next/image';
 import TodoImg from '@/assets/images/img_todo.png';
 import DoneImg from '@/assets/images/img_done.png';
 
-import DoughnutChart from '@/components/chart/DoughnutChart';
-
 interface Props {
   doneCount: number;
   totalCount: number;
@@ -19,7 +17,6 @@ function GroupReport({ doneCount = 0, totalCount = 0 }: Props) {
       <section className='w-full h-224 bg-background-secondary rounded-12 p-24 tablet:px-36 desktop:px-48'>
         <div className='w-fill flex justify-between '>
           <div className='flex gap-64 items-center'>
-            <DoughnutChart value={taskPercent} />
             <div className='absolute w-150 h-150 flex flex-col items-center justify-center tablet:hidden '>
               <p className='text-xs'>오늘</p>
               {/* TODO 텍스트 그라데이션 적용 */}
