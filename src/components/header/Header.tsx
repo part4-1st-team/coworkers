@@ -43,7 +43,7 @@ function Header() {
             <IconMenu className='w=24 mr-16  tablet:hidden' />
           )}
           {/* NOTE 차후 landing 페이지로 수정 */}
-          <Link href={'/group/77'}>
+          <Link href='/group/77'>
             <LogoSmall className='desktop:hidden fill-brand-primary' />
             <LogoLarge className='hidden desktop:block fill-brand-primary' />
           </Link>
