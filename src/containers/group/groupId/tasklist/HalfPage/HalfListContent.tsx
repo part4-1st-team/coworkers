@@ -1,9 +1,7 @@
 import {
   IconCalendar,
   IconKebabLarge,
-  IconPencil,
   IconRepeat,
-  IconTime,
   IconX,
 } from '@/assets/IconList';
 import FloatingButton from '@/components/button/floatingButton';
@@ -12,7 +10,6 @@ import useTaskCommentList from '@/hooks/useTaskCommentList';
 import useHalfPageStore from '@/stores/HalfPageStore';
 import getDaily from '@/utils/getDaily';
 import getDate from '@/utils/getDate';
-import getTime from '@/utils/getTime';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -115,7 +112,10 @@ function HalfPageContent({ task }: { task: DateTask }) {
             <EditDeleteDropdown
               trigger={<IconKebabLarge />}
               handleEdit={() => console.log('수정')}
-              handleDelete={() => deleteMutation.mutate()}
+              handleDelete={() => {
+                deleteMutation.mutate();
+                setHalfPageClose();
+              }}
             />
           </div>
           <div className='flex justify-between items-center'>

@@ -30,6 +30,7 @@ const useTaskMutation = (
       queryClient.invalidateQueries({
         queryKey: ['getTasks', groupId, taskListId, getMonthDay(date)],
       });
+
       if (setIsDone) {
         setIsDone(!!data.doneAt);
       }
