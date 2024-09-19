@@ -1,18 +1,29 @@
-import create from 'zustand';
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
-interface User {
-  name: string;
-  email: string;
-}
-
-interface UserStore {
+interface UserStoreState {
   user: User | null;
-  setUser: (user: User | null) => void;
+  token: string | null;
+  isLoggedIn: boolean;
+  login: (user: User, token: string) => void;
+  logout: () => void;
+  setToken: (token: string) => void;
 }
 
-const useUserStore = create<UserStore>((set) => ({
-  user: null,
-  setUser: (user) => set({ user }),
-}));
+const useUserStore = create<UserStoreState>()(
+  persist(
+    (set) => ({
+      user: null,
+      token: null,
+      isLoggedIn: false,
+      login: (newUser: User) => set({ user: newUser, isLoggedIn: true }),
+      logout: () => set({ user: null, isLoggedIn: false, token: null }),
+      setToken: (token: string) => set({ token }),
+    }),
+    {
+      name: 'User',
+    },
+  ),
+);
 
 export default useUserStore;
