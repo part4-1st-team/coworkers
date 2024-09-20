@@ -114,7 +114,6 @@ function ArticleCard({ board }: ArticleCardProps) {
               </Dropdown>
             </div>
           </div>
-
           <div className='mt-16 flex justify-between gap-16 '>
             <div className='flex items-center gap-10'>
               <div className='w-32 h-32 pb-12 rounded-[9999px]'>

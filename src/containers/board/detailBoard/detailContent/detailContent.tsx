@@ -1,65 +1,72 @@
-import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import {
   getArticleDetail,
   patchArticle,
   postArticleLike,
 } from '@/services/ArticleAPI';
 import { Article } from '@/types/Article';
-import { IconHeart, IconComment } from '@/assets/IconList';
-import BoxInput from '@/components/input/boxInput';
-import Button from '@/components/button/button';
+import { IconHeart, IconComment, IconKebabLarge } from '@/assets/IconList';
+import Dropdown from '@/components/dropdown/Dropdown';
+import useDropdown from '@/hooks/useDropdown';
+import AddComment from '../comment/addComment/addComment';
 
 interface DetailContentProps {
   boardId: number | number[] | undefined;
 }
 
 function DetailContent({ boardId }: DetailContentProps) {
-  const [articleDetail, setArticleDetail] = useState<Article | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const { isOpen, handleToggleDropdown, handleOffDropdown } = useDropdown();
 
-  useEffect(() => {
-    const fetchArticlesDetail = async () => {
-      try {
-        if (!boardId || typeof boardId === 'object')
-          throw new Error('게시글 ID가 없습니다.');
-
-        const data = await getArticleDetail(boardId);
-
-        if (!data) {
-          throw new Error('게시글 데이터를 찾을 수 없습니다.');
-        }
-
-        setArticleDetail(data);
-      } catch (err) {
-        setError(
-          err instanceof Error
-            ? err.message
-            : '알 수 없는 오류가 발생했습니다.',
-        );
+  // React Query를 사용하여 게시글 데이터를 불러오기
+  const {
+    data: articleDetail,
+    error,
+    isFetching,
+  } = useQuery({
+    queryKey: ['articleDetail', boardId], // queryKey
+    queryFn: () => {
+      if (!boardId || typeof boardId === 'object') {
+        throw new Error('게시글 ID가 유효하지 않습니다.');
       }
-    };
+      return getArticleDetail(boardId);
+    },
+    enabled: !!boardId, // boardId가 있을 때만 실행
+    retry: false, // 실패 시 재시도하지 않도록 설정 (옵션)
+  });
 
-    if (boardId) {
-      fetchArticlesDetail();
-    }
-  }, [boardId]);
+  if (isFetching) return <div>Loading...</div>;
+  if (error instanceof Error) return <div>{error.message}</div>;
 
-  if (error) return <div>{error}</div>;
   if (!articleDetail) return <div>Loading...</div>;
 
-  const { title, content, likeCount, commentCount, writer, image, createdAt } =
+  const { title, content, likeCount, commentCount, writer, createdAt } =
     articleDetail;
 
   return (
     <div>
-      <div className='text-lg font-medium tablet:text-2lg text-text-secondary'>
-        {title}
+      <div className='flex justify-between'>
+        <div className='text-lg font-medium tablet:text-2lg text-text-secondary'>
+          {title}
+        </div>
+        <Dropdown onClose={handleOffDropdown}>
+          <Dropdown.Trigger onClick={handleToggleDropdown}>
+            <IconKebabLarge />
+          </Dropdown.Trigger>
+          <Dropdown.Menu isOpen={isOpen} className='right-10'>
+            <Dropdown.List onClick={() => console.log('수정하기')}>
+              수정하기
+            </Dropdown.List>
+            <Dropdown.List onClick={() => console.log('삭제하기')}>
+              삭제하기
+            </Dropdown.List>
+          </Dropdown.Menu>
+        </Dropdown>
       </div>
 
       <div className='mt-16 w-full border-t border-border-primary' />
       <div className='mt-16 flex justify-between gap-16 '>
         <div className='flex items-center gap-10'>
-          <div className='w-32 h-32 pb-12 rounded-[9999px] bg-white' />
+          <div className='w-32 h-32 pb-12 rounded-[9999px]'>{writer.image}</div>
           <p className='text-text-primary text-md font-medium '>
             {writer.nickname}
           </p>
@@ -79,7 +86,7 @@ function DetailContent({ boardId }: DetailContentProps) {
           <div className='flex items-center gap-4'>
             <IconHeart />
             <p className='text-md text-text-disabled flex items-center'>
-              {likeCount} +
+              {likeCount}
             </p>
           </div>
         </div>
@@ -87,21 +94,7 @@ function DetailContent({ boardId }: DetailContentProps) {
       <div className='mt-48 py-10 text-md font-normal text-text-secondary'>
         <p>{content}</p>
       </div>
-      <div className='mt-80 flex flex-col gap-16 tablet:gap-24'>
-        <p className='text-lg font-medium tablet:text-xl  tablet:font-bold text-text-primary'>
-          댓글달기
-        </p>
-        <BoxInput placeholder='댓글을 입력해주세요.' />
-        <div className='flex justify-end'>
-          <Button
-            type='button'
-            color='primary'
-            className='w-74 h-32 tablet:w-184 tablet:h-48'
-          >
-            등록
-          </Button>
-        </div>
-      </div>
+      <AddComment />
     </div>
   );
 }
