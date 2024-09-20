@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 
+const STATE = 'someRandomState'; // 상태를 임의로 지정
 const CLIENT_ID = 'a9ead47c79fd85ed6ae8f21be7e45db5'; // 카카오 개발자 콘솔에서 발급받은 클라이언트 ID
 const REDIRECT_URI = 'http://localhost:3000/oauth/kakao'; // 카카오 로그인 후 리디렉션될 URI
 
@@ -37,6 +38,7 @@ function KakaoSignIn() {
           const backendResponse = await axios.post(
             `https://fe-project-cowokers.vercel.app/7-1/auth/signIn/kakao`,
             {
+              state: STATE,
               redirectUri: 'http://localhost:3000/oauth/kakao',
               token: kakaoAccessToken,
             },
