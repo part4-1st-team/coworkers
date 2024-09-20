@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { IconMedal, IconHeart } from '@/assets/IconList';
+import BoardProfile from '@/components/profile/boardProfile';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 
@@ -45,7 +46,13 @@ function BestArticleCard({ board }: BestArticleCardProps) {
       </p>
       <div className='mt-16 tablet:mt-34 flex justify-between gap-12 '>
         <div className='flex items-center gap-12'>
-          <div className='w-32 h-32 pb-12 rounded-[9999px]'>{writer.image}</div>
+          <div className='w-32 h-32'>
+            <BoardProfile
+              size={32}
+              nickname={writer.nickname}
+              image={writer.image}
+            />
+          </div>
           <p className='text-text-primary text-md font-medium '>
             {writer.nickname}
           </p>

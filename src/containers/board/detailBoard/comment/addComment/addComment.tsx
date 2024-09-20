@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query'; // useQueryClient 추가
 import Button from '@/components/button/button';
 import BoxInput from '@/components/input/boxInput';
 import { postArticleComment } from '@/services/ArticleCommentAPI';
@@ -12,12 +12,20 @@ function AddComment({ boardId }: AddCommentProps) {
   const [comment, setComment] = useState(''); // 댓글 내용
   const [error, setError] = useState<string | null>(null);
 
+  const queryClient = useQueryClient(); // QueryClient 가져오기
+
   // 댓글을 생성하는 mutation
   const { mutate: postCommentMutate, status: postCommentStatus } = useMutation({
     mutationFn: (newComment: string) => postArticleComment(boardId, newComment),
     onSuccess: () => {
       setComment(''); // 성공적으로 댓글을 작성하면 입력 필드 초기화
       setError(null); // 에러 초기화
+
+      // 댓글 목록을 다시 불러오기 위해 해당 query 무효화
+      queryClient.invalidateQueries({
+        queryKey: ['ArticleComments', boardId], // 쿼리 키 배열
+      });
+
       console.log('댓글이 성공적으로 등록되었습니다.');
     },
     onError: () => {
@@ -46,8 +54,7 @@ function AddComment({ boardId }: AddCommentProps) {
         value={comment}
         onChange={(e) => setComment(e.target.value)}
       />
-      {error && <div className='text-red-500'>{error}</div>}{' '}
-      {/* 에러 메시지 표시 */}
+      {error && <div className='text-red-500'>{error}</div>}
       <div className='flex justify-end'>
         <Button
           type='button'

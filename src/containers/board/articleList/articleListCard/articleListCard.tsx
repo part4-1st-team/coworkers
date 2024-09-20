@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import BoardProfile from '@/components/profile/boardProfile';
 import { IconKebabSmall, IconKebabLarge, IconHeart } from '@/assets/IconList';
 import Dropdown from '@/components/dropdown/Dropdown';
 import useDropdown from '@/hooks/useDropdown';
@@ -48,8 +49,12 @@ function ArticleCard({ board }: ArticleCardProps) {
         </p>
         <div className='mt-16 flex justify-between gap-12'>
           <div className='flex items-center gap-12'>
-            <div className='w-32 h-32 pb-12 rounded-[9999px]'>
-              {writer.image}
+            <div className='w-32 h-32'>
+              <BoardProfile
+                size={32}
+                nickname={writer.nickname}
+                image={writer.image}
+              />
             </div>
             <p className='text-text-primary text-md font-medium '>
               {writer.nickname}
@@ -115,8 +120,12 @@ function ArticleCard({ board }: ArticleCardProps) {
           </div>
           <div className='mt-16 flex justify-between gap-16 '>
             <div className='flex items-center gap-10'>
-              <div className='w-32 h-32 pb-12 rounded-[9999px]'>
-                {writer.image}
+              <div className='w-32 h-32 '>
+                <BoardProfile
+                  size={32}
+                  nickname={writer.nickname}
+                  image={writer.image}
+                />
               </div>
               <p className='text-text-primary text-md font-medium '>
                 {writer.nickname}
