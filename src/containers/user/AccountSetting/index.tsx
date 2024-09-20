@@ -88,19 +88,27 @@ function AccountSetting() {
           onSubmit={handleSubmit(handleChangeUser)}
           className='flex flex-col gap-[24px]'
         >
-          {/* TODO input들 defaultValue 변경 */}
-          <Controller
-            name='name'
-            control={control}
-            defaultValue={nickname}
-            render={({ field }) => <Input type='text' {...field} />}
-          />
-          <Controller
-            name='email'
-            control={control}
-            defaultValue={email}
-            render={({ field }) => <Input disabled type='text' {...field} />}
-          />
+          <div className='flex flex-col gap-12'>
+            <Input.Label id='name'>이름</Input.Label>
+            <Controller
+              name='name'
+              control={control}
+              defaultValue={nickname}
+              render={({ field }) => <Input id='name' type='text' {...field} />}
+            />
+          </div>
+
+          <div className='flex flex-col gap-12'>
+            <Input.Label id='email'>이메일</Input.Label>
+            <Controller
+              name='email'
+              control={control}
+              defaultValue={email}
+              render={({ field }) => (
+                <Input id='email' disabled type='text' {...field} />
+              )}
+            />
+          </div>
 
           <Button color='primary' type='submit'>
             변경하기
