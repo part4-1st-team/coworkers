@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import Label from './Label';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   /**
@@ -69,5 +70,7 @@ Input.defaultProps = {
   className: '',
   children: '',
 };
+
+Input.Label = Label;
 
 export default Input;
