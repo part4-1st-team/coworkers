@@ -1,19 +1,25 @@
 import ReplyInput from '@/components/input/replyInput';
 import { postTaskComment } from '@/services/TaskCommentAPI';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
 interface TaskCommentState {
   content: string;
 }
 
-function CommentInput() {
-  const { control, handleSubmit } = useForm<TaskCommentState>();
-  const taskId = 3; // TODO taskId 받아오기
+function CommentInput({ taskId }: { taskId: number }) {
+  const { control, handleSubmit, reset } = useForm<TaskCommentState>();
+
+  const queryClient = useQueryClient();
 
   const postTaskCommentMutation = useMutation({
     mutationFn: (content: string) => postTaskComment(taskId, content),
-    onSuccess: () => {},
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['getTaskCommentList', taskId],
+      });
+      reset();
+    },
     onError: () => {},
   });
 

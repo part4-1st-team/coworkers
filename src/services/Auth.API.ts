@@ -9,17 +9,10 @@ interface LoginPayload {
 interface LoginResponse {
   accessToken: string;
   refreshToken: string;
-  user: {
-    id: number;
-    email: string;
-    nickname: string;
-    updatedAt: string;
-    createdAt: string;
-    image: string | null;
-    teamId: string;
-  };
+  user: User;
 }
 
+// 로그인 API
 async function login(payload: LoginPayload): Promise<LoginResponse> {
   try {
     const response = await axios.post<LoginResponse>(
@@ -47,3 +40,29 @@ async function login(payload: LoginPayload): Promise<LoginResponse> {
 }
 
 export default login;
+
+// 회원가입 API
+interface SignupData {
+  nickname: string;
+  email: string;
+  password: string;
+  passwordConfirmation: string;
+}
+
+export async function signup(data: SignupData) {
+  try {
+    const response = await axios.post('/auth/signUp', data);
+    // eslint-disable-next-line no-console
+    console.log('회원가입 성공:', response.data);
+    return response.data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      // eslint-disable-next-line no-console
+      console.error('회원가입 실패:', error.response?.data || error.message);
+    } else {
+      // eslint-disable-next-line no-console
+      console.error('회원가입 실패:', error);
+    }
+    throw error;
+  }
+}

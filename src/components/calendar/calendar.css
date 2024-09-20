@@ -1,9 +1,15 @@
 /* 캘린더 - button style은 Tailwind CSS 적용*/
 
+.react-datepicker-wrapper {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}
+
 /* Datepicker 디스플레이 속성 변경 */
 .react-datepicker-popper {
   border: none;
-  margin-left: 65px !important;
+  /*margin-left: 65px !important;*/
 }
 
 /* 캘린더 - 달력 style - 연 */

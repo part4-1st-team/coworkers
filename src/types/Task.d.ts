@@ -70,7 +70,7 @@ interface PatchAfterTask {
 interface PostRecurring {
   name: string;
   description: string;
-  startDate: string;
+  startDate: Date | string;
   frequencyType: FrequencyType;
   monthDay?: number | null;
   weekDays?: number[] | null;
