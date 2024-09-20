@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import useToast from '@/components/toast/useToast';
-import axios from 'axios';
+import axios from '@/libs/axios';
+import { isAxiosError } from 'axios';
 
 const STATE = 'someRandomState'; // 상태를 임의로 지정
 const CLIENT_ID = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID; // 카카오 개발자 콘솔에서 발급받은 클라이언트 ID
@@ -22,7 +23,7 @@ function KakaoSignIn() {
             `https://kauth.kakao.com/oauth/token`,
             new URLSearchParams({
               grant_type: 'authorization_code',
-              client_id: CLIENT_ID!,
+              client_id: CLIENT_ID!, // Type assertion을 통해 null 체크
               redirect_uri: REDIRECT_URI,
               code: String(code),
             }),
@@ -37,16 +38,11 @@ function KakaoSignIn() {
 
           // 백엔드에 토큰 전송
           const backendResponse = await axios.post(
-            `https://fe-project-cowokers.vercel.app/7-1/auth/signIn/kakao`,
+            `/auth/signIn/kakao`, // 상대 경로 사용
             {
               state: STATE,
-              redirectUri: 'http://localhost:3000/oauth/kakao',
+              redirectUri: REDIRECT_URI,
               token: kakaoAccessToken,
-            },
-            {
-              headers: {
-                'Content-Type': 'application/json', // JSON 형식으로 전송
-              },
             },
           );
 
@@ -56,7 +52,7 @@ function KakaoSignIn() {
             `카카오 로그인 성공: ${backendResponse.data.message}`,
           );
         } catch (error: unknown) {
-          if (axios.isAxiosError(error)) {
+          if (isAxiosError(error)) {
             // AxiosError일 경우
             toast('Error', `카카오 로그인 실패: ${error.response?.data}`);
           } else if (error instanceof Error) {
