@@ -5,6 +5,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import Image from 'next/image';
 import login from '@/services/Auth.API';
 import { isAxiosError } from 'axios';
+import useUserStore from '@/stores/userStore';
 
 type FormValues = {
   email: string;
@@ -18,6 +19,7 @@ function SignInPage() {
   const router = useRouter();
   const { control, handleSubmit } = useForm<FormValues>();
   const [error, setError] = useState<string | null>(null);
+  const { setLogin } = useUserStore(); // 로그인 상태 저장
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     const { email, password } = data;
@@ -25,10 +27,9 @@ function SignInPage() {
     try {
       // 로그인 API 요청
       const response = await login({ email, password });
-      // 액세스 토큰 설정
-      localStorage.setItem('accessToken', response.accessToken);
-      // 리프레시 토큰 설정
-      localStorage.setItem('refreshToken', response.refreshToken);
+      const { user, accessToken, refreshToken } = response;
+      // 유저 정보 저장, 쿠키에 토큰 저장
+      setLogin(user, accessToken, refreshToken);
       // 에러 메시지 초기화
       setError(null);
       // 로그인 성공 시 그룹 가입 페이지로 이동

@@ -6,8 +6,12 @@ import { setTokenCookies, removeTokenCookies } from '@/utils/cookieUtils';
 // user 인터페이스 추가
 interface User {
   id: number;
-  name: string;
   email: string;
+  nickname: string;
+  updatedAt: string;
+  createdAt: string;
+  image: string | null;
+  teamId: string;
 }
 
 interface UserStoreState {
