@@ -3,9 +3,10 @@ import { persist } from 'zustand/middleware';
 
 interface UserStoreState {
   user: User | null;
-  token: string | null;
+  accessToken: string | null;
+  refreshToken: string | null;
   isLoggedIn: boolean;
-  login: (user: User, token: string) => void;
+  login: (user: User, atoken: string, rToken: string) => void;
   logout: () => void;
 }
 
@@ -13,11 +14,23 @@ const useUserStore = create<UserStoreState>()(
   persist(
     (set) => ({
       user: null,
-      token: null,
+      accessToken: null,
       isLoggedIn: false,
-      login: (newUser: User, newToken: string) =>
-        set({ user: newUser, isLoggedIn: true, token: newToken }),
-      logout: () => set({ user: null, isLoggedIn: false, token: null }),
+      refreshToken: null,
+      login: (newUser: User, aToken: string, rToken: string) =>
+        set({
+          user: newUser,
+          isLoggedIn: true,
+          accessToken: aToken,
+          refreshToken: rToken,
+        }),
+      logout: () =>
+        set({
+          user: null,
+          isLoggedIn: false,
+          accessToken: null,
+          refreshToken: null,
+        }),
     }),
     {
       name: 'User',
