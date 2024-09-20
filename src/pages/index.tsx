@@ -1,4 +1,4 @@
-import SignInPage from '@/containers/user/auth/signin';
+import SignInPage from '@/pages/auth/signin';
 
 export default function Home() {
   return <SignInPage />;

@@ -6,6 +6,7 @@ import Image from 'next/image';
 import login from '@/services/Auth.API';
 import { isAxiosError } from 'axios';
 import useUserStore from '@/stores/userStore';
+import Link from 'next/link';
 
 type FormValues = {
   email: string;
@@ -91,9 +92,12 @@ function SignInPage() {
           </button>
           <span className='flex justify-center gap-12 text-text-primary font-500 w-full mt-24'>
             <p>아직 계정이 없으신가요?</p>
-            <p className='text-interaction-focus underline decoration-interaction-focus'>
+            <Link
+              href='/auth/signup'
+              className='text-interaction-focus underline decoration-interaction-focus'
+            >
               가입하기
-            </p>
+            </Link>
           </span>
         </form>
         <div className='flex items-center'>
