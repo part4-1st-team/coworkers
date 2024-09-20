@@ -9,8 +9,8 @@ function getMonthDay(dateString: Date | string) {
 
   const dayOfWeekNames = ['일', '월', '화', '수', '목', '금', '토'];
 
-  const month = String(date.getUTCMonth() + 1);
-  const day = String(date.getUTCDate());
+  const month = String(date.getMonth() + 1);
+  const day = String(date.getDate());
   const dayOfWeek = dayOfWeekNames[date.getDay()]; // 요일
 
   return `${month}월 ${day}일 (${dayOfWeek})`;

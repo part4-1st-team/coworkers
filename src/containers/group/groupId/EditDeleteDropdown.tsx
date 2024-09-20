@@ -1,11 +1,13 @@
-import { IconKebabSmall } from '@/assets/IconList';
 import Dropdown from '@/components/dropdown/Dropdown';
 import useDropdown from '@/hooks/useDropdown';
+import { ReactNode } from 'react';
 
-function KebabDropdown({
+function EditDeleteDropdown({
+  trigger,
   handleEdit,
   handleDelete,
 }: {
+  trigger: ReactNode;
   handleEdit: () => void;
   handleDelete: () => void;
 }) {
@@ -14,7 +16,7 @@ function KebabDropdown({
   return (
     <Dropdown onClose={handleOffDropdown}>
       <Dropdown.Trigger onClick={handleToggleDropdown}>
-        <IconKebabSmall className='cursor-pointer' />
+        {trigger}
       </Dropdown.Trigger>
       <Dropdown.Menu isOpen={isOpen} position='right-0'>
         <Dropdown.List onClose={handleOffDropdown} onClick={handleEdit}>
@@ -28,4 +30,4 @@ function KebabDropdown({
   );
 }
 
-export default KebabDropdown;
+export default EditDeleteDropdown;

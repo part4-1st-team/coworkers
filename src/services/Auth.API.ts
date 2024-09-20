@@ -9,15 +9,7 @@ interface LoginPayload {
 interface LoginResponse {
   accessToken: string;
   refreshToken: string;
-  user: {
-    id: number;
-    email: string;
-    nickname: string;
-    updatedAt: string;
-    createdAt: string;
-    image: string | null;
-    teamId: string;
-  };
+  user: User;
 }
 
 // 로그인 API

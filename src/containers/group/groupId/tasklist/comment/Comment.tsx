@@ -1,10 +1,11 @@
+import { IconKebabSmall } from '@/assets/IconList';
 import Button from '@/components/button/button';
 import { deleteTaskComment, patchTaskComment } from '@/services/TaskCommentAPI';
 import getDate from '@/utils/getDate';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import KebabDropdown from './KebabDropdown';
+import EditDeleteDropdown from '../../EditDeleteDropdown';
 
 function Comment({ comment }: { comment: Comment }) {
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -98,7 +99,8 @@ function Comment({ comment }: { comment: Comment }) {
         <span className='text-md font-normal text-text-primary'>
           {commentContent}
         </span>
-        <KebabDropdown
+        <EditDeleteDropdown
+          trigger={<IconKebabSmall />}
           handleEdit={handleEditing}
           handleDelete={deleteTaskCommentMutation.mutate}
         />
