@@ -64,10 +64,4 @@ function Input({ children, className = '', ...props }: InputProps) {
   );
 }
 
-// 기본 속성값 설정
-Input.defaultProps = {
-  className: '',
-  children: '',
-};
-
 export default Input;
