@@ -11,7 +11,7 @@ type FormValues = {
   password: string;
 };
 
-const CLIENT_ID = 'a9ead47c79fd85ed6ae8f21be7e45db5'; // 카카오 개발자 콘솔에서 발급받은 클라이언트 ID 추후 .env 환경 변수 처리 필요
+const CLIENT_ID = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID; // 카카오 개발자 콘솔에서 발급받은 클라이언트 ID 추후 .env 환경 변수 처리 필요
 const REDIRECT_URI = 'http://localhost:3000/oauth/kakao'; // 카카오 로그인 후 리디렉션될 URI
 
 function SignInPage() {
