@@ -6,8 +6,8 @@ interface UserStoreState {
   accessToken: string | null;
   refreshToken: string | null;
   isLoggedIn: boolean;
-  login: (user: User, atoken: string, rToken: string) => void;
-  logout: () => void;
+  setLogin: (user: User, atoken: string, rToken: string) => void;
+  setLogout: () => void;
 }
 
 const useUserStore = create<UserStoreState>()(
@@ -17,14 +17,14 @@ const useUserStore = create<UserStoreState>()(
       accessToken: null,
       isLoggedIn: false,
       refreshToken: null,
-      login: (newUser: User, aToken: string, rToken: string) =>
+      setLogin: (newUser: User, aToken: string, rToken: string) =>
         set({
           user: newUser,
           isLoggedIn: true,
           accessToken: aToken,
           refreshToken: rToken,
         }),
-      logout: () =>
+      setLogout: () =>
         set({
           user: null,
           isLoggedIn: false,
