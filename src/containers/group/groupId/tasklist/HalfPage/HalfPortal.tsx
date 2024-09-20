@@ -26,11 +26,11 @@ function HalfPortal({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     setMounted(true);
-    document.body.style.overflow = 'hidden';
+    // document.body.style.overflow = 'hidden';
 
     return () => {
       setMounted(false);
-      document.body.style.overflow = 'auto';
+      // document.body.style.overflow = 'auto';
     };
   }, []);
 
