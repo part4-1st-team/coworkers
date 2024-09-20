@@ -27,6 +27,7 @@ function ModifyProfile({
   };
 
   return (
+    /* eslint-disable-next-line jsx-a11y/label-has-associated-control */
     <label htmlFor='file-input' className='cursor-pointer relative w-fit'>
       <input
         type='file'
@@ -35,7 +36,7 @@ function ModifyProfile({
         accept='image/png, image/jpeg, image/jpg'
         onChange={handleImageChange}
       />
-      <ProfileImage userImage={preview} size={64} className={'size-64'} />
+      <ProfileImage userImage={preview} size={64} className='size-64' />
       <div className='size-20 flex items-center justify-center rounded-full absolute right-0 bottom-0 bg-background-tertiary border-2 border-background-primary'>
         <IconEdit width={8} height={9} />
       </div>

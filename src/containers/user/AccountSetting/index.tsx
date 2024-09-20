@@ -67,7 +67,7 @@ function AccountSetting() {
   };
 
   useEffect(() => {
-    if (user) setPreview(image);
+    if (user) setPreview(user.image);
   }, [user]);
 
   if (!user) return null;

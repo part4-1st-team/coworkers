@@ -29,7 +29,7 @@ function PasswordChangeModal() {
 
   const handleChangePassword: SubmitHandler<FormState> = (data) => {
     // TODO 비밀번호 유효성 검사 로직 추가하기
-    //TODO AUth 인풋으로 변경하기
+    // TODO AUth 인풋으로 변경하기
     // TODO input 라벨 추가하기
     passwordChangeMutation.mutate(data);
   };
