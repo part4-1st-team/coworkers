@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
 import BaseButton from '@/components/button/baseButton';
 import Input from '@/components/input/input';
 import BoxInput from '@/components/input/boxInput';
@@ -11,6 +12,34 @@ function AddPostPage() {
   const [content, setContent] = useState('');
   const [imageUrl, setImageUrl] = useState<string>('');
 
+  // 이미지 업로드 mutation
+  const { mutate: uploadImageMutate } = useMutation({
+    mutationFn: postImageUpload,
+    onSuccess: (data) => {
+      setImageUrl(data.url); // 성공적으로 업로드된 이미지 URL 설정
+    },
+    onError: (error) => {
+      // alert('이미지 업로드 중 오류가 발생했습니다.');
+      /* TODO: 모달 교체 */
+    },
+  });
+
+  // 게시글 등록 mutation
+  const { mutate: postArticleMutate, status: postArticleStatus } = useMutation({
+    mutationFn: postArticle,
+    onSuccess: () => {
+      // 성공 시 폼 초기화
+      setTitle('');
+      setContent('');
+      setImageUrl('');
+      // alert('게시글이 성공적으로 등록되었습니다.');
+    },
+    onError: (error) => {
+      // alert('게시글 등록 중 오류가 발생했습니다.');
+      /* TODO: 모달 교체 */
+    },
+  });
+
   // 제목 입력 핸들러
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -22,41 +51,27 @@ function AddPostPage() {
   };
 
   // 이미지 변경 핸들러
-  const handleImageChange = async (file: File | null) => {
+  const handleImageChange = (file: File | null) => {
     if (file) {
-      try {
-        const result = await postImageUpload(file); // file을 직접 넘김
-        setImageUrl(result.url);
-      } catch (error) {
-        console.error('이미지 업로드 중 오류가 발생했습니다:', error);
-        alert('이미지 업로드 중 오류가 발생했습니다.');
-      }
+      uploadImageMutate(file); // 이미지 업로드 mutation 실행
     } else {
       setImageUrl('');
     }
   };
 
-  const handleSubmit = async () => {
+  // 게시글 등록 핸들러
+  const handleSubmit = () => {
     if (!title || !content) {
-      /* TODO : 토스트 적용 */
+      // alert('제목과 내용을 입력해 주세요.');
+      /* TODO : 프로필 컴포넌트로 변경하기 */
       return;
     }
 
-    try {
-      await postArticle({
-        title,
-        content,
-        image: imageUrl || undefined, // 이미지 URL이 없으면 빈 문자열로 전송
-      });
-
-      // 성공 후 상태 초기화
-      setTitle('');
-      setContent('');
-      setImageUrl('');
-    } catch (error) {
-      console.error('게시글 등록 중 오류가 발생했습니다:', error);
-      alert('게시글 등록 중 오류가 발생했습니다.');
-    }
+    postArticleMutate({
+      title,
+      content,
+      image: imageUrl || undefined,
+    });
   };
 
   return (
@@ -71,8 +86,9 @@ function AddPostPage() {
             color='primary'
             className='w-183 h-48'
             onClick={handleSubmit}
+            disabled={postArticleStatus === 'pending'} // 로딩 중일 때 버튼 비활성화
           >
-            등록
+            {postArticleStatus === 'pending' ? '등록 중...' : '등록'}
           </BaseButton>
         </div>
       </div>
@@ -115,8 +131,9 @@ function AddPostPage() {
             color='primary'
             className='w-full h-48'
             onClick={handleSubmit}
+            disabled={postArticleStatus === 'pending'}
           >
-            등록
+            {postArticleStatus === 'pending' ? '등록 중...' : '등록'}
           </BaseButton>
         </div>
       </div>

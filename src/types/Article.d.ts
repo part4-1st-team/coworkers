@@ -1,4 +1,4 @@
-export interface ArticleComment {
+interface ArticleComment {
   writer: Writer;
   updatedAt: string;
   createdAt: string;
@@ -6,35 +6,35 @@ export interface ArticleComment {
   id: number;
 }
 
-export interface ArticleComments {
+interface ArticleComments {
   nextCursor: number | null;
   list: ArticleComment[];
 }
 
-export interface ArticleResponse extends ArticleComment {
+interface ArticleResponse extends ArticleComment {
   title: string;
   image: string | null;
   likeCount: number;
 }
 
-export interface RequestArticle {
+interface RequestArticle {
   title: string;
   content: string;
   image?: string | null;
 }
 
-export interface Article extends ArticleResponse {
+interface Article extends ArticleResponse {
   commentCount: number;
 }
 
-export interface Articles {
+interface Articles {
   totalCount: number;
   list: Article[];
 }
 
-export type ArticleOrder = 'recent' | 'like';
+type ArticleOrder = 'recent' | 'like';
 
-export interface PatchResponseArticle extends ArticleComment {
+interface PatchResponseArticle extends ArticleComment {
   likeCount: number;
   image: string | null;
   title: string;

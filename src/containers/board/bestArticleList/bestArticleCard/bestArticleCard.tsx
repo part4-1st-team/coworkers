@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { IconMedal, IconHeart } from '@/assets/IconList';
 import { useRouter } from 'next/router';
-import { Article } from '@/types/Article';
 import Image from 'next/image';
 
 interface BestArticleCardProps {

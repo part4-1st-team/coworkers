@@ -4,7 +4,6 @@ import {
   patchArticle,
   postArticleLike,
 } from '@/services/ArticleAPI';
-import { Article } from '@/types/Article';
 import { IconHeart, IconComment, IconKebabLarge } from '@/assets/IconList';
 import Dropdown from '@/components/dropdown/Dropdown';
 import useDropdown from '@/hooks/useDropdown';
@@ -94,7 +93,7 @@ function DetailContent({ boardId }: DetailContentProps) {
       <div className='mt-48 py-10 text-md font-normal text-text-secondary'>
         <p>{content}</p>
       </div>
-      <AddComment />
+      <AddComment boardId={boardId}/>
     </div>
   );
 }

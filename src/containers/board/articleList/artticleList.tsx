@@ -1,7 +1,6 @@
 import { useState, useCallback, useRef } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { getArticles } from '@/services/ArticleAPI';
-import { Articles } from '@/types/Article';
 import Dropdown from '@/components/dropdown/Dropdown';
 import useDropdown from '@/hooks/useDropdown';
 import { IconToggleDown } from '@/assets/IconList';

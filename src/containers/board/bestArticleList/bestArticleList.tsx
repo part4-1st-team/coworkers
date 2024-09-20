@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getArticles } from '@/services/ArticleAPI';
-import { Article } from '@/types/Article';
 import BestArticleCard from './bestArticleCard/bestArticleCard';
 
 function BestArticleList() {

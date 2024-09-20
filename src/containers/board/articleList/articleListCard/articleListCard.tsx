@@ -2,7 +2,6 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { IconKebabSmall, IconKebabLarge, IconHeart } from '@/assets/IconList';
-import { Article } from '@/types/Article';
 import Dropdown from '@/components/dropdown/Dropdown';
 import useDropdown from '@/hooks/useDropdown';
 
