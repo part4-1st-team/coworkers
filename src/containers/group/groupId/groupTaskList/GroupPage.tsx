@@ -7,7 +7,6 @@ import GroupBar from './GroupBar';
 import GroupTask from './GroupTask';
 import GroupReport from './GroupReport';
 import GroupMembers from './GroupMembers';
-import { safeDateFormat } from 'react-datepicker/dist/date_utils';
 
 function GroupPage() {
   const { groupId } = useQueryParameter();
@@ -35,9 +34,10 @@ function GroupPage() {
             setTotalCount(+tmpt);
 
             const tmp = list.tasks.filter((task) => {
-              task.doneAt;
+              return task.doneAt;
             });
             setDoneCount(+tmp.length);
+            return;
           });
         } catch (error) {
           console.error('Error fetching group data:', error);
