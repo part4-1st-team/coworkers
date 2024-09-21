@@ -1,9 +1,16 @@
-import { IconSecession } from '@/assets/IconList';
+import Button from '@/components/button/button';
 import Input from '@/components/input/input';
-import MemberDeleteModal from '@/components/modal/MemberDeleteModal';
-import PasswordChangeModal from '@/components/modal/PasswordChangeModal';
-import useModalStore from '@/stores/ModalStore';
-import { Controller, useForm } from 'react-hook-form';
+import ModifyProfile from '@/components/member/modifyProfile';
+import useToast from '@/components/toast/useToast';
+import useImageMutation from '@/hooks/useImageMutation';
+import { patchUser } from '@/services/userAPI';
+import { PatchUserType } from '@/types/userAPIType';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import useUser from '@/hooks/useUser';
+import ChangePasswordButton from './ChangePasswordButton';
+import UserSecessionButton from './UserSecessionButton';
 
 interface FormState {
   name: string;
@@ -12,64 +19,105 @@ interface FormState {
 }
 
 function AccountSetting() {
-  const { control } = useForm<FormState>();
+  const { toast } = useToast();
 
-  const { modalId, setModalOpen } = useModalStore();
+  const [currentImage, setCurrentImage] = useState<Blob | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
+  const { control, handleSubmit } = useForm<FormState>();
+  const queryClient = useQueryClient();
+
+  // const { user } = useUserStore();
+  const { user } = useUser();
+
+  const imageMutation = useImageMutation();
+
+  const updateUserMutation = useMutation({
+    mutationFn: async (name: string) => {
+      const data: PatchUserType = {};
+
+      if (currentImage !== null) {
+        const formData = new FormData();
+        formData.append('image', currentImage);
+        const uploadedImage = await imageMutation.mutateAsync(currentImage);
+        data.image = uploadedImage.url;
+      }
+
+      if (user?.nickname !== name) {
+        data.nickname = name;
+      }
+
+      return patchUser(data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['user'],
+      });
+      toast('Success', '프로필이 업데이트되었습니다.');
+    },
+    onError: () => {
+      toast('Error', '프로필 업데이트에 실패했습니다.');
+    },
+  });
+
+  const handleChangeUser: SubmitHandler<FormState> = (data) => {
+    const { name } = data;
+
+    // TODO 이미지 변경 후 프리뷰 변경되지 않는 부분 수정하기
+    updateUserMutation.mutateAsync(name);
+  };
+
+  useEffect(() => {
+    if (user) setPreview(user.image);
+  }, [user]);
+
+  if (!user) return null;
+
+  const { email, nickname, image } = user;
 
   return (
     <main className='main-container'>
-      <div className='flex flex-col gap-[24px]'>
+      <div className='flex flex-col gap-24'>
         <h2 className='text-xl font-bold text-text-primary'>계정 설정</h2>
-        {/* TODO 프로필 변경 컴포넌트로 바꾸기 */}
-        <div className='size-[64px] rounded-[50%] bg-background-tertiary text-text-primary flex justify-center items-center'>
-          임시
-        </div>
-        <form className='flex flex-col gap-[24px]'>
-          {/* TODO input들 defaultValue 변경 */}
-          <Controller
-            name='name'
-            control={control}
-            defaultValue='우지은'
-            render={({ field }) => (
-              <Input label='이름' type='text' {...field} />
-            )}
-          />
-          <Controller
-            name='email'
-            control={control}
-            defaultValue='codeit@codeit.com'
-            render={({ field }) => (
-              <Input label='이메일' disabled type='text' {...field} />
-            )}
-          />
-          <div className='relative'>
+
+        <ModifyProfile
+          preview={preview}
+          setImage={setCurrentImage}
+          setPreview={setPreview}
+        />
+        <form
+          onSubmit={handleSubmit(handleChangeUser)}
+          className='flex flex-col gap-[24px]'
+        >
+          <div className='flex flex-col gap-12'>
+            <Input.Label id='name'>이름</Input.Label>
             <Controller
-              name='password'
+              name='name'
               control={control}
-              defaultValue='12341234'
+              defaultValue={nickname}
+              render={({ field }) => <Input id='name' type='text' {...field} />}
+            />
+          </div>
+
+          <div className='flex flex-col gap-12'>
+            <Input.Label id='email'>이메일</Input.Label>
+            <Controller
+              name='email'
+              control={control}
+              defaultValue={email}
               render={({ field }) => (
-                <Input label='비밀번호' type='password' {...field} />
+                <Input id='email' disabled type='text' {...field} />
               )}
             />
-            {/* TODO 버튼 변경 */}
-            <button
-              className='absolute right-[10px] bottom-[6px]  bg-brand-primary w-[96px] h-[36px] rounded-xl text-white text-xs'
-              type='button'
-              onClick={() => setModalOpen('password-change')}
-            >
-              임시 변경
-            </button>
           </div>
-          {modalId === 'password-change' && <PasswordChangeModal />}
+
+          <Button color='primary' type='submit'>
+            변경하기
+          </Button>
         </form>
-        <button
-          type='button'
-          onClick={() => setModalOpen('secession')}
-          className='text-status-danger flex gap-[8px] items-center'
-        >
-          <IconSecession /> <span>회원 탈퇴하기</span>
-        </button>
-        {modalId === 'secession' && <MemberDeleteModal />}
+        <div className='flex justify-between'>
+          <UserSecessionButton />
+          <ChangePasswordButton />
+        </div>
       </div>
     </main>
   );

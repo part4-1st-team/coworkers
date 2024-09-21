@@ -1,3 +1,6 @@
+import SignInPage from '@/pages/auth/signin';
+
 export default function Home() {
-  return <main>main page</main>;
+  return <SignInPage />;
+  // return <main>main page</main>;
 }
