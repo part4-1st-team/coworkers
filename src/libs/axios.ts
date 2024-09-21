@@ -1,5 +1,5 @@
-import axios from 'axios';
 import type { InternalAxiosRequestConfig } from 'axios';
+import axios from 'axios';
 
 // Axios 인스턴스 생성
 const instance = axios.create({
@@ -12,7 +12,14 @@ const instance = axios.create({
 
 // 리프레시 토큰을 사용하여 액세스 토큰 갱신
 async function refreshAccessToken(): Promise<string> {
-  const refreshToken = localStorage.getItem('refreshToken');
+  const user = localStorage.getItem('User');
+
+  let refreshToken;
+  if (user) {
+    const parseUser = JSON.parse(user);
+    refreshToken = parseUser.state.refreshToken;
+  }
+
   if (!refreshToken) throw new Error('리프레시 토큰이 없습니다.');
 
   try {
