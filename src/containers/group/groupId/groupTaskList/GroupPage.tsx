@@ -37,7 +37,6 @@ function GroupPage() {
               return task.doneAt;
             });
             setDoneCount(+tmp.length);
-            return;
           });
         } catch (error) {
           console.error('Error fetching group data:', error);
