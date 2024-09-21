@@ -12,38 +12,6 @@ const instance = axios.create({
   // withCredentials: true,
 });
 
-// 리프레시 토큰을 사용하여 액세스 토큰 갱신
-// async function refreshAccessToken(): Promise<string> {
-//   const user = localStorage.getItem('User');
-//   const { setToken, removeToken } = useUserStore();
-
-//   let refreshToken;
-//   if (user) {
-//     const parseUser = JSON.parse(user);
-//     refreshToken = parseUser.state.refreshToken;
-//   }
-
-//   if (!refreshToken) throw new Error('리프레시 토큰이 없습니다.');
-
-//   try {
-//     const response = await axios.post(
-//       `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh-token`,
-//       { refreshToken },
-//     );
-//     const { accessToken, newRefreshToken } = response.data;
-
-//     // 새로운 액세스 및 리프레시 토큰 저장
-//     setToken(accessToken, newRefreshToken);
-
-//     return accessToken;
-//   } catch (error) {
-//     // eslint-disable-next-line no-console
-//     console.error('리프레시 토큰 갱신 실패:', error);
-//     removeToken();
-//     throw new Error('토큰 갱신 실패. 다시 로그인하세요.');
-//   }
-// }
-
 // 요청 인터셉터: 액세스 토큰이 있으면 요청에 추가
 instance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   const user = localStorage.getItem('User');
