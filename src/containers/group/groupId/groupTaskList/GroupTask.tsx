@@ -28,6 +28,8 @@ function GroupTask({ Lists }: { Lists: TaskList[] }) {
               totalCount={5}
               color={colors[tasklist.id % 7]}
               isDone={false}
+              groupId={tasklist.groupId}
+              taskListId={tasklist.id}
             >
               {tasklist.name}
             </GroupTaskList>
