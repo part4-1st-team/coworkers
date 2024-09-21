@@ -22,6 +22,8 @@ interface UserStoreState {
   isLoggedIn: boolean;
   setLogin: (user: User, atoken: string, rToken: string) => void;
   setLogout: () => void;
+  setToken: (aToken: string, rToken: string) => void;
+  removeToken: () => void;
 }
 
 const useUserStore = create<UserStoreState>()(
@@ -42,7 +44,7 @@ const useUserStore = create<UserStoreState>()(
         setTokenCookies(aToken, rToken);
       },
       // 로그아웃 메소드
-      setLogout: (router?: NextRouter) => {
+      setLogout: () => {
         set({
           user: null,
           isLoggedIn: false,
@@ -51,11 +53,18 @@ const useUserStore = create<UserStoreState>()(
         });
         // 쿠키에서 토큰 삭제
         removeTokenCookies();
-
-        // 로그아웃 후 리디렉션
-        if (router) {
-          router.push('/auth/signin');
-        }
+      },
+      setToken: (aToken: string, rToken: string) => {
+        set({
+          accessToken: aToken,
+          refreshToken: rToken,
+        });
+      },
+      removeToken: () => {
+        set({
+          accessToken: null,
+          refreshToken: null,
+        });
       },
     }),
     {

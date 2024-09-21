@@ -1,3 +1,4 @@
+import useUserStore from '@/stores/userStore';
 import type { InternalAxiosRequestConfig } from 'axios';
 import axios from 'axios';
 
@@ -12,6 +13,7 @@ const instance = axios.create({
 
 // 리프레시 토큰을 사용하여 액세스 토큰 갱신
 async function refreshAccessToken(): Promise<string> {
+  const { setToken, removeToken } = useUserStore();
   const user = localStorage.getItem('User');
 
   let refreshToken;
@@ -30,21 +32,27 @@ async function refreshAccessToken(): Promise<string> {
     const { accessToken, newRefreshToken } = response.data;
 
     // 새로운 액세스 및 리프레시 토큰 저장
-    localStorage.setItem('accessToken', accessToken);
-    localStorage.setItem('refreshToken', newRefreshToken);
+    setToken(accessToken, newRefreshToken);
+
     return accessToken;
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('리프레시 토큰 갱신 실패:', error);
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
+    removeToken();
     throw new Error('토큰 갱신 실패. 다시 로그인하세요.');
   }
 }
 
 // 요청 인터셉터: 액세스 토큰이 있으면 요청에 추가
 instance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-  const token = localStorage.getItem('accessToken');
+  const user = localStorage.getItem('User');
+
+  let token;
+  if (user) {
+    const parseUser = JSON.parse(user);
+    token = parseUser.state.accessToken;
+  }
+
   if (token) {
     config.headers.set('Authorization', `Bearer ${token}`);
   }
