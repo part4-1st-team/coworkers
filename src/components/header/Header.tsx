@@ -11,7 +11,7 @@ function Header() {
   const currentPath = router.pathname;
 
   return (
-    <div className='w-full h-60 bg-background-secondary text-text-primary text-lg font-md px-16 tablet:px-24 flex items-center'>
+    <div className='fixed top-0 left-0 z-header w-full h-60 bg-background-secondary text-text-primary text-lg font-md px-16 tablet:px-24 flex items-center'>
       <div className='w-full desktop:w-1200 desktop:mx-auto flex'>
         <div className='flex items-center'>
           <IconMenu className='w=24 mr-16  tablet:hidden' />
