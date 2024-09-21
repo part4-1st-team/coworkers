@@ -1,13 +1,33 @@
 import { IconAlert } from '@/assets/IconList';
 import Button from '@/components/button/button';
+import { deleteUser } from '@/services/userAPI';
 import useModalStore from '@/stores/ModalStore';
+import { useMutation } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import { useRouter } from 'next/router';
+import useToast from '../toast/useToast';
 import Modal from './Modal';
 
 function MemberDeleteModal() {
   const { setModalClose } = useModalStore();
 
+  const router = useRouter();
+  const { toast } = useToast();
+
+  const secessionMutation = useMutation({
+    mutationFn: () => deleteUser(),
+    onSuccess: () => {
+      setModalClose();
+      router.push('/');
+      toast('Success', '회원이 성공적으로 탈퇴되었습니다.');
+    },
+    onError: () => {
+      toast('Error', '회원 탈퇴에 실패했습니다.');
+    },
+  });
+
   const handleMemberDelete = () => {
-    // NOTE: 회원 탈퇴 로직 구현
+    secessionMutation.mutate();
   };
 
   return (

@@ -1,5 +1,6 @@
 import React, { forwardRef } from 'react';
 import clsx from 'clsx';
+import Label from './Label';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   /**
@@ -70,5 +71,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
 // displayName 설정 (forwardRef 사용 시 유용)
 Input.displayName = 'Input';
+
+Input.Label = Label;
 
 export default Input;
