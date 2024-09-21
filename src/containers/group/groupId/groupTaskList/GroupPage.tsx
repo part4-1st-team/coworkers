@@ -28,16 +28,6 @@ function GroupPage() {
           setGroup(groupData);
           setGroupTaskLists(taskLists);
           setGroupMembers(members);
-
-          groupTaskLists.map((list) => {
-            const tmpt = list.tasks.length;
-            setTotalCount(+tmpt);
-
-            const tmp = list.tasks.filter((task) => {
-              return task.doneAt;
-            });
-            setDoneCount(+tmp.length);
-          });
         } catch (error) {
           console.error('Error fetching group data:', error);
         } finally {
