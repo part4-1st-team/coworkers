@@ -1,7 +1,7 @@
 import useUserStore from '@/stores/userStore';
 import axios from 'axios';
 
-export const useRefreshAccessToken = () => {
+const useRefreshAccessToken = () => {
   const setLogin = useUserStore((state) => state.setLogin);
   const refreshToken = useUserStore((state) => state.refreshToken);
 
@@ -26,3 +26,5 @@ export const useRefreshAccessToken = () => {
 
   return refreshAccessToken;
 };
+
+export default useRefreshAccessToken;

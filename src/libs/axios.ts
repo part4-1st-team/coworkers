@@ -1,7 +1,7 @@
 import useUserStore from '@/stores/userStore';
 import type { InternalAxiosRequestConfig } from 'axios';
 import axios from 'axios';
-import { useRefreshAccessToken } from './refreshAccessToken';
+import useRefreshAccessToken from './refreshAccessToken';
 
 // Axios 인스턴스 생성
 const instance = axios.create({
