@@ -13,7 +13,7 @@ function KakaoSignIn() {
   const { toast } = useToast();
 
   useEffect(() => {
-    const { code } = router.query;
+    const { code, state } = router.query;
 
     // code가 없으면 return하여 요청 중단
     if (!code) return;
@@ -31,7 +31,7 @@ function KakaoSignIn() {
           }),
           {
             headers: {
-              'Content-Type': 'application/x-www-form-urlencoded',
+              'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
             },
           },
         );
@@ -42,7 +42,7 @@ function KakaoSignIn() {
         const backendResponse = await axios.post(
           `/auth/signIn/kakao`, // 상대 경로 사용
           {
-            state: STATE,
+            state: String(state),
             redirectUri: REDIRECT_URI,
             token: kakaoAccessToken,
           },

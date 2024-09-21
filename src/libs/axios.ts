@@ -82,3 +82,7 @@ instance.interceptors.response.use(
 );
 
 export default instance;
+
+// kakao.tsx:42
+
+//  POST https://fe-project-cowokers.vercel.app/7-1/auth/signIn/kakao 400 (Bad Request)
