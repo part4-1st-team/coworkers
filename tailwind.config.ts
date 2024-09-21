@@ -77,6 +77,9 @@ const config: Config = {
       button: {
         background: '#18212F',
       },
+      slate: {
+        700: '#334155',
+      },
     },
 
     fontSize: {
