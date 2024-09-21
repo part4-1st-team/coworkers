@@ -14,7 +14,7 @@ function ImgUpload({ setImgUrl }: ImgUploadProps) {
 
   const handleEditButtonClick = () => {
     if (fileInputRef.current) {
-      fileInputRef.current.click(); // 숨겨진 파일 input을 클릭하여 파일 탐색창을 엶
+      fileInputRef.current.click();
     }
   };
 
@@ -47,11 +47,15 @@ function ImgUpload({ setImgUrl }: ImgUploadProps) {
         <IconImg />
       )}
       <div className='w-18 h-18 absolute bottom-0 right-0 flex items-center justify-center rounded-full border-2 border-background-primary bg-background-tertiary'>
-        <button type='button' onClick={handleEditButtonClick}>
+        <button
+          type='button'
+          aria-label='이미지 파일 업로드'
+          onClick={handleEditButtonClick}
+        >
           <EditButton size='sm' />
         </button>
         <input
-          ref={fileInputRef} // file input을 참조
+          ref={fileInputRef}
           type='file'
           accept='.jpg,.png' // 파일 확장자 제한
           className='hidden'

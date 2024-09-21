@@ -6,8 +6,8 @@ import { useRouter } from 'next/router';
 import { FormEvent, useState } from 'react';
 
 function CreateGroup() {
-  const [groupName, setGroupName] = useState<string>(''); // 팀 이름 상태 관리
-  const [imgUrl, setImgUrl] = useState<string | null>(null); // 업로드된 이미지 URL 상태 관리
+  const [groupName, setGroupName] = useState<string>('');
+  const [imgUrl, setImgUrl] = useState<string | null>(null);
   const router = useRouter();
 
   const handleSubmit = async (event: FormEvent) => {
@@ -19,7 +19,6 @@ function CreateGroup() {
     }
 
     try {
-      // 그룹 생성 API 호출
       const response = await postGroup({
         name: groupName,
         image: imgUrl,
@@ -46,8 +45,8 @@ function CreateGroup() {
             <div className='mb-12'>팀 이름</div>
             <Input
               placeholder='팀 이름을 입력해주세요.'
-              value={groupName} // 상태 값 설정
-              onChange={(e) => setGroupName(e.target.value)} // 상태 업데이트
+              value={groupName}
+              onChange={(e) => setGroupName(e.target.value)}
             />
           </div>
           <Button type='submit' color='primary' size='lg' className='w-full'>
