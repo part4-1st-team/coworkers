@@ -1,6 +1,6 @@
 export interface PatchUserType {
   nickname?: string;
-  image?: string | File | null;
+  image?: string | File | null | ImageURL;
 }
 
 export interface PostSendResetPasswordEmail {
