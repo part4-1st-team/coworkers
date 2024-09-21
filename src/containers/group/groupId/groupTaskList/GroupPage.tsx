@@ -90,9 +90,7 @@ function GroupPage() {
   const router = useRouter();
   const { groupId } = router.query;
 
-  return MockGroupList.length === 0 ? (
-    <EmptyGroup />
-  ) : (
+  return (
     <div className='w-full h-full bg-background-primary text-text-primary text-lg px-24'>
       <section className='w-full desktop:w-1200 desktop:mx-auto pt-24'>
         {/* TODO 데이터 연동, 설정 클릭 구현 */}
