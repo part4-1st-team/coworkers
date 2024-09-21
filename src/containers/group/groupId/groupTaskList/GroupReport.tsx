@@ -10,7 +10,8 @@ interface Props {
 }
 
 function GroupReport({ doneCount = 0, totalCount = 0 }: Props) {
-  const taskPercent = Math.ceil((doneCount / totalCount) * 100);
+  let taskPercent = 0;
+  if (totalCount !== 0) taskPercent = Math.ceil((doneCount / totalCount) * 100);
 
   return (
     <section className='w-full mt-48 desktop:mt-64'>
@@ -30,7 +31,7 @@ function GroupReport({ doneCount = 0, totalCount = 0 }: Props) {
                 <p>진행 상황</p>
               </div>
               {/* TODO 텍스트 그라데이션 적용 (text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-brand-tertiary) */}
-              <p className='text-4xl font-[700] '>{taskPercent}%</p>
+              <p className='text-4xl font-bold '>{taskPercent}%</p>
             </div>
           </div>
           <section className='w-1/2 max-w-400 flex flex-col gap-16'>
