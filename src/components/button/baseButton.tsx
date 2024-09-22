@@ -7,7 +7,7 @@ interface BaseButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   color?: ColorType;
   disabled?: boolean;
   type?: ButtonType; // 선택적 속성으로 수정
-  children: React.ReactNode; // 텍스트 대신 children 사용
+  text: string; // text prop 추가
   className?: string; // 추가적인 커스텀 클래스 네임
 }
 
@@ -15,7 +15,7 @@ interface BaseButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
  * `BaseButton` 컴포넌트는 다양한 스타일과 기능을 제공하는 버튼입니다.
  * 버튼의 색상, 크기, 상태를 prop을 통해 조절할 수 있습니다.
  *
- * @param {React.ReactNode} children - 버튼에 표시될 텍스트나 다른 요소들입니다.
+ * @param {string} text - 버튼에 표시될 텍스트입니다.
  * @param {ColorType} [color='primary'] - 버튼의 색상 스타일을 지정합니다. 선택 가능한 값은 'primary', 'outlined', 'outlinedSecon', 'red', 'bgNon'입니다.
  * @param {ButtonType} [type='button'] - 버튼의 HTML 타입을 지정합니다. 기본값은 'button'이며, 'submit' 또는 'reset'으로 변경할 수 있습니다.
  * @param {boolean} [disabled=false] - 버튼을 비활성화할지 여부를 결정합니다. 기본값은 `false`입니다.
@@ -28,16 +28,15 @@ interface BaseButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
  *   type="button"
  *   color="primary"
  *   className="w-332 h-32"
- * >
- *   생성하기
- * </BaseButton>
+ *   text="생성하기"
+ * />
  * ```
  *
  * @returns {JSX.Element} - `BaseButton` 컴포넌트를 반환합니다.
  */
 function BaseButton({
   color = 'primary',
-  children,
+  text, // text prop 추가
   type = 'button', // 기본값 설정
   disabled = false,
   className,
@@ -63,7 +62,7 @@ function BaseButton({
   return (
     // eslint-disable-next-line react/button-has-type
     <button type={type} disabled={disabled} className={buttonClass} {...props}>
-      {children}
+      {text}
     </button>
   );
 }

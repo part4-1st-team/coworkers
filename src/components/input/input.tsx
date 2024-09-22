@@ -3,43 +3,20 @@ import clsx from 'clsx';
 import Label from './Label';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  /**
-   * 추가적인 커스텀 클래스 네임을 설정합니다.
-   */
   className?: string;
-
-  /**
-   * 입력 필드에 포함할 자식 노드를 설정합니다.
-   */
   children?: React.ReactNode;
+  value?: string; // value를 제어할 수 있는 컴포넌트
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-/**
- * `Input` 컴포넌트는 기본적인 입력 필드를 렌더링하며, 다양한 스타일과 상태를 지원합니다.
- *
- * @param {InputProps} props - 입력 필드의 속성
- * @returns {JSX.Element} 렌더링된 입력 필드 요소
- *
- * @example
- * ```tsx
- * <Input
- *   id="username"
- *   placeholder="Enter your username"
- *   disabled={false}
- *   className="custom-class"
- * />
- * ```
- */
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ children, className = '', ...props }, ref) => {
-    // 기본 클래스들
+  ({ children, className = '', value = '', onChange, ...props }, ref) => {
     const baseClasses =
       'w-full px-16 py-14 rounded-xl bg-background-secondary border border-border-primary text-text-primary font-font-normal';
     const placeholderClasses = 'placeholder-text-default text-lg font-normal';
     const focusClasses =
       'pl-16 focus:border-interaction-focus border focus:outline-none';
 
-    // 조건부 클래스
     const hoverClasses = !props.disabled
       ? 'hover:border-interaction-hover border hover:outline-none'
       : '';
@@ -47,7 +24,6 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       ? 'cursor-not-allowed placeholder-text-disabled focus:outline-none'
       : '';
 
-    // 전체 클래스명 생성
     const classNames = clsx(
       baseClasses,
       placeholderClasses,
@@ -59,9 +35,11 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
     return (
       <input
-        ref={ref} // forwardRef를 통해 ref 전달
+        ref={ref}
         id={props.id}
         disabled={props.disabled}
+        value={value}
+        onChange={onChange}
         className={classNames}
         {...props}
       />
@@ -72,6 +50,15 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 // displayName 설정 (forwardRef 사용 시 유용)
 Input.displayName = 'Input';
 
-Input.Label = Label;
+// Input 컴포넌트에 Label 속성 추가
+interface InputComponent
+  extends React.ForwardRefExoticComponent<
+    InputProps & React.RefAttributes<HTMLInputElement>
+  > {
+  Label: typeof Label;
+}
 
-export default Input;
+const InputWithLabel = Input as InputComponent;
+InputWithLabel.Label = Label;
+
+export default InputWithLabel;

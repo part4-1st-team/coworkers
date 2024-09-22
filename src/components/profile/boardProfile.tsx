@@ -9,7 +9,7 @@ interface BoardProfileProps {
 
 function BoardProfile({ image, nickname, size = 32 }: BoardProfileProps) {
   return (
-    <div className={`w-${size} h-${size} `}>
+    <div className={`w-${size} h-${size} rounded-full flex items-center`}>
       {image ? (
         <Image
           src={image}

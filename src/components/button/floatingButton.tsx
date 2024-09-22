@@ -18,7 +18,7 @@ interface FloatingButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   type?: ButtonType;
   icon?: IconType;
   className?: string;
-  children?: React.ReactNode; // children 추가
+  text?: string; // children 대신 text prop 추가
 }
 
 /**
@@ -32,16 +32,15 @@ interface FloatingButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
  *   disabled={false}
  *   icon="plus"
  *   className="my-custom-class"
- * >
- *   Click me
- * </FloatingButton>
+ *   text="Click me"
+ * />
  *
  * @param {('primary' | 'outlined')} [color='primary'] - 버튼의 색상을 결정합니다. 'primary'는 기본 색상, 'outlined'는 테두리만 있는 스타일을 나타냅니다.
  * @param {boolean} [disabled=false] - 버튼의 비활성화 상태를 설정합니다. true일 경우 버튼이 비활성화됩니다.
  * @param {('button' | 'submit' | 'reset')} [type='button'] - 버튼의 HTML 타입을 설정합니다. 'button', 'submit', 또는 'reset'이 가능합니다.
  * @param {('plus' | 'checkWhite' | 'checkGray' | 'checkGreen')} [icon] - 버튼에 표시할 아이콘을 결정합니다. 'plus', 'checkWhite', 'checkGray', 'checkGreen' 중 하나입니다.
  * @param {string} [className] - 버튼에 적용할 선택적인 추가 클래스 이름입니다.
- * @param {React.ReactNode} [children] - 버튼에 표시할 자식 요소입니다.
+ * @param {string} [text] - 버튼에 표시할 텍스트입니다.
  * @param {React.ButtonHTMLAttributes<HTMLButtonElement>} [props] - 기타 HTML 버튼 요소의 기본 속성입니다.
  *
  * @returns {JSX.Element} - 주어진 스타일과 속성을 적용한 원형 버튼을 반환합니다. 아이콘과 텍스트를 함께 사용할 수 있으며, 비활성화 상태에 따라 버튼의 외관이 변경됩니다.
@@ -52,7 +51,7 @@ function FloatingButton({
   type = 'button',
   disabled = false,
   className,
-  children, // children 추가
+  text, // text prop 사용
   ...props
 }: FloatingButtonProps) {
   const baseButton =
@@ -77,12 +76,12 @@ function FloatingButton({
   };
 
   const buttonContent = (
-    <div className='flex items-center gap-4'>
+    <div className={clsx('flex items-center gap-4', !text && 'justify-center')}>
       {icon &&
         (disabled && icon === 'checkGreen'
           ? iconComponents.checkGray
           : iconComponents[icon])}
-      {children && <span className=''>{children}</span>}
+      {text && <span className=''>{text}</span>}
     </div>
   );
 

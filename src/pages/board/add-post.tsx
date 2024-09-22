@@ -1,28 +1,23 @@
 import { useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
 import BaseButton from '@/components/button/baseButton';
 import Input from '@/components/input/input';
 import BoxInput from '@/components/input/boxInput';
 import { postArticle } from '@/services/ArticleAPI';
-import postImageUpload from '@/services/ImageAPI';
+import useImageMutation from '@/hooks/useImageMutation';
 import ImageAddButton from '@/components/button/ImageAddButton';
+import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/router'; // useRouter 가져오기
 
 function AddPostPage() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [imageUrl, setImageUrl] = useState<string>('');
 
+  const router = useRouter(); // useRouter 초기화
+
   // 이미지 업로드 mutation
-  const { mutate: uploadImageMutate } = useMutation({
-    mutationFn: postImageUpload,
-    onSuccess: (data) => {
-      setImageUrl(data.url); // 성공적으로 업로드된 이미지 URL 설정
-    },
-    onError: (error) => {
-      // alert('이미지 업로드 중 오류가 발생했습니다.');
-      /* TODO: 모달 교체 */
-    },
-  });
+  const { mutate: uploadImageMutate, status: uploadStatus } =
+    useImageMutation();
 
   // 게시글 등록 mutation
   const { mutate: postArticleMutate, status: postArticleStatus } = useMutation({
@@ -32,7 +27,8 @@ function AddPostPage() {
       setTitle('');
       setContent('');
       setImageUrl('');
-      // alert('게시글이 성공적으로 등록되었습니다.');
+      // 게시글 등록 성공 후 게시판 페이지로 이동
+      router.push('/board');
     },
     onError: (error) => {
       // alert('게시글 등록 중 오류가 발생했습니다.');
@@ -53,7 +49,15 @@ function AddPostPage() {
   // 이미지 변경 핸들러
   const handleImageChange = (file: File | null) => {
     if (file) {
-      uploadImageMutate(file); // 이미지 업로드 mutation 실행
+      uploadImageMutate(file, {
+        onSuccess: (data) => {
+          setImageUrl(data.url); // 성공적으로 업로드된 이미지 URL 설정
+        },
+        onError: (error) => {
+          // alert('이미지 업로드 중 오류가 발생했습니다.');
+          /* TODO: 모달 교체 */
+        },
+      });
     } else {
       setImageUrl('');
     }
@@ -84,12 +88,17 @@ function AddPostPage() {
           <BaseButton
             type='button'
             color='primary'
-            className='w-183 h-48'
+            className='w-184 h-48'
             onClick={handleSubmit}
-            disabled={postArticleStatus === 'pending'} // 로딩 중일 때 버튼 비활성화
-          >
-            {postArticleStatus === 'pending' ? '등록 중...' : '등록'}
-          </BaseButton>
+            disabled={
+              postArticleStatus === 'pending' || uploadStatus === 'pending'
+            }
+            text={
+              postArticleStatus === 'pending' || uploadStatus === 'pending'
+                ? '등록 중...'
+                : '등록'
+            }
+          />
         </div>
       </div>
 
@@ -129,12 +138,17 @@ function AddPostPage() {
           <BaseButton
             type='button'
             color='primary'
-            className='w-full h-48'
+            className='w-184 h-48'
             onClick={handleSubmit}
-            disabled={postArticleStatus === 'pending'}
-          >
-            {postArticleStatus === 'pending' ? '등록 중...' : '등록'}
-          </BaseButton>
+            disabled={
+              postArticleStatus === 'pending' || uploadStatus === 'pending'
+            }
+            text={
+              postArticleStatus === 'pending' || uploadStatus === 'pending'
+                ? '등록 중...'
+                : '등록'
+            }
+          />
         </div>
       </div>
     </div>

@@ -16,8 +16,12 @@ function BoardDropdownMenu({ onEdit, onDelete }: BoardDropdownMenuProps) {
         <IconKebabSmall />
       </Dropdown.Trigger>
       <Dropdown.Menu isOpen={isOpen} className='right-10'>
-        <Dropdown.List onClick={onEdit}>수정하기</Dropdown.List>
-        <Dropdown.List onClick={onDelete}>삭제하기</Dropdown.List>
+        <Dropdown.List onClose={handleOffDropdown} onClick={onEdit}>
+          수정하기
+        </Dropdown.List>
+        <Dropdown.List onClose={handleOffDropdown} onClick={onDelete}>
+          삭제하기
+        </Dropdown.List>
       </Dropdown.Menu>
     </Dropdown>
   );

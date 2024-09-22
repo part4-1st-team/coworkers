@@ -7,6 +7,7 @@ function useArticleComment(articleId: number, limit: number, cursor?: number) {
     data, // 구조 분해 할당으로 'data' 추출
     error,
     isLoading,
+    refetch,
   } = useQuery({
     queryKey: ['ArticleComments', articleId, limit, cursor],
     queryFn: () => getArticleComment(articleId, limit, cursor),
@@ -17,7 +18,7 @@ function useArticleComment(articleId: number, limit: number, cursor?: number) {
   const articleComments = data?.list || [];
   const nextCursor = data?.nextCursor;
 
-  return { articleComments, nextCursor, error, isLoading };
+  return { articleComments, nextCursor, error, isLoading, refetch };
 }
 
 export default useArticleComment;

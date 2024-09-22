@@ -61,11 +61,11 @@ function AddComment({ boardId }: AddCommentProps) {
           color='primary'
           className='w-74 h-32 tablet:w-184 tablet:h-48'
           onClick={handleSubmit}
-          disabled={postCommentStatus === 'pending'} // 로딩 중일 때 버튼 비활성화
-        >
-          {postCommentStatus === 'pending' ? '등록 중...' : '등록'}
-        </Button>
+          disabled={postCommentStatus === 'pending'}
+          text={postCommentStatus === 'pending' ? '등록 중...' : '등록'}
+        />
       </div>
+      <div className='mt-32 tablet:mt-40 w-full border-t border-border-primary' />
     </div>
   );
 }

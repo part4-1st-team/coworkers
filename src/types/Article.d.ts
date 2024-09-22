@@ -42,3 +42,9 @@ interface PatchResponseArticle extends ArticleComment {
   commentCount: number;
   isLiked: boolean;
 }
+
+interface ArticleCommentList {
+  articleId: number;
+  limit: number;
+  cursor?: number;
+}
