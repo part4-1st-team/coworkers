@@ -2,12 +2,13 @@ import { useState } from 'react';
 import { Controller, Control, FieldValues, Path } from 'react-hook-form';
 import { IconVisibilityOff, IconVisibilityOn } from '@/assets/IconList';
 import Input from './input';
+import clsx from 'clsx';
 
 interface AuthInputProps<T extends FieldValues> {
   control: Control<T>;
   name: Path<T>;
   type: 'password' | 'email' | 'text';
-  errorMessage?: string;
+  error: boolean;
   className?: string;
   placeholder?: string;
 }
@@ -16,7 +17,7 @@ function AuthInput<T extends FieldValues>({
   control,
   name,
   type,
-  errorMessage,
+  error,
   className = '',
   placeholder = '',
 }: AuthInputProps<T>) {
@@ -43,9 +44,8 @@ function AuthInput<T extends FieldValues>({
             <div className='relative'>
               <Input
                 type={inputType()}
-                className={`w-full py-[10.5px] px-[16px]  ${
-                  errorMessage ? 'border-status-danger border' : ''
-                } ${className}`}
+                className={clsx('w-full py-[10.5px] px-[16px]', className)}
+                error={error}
                 placeholder={placeholder}
                 {...field}
                 style={{ color: '#64748B' }}
@@ -62,14 +62,6 @@ function AuthInput<T extends FieldValues>({
                     <IconVisibilityOff />
                   )}
                 </button>
-              )}
-            </div>
-
-            <div>
-              {errorMessage && (
-                <p className='text-md font-semibold text-status-danger mt-8'>
-                  {errorMessage}
-                </p>
               )}
             </div>
           </>
