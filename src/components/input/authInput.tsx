@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import { Controller, Control, FieldValues, Path } from 'react-hook-form';
 import { IconVisibilityOff, IconVisibilityOn } from '@/assets/IconList';
-import Input from './input';
 import clsx from 'clsx';
+import { useState } from 'react';
+import { Control, Controller, FieldValues, Path } from 'react-hook-form';
+import Input from './input';
 
 interface AuthInputProps<T extends FieldValues> {
   control: Control<T>;
@@ -40,31 +40,29 @@ function AuthInput<T extends FieldValues>({
         name={name}
         control={control}
         render={({ field }) => (
-          <>
-            <div className='relative'>
-              <Input
-                type={inputType()}
-                className={clsx('w-full py-[10.5px] px-[16px]', className)}
-                error={error}
-                placeholder={placeholder}
-                {...field}
-                style={{ color: '#64748B' }}
-              />
-              {type === 'password' && (
-                <button
-                  type='button'
-                  onClick={togglePasswordVisibility}
-                  className='absolute inset-y-0 right-0 px-16'
-                >
-                  {isPasswordVisible ? (
-                    <IconVisibilityOn />
-                  ) : (
-                    <IconVisibilityOff />
-                  )}
-                </button>
-              )}
-            </div>
-          </>
+          <div className='relative'>
+            <Input
+              type={inputType()}
+              className={clsx('w-full py-[10.5px] px-[16px]', className)}
+              error={error}
+              placeholder={placeholder}
+              {...field}
+              style={{ color: '#64748B' }}
+            />
+            {type === 'password' && (
+              <button
+                type='button'
+                onClick={togglePasswordVisibility}
+                className='absolute inset-y-0 right-0 px-16'
+              >
+                {isPasswordVisible ? (
+                  <IconVisibilityOn />
+                ) : (
+                  <IconVisibilityOff />
+                )}
+              </button>
+            )}
+          </div>
         )}
       />
     </div>
