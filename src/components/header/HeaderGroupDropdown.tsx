@@ -1,14 +1,16 @@
-import { useRouter } from 'next/router';
+import { IconCheck } from '@/assets/IconList';
 import Button from '@/components/button/button';
 import Dropdown from '@/components/dropdown/Dropdown';
 import useDropdown from '@/hooks/useDropdown';
 import useGroups from '@/hooks/useGroups';
-import { IconCheck } from '@/assets/IconList';
+import useMemberships from '@/hooks/useMemberships';
+import { useRouter } from 'next/router';
 import SideTabList from './SideTabList';
 
 function HeaderGroupDropdown() {
   const { handleOffDropdown, handleToggleDropdown, isOpen } = useDropdown();
 
+  const { memberships } = useMemberships();
   const { groups, isLoading } = useGroups();
 
   const router = useRouter();
@@ -35,12 +37,12 @@ function HeaderGroupDropdown() {
         </div>
       </Dropdown.Trigger>
       <Dropdown.Menu isOpen={isOpen}>
-        {groups.map((group: ResponseGroup) => (
+        {memberships.map((membership: Membership) => (
           <SideTabList
             onClick={handleOffDropdown}
-            key={group.id}
+            key={membership.group.id}
             size='header'
-            group={group}
+            membership={membership}
           />
         ))}
 
@@ -48,7 +50,10 @@ function HeaderGroupDropdown() {
           color='white'
           type='button'
           className='w-full'
-          onClick={() => router.push('/group/create-group')}
+          onClick={() => {
+            handleOffDropdown();
+            router.push('/group/create-group');
+          }}
         >
           팀 추가하기
         </Button>

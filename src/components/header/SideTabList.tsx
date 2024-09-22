@@ -1,13 +1,12 @@
-import { useRouter } from 'next/router';
-import Image from 'next/image';
-import clsx from 'clsx';
-import { IconKebabLarge } from '@/assets/IconList';
 import IconImage from '@/assets/images/img.png';
-import useDropdown from '@/hooks/useDropdown';
+import IconCrown from '@/assets/images/img_crown.png';
+import clsx from 'clsx';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 interface ListProps {
   size: 'header' | 'side';
-  group: ResponseGroup;
+  membership: Membership;
   onClick: () => void;
   className?: string;
 }
@@ -15,14 +14,18 @@ interface ListProps {
 /**
  *
  * @param size (type : 'header' | 'side')  헤더에서 쓰이는지 사이드메뉴에서 쓰이는지
- * @param group: (type : ResponseGroup) group객체
+ * @param membership (type: Membership)
  * @param onClick (type: ()=>void) 클릭 핸들러 함수
  * @param className (선택)
  * @returns 누르면 해당 그룹 페이지로 이동하는 컴포넌트
  */
-function SideTabList({ size, group, onClick, className }: ListProps) {
+function SideTabList({ size, membership, onClick, className }: ListProps) {
   const router = useRouter();
+
+  const { group, role } = membership;
   const { id: groupId, name, image } = group;
+
+  const OWNER = role === 'ADMIN';
 
   const widthClass = clsx({
     'w-186': size === 'header',
@@ -52,8 +55,9 @@ function SideTabList({ size, group, onClick, className }: ListProps) {
         />
         <span>{name}</span>
       </div>
-      {/* NOTE 얘는 어디에 쓰이려나.. */}
-      <IconKebabLarge />
+      {OWNER && (
+        <Image src={IconCrown} alt='왕관 아이콘' width={12} height={12} />
+      )}
     </button>
   );
 }
