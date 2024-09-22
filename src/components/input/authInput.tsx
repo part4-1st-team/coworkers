@@ -8,7 +8,7 @@ interface AuthInputProps<T extends FieldValues> {
   control: Control<T>;
   name: Path<T>;
   type: 'password' | 'email' | 'text';
-  error: boolean;
+  error?: boolean;
   className?: string;
   placeholder?: string;
 }
