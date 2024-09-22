@@ -34,7 +34,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ children, className = '', error, ...props }, ref) => {
     // 기본 클래스들
     const baseClasses =
-      'w-full px-16 py-14 rounded-xl bg-background-secondary border border-border-primary text-text-primary font-font-normal';
+      'w-full px-16 py-14 text-lg font-normal rounded-xl bg-background-secondary border border-background-tertiary text-text-primary font-font-normal';
     const placeholderClasses = 'placeholder-text-default text-lg font-normal';
     const focusClasses =
       'pl-16 focus:border-interaction-focus border focus:outline-none';
