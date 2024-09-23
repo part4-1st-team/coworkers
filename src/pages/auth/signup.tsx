@@ -13,11 +13,17 @@ interface SignUpFormValues {
   passwordConfirmation: string;
 }
 
+const CLIENT_ID = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID; // 카카오 개발자 콘솔에서 발급받은 클라이언트 ID
+const REDIRECT_URI = 'http://localhost:3000/oauth/kakao'; // 카카오 로그인 후 리디렉션 URI
+const GOOGLE_CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID; // 구글 클라우드 콘솔에서 발급받은 클라이언트 ID
+const GOOGLE_REDIRECT_URI = 'http://localhost:3000/oauth/google'; // 구글 로그인 후 리디렉션 URI
+
 /** 테스트 계정
  * id : sin1234@test.com
  * password : Sin1234!
  * nickname : 짱구
  */
+
 function SignUpPage() {
   const {
     control,
@@ -42,9 +48,21 @@ function SignUpPage() {
     }
   };
 
+  // 카카오 로그인 요청 URL
+  const handleKakaoLogin = () => {
+    const loginUrl = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}`;
+    window.location.href = loginUrl;
+  };
+
+  // 구글 로그인 요청 URL
+  const handleGoogleLogin = () => {
+    const loginUrl = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${encodeURIComponent(GOOGLE_REDIRECT_URI)}&scope=email%20profile`;
+    window.location.href = loginUrl;
+  };
+
   return (
     <div className='flex justify-center items-center h-screen'>
-      <div className='w-480 hh-516 text-text-primary'>
+      <div className='w-480 h-516 text-text-primary'>
         <h1 className='block w-139 h-48 text-text-primary text-40 leading-48 font-500 mx-auto mb-80'>
           회원가입
         </h1>
@@ -52,14 +70,14 @@ function SignUpPage() {
           onSubmit={handleSubmit(onSubmit)}
           className='flex flex-col gap-24'
         >
-          <div className='h-79'>
+          <div>
             이름
             <AuthInput
               name='nickname'
               type='text'
               placeholder='이름을 입력해주세요.'
               control={control}
-              className='mt-12'
+              className='flex align-middle mt-12'
             />
             {errors.nickname && (
               <span className='text-status-danger text-sm'>
@@ -74,7 +92,7 @@ function SignUpPage() {
               type='email'
               placeholder='이메일을 입력해주세요.'
               control={control}
-              className='mt-12'
+              className='flex align-middle mt-12'
             />
             {errors.email && (
               <span className='text-status-danger text-sm'>
@@ -127,7 +145,7 @@ function SignUpPage() {
         <div className='flex justify-between mt-16'>
           <span className='text-text-primary'>간편 로그인하기</span>
           <div className='flex gap-16'>
-            <button type='button'>
+            <button type='button' onClick={handleKakaoLogin}>
               <Image
                 src='/images/img_kakaotalk.png'
                 alt='간편 로그인 카카오톡'
@@ -135,7 +153,7 @@ function SignUpPage() {
                 height={42}
               />
             </button>
-            <button type='button'>
+            <button type='button' onClick={handleGoogleLogin}>
               <Image
                 src='/images/img_google.png'
                 alt='간편 로그인 구글'
