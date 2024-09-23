@@ -1,9 +1,8 @@
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInView } from 'react-intersection-observer';
 import { getArticles } from '@/services/ArticleAPI';
-import Dropdown from '@/components/dropdown/Dropdown';
-import useDropdown from '@/hooks/useDropdown';
-import { IconToggleDown } from '@/assets/IconList';
+import SortDropdown from '@/components/board/sortDropdown';
 import ArticleCard from './articleListCard/articleListCard';
 
 type ArticleOrder = 'like' | 'recent';
@@ -15,7 +14,6 @@ interface ArticleListProps {
 function ArticleList({ searchValue }: ArticleListProps) {
   const [orderBy, setOrderBy] = useState<ArticleOrder>('recent');
   const pageSize = 4;
-  const { isOpen, handleToggleDropdown, handleOffDropdown } = useDropdown();
 
   const {
     data,
@@ -29,7 +27,7 @@ function ArticleList({ searchValue }: ArticleListProps) {
     queryKey: ['articles', orderBy, searchValue],
     queryFn: ({ pageParam = 1 }) => {
       const page = typeof pageParam === 'number' ? pageParam : undefined;
-      return getArticles(page, pageSize, orderBy, searchValue); // 검색어 적용
+      return getArticles(page, pageSize, orderBy, searchValue);
     },
     getNextPageParam: (lastPage, allPages) => {
       if (lastPage.list.length < pageSize) {
@@ -41,34 +39,27 @@ function ArticleList({ searchValue }: ArticleListProps) {
     staleTime: 0,
   });
 
-  // 검색어가 변경될 때마다 데이터를 새로고침
+  // useInView 훅 사용하여 마지막 게시글 감지
+  const { ref: lastArticleRef, inView } = useInView({
+    threshold: 0.1, // 10% 보이면 트리거
+    triggerOnce: false,
+  });
+
+  // inView 상태가 true일 때 다음 페이지 데이터를 로드
   useEffect(() => {
-    refetch();
-  }, [searchValue, refetch]);
+    if (inView && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-  const observerRef = useRef<IntersectionObserver | null>(null);
-
-  const lastArticleRef = useCallback(
-    (node: HTMLDivElement) => {
-      if (isFetchingNextPage) return;
-      if (observerRef.current) observerRef.current.disconnect();
-
-      observerRef.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && hasNextPage) {
-          fetchNextPage();
-        }
-      });
-
-      if (node) observerRef.current.observe(node);
-    },
-    [isFetchingNextPage, fetchNextPage, hasNextPage],
+  // useMemo를 통해 불필요한 데이터 가공 최소화
+  const articles = useMemo(
+    () => data?.pages.flatMap((page) => page.list) ?? [],
+    [data],
   );
-
-  const articles = data?.pages.flatMap((page) => page.list) ?? [];
 
   const handleSortChange = (sortType: ArticleOrder) => {
     setOrderBy(sortType);
-    handleOffDropdown();
   };
 
   return (
@@ -77,28 +68,7 @@ function ArticleList({ searchValue }: ArticleListProps) {
         <p className='text-lg font-medium tablet:text-xl tablet:font-bold text-text-primary'>
           게시글
         </p>
-        <Dropdown onClose={handleOffDropdown}>
-          <Dropdown.Trigger onClick={handleToggleDropdown}>
-            <div className='bg-background-secondary text-text-primary font-normal w-130 h-44 px-14 py-10 rounded-12 flex items-center justify-between text-sm tablet:text-md '>
-              {orderBy === 'like' ? '좋아요 많은순' : '최신순'}
-              <IconToggleDown className='text-icon-primary' />
-            </div>
-          </Dropdown.Trigger>
-          <Dropdown.Menu isOpen={isOpen} className='w-130 absolute top-44'>
-            <Dropdown.List
-              onClick={() => handleSortChange('like')}
-              onClose={handleOffDropdown}
-            >
-              좋아요 많은순
-            </Dropdown.List>
-            <Dropdown.List
-              onClick={() => handleSortChange('recent')}
-              onClose={handleOffDropdown}
-            >
-              최신순
-            </Dropdown.List>
-          </Dropdown.Menu>
-        </Dropdown>
+        <SortDropdown orderBy={orderBy} onSortChange={handleSortChange} />
       </div>
 
       <div className='flex flex-col gap-24 desktop:grid desktop:grid-cols-2'>
@@ -127,8 +97,17 @@ function ArticleList({ searchValue }: ArticleListProps) {
         </div>
       )}
 
-      {(isFetchingNextPage || isLoading) && <div>Loading...</div>}
-      {error && <div>에러가 발생했습니다: {error.message}</div>}
+      {(isFetchingNextPage || isLoading) && (
+        <div className='flex justify-center items-center text-text-default font-medium text-md'>
+          <div className='loader'>Loading...</div>
+        </div>
+      )}
+
+      {error && (
+        <div className='flex flex-col justify-center items-center text-text-default font-medium text-md '>
+          <p>에러가 발생했습니다: {error.message}</p>
+        </div>
+      )}
     </div>
   );
 }
