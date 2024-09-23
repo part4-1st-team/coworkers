@@ -13,7 +13,7 @@ import ArticleEdit from '@/hooks/useArticleEdit';
 import EditInput from '@/components/input/editCommentInput';
 import AddComment from '@/containers/board/detailBoard/comment/addComment/addComment';
 import BoardProfile from '@/components/profile/boardProfile';
-import CurrentUser from '@/hooks/useCurrentUser';
+import useUser from '@/hooks/useUser';
 import useArticleDetail from '@/hooks/useArticleDetail';
 
 interface DetailContentProps {
@@ -22,7 +22,7 @@ interface DetailContentProps {
 
 function DetailContent({ boardId }: DetailContentProps) {
   const router = useRouter();
-  const { data: currentUser } = CurrentUser();
+  const { user: currentUser, isLoading, error: userError } = useUser();
 
   // useArticleDetail 훅 사용
   const { articleDetail, error, isFetching, refetch } = useArticleDetail(
@@ -111,8 +111,9 @@ function DetailContent({ boardId }: DetailContentProps) {
     }
   };
 
-  if (isFetching) return <div>Loading...</div>;
-  if (error instanceof Error) return <div>{error.message}</div>;
+  if (isFetching || isLoading) return <div>Loading...</div>;
+  if (error || userError)
+    return <div>{error?.message || userError?.message || 'Unknown error'}</div>;
   if (!articleDetail) return <div>Loading...</div>;
 
   const { title, commentCount, writer, createdAt } = articleDetail;

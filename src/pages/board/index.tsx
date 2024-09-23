@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import SearchInput from '@/components/input/searchInput';
 import BestArticleList from '@/containers/board/bestArticleList/bestArticleList';
-import ArticleList from '@/containers/board/articleList/artticleList';
+import ArticleList from '@/containers/board/articleList/articleList';
 import Link from 'next/link';
 import FloatingButton from '@/components/button/floatingButton';
 
