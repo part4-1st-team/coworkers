@@ -5,10 +5,14 @@ import useDropdown from '@/hooks/useDropdown';
 function GroupDropDown({
   handleEdit,
   handleDelete,
+  handleLeave,
+  isAdmin,
   icon,
 }: {
   handleEdit: () => void;
   handleDelete: () => void;
+  handleLeave: () => void;
+  isAdmin: boolean;
   icon: string;
 }) {
   const { isOpen, handleOffDropdown, handleToggleDropdown } = useDropdown();
@@ -26,9 +30,15 @@ function GroupDropDown({
         <Dropdown.List onClose={handleOffDropdown} onClick={handleEdit}>
           수정하기
         </Dropdown.List>
-        <Dropdown.List onClose={handleOffDropdown} onClick={handleDelete}>
-          삭제하기
-        </Dropdown.List>
+        {isAdmin ? (
+          <Dropdown.List onClose={handleOffDropdown} onClick={handleDelete}>
+            삭제하기
+          </Dropdown.List>
+        ) : (
+          <Dropdown.List onClose={handleOffDropdown} onClick={handleLeave}>
+            그룹 나가기
+          </Dropdown.List>
+        )}
       </Dropdown.Menu>
     </Dropdown>
   );

@@ -7,6 +7,7 @@ import GroupBar from './GroupBar';
 import GroupTask from './GroupTask';
 import GroupReport from './GroupReport';
 import GroupMembers from './GroupMembers';
+import { getUser } from '@/services/userAPI';
 
 function GroupPage() {
   const { groupId } = useQueryParameter();
@@ -17,6 +18,7 @@ function GroupPage() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [doneCount, setDoneCount] = useState<number>(0);
   const [totalCount, setTotalCount] = useState<number>(0);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -28,6 +30,18 @@ function GroupPage() {
           setGroup(groupData);
           setGroupTaskLists(taskLists);
           setGroupMembers(members);
+
+          const userData = await getUser();
+          const userId = userData.id;
+
+          const userRole = members.find(
+            (member) => member.userId === userId,
+          )?.role;
+          if (userRole === 'ADMIN') {
+            setIsAdmin(true);
+          } else {
+            setIsAdmin(false);
+          }
         } catch (error) {
           console.error('Error fetching group data:', error);
         } finally {
@@ -51,7 +65,9 @@ function GroupPage() {
   return (
     <div className='w-full h-full bg-background-primary text-text-primary text-lg px-24'>
       <section className='w-full desktop:w-1200 desktop:mx-auto pt-24'>
-        <GroupBar>{group.name}</GroupBar>
+        <GroupBar groupId={groupId} isAdmin={isAdmin}>
+          {group.name}
+        </GroupBar>
         <GroupTask Lists={groupTaskLists} />
         <GroupReport doneCount={doneCount} totalCount={totalCount} />
         <GroupMembers Members={groupMembers} />
