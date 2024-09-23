@@ -1,7 +1,6 @@
-import { useState, useEffect } from 'react';
-import { IconPlus } from '@/assets/IconList';
-import Image from 'next/image';
+import { useState, useEffect, useRef } from 'react';
 import clsx from 'clsx';
+import ImagePreview from '@/components/button/ImagePreview';
 
 interface ImageAddButtonProps {
   onImageChange: (file: File | null) => void;
@@ -9,68 +8,59 @@ interface ImageAddButtonProps {
 }
 
 function ImageAddButton({ onImageChange, imageUrl }: ImageAddButtonProps) {
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(
+    imageUrl || null,
+  );
+  const inputFileRef = useRef<HTMLInputElement>(null);
 
+  // 이미지 URL이 변경될 때마다 imagePreview 업데이트
   useEffect(() => {
-    if (imageUrl) {
-      setImagePreview(imageUrl);
-    } else {
-      setImagePreview(null); // 빈 문자열일 때 초기화
-    }
+    setImagePreview(imageUrl || null);
   }, [imageUrl]);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
+    const file = e.target.files?.[0];
+    if (file) {
       onImageChange(file);
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      onImageChange(null);
+      setImagePreview(imageUrl || null);
     }
   };
 
   const handleImageClick = () => {
-    document.getElementById('imageInput')?.click();
+    inputFileRef.current?.click();
   };
 
   const baseStyles =
     'relative w-160 h-160 tablet:w-240 tablet:h-240 flex flex-col items-center justify-center rounded-12 overflow-hidden';
   const imageStyles = imagePreview
-    ? 'bg-none border-none hover:border-none focus:border-none'
+    ? 'bg-none border-none'
     : 'bg-background-secondary border border-border-primary hover:border-interaction-hover focus:border-interaction-focus';
 
   return (
     <>
-      <div
-        role='button'
-        tabIndex={0}
+      <button
+        type='button'
         onClick={handleImageClick}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            handleImageClick();
-          }
-        }}
         className={clsx(baseStyles, imageStyles)}
+        aria-label='이미지 업로드'
       >
-        {imagePreview ? (
-          <Image
-            src={imagePreview}
-            alt='미리보기'
-            layout='fill'
-            objectFit='cover'
-            className='rounded-12'
-          />
-        ) : (
-          <>
-            <IconPlus width={48} height={48} />
-            <p className='text-text-default text-lg'>이미지 등록</p>
-          </>
-        )}
-      </div>
+        <ImagePreview imagePreview={imagePreview} />
+      </button>
 
       <input
+        ref={inputFileRef}
         id='imageInput'
         type='file'
         accept='image/*'
         onChange={handleImageUpload}
-        style={{ display: 'none' }} // 화면에 보이지 않도록 처리
+        style={{ display: 'none' }}
       />
     </>
   );
