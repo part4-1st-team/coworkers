@@ -81,7 +81,7 @@ function FloatingButton({
         (disabled && icon === 'checkGreen'
           ? iconComponents.checkGray
           : iconComponents[icon])}
-      {text && <span className=''>{text}</span>}
+      {text && <span>{text}</span>}
     </div>
   );
 
