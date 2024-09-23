@@ -63,7 +63,7 @@ function Task({ task }: { task: DateTask }) {
             <Checkbox checked={isDone} handleClick={handleDoneTask} />
             <div className='relative'>
               {isDone && (
-                <span className='absolute left-0 top-1/2 transform -translate-y-1/2 h-1 bg-text-primary animate-line-through w-full'></span>
+                <span className='absolute left-0 top-1/2 transform -translate-y-1/2 h-1 bg-text-primary animate-line-through w-full' />
               )}
               <span className={clsx('text-text-primary text-md font-normal')}>
                 {name}

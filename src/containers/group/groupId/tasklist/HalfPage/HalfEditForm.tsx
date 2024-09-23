@@ -6,7 +6,7 @@ import HalfUserInfo from './HalfUserInfo';
 
 interface HalfFormState {
   title: string;
-  description: string;
+  content: string;
 }
 
 interface Props {
@@ -21,15 +21,15 @@ function HalfEditForm({ task, handleCancelEdit }: Props) {
   const { register, handleSubmit } = useForm<HalfFormState>({
     defaultValues: {
       title: name,
-      description: description,
+      content: description,
     },
   });
 
   const patchMutation = useTaskMutation(task, groupId, taskListId);
   const onEditSubmit: SubmitHandler<HalfFormState> = (data) => {
-    const { title, description } = data;
+    const { title, content } = data;
 
-    patchMutation.mutate({ name: title, description });
+    patchMutation.mutate({ name: title, description: content });
     handleCancelEdit();
   };
 
@@ -50,7 +50,7 @@ function HalfEditForm({ task, handleCancelEdit }: Props) {
         <HalfUserInfo task={task} />
       </div>
       <textarea
-        {...register('description')}
+        {...register('content')}
         className='bg-background-primary rounded-8 h-200 w-full text-text-secondary text-md font-normal px-10 py-10 resize-none'
       />
 
