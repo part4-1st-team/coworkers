@@ -12,30 +12,11 @@ interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   rounded?: boolean; // 버튼 모서리를 둥글게 할지 여부
   disabled?: boolean; // 버튼 비활성화 여부
   className?: string; // 추가적인 커스텀 클래스 네임
-  text?: string; // 버튼에 표시할 텍스트
+  children: React.ReactNode; // 버튼 안에 들어갈 내용 (텍스트 또는 아이콘 등)
 }
 
-/**
- * Button 컴포넌트는 다양한 스타일과 기능을 제공하는 재사용 가능한 버튼 컴포넌트입니다.
- *
- * @param {string} text - 버튼 안에 들어갈 텍스트
- * @param {React.ReactNode} icon - 버튼 안에 들어갈 아이콘
- * @param {'button' | 'submit'} type - 버튼의 타입, 기본값은 'button'
- * @param {'primary' | 'white' | 'red' | 'outline'} [color] - 버튼의 색상 스타일
- * @param {'lg' | 'md' | 'sm'} [size='md'] - 버튼의 텍스트 크기
- * @param {boolean} [rounded=false] - 버튼 모서리가 둥글게 설정될지 여부
- * @param {boolean} [disabled=false] - 버튼이 비활성화될지 여부
- * @param {string} [className] - 추가적인 커스텀 클래스 네임
- * @param {React.ButtonHTMLAttributes<HTMLButtonElement>} props - HTML button 속성들
- * @returns {JSX.Element} Button 컴포넌트
- *
- * @example
- * ```tsx
- * <Button type="button" color="primary" size="lg" rounded text="클릭하세요" />
- * ```
- */
 function Button({
-  text,
+  children,
   icon,
   type,
   color,
@@ -88,9 +69,11 @@ function Button({
   return (
     // eslint-disable-next-line react/button-has-type
     <button type={type} {...props} className={buttonClass}>
-      <span className={clsx('flex items-center', icon && text ? 'gap-8' : '')}>
+      <span
+        className={clsx('flex items-center', icon && children ? 'gap-8' : '')}
+      >
         {icon && <span className='icon'>{icon}</span>}
-        {text && <span className='text'>{text}</span>}
+        {children && <span className='text'>{children}</span>}
       </span>
     </button>
   );

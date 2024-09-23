@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query'; // useQueryClient 추가
-import Button from '@/components/button/button';
+import BaseButton from '@/components/button/baseButton';
 import BoxInput from '@/components/input/boxInput';
 import { postArticleComment } from '@/services/ArticleCommentAPI';
 
@@ -56,7 +56,7 @@ function AddComment({ boardId }: AddCommentProps) {
       />
       {error && <div className='text-red-500'>{error}</div>}
       <div className='flex justify-end'>
-        <Button
+        <BaseButton
           type='button'
           color='primary'
           className='w-74 h-32 tablet:w-184 tablet:h-48'

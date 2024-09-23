@@ -88,7 +88,7 @@ function AddPostPage() {
           <BaseButton
             type='button'
             color='primary'
-            className='w-184 h-48'
+            className='w-183 h-48'
             onClick={handleSubmit}
             disabled={
               postArticleStatus === 'pending' || uploadStatus === 'pending'
