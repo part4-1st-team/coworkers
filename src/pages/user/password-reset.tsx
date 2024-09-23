@@ -76,7 +76,6 @@ function PasswordResetPage() {
             재설정
           </button>
         </form>
-        {isModalOpen && <PasswordResetModal />} {/* 모달 렌더링 */}
       </div>
     </div>
   );
