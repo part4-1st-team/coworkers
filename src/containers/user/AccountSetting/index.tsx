@@ -1,14 +1,15 @@
 import Button from '@/components/button/button';
 import Input from '@/components/input/input';
+import Label from '@/components/input/Label';
 import ModifyProfile from '@/components/member/modifyProfile';
 import useToast from '@/components/toast/useToast';
 import useImageMutation from '@/hooks/useImageMutation';
+import useUser from '@/hooks/useUser';
 import { patchUser } from '@/services/userAPI';
 import { PatchUserType } from '@/types/userAPIType';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import useUser from '@/hooks/useUser';
 import ChangePasswordButton from './ChangePasswordButton';
 import UserSecessionButton from './UserSecessionButton';
 
@@ -26,7 +27,6 @@ function AccountSetting() {
   const { control, handleSubmit } = useForm<FormState>();
   const queryClient = useQueryClient();
 
-  // const { user } = useUserStore();
   const { user } = useUser();
 
   const imageMutation = useImageMutation();
@@ -89,7 +89,7 @@ function AccountSetting() {
           className='flex flex-col gap-[24px]'
         >
           <div className='flex flex-col gap-12'>
-            <Input.Label id='name'>이름</Input.Label>
+            <Label id='name'>이름</Label>
             <Controller
               name='name'
               control={control}
@@ -99,7 +99,7 @@ function AccountSetting() {
           </div>
 
           <div className='flex flex-col gap-12'>
-            <Input.Label id='email'>이메일</Input.Label>
+            <Label id='email'>이메일</Label>
             <Controller
               name='email'
               control={control}
