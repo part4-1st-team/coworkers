@@ -41,6 +41,12 @@ function PasswordResetPage() {
             className='flex justify-center align-middle'
             error={!!errors.password}
           />
+          {/* 에러 메시지 출력 */}
+          {errors.password && (
+            <p className='text-status-danger text-sm mt-1'>
+              {errors.password.message}
+            </p>
+          )}
         </div>
         <div>
           비밀번호 확인
@@ -52,6 +58,12 @@ function PasswordResetPage() {
             className='flex justify-center align-middle'
             error={!!errors.password}
           />
+          {/* 에러 메시지 출력 */}
+          {errors.passwordConfirmation && (
+            <p className='text-status-danger text-sm mt-1'>
+              {errors.passwordConfirmation.message}
+            </p>
+          )}
         </div>
         <button
           type='submit'
