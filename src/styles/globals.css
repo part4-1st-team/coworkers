@@ -22,7 +22,11 @@
   }
 
   .main-container {
-    @apply mt-24 px-16 w-full desktop:mx-auto desktop:mt-100 desktop:w-1200;
+    @apply mt-84 px-16 w-full desktop:mx-auto desktop:mt-160 desktop:w-1200;
+  }
+
+  .auth-container {
+    @apply mt-84 px-16 tablet:px-142 tablet:mt-160 desktop:mx-auto desktop:max-w-460 desktop:p-0;
   }
 }
 

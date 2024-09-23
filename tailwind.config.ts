@@ -77,6 +77,9 @@ const config: Config = {
       button: {
         background: '#18212F',
       },
+      slate: {
+        700: '#334155',
+      },
     },
 
     fontSize: {
@@ -107,6 +110,7 @@ const config: Config = {
         'modal-overlay': '300',
         dropdown: '20',
         'time-picker': '30',
+        header: '10',
       },
       margin: {
         '3px': '3px',

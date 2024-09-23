@@ -1,13 +1,14 @@
-import { useState } from 'react';
-import { Controller, Control, FieldValues, Path } from 'react-hook-form';
 import { IconVisibilityOff, IconVisibilityOn } from '@/assets/IconList';
+import clsx from 'clsx';
+import { useState } from 'react';
+import { Control, Controller, FieldValues, Path } from 'react-hook-form';
 import Input from './input';
 
 interface AuthInputProps<T extends FieldValues> {
   control: Control<T>;
   name: Path<T>;
   type: 'password' | 'email' | 'text';
-  errorMessage?: string;
+  error?: boolean;
   className?: string;
   placeholder?: string;
 }
@@ -16,7 +17,7 @@ function AuthInput<T extends FieldValues>({
   control,
   name,
   type,
-  errorMessage,
+  error,
   className = '',
   placeholder = '',
 }: AuthInputProps<T>) {
@@ -39,40 +40,28 @@ function AuthInput<T extends FieldValues>({
         name={name}
         control={control}
         render={({ field }) => (
-          <>
-            <div className='relative'>
-              <Input
-                type={inputType()}
-                className={`w-full py-[10.5px] px-[16px]  ${
-                  errorMessage ? 'border-status-danger border' : ''
-                } ${className}`}
-                placeholder={placeholder}
-                {...field}
-                style={{ color: '#64748B' }}
-              />
-              {type === 'password' && (
-                <button
-                  type='button'
-                  onClick={togglePasswordVisibility}
-                  className='absolute inset-y-0 right-0 px-16'
-                >
-                  {isPasswordVisible ? (
-                    <IconVisibilityOn />
-                  ) : (
-                    <IconVisibilityOff />
-                  )}
-                </button>
-              )}
-            </div>
-
-            <div>
-              {errorMessage && (
-                <p className='text-md font-semibold text-status-danger mt-8'>
-                  {errorMessage}
-                </p>
-              )}
-            </div>
-          </>
+          <div className='relative'>
+            <Input
+              type={inputType()}
+              className={clsx('w-full py-11 px-16', className)}
+              error={error}
+              placeholder={placeholder}
+              {...field}
+            />
+            {type === 'password' && (
+              <button
+                type='button'
+                onClick={togglePasswordVisibility}
+                className='absolute inset-y-0 right-0 px-16'
+              >
+                {isPasswordVisible ? (
+                  <IconVisibilityOn />
+                ) : (
+                  <IconVisibilityOff />
+                )}
+              </button>
+            )}
+          </div>
         )}
       />
     </div>

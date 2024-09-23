@@ -7,6 +7,9 @@ import Input from './input';
 interface SearchInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   className?: string;
   iconClassName?: string;
+  placeholder: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 /**
@@ -22,18 +25,25 @@ interface SearchInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
  *   placeholder="Search..."
  *   className="custom-class"
  *   iconClassName="text-gray-500"
+ *   value={searchValue}
+ *   onChange={(e) => setSearchValue(e.target.value)}
  * />
  * ```
  */
-function SearchInput({ className, iconClassName, ...props }: SearchInputProps) {
+function SearchInput({
+  className,
+  iconClassName,
+  value,
+  onChange,
+  ...props
+}: SearchInputProps) {
   return (
     <div className='relative w-full'>
       <Input
+        value={value}
+        onChange={onChange}
         {...props}
-        className={clsx(
-          'pl-48', // 아이콘이 들어갈 여백
-          className,
-        )}
+        className={clsx('pl-48', className)}
       />
       <span
         className={clsx(
