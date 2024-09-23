@@ -2,11 +2,13 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import axios from '@/libs/axios';
 import useUserStore from '@/stores/userStore';
+import useToast from '@/components/toast/useToast'; // useToast 훅 가져오기
 
 function GoogleOAuth() {
   const router = useRouter();
   const { code, state } = router.query; // URL에서 code와 state 추출
   const { setLogin } = useUserStore(); // 로그인 후 유저 정보를 저장할 상태 관리
+  const { toast } = useToast(); // useToast 훅을 호출하여 toast 함수 가져오기
 
   useEffect(() => {
     const fetchGoogleToken = async () => {
@@ -27,7 +29,8 @@ function GoogleOAuth() {
           // 성공적으로 로그인된 후 원하는 페이지로 리디렉션
           router.push('/');
         } catch (error) {
-          console.error('Google OAuth 로그인 중 오류 발생:', error);
+          // 오류 시 toast를 호출
+          toast('Error', 'Google OAuth 로그인 중 오류 발생');
           // 오류가 발생한 경우 처리 (예: 오류 페이지로 이동)
           router.push('/auth/signin?error=google_login_failed');
         }
@@ -35,7 +38,7 @@ function GoogleOAuth() {
     };
 
     fetchGoogleToken();
-  }, [code, state, router, setLogin]);
+  }, [code, state, router, setLogin, toast]);
 
   return (
     <div className='flex justify-center items-center h-screen'>
