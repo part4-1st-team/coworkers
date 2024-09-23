@@ -7,7 +7,7 @@ interface BaseButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   color?: ColorType;
   disabled?: boolean;
   type?: ButtonType; // 선택적 속성으로 수정
-  text: string; // 텍스트만 받는 방식
+  text: string; // text prop 추가
   className?: string; // 추가적인 커스텀 클래스 네임
 }
 
@@ -26,9 +26,9 @@ interface BaseButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
  * ```tsx
  * <BaseButton
  *   type="button"
- *   text="생성하기"
  *   color="primary"
  *   className="w-332 h-32"
+ *   text="생성하기"
  * />
  * ```
  *
@@ -36,27 +36,25 @@ interface BaseButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
  */
 function BaseButton({
   color = 'primary',
-  text,
+  text, // text prop 추가
   type = 'button', // 기본값 설정
   disabled = false,
   className,
   ...props
 }: BaseButtonProps) {
   const baseButton =
-    'w-full text-md font-semibold text-text-inverse px-12 py-7.5 flex items-center justify-center rounded-12 ';
+    'w-full text-md font-semibold px-12 py-7.5 flex items-center justify-center rounded-12 ';
 
   const colorStyle = {
     primary:
-      'bg-brand-primary hover:bg-interaction-hover focus:outline-none focus:bg-interaction-pressed disabled:bg-interaction-inactive',
+      'bg-brand-primary text-text-inverse hover:bg-interaction-hover focus:outline-none focus:bg-interaction-pressed disabled:bg-interaction-inactive',
     outlined:
-      'bg-background-inverse text-brand-secondary border border-brand-primary hover:text-interaction-hover hover:border-interaction-hover focus:border-interaction-pressed focus:text-interaction-pressed disabled:border-interaction-inactive disabled:text-interaction-inactive',
-    // text-brand-primary 색상이 적용이 안되는 이유를 못찾았습니다. 임시로 text-brand-secondary 사용
+      'bg-background-inverse text-brand-primary border border-brand-primary hover:text-interaction-hover hover:border-interaction-hover focus:border-interaction-pressed focus:text-interaction-pressed disabled:border-interaction-inactive disabled:text-interaction-inactive',
     outlinedSecon:
       'bg-background-inverse text-text-default border border-text-secondary',
-    // text-brand-primary 색상이 적용이 안되는 이유를 못찾았습니다. 임시로 text-brand-secondary 사용
     red: 'bg-status-danger text-text-inverse',
     bgNon:
-      'bg-none text-brand-secondary border border-brand-primary hover: hover:border-interaction-hover hover:text-interaction-hover active:text-interaction-pressed disabled:border-interaction-inactive disabled:text-interaction-inactive',
+      'bg-none text-brand-primary border border-brand-primary hover: hover:border-interaction-hover hover:text-interaction-hover active:text-interaction-pressed disabled:border-interaction-inactive disabled:text-interaction-inactive',
   };
 
   const buttonClass = clsx(baseButton, colorStyle[color], className);
@@ -68,12 +66,5 @@ function BaseButton({
     </button>
   );
 }
-
-BaseButton.defaultProps = {
-  color: 'primary',
-  disabled: false,
-  type: 'button',
-  className: '',
-};
 
 export default BaseButton;

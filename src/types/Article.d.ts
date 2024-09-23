@@ -25,6 +25,7 @@ interface RequestArticle {
 
 interface Article extends ArticleResponse {
   commentCount: number;
+  isLiked: boolean;
 }
 
 interface Articles {
@@ -40,4 +41,10 @@ interface PatchResponseArticle extends ArticleComment {
   title: string;
   commentCount: number;
   isLiked: boolean;
+}
+
+interface ArticleCommentList {
+  articleId: number;
+  limit: number;
+  cursor?: number;
 }
