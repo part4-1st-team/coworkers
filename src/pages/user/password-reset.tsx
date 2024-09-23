@@ -2,6 +2,8 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState } from 'react'; // 모달 상태를 관리하기 위해 추가
 import AuthInput from '@/components/input/authInput';
 import PasswordResetModal from '@/components/modal/PasswordResetModal'; // 모달 컴포넌트 import
+import { yupResolver } from '@hookform/resolvers/yup';
+import passwordSchema from '@/schema/PasswordSchema';
 
 interface PasswordResetFormValues {
   password: string;
@@ -13,7 +15,10 @@ function PasswordResetPage() {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<PasswordResetFormValues>();
+  } = useForm<PasswordResetFormValues>({
+    resolver: yupResolver(passwordSchema),
+    mode: 'onChange',
+  });
   const [isModalOpen, setModalOpen] = useState(false); // 모달 상태 추가
 
   const onSubmit: SubmitHandler<PasswordResetFormValues> = async () => {
@@ -34,7 +39,7 @@ function PasswordResetPage() {
             control={control}
             placeholder='비밀번호 (영문, 숫자 포함, 12자 이내)를 입력해주세요.'
             className='flex justify-center align-middle'
-            errorMessage={errors.password?.message}
+            error={!!errors.password}
           />
         </div>
         <div>
@@ -45,7 +50,7 @@ function PasswordResetPage() {
             control={control}
             placeholder='새 비밀번호를 다시 한번 입력해주세요.'
             className='flex justify-center align-middle'
-            errorMessage={errors.passwordConfirmation?.message}
+            error={!!errors.password}
           />
         </div>
         <button
