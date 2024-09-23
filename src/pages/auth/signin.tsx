@@ -92,6 +92,12 @@ function SignInPage() {
               className='flex align-center mt-12 border-background-secondary'
             />
           </div>
+          <Link
+            href='/user/password-reset'
+            className='block text-interaction-focus underline decoration-interaction-focus text-right mt-12'
+          >
+            비밀번호를 잊으셨나요?
+          </Link>
           <button
             type='submit'
             className='w-full mt-40 bg-interaction-focus text-text-primary py-14 rounded-12'
