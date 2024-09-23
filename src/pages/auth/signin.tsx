@@ -13,8 +13,10 @@ type FormValues = {
   password: string;
 };
 
-const CLIENT_ID = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID; // 카카오 개발자 콘솔에서 발급받은 클라이언트 ID 추후 .env 환경 변수 처리 필요
-const REDIRECT_URI = 'http://localhost:3000/oauth/kakao'; // 카카오 로그인 후 리디렉션될 URI
+const CLIENT_ID = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID; // 카카오 개발자 콘솔에서 발급받은 클라이언트 ID
+const REDIRECT_URI = 'http://localhost:3000/oauth/kakao'; // 카카오 로그인 후 리디렉션 URI
+const GOOGLE_CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID; // 구글 클라우드 콘솔에서 발급받은 클라이언트 ID
+const GOOGLE_REDIRECT_URI = 'http://localhost:3000/oauth/google'; // 구글 로그인 후 리디렉션 URI
 
 function SignInPage() {
   const router = useRouter();
@@ -51,11 +53,17 @@ function SignInPage() {
     }
   };
 
+  // 카카오 로그인 요청 URL
   const handleKakaoLogin = () => {
     const loginUrl = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}`;
     window.location.href = loginUrl;
   };
 
+  // 구글 로그인 요청 URL
+  const handleGoogleLogin = () => {
+    const loginUrl = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${encodeURIComponent(GOOGLE_REDIRECT_URI)}&scope=email%20profile`;
+    window.location.href = loginUrl;
+  };
   return (
     <div className='flex justify-center items-center h-screen bg-transparent'>
       <div className='w-full max-w-md bg-transparent p-8 rounded-md shadow-md'>
@@ -116,7 +124,7 @@ function SignInPage() {
                 height={42}
               />
             </button>
-            <button type='button'>
+            <button type='button' onClick={handleGoogleLogin}>
               <Image
                 src='/images/img_google.png'
                 alt='간편 로그인 구글'
