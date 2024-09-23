@@ -23,7 +23,7 @@ function CircleButton({
   ...props
 }: CircleButtonProps) {
   const baseButton =
-    'w-16 h-16 text-md font-semibold bg-background-tertiary text-text-inverse rounded-full flex items-center justify-center  ';
+    'w-16 h-16 text-md font-semibold bg-background-tertiary text-text-inverse rounded-full flex items-center justify-center';
 
   const buttonClass = clsx(baseButton, className);
 
@@ -35,11 +35,5 @@ function CircleButton({
     </button>
   );
 }
-
-CircleButton.defaultProps = {
-  disabled: false,
-  type: 'button',
-  className: '',
-};
 
 export default CircleButton;

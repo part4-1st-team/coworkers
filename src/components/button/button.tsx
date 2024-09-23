@@ -12,30 +12,9 @@ interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   rounded?: boolean; // 버튼 모서리를 둥글게 할지 여부
   disabled?: boolean; // 버튼 비활성화 여부
   className?: string; // 추가적인 커스텀 클래스 네임
+  children: React.ReactNode; // 버튼 안에 들어갈 내용 (텍스트 또는 아이콘 등)
 }
 
-/**
- * Button 컴포넌트는 다양한 스타일과 기능을 제공하는 재사용 가능한 버튼 컴포넌트입니다.
- *
- * @param {React.ReactNode} children - 버튼 안에 들어갈 텍스트나 컴포넌트
- * @param {React.ReactNode} icon - 버튼 안에 들어갈 아이콘
- * @param {'button' | 'submit'} type - 버튼의 타입, 기본값은 'button'
- * @param {'primary' | 'white' | 'red' | 'outline'} [color] - 버튼의 색상 스타일
- * @param {'lg' | 'md' | 'sm'} [size='md'] - 버튼의 텍스트 크기
- * @param {boolean} [rounded=false] - 버튼 모서리가 둥글게 설정될지 여부
- * @param {boolean} [disabled=false] - 버튼이 비활성화될지 여부
- * @param {string} [className] - 추가적인 커스텀 클래스 네임
- * @param {React.ButtonHTMLAttributes<HTMLButtonElement>} props - HTML button 속성들
- *
- * @returns {JSX.Element} Button 컴포넌트
- *
- * @example
- * ```tsx
- * <Button type="button" color="primary" size="lg" rounded>
- *   클릭하세요
- * </Button>
- * ```
- */
 function Button({
   children,
   icon,
@@ -53,7 +32,7 @@ function Button({
   /* 컬러에 따른 분기  */
   const colorStyle = {
     primary:
-      'px-5 bg-brand-primary text-text-inverse  border border-border-primary hover:bg-interaction-hover active:bg-interaction-pressed disabled:bg-interaction-inactive',
+      'px-5 bg-brand-primary text-text-inverse  hover:bg-interaction-hover active:bg-interaction-pressed disabled:bg-interaction-inactive',
     white:
       'bg-background-inverse text-brand-primary border border-border-primary hover:text-interaction-hover hover:border hover:border-interaction-hover active:borer-interaction-pressed active:text-interaction-pressed disabled:bg-interaction-inactive',
     red: 'bg-status-danger text-text-inverse',
@@ -99,14 +78,5 @@ function Button({
     </button>
   );
 }
-
-Button.defaultProps = {
-  color: '',
-  icon: false,
-  size: 'md',
-  rounded: null,
-  disabled: false,
-  className: '',
-};
 
 export default Button;
