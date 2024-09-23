@@ -39,7 +39,6 @@ function KakaoSignIn() {
         );
 
         const kakaoAccessToken = kakaoTokenResponse.data.access_token;
-        console.log(kakaoAccessToken);
         // 백엔드에 토큰 전송
         // const backendResponse = await axios.post(
         //   `/auth/signIn/kakao`, // 상대 경로 사용
