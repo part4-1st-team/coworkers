@@ -5,9 +5,7 @@ import axios from '@/libs/axios';
  * @param image 이미지 경로 (string)
  * @returns (type: ImageURL) api에 저장된 이미지 주소 반환
  */
-export default async function postImageUpload(
-  image: string,
-): Promise<ImageURL> {
+export default async function postImageUpload(image: Blob): Promise<ImageURL> {
   const res = await axios.post(
     '/images/upload', // 주소
     { image }, // 객체

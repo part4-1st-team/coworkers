@@ -146,18 +146,16 @@ export async function deleteTaskRecurring(
  *
  * @param groupId 할 일 목록을 가지고 있는 그룹 id
  * @param taskListId 조회할 할 일 목록의 id
- * @param taskId 조회하고 싶은 할 일 목록의 할 일의 아이디
  * @param data (type: PostRecurring) 반복 설정할 정보를 담은 객체
  * @returns (type: Recurring)반복 설정에 대한 정보를 담은 객체 반환
  */
 export async function postRecurring(
   groupId: number,
   taskListId: number,
-  taskId: number,
   data: PostRecurring,
 ): Promise<Recurring> {
   const res = await axios.post(
-    `/groups/${groupId}/task-lists/${taskListId}/tasks/${taskId}/recurring`,
+    `/groups/${groupId}/task-lists/${taskListId}/recurring`,
     data,
   );
 

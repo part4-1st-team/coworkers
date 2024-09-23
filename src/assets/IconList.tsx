@@ -39,6 +39,8 @@ import IconMember from './icons/ic_member.svg';
 import IconHeart from './icons/ic_heart.svg';
 import IconGear from './icons/ic_gear.svg';
 import IconPencil from './icons/ic_pencil.svg';
+import IconXDark from './icons/ic_x_dark.svg';
+import IconProfileLarge from './icons/ic_profile_large.svg';
 
 export {
   IconX,
@@ -82,4 +84,6 @@ export {
   IconHeart,
   IconGear,
   IconPencil,
+  IconXDark,
+  IconProfileLarge,
 };

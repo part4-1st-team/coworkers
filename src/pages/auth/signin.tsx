@@ -5,25 +5,24 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import Image from 'next/image';
 import login from '@/services/Auth.API';
 import { isAxiosError } from 'axios';
+import useUserStore from '@/stores/userStore';
+import Link from 'next/link';
 
 type FormValues = {
   email: string;
   password: string;
 };
 
-/**
- * 테스트 계정
- * {
-  "email": "test1234@testuser.com",
-  "nickname": "test user",
-  "password": "Test1234!",
-  "passwordConfirmation": "Test1234!"
-}
-*/
+const CLIENT_ID = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID; // 카카오 개발자 콘솔에서 발급받은 클라이언트 ID
+const REDIRECT_URI = 'http://localhost:3000/oauth/kakao'; // 카카오 로그인 후 리디렉션 URI
+const GOOGLE_CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID; // 구글 클라우드 콘솔에서 발급받은 클라이언트 ID
+const GOOGLE_REDIRECT_URI = 'http://localhost:3000/oauth/google'; // 구글 로그인 후 리디렉션 URI
+
 function SignInPage() {
   const router = useRouter();
   const { control, handleSubmit } = useForm<FormValues>();
   const [error, setError] = useState<string | null>(null);
+  const { setLogin } = useUserStore(); // 로그인 상태 저장
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     const { email, password } = data;
@@ -31,14 +30,13 @@ function SignInPage() {
     try {
       // 로그인 API 요청
       const response = await login({ email, password });
-      // 액세스 토큰 설정
-      localStorage.setItem('accessToken', response.accessToken);
-      // 리프레시 토큰 설정
-      localStorage.setItem('refreshToken', response.refreshToken);
+      const { user, accessToken, refreshToken } = response;
+      // 유저 정보 저장, 쿠키에 토큰 저장
+      setLogin(user, accessToken, refreshToken);
       // 에러 메시지 초기화
       setError(null);
       // 로그인 성공 시 그룹 가입 페이지로 이동
-      router.push('/user/password-reset');
+      router.push('/group/join-group');
     } catch (err: unknown) {
       // 에러 처리
       if (isAxiosError(err)) {
@@ -55,6 +53,17 @@ function SignInPage() {
     }
   };
 
+  // 카카오 로그인 요청 URL
+  const handleKakaoLogin = () => {
+    const loginUrl = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}`;
+    window.location.href = loginUrl;
+  };
+
+  // 구글 로그인 요청 URL
+  const handleGoogleLogin = () => {
+    const loginUrl = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${encodeURIComponent(GOOGLE_REDIRECT_URI)}&scope=email%20profile`;
+    window.location.href = loginUrl;
+  };
   return (
     <div className='flex justify-center items-center h-screen bg-transparent'>
       <div className='w-full max-w-md bg-transparent p-8 rounded-md shadow-md'>
@@ -91,9 +100,12 @@ function SignInPage() {
           </button>
           <span className='flex justify-center gap-12 text-text-primary font-500 w-full mt-24'>
             <p>아직 계정이 없으신가요?</p>
-            <p className='text-interaction-focus underline decoration-interaction-focus'>
+            <Link
+              href='/auth/signup'
+              className='text-interaction-focus underline decoration-interaction-focus'
+            >
               가입하기
-            </p>
+            </Link>
           </span>
         </form>
         <div className='flex items-center'>
@@ -104,7 +116,7 @@ function SignInPage() {
         <div className='flex justify-between mt-16'>
           <span className='text-text-primary'>간편 로그인하기</span>
           <div className='flex gap-16'>
-            <button type='button'>
+            <button type='button' onClick={handleKakaoLogin}>
               <Image
                 src='/images/img_kakaotalk.png'
                 alt='간편 로그인 카카오톡'
@@ -112,7 +124,7 @@ function SignInPage() {
                 height={42}
               />
             </button>
-            <button type='button'>
+            <button type='button' onClick={handleGoogleLogin}>
               <Image
                 src='/images/img_google.png'
                 alt='간편 로그인 구글'
