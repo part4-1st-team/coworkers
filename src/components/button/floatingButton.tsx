@@ -55,7 +55,7 @@ function FloatingButton({
   ...props
 }: FloatingButtonProps) {
   const baseButton =
-    'w-full text-md font-semibold px-18 py-11 rounded-full flex items-center justify-center';
+    'text-md font-semibold px-18 py-11 rounded-full flex items-center justify-center';
 
   const colorStyle = {
     primary:
