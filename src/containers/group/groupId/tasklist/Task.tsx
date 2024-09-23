@@ -3,8 +3,6 @@ import { useState } from 'react';
 
 import {
   IconCalendar,
-  IconCheckboxActive,
-  IconCheckboxDefault,
   IconComment,
   IconKebabSmall,
   IconRepeat,
@@ -15,11 +13,12 @@ import getDate from '@/utils/getDate';
 
 import useHalfPageStore from '@/stores/HalfPageStore';
 
+import Checkbox from '@/components/checkbox/Checkbox';
 import useQueryParameter from '@/hooks/useQueryParameter';
 import EditDeleteDropdown from '../EditDeleteDropdown';
 import HalfPageContent from './HalfPage/HalfListContent';
 import useDeleteTaskMutation from './hooks/useDeleteTaskMutation';
-import useTaskMutation from './hooks/useTaskMutation';
+import TaskDoneHandler from './TaskDoneHandler';
 
 function Task({ task }: { task: DateTask }) {
   const {
@@ -39,59 +38,37 @@ function Task({ task }: { task: DateTask }) {
 
   const { groupId, taskListId } = useQueryParameter();
 
-  const doneTaskMutation = useTaskMutation(
-    task,
-    groupId,
-    taskListId,
-    setIsDone,
-  );
-
   const deleteTaskMutation = useDeleteTaskMutation(
     groupId,
     taskListId,
     taskId,
     date,
   );
-  const handleDoneTask = (e: any) => {
-    e.stopPropagation();
 
-    // 완료된 상태면
-    if (isDone) {
-      doneTaskMutation.mutate({ done: false });
-    } else {
-      doneTaskMutation.mutate({ done: true });
-    }
-  };
+  const handleDoneTask = TaskDoneHandler(task, isDone, setIsDone);
 
   return (
     /* eslint-disable jsx-a11y/click-events-have-key-events */
-
     <div
       role='button'
       tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          setHalfPageOpen(<HalfPageContent task={task} />);
-        }
-      }}
-      onClick={() => setHalfPageOpen(<HalfPageContent task={task} />)}
+      onClick={() =>
+        setHalfPageOpen(<HalfPageContent task={task} isDone={isDone} />)
+      }
       className='cursor-pointer bg-background-secondary flex flex-col gap-10 rounded-8 py-12 px-14'
     >
       <div className='flex justify-between w-full items-center'>
         <div className='flex gap-12'>
           <div className='flex gap-8 items-center'>
-            <button type='button' onClick={handleDoneTask}>
-              {isDone ? <IconCheckboxActive /> : <IconCheckboxDefault />}
-            </button>
-
-            <span
-              className={clsx(
-                'text-text-primary text-md font-normal',
-                isDone && 'line-through',
+            <Checkbox checked={isDone} handleClick={handleDoneTask} />
+            <div className='relative'>
+              {isDone && (
+                <span className='absolute left-0 top-1/2 transform -translate-y-1/2 h-1 bg-text-primary animate-line-through w-full'></span>
               )}
-            >
-              {name}
-            </span>
+              <span className={clsx('text-text-primary text-md font-normal')}>
+                {name}
+              </span>
+            </div>
           </div>
 
           <div className='flex gap-2 items-center'>
