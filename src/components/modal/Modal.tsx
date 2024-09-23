@@ -1,4 +1,5 @@
 import useModalStore from '@/stores/ModalStore';
+import AlertWrapper from './AlertWrapper';
 import ButtonWrapper from './ButtonWrapper';
 import CloseWrapper from './CloseWrapper';
 import ModalDescription from './ModalDescription';
@@ -15,5 +16,6 @@ Modal.Title = ModalTitle;
 Modal.Description = ModalDescription;
 Modal.Close = CloseWrapper;
 Modal.Buttons = ButtonWrapper;
+Modal.Alert = AlertWrapper;
 
 export default Modal;
