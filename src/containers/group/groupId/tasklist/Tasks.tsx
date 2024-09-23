@@ -1,21 +1,18 @@
-import { IconCalendar, IconPlus } from '@/assets/IconList';
+import { IconCalendar } from '@/assets/IconList';
 import ArrowButton from '@/components/button/arrowButton';
 import Calendar from '@/components/calendar/Calendar';
-import TaskCreateDateModal from '@/components/modal/TaskCreateDateModal';
 import useQueryParameter from '@/hooks/useQueryParameter';
 import useTaskLists from '@/hooks/useTaskLists';
 import useTasks from '@/hooks/useTasks';
-import useModalStore from '@/stores/ModalStore';
 import getMonthDay from '@/utils/getMonthDay';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useState } from 'react';
 import TaskAddButton from '../TaskAddButton';
 import Task from './Task';
+import TodoAddButton from './TodoAddButton';
 
 function Tasks() {
-  const { setModalOpen } = useModalStore();
-
   // 기본으로는 현재 날짜, 화살표 버튼을 통해 날짜 변경함
   const [pickDate, setPickDate] = useState<Date>(new Date());
 
@@ -47,10 +44,10 @@ function Tasks() {
 
   return (
     <main className='main-container relative h-[80vh]'>
-      <div className='flex flex-col gap-[24px]'>
+      <div className='flex flex-col gap-24'>
         <h2 className='text-xl font-bold text-text-primary'>할 일</h2>
         <div className='flex justify-between items-center'>
-          <div className='flex gap-[12px] items-center'>
+          <div className='flex gap-12 items-center'>
             <span className='text-lg font-medium text-text-primary'>
               {getMonthDay(pickDate)}
             </span>
@@ -74,8 +71,8 @@ function Tasks() {
           </div>
           <TaskAddButton />
         </div>
-        <div className='flex flex-col gap-[16px]'>
-          <div className='flex items-center gap-[12px]'>
+        <div className='flex flex-col gap-16'>
+          <div className='flex items-center gap-12'>
             {taskLists.map((taskList) => (
               <Link
                 key={taskList.id}
@@ -90,25 +87,14 @@ function Tasks() {
               </Link>
             ))}
           </div>
-          <div className='flex flex-col gap-[16px]'>
+          <div className='flex flex-col gap-16'>
             {tasks.map((task: DateTask) => (
               <Task task={task} key={task.id} />
             ))}
           </div>
         </div>
       </div>
-      <button
-        type='button'
-        onClick={() =>
-          setModalOpen(
-            <TaskCreateDateModal groupId={groupId} taskListId={taskListId} />,
-          )
-        }
-        className='absolute right-24 bottom-24 tablet:bottom-25 desktop:right-0 desktop:bottom-49 bg-brand-primary flex gap-4 items-center px-21 py-14 rounded-40'
-      >
-        <IconPlus width={16} height={16} />
-        <span className='text-white'>할 일 추가</span>
-      </button>
+      <TodoAddButton />
     </main>
   );
 }
