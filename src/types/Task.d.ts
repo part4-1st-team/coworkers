@@ -41,7 +41,7 @@ interface DateTask {
   updatedAt: string;
   doneAt: string | null;
   date: string;
-  description: string | null;
+  description: string;
   name: string;
   id: number;
 }
