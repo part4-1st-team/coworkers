@@ -26,53 +26,58 @@ function PasswordResetPage() {
   };
 
   return (
-    <div className='w-460 h-397 text-text-primary'>
-      <h1 className='block text-40 text-center font-500 leading-48 mb-80 mx-auto'>
-        비밀번호 재설정
-      </h1>
-      <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-24'>
-        <div className='font-500 leading-19'>
-          새 비밀번호
-          <AuthInput
-            type='password'
-            name='password'
-            control={control}
-            placeholder='비밀번호 (영문, 숫자 포함, 12자 이내)를 입력해주세요.'
-            className='flex justify-center align-middle'
-            error={!!errors.password}
-          />
-          {/* 에러 메시지 출력 */}
-          {errors.password && (
-            <p className='text-status-danger text-sm mt-1'>
-              {errors.password.message}
-            </p>
-          )}
-        </div>
-        <div>
-          비밀번호 확인
-          <AuthInput
-            type='password'
-            name='passwordConfirmation'
-            control={control}
-            placeholder='새 비밀번호를 다시 한번 입력해주세요.'
-            className='flex justify-center align-middle'
-            error={!!errors.password}
-          />
-          {/* 에러 메시지 출력 */}
-          {errors.passwordConfirmation && (
-            <p className='text-status-danger text-sm mt-1'>
-              {errors.passwordConfirmation.message}
-            </p>
-          )}
-        </div>
-        <button
-          type='submit'
-          className='w-full h-47 bg-icon-brand rounded-12 font-600 leading-19 mt-40'
+    <div className='flex justify-center items-center h-screen'>
+      <div className='w-460 h-397 text-text-primary'>
+        <h1 className='block text-40 text-center font-500 leading-48 mb-80 mx-auto'>
+          비밀번호 재설정
+        </h1>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className='flex flex-col gap-24'
         >
-          재설정
-        </button>
-      </form>
-      {isModalOpen && <PasswordResetModal />} {/* 모달 렌더링 */}
+          <div className='font-500 leading-19'>
+            새 비밀번호
+            <AuthInput
+              type='password'
+              name='password'
+              control={control}
+              placeholder='비밀번호 (영문, 숫자 포함, 12자 이내)를 입력해주세요.'
+              className='flex justify-center align-middle'
+              error={!!errors.password}
+            />
+            {/* 에러 메시지 출력 */}
+            {errors.password && (
+              <p className='text-status-danger text-sm mt-1'>
+                {errors.password.message}
+              </p>
+            )}
+          </div>
+          <div>
+            비밀번호 확인
+            <AuthInput
+              type='password'
+              name='passwordConfirmation'
+              control={control}
+              placeholder='새 비밀번호를 다시 한번 입력해주세요.'
+              className='flex justify-center align-middle'
+              error={!!errors.password}
+            />
+            {/* 에러 메시지 출력 */}
+            {errors.passwordConfirmation && (
+              <p className='text-status-danger text-sm mt-1'>
+                {errors.passwordConfirmation.message}
+              </p>
+            )}
+          </div>
+          <button
+            type='submit'
+            className='w-full h-47 bg-icon-brand rounded-12 font-600 leading-19 mt-40'
+          >
+            재설정
+          </button>
+        </form>
+        {isModalOpen && <PasswordResetModal />} {/* 모달 렌더링 */}
+      </div>
     </div>
   );
 }
