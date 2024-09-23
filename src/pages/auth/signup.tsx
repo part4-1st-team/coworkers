@@ -3,6 +3,8 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import Image from 'next/image';
 import AuthInput from '@/components/input/authInput';
 import { signup } from '@/services/Auth.API';
+import { yupResolver } from '@hookform/resolvers/yup';
+import signUpSchema from '@/schema/signUpSchema';
 
 interface SignUpFormValues {
   nickname: string;
@@ -17,7 +19,14 @@ interface SignUpFormValues {
  * nickname : 짱구
  */
 function SignUpPage() {
-  const { control, handleSubmit } = useForm<SignUpFormValues>();
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignUpFormValues>({
+    resolver: yupResolver(signUpSchema),
+    mode: 'onChange',
+  });
 
   const onSubmit: SubmitHandler<SignUpFormValues> = async (data) => {
     try {
@@ -52,6 +61,11 @@ function SignUpPage() {
               control={control}
               className='mt-12'
             />
+            {errors.nickname && (
+              <span className='text-status-danger text-sm'>
+                {errors.nickname.message}
+              </span>
+            )}
           </div>
           <div>
             이메일
@@ -62,6 +76,11 @@ function SignUpPage() {
               control={control}
               className='mt-12'
             />
+            {errors.email && (
+              <span className='text-status-danger text-sm'>
+                {errors.email.message}
+              </span>
+            )}
           </div>
           <div>
             비밀번호
@@ -72,6 +91,11 @@ function SignUpPage() {
               control={control}
               className='flex align-middle mt-12'
             />
+            {errors.password && (
+              <span className='text-status-danger text-sm'>
+                {errors.password.message}
+              </span>
+            )}
           </div>
           <div>
             비밀번호 확인
@@ -82,6 +106,11 @@ function SignUpPage() {
               control={control}
               className='flex align-middle mt-12'
             />
+            {errors.passwordConfirmation && (
+              <span className='text-status-danger text-sm'>
+                {errors.passwordConfirmation.message}
+              </span>
+            )}
           </div>
           <button
             type='submit'
