@@ -48,7 +48,6 @@ function AuthInput<T extends FieldValues>({
                 } ${className}`}
                 placeholder={placeholder}
                 {...field}
-                style={{ color: '#64748B' }}
               />
               {type === 'password' && (
                 <button
