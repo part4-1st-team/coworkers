@@ -144,8 +144,15 @@ const config: Config = {
         '12px': '12px',
       },
     },
-    keyframes: {},
-    animation: {},
+    animation: {
+      'line-through': 'line-through 0.3s forwards',
+    },
+    keyframes: {
+      'line-through': {
+        '0%': { width: '0%' },
+        '100%': { width: '100%' },
+      },
+    },
   },
   plugins: [],
 };
