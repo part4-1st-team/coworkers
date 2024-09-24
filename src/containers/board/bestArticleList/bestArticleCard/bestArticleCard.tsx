@@ -5,11 +5,11 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 
 interface BestArticleCardProps {
-  board: Article;
+  article: Article;
 }
 
-function BestArticleCard({ board }: BestArticleCardProps) {
-  const { createdAt, likeCount, title, image, writer, id } = board;
+function BestArticleCard({ article }: BestArticleCardProps) {
+  const { createdAt, likeCount, title, image, writer, id } = article;
   const router = useRouter();
 
   const handleClick = () => {

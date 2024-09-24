@@ -1,36 +1,29 @@
 import { useState, useEffect } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { getArticles } from '@/services/ArticleAPI';
+import useBestArticles from '@/hooks/useBestArticles';
 import BestArticleCard from './bestArticleCard/bestArticleCard';
 
 function BestArticleList() {
-  const [pageSize, setPageSize] = useState<number>(1); // 기본값을 데스크탑 사이즈로 설정
+  const [pageSize, setPageSize] = useState<number>(1);
 
   const handleResize = () => {
     const width = window.innerWidth;
     if (width < 768) {
-      // 모바일 사이즈
       setPageSize(1);
     } else if (width < 1200) {
-      // 테블릿 사이즈
       setPageSize(2);
     } else {
-      // 데스크탑 사이즈
       setPageSize(3);
     }
   };
 
   useEffect(() => {
-    handleResize(); // 초기 화면 크기 설정
+    handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // React Query를 사용하여 데이터를 페칭
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ['bestArticles', pageSize],
-    queryFn: () => getArticles(1, pageSize, 'like'),
-  });
+  // 커스텀 훅을 사용하여 데이터를 가져옴
+  const { data, isLoading, isError } = useBestArticles(pageSize);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -49,8 +42,8 @@ function BestArticleList() {
         <div className='text-sm tablet:text-md text-text-disabled'>더보기</div>
       </div>
       <div className='flex gap-16'>
-        {data?.list.map((board: Article) => (
-          <BestArticleCard key={board.id} board={board} />
+        {data?.list.map((article) => (
+          <BestArticleCard key={article.id} article={article} />
         ))}
       </div>
 
