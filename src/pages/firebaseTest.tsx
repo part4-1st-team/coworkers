@@ -15,13 +15,12 @@ function FirebaseTestPage() {
   // 이미지 스토리지에 올리는 함수
   const uploadFB = async (e: any) => {
     console.log(e.target.files[0]);
-    const uploaded_file = await uploadBytes(
+    const uploadedFile = await uploadBytes(
       ref(fireStorage, `images/${e.target.files[0].name}_${uuid()}`),
       e.target.files[0],
     );
 
-    ////추가로 url도 긁어볼까요?///
-    const fileUrl = await getDownloadURL(uploaded_file.ref);
+    const fileUrl = await getDownloadURL(uploadedFile.ref);
     console.log(fileUrl);
     setImageUrl(fileUrl);
   };
@@ -52,7 +51,7 @@ function FirebaseTestPage() {
   return (
     <div className='m-200 flex flex-col gap-20'>
       이미지 : <input type='file' onChange={uploadFB} /> <br />
-      <button className='bg-white' onClick={onClickUpLoadButton}>
+      <button type='button' className='bg-white' onClick={onClickUpLoadButton}>
         이미지 db
       </button>
       <Image
