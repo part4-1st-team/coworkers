@@ -58,6 +58,8 @@ const config: Config = {
       },
       status: {
         danger: 'var(--status-danger)',
+        'danger-hover': 'var(--status-danger-hover)',
+        'danger-active': 'var(--status-danger-active)',
       },
       icon: {
         primary: 'var(--icon-primary)',
