@@ -21,6 +21,7 @@ import EditDeleteDropdown from '../EditDeleteDropdown';
 import HalfPageContent from './HalfPage/HalfListContent';
 import useDeleteTaskMutation from './hooks/useDeleteTaskMutation';
 import TaskDoneHandler from './TaskDoneHandler';
+import TaskEditModal from '@/components/modal/TaskEditModal';
 
 function Task({ task }: { task: DateTask }) {
   const {
@@ -86,7 +87,7 @@ function Task({ task }: { task: DateTask }) {
 
         <EditDeleteDropdown
           trigger={<IconKebabSmall />}
-          handleEdit={() => console.log('수정')}
+          handleEdit={() => setModalOpen(<TaskEditModal task={task} />)}
           handleDelete={() => setModalOpen(<TaskDeleteModal task={task} />)}
         />
       </div>
