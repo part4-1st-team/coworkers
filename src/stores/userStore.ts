@@ -21,7 +21,12 @@ interface UserStoreState {
   refreshToken: string | null;
   isLoggedIn: boolean;
   isSocialLogin: boolean; // 간편 로그인 여부 상태 추가
-  setLogin: (user: User, atoken: string, rToken: string) => void;
+  setLogin: (
+    user: User,
+    atoken: string,
+    rToken: string,
+    isSocialLogin?: boolean,
+  ) => void;
   setLogout: () => void;
   setToken: (aToken: string, rToken: string) => void;
   removeToken: () => void;
