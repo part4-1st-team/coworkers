@@ -11,7 +11,10 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 
 // Input 컴포넌트 정의
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ children, className = '', value = '', onChange, error, ...props }, ref) => {
+  (
+    { children, className = '', value = '', onChange, error, ...props },
+    ref,
+  ) => {
     // 기본 클래스들
     const baseClasses =
       'w-full px-16 py-14 text-lg font-normal rounded-xl bg-background-secondary border border-background-tertiary text-text-primary font-font-normal';
