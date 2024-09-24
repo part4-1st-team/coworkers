@@ -10,12 +10,12 @@ import useUser from '@/hooks/useUser';
 import ProfileImage from '@/components/member/ProfileImage';
 
 interface ArticleCardProps {
-  board: Article;
+  article: Article;
   onDeleteSuccess: () => void;
 }
 
-function ArticleCard({ board, onDeleteSuccess }: ArticleCardProps) {
-  const { createdAt, likeCount, title, image, writer, id } = board;
+function ArticleCard({ article, onDeleteSuccess }: ArticleCardProps) {
+  const { createdAt, likeCount, title, image, writer, id } = article;
 
   const { articleDetail, error, isFetching } = useArticleDetail(id as number);
   const { user: currentUser, isLoading, error: userError } = useUser(); // 새로 작성한 useUser 훅 사용
@@ -88,7 +88,7 @@ function ArticleCard({ board, onDeleteSuccess }: ArticleCardProps) {
       <button
         type='button'
         onClick={handleClick}
-        className='block tablet:hidden tablet:h-220 pt-24 pb-16 px-16 bg-background-secondary rounded-12 border border-background-tertiary relative'
+        className='block tablet:hidden w-full tablet:h-220 pt-24 pb-16 px-16 bg-background-secondary rounded-12 border border-background-tertiary relative'
       >
         <div className='flex flex-col'>
           <p className='w-224 h-30 text-lg text-text-secondary font-medium text-left'>
@@ -135,7 +135,7 @@ function ArticleCard({ board, onDeleteSuccess }: ArticleCardProps) {
       <button
         type='button'
         onClick={handleClick}
-        className='hidden tablet:block h-auto pt-24 pb-24 px-32 bg-background-secondary rounded-12 border border-background-tertiary'
+        className='hidden w-full tablet:block h-auto pt-24 pb-24 px-32 bg-background-secondary rounded-12 border border-background-tertiary'
       >
         <div className='flex flex-col justify-between h-full'>
           <div className='flex justify-between'>

@@ -72,22 +72,11 @@ function ArticleList({ searchValue }: ArticleListProps) {
       </div>
 
       <div className='flex flex-col gap-24 desktop:grid desktop:grid-cols-2'>
-        {articles.map((board, index) => {
-          if (articles.length === index + 1) {
-            return (
-              <div key={board.id} ref={lastArticleRef}>
-                <ArticleCard board={board} onDeleteSuccess={refetch} />
-              </div>
-            );
-          }
-          return (
-            <ArticleCard
-              key={board.id}
-              board={board}
-              onDeleteSuccess={refetch}
-            />
-          );
-        })}
+        {articles.map((article) => (
+          <div key={article.id} ref={lastArticleRef}>
+            <ArticleCard article={article} onDeleteSuccess={refetch} />
+          </div>
+        ))}
       </div>
 
       {/* 검색 결과 없을 때 표시 */}
