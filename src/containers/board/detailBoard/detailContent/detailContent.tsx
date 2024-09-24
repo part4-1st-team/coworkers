@@ -16,6 +16,8 @@ import BoardProfile from '@/components/profile/boardProfile';
 import useUser from '@/hooks/useUser';
 import useArticleDetail from '@/hooks/useArticleDetail';
 import Image from 'next/image';
+import useModalStore from '@/stores/ModalStore';
+import DeleteArticleModal from '@/components/modal/DeleteArticleModal';
 
 interface DetailContentProps {
   boardId: number | number[] | undefined;
@@ -86,6 +88,22 @@ function DetailContent({ boardId }: DetailContentProps) {
     },
   });
 
+  // useModalStore를 사용해 모달 열기 및 닫기
+  const { setModalOpen, setModalClose } = useModalStore();
+
+  // 삭제 버튼 클릭 시 모달 열기
+  const handleDelete = () => {
+    setModalOpen(
+      <DeleteArticleModal
+        onConfirm={() => {
+          deleteArticleMutation.mutate();
+          setModalClose();
+        }}
+        onCancel={() => setModalClose()}
+      />,
+    );
+  };
+
   const handleLikeClick = () => {
     if (isLiked) {
       dislikeMutation.mutate();
@@ -104,12 +122,6 @@ function DetailContent({ boardId }: DetailContentProps) {
 
   const handleEdit = () => {
     toggleEditMode();
-  };
-
-  const handleDelete = () => {
-    if (window.confirm('정말 이 게시글을 삭제하시겠습니까?')) {
-      deleteArticleMutation.mutate();
-    }
   };
 
   if (isFetching || isLoading) return <div>Loading...</div>;

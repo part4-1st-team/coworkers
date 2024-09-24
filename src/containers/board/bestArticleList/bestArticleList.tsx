@@ -27,6 +27,7 @@ function BestArticleList() {
 
   if (isLoading) {
     return <div>Loading...</div>;
+    // TODO 로딩 애니메이션 추가 여부
   }
 
   if (isError) {

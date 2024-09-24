@@ -8,6 +8,8 @@ import useToast from '@/components/toast/useToast';
 import { useMutation } from '@tanstack/react-query';
 import useUser from '@/hooks/useUser';
 import ProfileImage from '@/components/member/ProfileImage';
+import useModalStore from '@/stores/ModalStore';
+import DeleteArticleModal from '@/components/modal/DeleteArticleModal';
 
 interface ArticleCardProps {
   article: Article;
@@ -18,9 +20,11 @@ function ArticleCard({ article, onDeleteSuccess }: ArticleCardProps) {
   const { createdAt, likeCount, title, image, writer, id } = article;
 
   const { articleDetail, error, isFetching } = useArticleDetail(id as number);
-  const { user: currentUser, isLoading, error: userError } = useUser(); // 새로 작성한 useUser 훅 사용
+  const { user: currentUser, isLoading, error: userError } = useUser();
   const router = useRouter();
   const { toast } = useToast();
+
+  const { setModalOpen, setModalClose } = useModalStore();
 
   // 삭제 Mutation 설정
   const deleteMutation = useMutation({
@@ -56,11 +60,17 @@ function ArticleCard({ article, onDeleteSuccess }: ArticleCardProps) {
     });
   };
 
-  // 삭제 기능 구현
+  // 삭제 기능 구현 - 삭제 모달 적용
   const handleDelete = () => {
-    if (window.confirm('정말 이 게시글을 삭제하시겠습니까?')) {
-      deleteMutation.mutate();
-    }
+    setModalOpen(
+      <DeleteArticleModal
+        onConfirm={() => {
+          deleteMutation.mutate();
+          setModalClose();
+        }}
+        onCancel={() => setModalClose()}
+      />,
+    );
   };
 
   if (isFetching || isLoading) {
