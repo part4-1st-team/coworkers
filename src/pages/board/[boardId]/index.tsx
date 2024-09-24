@@ -2,25 +2,25 @@ import DetailContent from '@/containers/board/detailBoard/detailContent/detailCo
 import CommentList from '@/containers/board/detailBoard/comment/commentList';
 import { useRouter } from 'next/router';
 
-function AticleDetailPage() {
+function ArticleDetailPage() {
+  // Aticle -> Article로 오타 수정
   const router = useRouter();
   const { boardId } = router.query;
 
-  // boardId가 string 타입일 경우 number로 변환
-  const numerBoardId =
-    typeof boardId === 'string' ? Number(boardId) : undefined;
+  // boardId를 바로 number로 변환
+  const numericBoardId = Number(boardId);
 
-  if (!numerBoardId) {
+  if (!numericBoardId) {
     return <div>Loading...</div>;
   }
 
   return (
     <div className='mt-32 h-auto tablet:mt-40 mx-16 tablet:mx-24 desktop:w-1200 desktop:mx-auto relative'>
-      <DetailContent boardId={numerBoardId} />
-      {/* CommentList에 articleId로 numerBoardId 전달 */}
-      <CommentList articleId={numerBoardId} limit={10} />
+      <DetailContent boardId={numericBoardId} />
+      {/* CommentList에 articleId로 numericBoardId 전달 */}
+      <CommentList articleId={numericBoardId} limit={10} />
     </div>
   );
 }
 
-export default AticleDetailPage;
+export default ArticleDetailPage;
