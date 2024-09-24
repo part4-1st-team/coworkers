@@ -3,13 +3,10 @@ import ImgUpload from '@/components/imgUpload/ImgUpload';
 import Input from '@/components/input/input';
 import useToast from '@/components/toast/useToast';
 import { postGroup } from '@/services/GroupAPI';
-import useImageMutation from '@/hooks/useImageMutation';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
-import { FormEvent, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
-import { string } from 'yup';
-import ModifyProfile from '@/components/member/modifyProfile';
 
 interface FormState {
   name: string;
@@ -19,25 +16,16 @@ function CreateGroup() {
   const { toast } = useToast();
   const { control, handleSubmit } = useForm<FormState>();
   const [groupName, setGroupName] = useState<string>('');
-  const [currentImage, setCurrentImage] = useState<Blob | null>(null);
-  const [preview, setPreview] = useState<string | null>(null);
+  const [imgUrl, setImgUrl] = useState<string | null>(null);
   const queryClient = useQueryClient();
   const router = useRouter();
-
-  const imageMutation = useImageMutation();
 
   const createGroupMutation = useMutation({
     mutationFn: async (name: string) => {
       const data: PostGroupRequest = { name: '' };
 
-      if (currentImage !== null) {
-        const formData = new FormData();
-        formData.append('image', currentImage);
-        const uploadedImage = await imageMutation.mutateAsync(currentImage);
-        data.image = uploadedImage.url;
-      }
-
       data.name = name;
+      data.image = imgUrl;
 
       return postGroup(data);
     },
@@ -63,18 +51,13 @@ function CreateGroup() {
   };
 
   return (
-    <section className='mx-16 tablet:mx-142 desktop:mx-430 mt-132 text-lg text-text-primary'>
+    <div className='mx-16 tablet:mx-142 desktop:mx-430 mt-132 text-lg text-text-primary'>
       <div className='w-full flex flex-col items-center gap-24'>
         <div className='text-4xl'>팀 생성하기</div>
         <form className='w-full' onSubmit={handleSubmit(handleCreateGroup)}>
           <div className='w-64 mb-24'>
             <div className='mb-12'>팀 프로필</div>
-            <ModifyProfile
-              preview={preview}
-              setImage={setCurrentImage}
-              setPreview={setPreview}
-              group
-            />
+            <ImgUpload setImgUrl={setImgUrl} />
           </div>
           <div className='mb-40'>
             <div className='mb-12'>팀 이름</div>
@@ -96,7 +79,7 @@ function CreateGroup() {
         </form>
         <div>팀 이름은 회사명이나 모임 이름 등으로 설정하면 좋아요.</div>
       </div>
-    </section>
+    </div>
   );
 }
 export default CreateGroup;

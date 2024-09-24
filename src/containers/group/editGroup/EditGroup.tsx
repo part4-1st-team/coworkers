@@ -5,9 +5,8 @@ import Input from '@/components/input/input';
 import Button from '@/components/button/button';
 import useToast from '@/components/toast/useToast';
 import { getGroup, patchGroup } from '@/services/GroupAPI';
-import useImageMutation from '@/hooks/useImageMutation';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import ModifyProfile from '@/components/member/modifyProfile';
+import ImgUpload from '@/components/imgUpload/ImgUpload';
 
 interface FormState {
   name: string;
@@ -15,19 +14,22 @@ interface FormState {
 
 function EditGroup() {
   const { toast } = useToast();
-  const { control, handleSubmit } = useForm<FormState>();
-  const [group, setGroup] = useState<Group | null>(null); // 그룹 정보를 담을 상태
-  const [currentImage, setCurrentImage] = useState<Blob | null>(null);
-  const [preview, setPreview] = useState<string | null>(null);
+  const { control, handleSubmit, reset } = useForm<FormState>();
+  const [group, setGroup] = useState<Group | null>(null);
+  const [currentImage, setCurrentImage] = useState<string | null>(null);
+  const [prevImg, setPrevImg] = useState<string | undefined>();
   const queryClient = useQueryClient();
   const router = useRouter();
   const { groupId } = router.query;
 
-  const imageMutation = useImageMutation();
-
+  // 그룹 정보 가져오는 함수
   const groupSetting = async () => {
-    const currentGroup = getGroup(Number(groupId));
-    setGroup(await currentGroup);
+    if (groupId) {
+      const currentGroup = await getGroup(Number(groupId));
+      setGroup(currentGroup);
+      setPrevImg(currentGroup.image);
+      reset({ name: currentGroup.name });
+    }
   };
 
   const updateGroupMutation = useMutation({
@@ -35,10 +37,7 @@ function EditGroup() {
       const data: PatchGroup = {};
 
       if (currentImage !== null) {
-        const formData = new FormData();
-        formData.append('image', currentImage);
-        const uploadedImage = await imageMutation.mutateAsync(currentImage);
-        data.image = uploadedImage.url;
+        data.image = currentImage;
       }
 
       if (group?.name !== name) {
@@ -67,47 +66,39 @@ function EditGroup() {
 
   useEffect(() => {
     groupSetting();
-    if (group) {
-      setPreview(group?.image);
-    }
   }, [groupId]);
 
   return (
-    <div className='mt-60 w-full h-full bg-background-primary text-text-primary text-lg px-16 pt-56 font-medium'>
-      <section className='w-full flex flex-col gap-24 tablet:w-460 mx-auto'>
-        <div className='w-full text-center text-24'>팀 수정하기</div>
-        <form onSubmit={handleSubmit(handleChangeGroup)}>
-          <section>
+    <div className='mx-16 tablet:mx-142 desktop:mx-430 mt-132 text-lg text-text-primary'>
+      <div className='w-full flex flex-col items-center gap-24'>
+        <div className='text-4xl'>팀 수정하기</div>
+        <form className='w-full' onSubmit={handleSubmit(handleChangeGroup)}>
+          <div className='w-64 mb-24'>
             <div className='mb-12'>팀 프로필</div>
-            <ModifyProfile
-              preview={preview}
-              setImage={setCurrentImage}
-              setPreview={setPreview}
-              group
-            />
-          </section>
-          <section>
+            <ImgUpload prevImg={prevImg} setImgUrl={setCurrentImage} />
+          </div>
+          <div className='mb-40'>
             <div className='mb-12'>팀 이름</div>
             <Controller
               name='name'
               control={control}
               render={({ field }) => (
                 <Input
-                  placeholder={group?.name}
-                  value={field.value}
+                  placeholder='팀 이름을 입력해주세요.'
+                  value={field.value || ''}
                   onChange={field.onChange}
                 />
               )}
             />
-          </section>
-          <Button type='submit' color='primary' className='py-14 mt-40'>
+          </div>
+          <Button type='submit' color='primary' size='lg' className='w-full'>
             수정하기
           </Button>
         </form>
         <section className='w-full text-center font-normal'>
           팀 이름은 회사명이나 모임 이름 등으로 설정하면 좋아요.
         </section>
-      </section>
+      </div>
     </div>
   );
 }
