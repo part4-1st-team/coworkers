@@ -14,7 +14,9 @@ import getDate from '@/utils/getDate';
 import useHalfPageStore from '@/stores/HalfPageStore';
 
 import Checkbox from '@/components/checkbox/Checkbox';
+import TaskDeleteModal from '@/components/modal/TaskDeleteModal';
 import useQueryParameter from '@/hooks/useQueryParameter';
+import useModalStore from '@/stores/ModalStore';
 import EditDeleteDropdown from '../EditDeleteDropdown';
 import HalfPageContent from './HalfPage/HalfListContent';
 import useDeleteTaskMutation from './hooks/useDeleteTaskMutation';
@@ -46,6 +48,8 @@ function Task({ task }: { task: DateTask }) {
   );
 
   const handleDoneTask = TaskDoneHandler(task, isDone, setIsDone);
+
+  const { setModalOpen } = useModalStore();
 
   return (
     /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -83,7 +87,7 @@ function Task({ task }: { task: DateTask }) {
         <EditDeleteDropdown
           trigger={<IconKebabSmall />}
           handleEdit={() => console.log('수정')}
-          handleDelete={() => deleteTaskMutation.mutate()}
+          handleDelete={() => setModalOpen(<TaskDeleteModal task={task} />)}
         />
       </div>
 
