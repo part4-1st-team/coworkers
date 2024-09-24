@@ -3,10 +3,10 @@ import Image from 'next/image';
 import MaskGroupBar from '@/assets/images/img_mask_group_bar.png';
 import { useRouter } from 'next/router';
 import useModalStore from '@/stores/ModalStore';
-import GroupDropDown from './GroupDropDown';
 import { IconSecession } from '@/assets/IconList';
 import GroupLeaveModal from '@/components/modal/GroupLeaveModal';
 import GroupDeleteModal from '@/components/modal/GroupDeleteModal';
+import GroupDropDown from './GroupDropDown';
 
 interface Props {
   groupId: number;
@@ -38,6 +38,7 @@ function GroupBar({ groupId, groupName, isAdmin, children }: Props) {
           ) : (
             <button
               type='button'
+              aria-label='leave group'
               onClick={() =>
                 setModalOpen(<GroupLeaveModal groupName={groupName} />)
               }

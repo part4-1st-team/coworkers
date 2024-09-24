@@ -1,13 +1,12 @@
 import useQueryParameter from '@/hooks/useQueryParameter';
 import { useEffect, useState } from 'react';
 import { getGroup } from '@/services/GroupAPI';
-
+import { getUser } from '@/services/userAPI';
 import EmptyGroup from './EmptyGroup';
 import GroupBar from './GroupBar';
 import GroupTask from './GroupTask';
 import GroupReport from './GroupReport';
 import GroupMembers from './GroupMembers';
-import { getUser } from '@/services/userAPI';
 
 function GroupPage() {
   const { groupId } = useQueryParameter();
