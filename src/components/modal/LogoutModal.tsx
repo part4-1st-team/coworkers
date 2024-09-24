@@ -1,12 +1,18 @@
 import useModalStore from '@/stores/ModalStore';
+import useUserStore from '@/stores/userStore';
+import { useRouter } from 'next/router';
 import Button from '../button/button';
 import Modal from './Modal';
 
 function LogoutModal() {
+  const router = useRouter();
   const { setModalClose } = useModalStore();
+  const { setLogout } = useUserStore();
 
   const handleLogout = () => {
-    // NOTE: 로그아웃 로직 구현
+    setLogout();
+    setModalClose();
+    router.push('/');
   };
 
   return (
