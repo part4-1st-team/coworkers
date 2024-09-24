@@ -1,19 +1,17 @@
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable react/require-default-props */
-interface BoxInputProps {
+interface BoxInputProps
+  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   className?: string;
-  placeholder?: string;
-  value?: string;
-  onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  rows?: number;
+  error?: boolean;
 }
 
 function BoxInput({
   className = '',
   placeholder = '내용을 입력해 주세요',
-  value = '',
-  onChange,
   rows = 3,
+  error,
+  ...props
 }: BoxInputProps) {
   return (
     <div>
@@ -34,10 +32,12 @@ function BoxInput({
       <textarea
         className={`py-[12px] px-[16px] w-full text-text-inverse bg-background-secondary placeholder-text-default placeholder-text-lg font-normal rounded-12 border border-border-primary hover:border-interaction-hover resize-none focus:outline-none focus:border-interaction-focus focus:ring-0 ${className}`}
         placeholder={placeholder}
-        value={value}
-        onChange={onChange}
         rows={rows}
+        {...props} // props로 전달받은 register의 value와 onChange 처리
       />
+      {error && (
+        <span className='text-status-danger'>오류가 발생했습니다.</span>
+      )}
     </div>
   );
 }
