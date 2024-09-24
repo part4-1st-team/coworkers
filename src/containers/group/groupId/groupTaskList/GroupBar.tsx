@@ -1,20 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import MaskGroupBar from '@/assets/images/img_mask_group_bar.png';
 import { useRouter } from 'next/router';
 import useModalStore from '@/stores/ModalStore';
-import MemberDeleteModal from '@/components/modal/MemberDeleteModal';
 import GroupDropDown from './GroupDropDown';
-import useMemberships from '@/hooks/useMemberships';
-import { getUser } from '@/services/userAPI';
+import { IconSecession } from '@/assets/IconList';
+import GroupLeaveModal from '@/components/modal/GroupLeaveModal';
+import GroupDeleteModal from '@/components/modal/GroupDeleteModal';
 
 interface Props {
   groupId: number;
+  groupName: string;
   isAdmin: boolean;
   children: React.ReactNode;
 }
 
-function GroupBar({ groupId, isAdmin, children }: Props) {
+function GroupBar({ groupId, groupName, isAdmin, children }: Props) {
   const router = useRouter();
   const { setModalOpen } = useModalStore();
 
@@ -26,16 +27,24 @@ function GroupBar({ groupId, isAdmin, children }: Props) {
         {/* TODO 마스크 이미지 z인덱스 설정(글자 뒤로) */}
         <div className='flex items-center gap-32'>
           <Image src={MaskGroupBar} alt='팀 컴포넌트 마스크 이미지' />
-          <GroupDropDown
-            icon='gear'
-            handleEdit={() => {
-              router.push(`/group/${groupId}/edit`);
-            }}
-            handleDelete={() => setModalOpen(<MemberDeleteModal />)}
-            // TODO 그룹 나가기, 진행 후 그룹 목록으로 이동
-            handleLeave={() => {}}
-            isAdmin={isAdmin}
-          />
+          {isAdmin ? (
+            <GroupDropDown
+              icon='gear'
+              handleEdit={() => {
+                router.push(`/group/${groupId}/edit`);
+              }}
+              handleDelete={() => setModalOpen(<GroupDeleteModal />)}
+            />
+          ) : (
+            <button
+              type='button'
+              onClick={() =>
+                setModalOpen(<GroupLeaveModal groupName={groupName} />)
+              }
+            >
+              <IconSecession />
+            </button>
+          )}
         </div>
       </div>
     </div>

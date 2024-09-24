@@ -65,7 +65,7 @@ function GroupPage() {
   return (
     <div className='w-full h-full bg-background-primary text-text-primary text-lg px-24'>
       <section className='w-full desktop:w-1200 desktop:mx-auto pt-24'>
-        <GroupBar groupId={groupId} isAdmin={isAdmin}>
+        <GroupBar groupId={groupId} groupName={group.name} isAdmin={isAdmin}>
           {group.name}
         </GroupBar>
         <GroupTask Lists={groupTaskLists} />
