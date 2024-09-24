@@ -120,7 +120,7 @@ function DetailContent({ boardId }: DetailContentProps) {
   const { title, commentCount, writer, createdAt, image } = articleDetail;
 
   return (
-    <main className='main-container'>
+    <div>
       <div className='flex justify-between'>
         <div className='text-lg font-medium tablet:text-2lg text-text-secondary'>
           {title}
@@ -192,7 +192,7 @@ function DetailContent({ boardId }: DetailContentProps) {
         )}
       </div>
       {typeof boardId === 'number' && <AddComment boardId={boardId} />}
-    </main>
+    </div>
   );
 }
 

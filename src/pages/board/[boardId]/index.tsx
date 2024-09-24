@@ -15,11 +15,11 @@ function ArticleDetailPage() {
   }
 
   return (
-    <div className='mt-32 h-auto tablet:mt-40 mx-16 tablet:mx-24 desktop:w-1200 desktop:mx-auto relative'>
+    <main className='main-container relative'>
       <DetailContent boardId={numericBoardId} />
       {/* CommentList에 articleId로 numericBoardId 전달 */}
       <CommentList articleId={numericBoardId} limit={10} />
-    </div>
+    </main>
   );
 }
 

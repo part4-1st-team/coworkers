@@ -79,7 +79,7 @@ function AddPostPage() {
   };
 
   return (
-    <div className='mt-40 min-w-343 h-auto tablet:mt-56 mx-16 tablet:mx-24 desktop:w-1200 desktop:mx-auto relative'>
+    <main className='main-container relative'>
       <div className='flex items-center justify-between'>
         <p className='text-lg font-medium tablet:text-xl tablet:font-bold text-text-primary'>
           게시글 쓰기
@@ -88,7 +88,7 @@ function AddPostPage() {
           <BaseButton
             type='button'
             color='primary'
-            className='w-185 h-48'
+            className='w-183 h-48'
             onClick={handleSubmit}
             disabled={
               postArticleStatus === 'pending' || uploadStatus === 'pending'
@@ -151,7 +151,7 @@ function AddPostPage() {
           />
         </div>
       </div>
-    </div>
+    </main>
   );
 }
 
