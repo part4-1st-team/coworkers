@@ -7,6 +7,8 @@ import login from '@/services/Auth.API';
 import { isAxiosError } from 'axios';
 import useUserStore from '@/stores/userStore';
 import Link from 'next/link';
+import useModalStore from '@/stores/ModalStore';
+import PasswordResetModal from '@/components/modal/PasswordResetModal';
 
 type FormValues = {
   email: string;
@@ -23,6 +25,7 @@ function SignInPage() {
   const { control, handleSubmit } = useForm<FormValues>();
   const [error, setError] = useState<string | null>(null);
   const { setLogin } = useUserStore(); // 로그인 상태 저장
+  const { setModalOpen } = useModalStore(); // 비밀번호 재설정 링크 모달 상태
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     const { email, password } = data;
@@ -64,6 +67,12 @@ function SignInPage() {
     const loginUrl = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${encodeURIComponent(GOOGLE_REDIRECT_URI)}&scope=email%20profile`;
     window.location.href = loginUrl;
   };
+
+  // 비밀번호 재설정 모달 핸들러
+  const handleOpenPasswordResetModal = () => {
+    setModalOpen(<PasswordResetModal />);
+  };
+
   return (
     <div className='flex justify-center items-center h-screen bg-transparent'>
       <div className='w-full max-w-md bg-transparent p-8 rounded-md shadow-md'>
@@ -92,6 +101,15 @@ function SignInPage() {
               className='flex align-center mt-12 border-background-secondary'
             />
           </div>
+          <button
+            type='button'
+            onClick={handleOpenPasswordResetModal}
+            className='text-right w-full mt-12'
+          >
+            <span className='block text-interaction-focus underline decoration-interaction-focus'>
+              비밀번호를 잊으셨나요?
+            </span>
+          </button>
           <button
             type='submit'
             className='w-full mt-40 bg-interaction-focus text-text-primary py-14 rounded-12'
