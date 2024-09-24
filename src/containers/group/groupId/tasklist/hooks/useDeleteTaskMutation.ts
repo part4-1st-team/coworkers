@@ -19,7 +19,7 @@ function useDeleteTaskMutation(
         queryKey: ['getTasks', groupId, taskListId, getMonthDay(date)],
       });
 
-      //   toast('Success', '할 일을 성공적으로 삭제했습니다.');
+      toast('Success', '할 일을 성공적으로 삭제했습니다.');
     },
     onError: (error: any) =>
       toast('Error', error.response.message ?? '삭제에 실패했습니다'),
