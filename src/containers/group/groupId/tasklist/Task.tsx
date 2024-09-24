@@ -15,13 +15,13 @@ import useHalfPageStore from '@/stores/HalfPageStore';
 
 import Checkbox from '@/components/checkbox/Checkbox';
 import TaskDeleteModal from '@/components/modal/TaskDeleteModal';
+import TaskEditModal from '@/components/modal/TaskEditModal';
 import useQueryParameter from '@/hooks/useQueryParameter';
 import useModalStore from '@/stores/ModalStore';
 import EditDeleteDropdown from '../EditDeleteDropdown';
 import HalfPageContent from './HalfPage/HalfListContent';
 import useDeleteTaskMutation from './hooks/useDeleteTaskMutation';
 import TaskDoneHandler from './TaskDoneHandler';
-import TaskEditModal from '@/components/modal/TaskEditModal';
 
 function Task({ task }: { task: DateTask }) {
   const {
