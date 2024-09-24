@@ -33,7 +33,6 @@ function CommentCard({ comment, onDeleteSuccess }: CommentCardProps) {
   // 댓글 수정을 위한 useMutation 훅
   const {
     mutate: updateComment,
-    isPending: isUpdating,
     isError: isUpdateError,
     error: updateError,
   } = useMutation({
@@ -51,7 +50,6 @@ function CommentCard({ comment, onDeleteSuccess }: CommentCardProps) {
   // 댓글 삭제를 위한 useMutation 훅
   const {
     mutate: removeComment,
-    isPending: isDeleting,
     isError: isDeleteError,
     error: deleteError,
   } = useMutation({
@@ -101,16 +99,10 @@ function CommentCard({ comment, onDeleteSuccess }: CommentCardProps) {
           />
         )}
 
-        {/* 수정 중 로딩 상태 처리 */}
-        {isUpdating && <p>수정 중입니다...</p>}
-
         {/* 수정 중 에러 발생 시 에러 메시지 처리 */}
         {isUpdateError && (
           <p>댓글 수정에 실패했습니다: {String(updateError)}</p>
         )}
-
-        {/* 삭제 중 로딩 상태 처리 */}
-        {isDeleting && <p>삭제 중입니다...</p>}
 
         {/* 삭제 중 에러 발생 시 에러 메시지 처리 */}
         {isDeleteError && (

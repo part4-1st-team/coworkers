@@ -15,6 +15,7 @@ import AddComment from '@/containers/board/detailBoard/comment/addComment/addCom
 import BoardProfile from '@/components/profile/boardProfile';
 import useUser from '@/hooks/useUser';
 import useArticleDetail from '@/hooks/useArticleDetail';
+import Image from 'next/image';
 
 interface DetailContentProps {
   boardId: number | number[] | undefined;
@@ -116,10 +117,10 @@ function DetailContent({ boardId }: DetailContentProps) {
     return <div>{error?.message || userError?.message || 'Unknown error'}</div>;
   if (!articleDetail) return <div>Loading...</div>;
 
-  const { title, commentCount, writer, createdAt } = articleDetail;
+  const { title, commentCount, writer, createdAt, image } = articleDetail;
 
   return (
-    <div>
+    <main className='main-container'>
       <div className='flex justify-between'>
         <div className='text-lg font-medium tablet:text-2lg text-text-secondary'>
           {title}
@@ -176,11 +177,22 @@ function DetailContent({ boardId }: DetailContentProps) {
             onCancel={handleCancelEdit}
           />
         ) : (
-          <p>{content}</p>
+          <div className='flex flex-row'>
+            <p>{content}</p>
+            {image && (
+              <Image
+                src={image}
+                alt='샘플이미지'
+                width={100}
+                height={100}
+                className='ml-auto'
+              />
+            )}
+          </div>
         )}
       </div>
       {typeof boardId === 'number' && <AddComment boardId={boardId} />}
-    </div>
+    </main>
   );
 }
 
