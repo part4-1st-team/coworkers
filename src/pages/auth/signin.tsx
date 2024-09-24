@@ -74,7 +74,7 @@ function SignInPage() {
   };
 
   return (
-    <div className='flex justify-center items-center h-screen bg-transparent'>
+    <div className='flex justify-center items-center bg-transparent tablet:mx-142 tablet:mt-160 desktop:mx-430 desktop:mt-200 mt-84'>
       <div className='w-full max-w-md bg-transparent p-8 rounded-md shadow-md'>
         <h2 className='block text-40 text-text-primary text-center font-500 h-48 mb-80 leading-48'>
           로그인
