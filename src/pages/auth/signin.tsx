@@ -9,6 +9,7 @@ import useUserStore from '@/stores/userStore';
 import Link from 'next/link';
 import useModalStore from '@/stores/ModalStore';
 import PasswordResetModal from '@/components/modal/PasswordResetModal';
+import Button from '@/components/button/button';
 
 type FormValues = {
   email: string;
@@ -110,12 +111,14 @@ function SignInPage() {
               비밀번호를 잊으셨나요?
             </span>
           </button>
-          <button
+          <Button
             type='submit'
-            className='w-full mt-40 bg-interaction-focus text-text-primary py-14 rounded-12'
+            color='primary'
+            size='lg'
+            className='w-full mt-40'
           >
             로그인
-          </button>
+          </Button>
           <span className='flex justify-center gap-12 text-text-primary font-500 w-full mt-24'>
             <p>아직 계정이 없으신가요?</p>
             <Link
