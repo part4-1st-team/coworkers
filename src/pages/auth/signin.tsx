@@ -10,6 +10,8 @@ import Link from 'next/link';
 import useModalStore from '@/stores/ModalStore';
 import PasswordResetModal from '@/components/modal/PasswordResetModal';
 import Button from '@/components/button/button';
+import signInSchema from '@/schema/signInSchema';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 type FormValues = {
   email: string;
@@ -23,7 +25,11 @@ const GOOGLE_REDIRECT_URI = 'http://localhost:3000/oauth/google'; // 구글 로�
 
 function SignInPage() {
   const router = useRouter();
-  const { control, handleSubmit } = useForm<FormValues>();
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>({ resolver: yupResolver(signInSchema) });
   const [error, setError] = useState<string | null>(null);
   const { setLogin } = useUserStore(); // 로그인 상태 저장
   const { setModalOpen } = useModalStore(); // 비밀번호 재설정 링크 모달 상태
@@ -85,12 +91,18 @@ function SignInPage() {
           <div className='mb-24 text-text-primary'>
             이메일
             <AuthInput
-              type='email'
+              type='text'
               name='email'
               control={control}
               placeholder='이메일을 입력하세요.'
               className='mt-12 border-background-secondary'
+              error={!!errors.email}
             />
+            {errors && (
+              <p className='text-status-danger text-sm mt-8'>
+                {errors.email?.message}
+              </p>
+            )}
           </div>
           <div className='text-text-primary'>
             비밀번호
@@ -100,7 +112,13 @@ function SignInPage() {
               control={control}
               placeholder='비밀번호를 입력하세요.'
               className='flex align-center mt-12 border-background-secondary'
+              error={!!errors.password}
             />
+            {errors && (
+              <p className='text-status-danger text-sm mt-8'>
+                {errors.password?.message}
+              </p>
+            )}
           </div>
           <button
             type='button'
