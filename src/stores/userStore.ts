@@ -2,7 +2,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { setTokenCookies, removeTokenCookies } from '@/utils/cookieUtils';
-import { NextRouter } from 'next/router';
 
 // user 인터페이스 추가
 interface User {

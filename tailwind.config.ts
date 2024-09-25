@@ -82,6 +82,9 @@ const config: Config = {
       slate: {
         700: '#334155',
       },
+      authNotification: {
+        auth: '#F3E2A9',
+      },
     },
 
     fontSize: {

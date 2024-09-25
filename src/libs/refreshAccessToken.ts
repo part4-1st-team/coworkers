@@ -17,6 +17,15 @@ const useRefreshAccessToken = () => {
 
       // 새로운 액세스 및 리프레시 토큰 저장
       setLogin(user, accessToken, newRefreshToken);
+
+      // 유저 정보와 함께 localStorage에 새 토큰 저장
+      localStorage.setItem(
+        'User',
+        JSON.stringify({
+          state: { accessToken, refreshToken: newRefreshToken, user },
+        }),
+      );
+
       return accessToken;
     } catch (error) {
       console.error('리프레시 토큰 갱신 실패:', error);
