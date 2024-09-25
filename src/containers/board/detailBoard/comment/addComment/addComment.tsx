@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'; // useQuery
 import BaseButton from '@/components/button/baseButton';
 import BoxInput from '@/components/input/boxInput';
 import { postArticleComment } from '@/services/ArticleCommentAPI';
+import useToast from '@/components/toast/useToast';
 
 interface AddCommentProps {
   boardId: number; // 댓글을 작성할 게시글 ID
@@ -11,7 +12,7 @@ interface AddCommentProps {
 function AddComment({ boardId }: AddCommentProps) {
   const [comment, setComment] = useState(''); // 댓글 내용
   const [error, setError] = useState<string | null>(null);
-
+  const { toast } = useToast();
   const queryClient = useQueryClient(); // QueryClient 가져오기
 
   // 댓글을 생성하는 mutation
@@ -26,17 +27,17 @@ function AddComment({ boardId }: AddCommentProps) {
         queryKey: ['ArticleComments', boardId], // 쿼리 키 배열
       });
 
-      console.log('댓글이 성공적으로 등록되었습니다.');
+      toast('Success', '댓글이 성공적으로 등록되었습니다.');
     },
     onError: () => {
-      setError('댓글을 등록하는 중 오류가 발생했습니다.');
+      toast('Error', '댓글을 등록하는 중 오류가 발생했습니다.');
     },
   });
 
   // 댓글 등록 버튼 클릭 시 호출되는 함수
   const handleSubmit = () => {
     if (!comment.trim()) {
-      setError('댓글을 입력해주세요.');
+      toast('Error', '댓글을 입력해주세요.');
       return;
     }
 

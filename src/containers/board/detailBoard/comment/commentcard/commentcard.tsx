@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import BoardProfile from '@/components/profile/boardProfile';
+import ProfileImage from '@/components/member/ProfileImage';
 import BoardDropdownMenu from '@/components/board/boardDropdown';
 import EditInput from '@/components/input/editCommentInput';
 import ArticleEdit from '@/hooks/useArticleEdit';
@@ -7,19 +7,21 @@ import {
   patchArticleComment,
   deleteArticleComment,
 } from '@/services/ArticleCommentAPI';
-import CurrentUser from '@/hooks/useCurrentUser';
+import useUser from '@/hooks/useUser';
+import useToast from '@/components/toast/useToast';
 
 interface CommentCardProps {
   comment: ArticleComment;
-  onDeleteSuccess: () => void; // 삭제 성공 후 콜백 함수 (부모 컴포넌트에서 처리 가능)
+  onDeleteSuccess: () => void;
 }
 
 function CommentCard({ comment, onDeleteSuccess }: CommentCardProps) {
   const { writer, createdAt, id } = comment;
 
-  // 로그인한 사용자 정보 가져오기
-  const { data: currentUser } = CurrentUser(); // 현재 로그인된 사용자 정보
+  // useUser 훅을 사용하여 로그인된 사용자 정보 가져오기
+  const { user: currentUser, isLoading: isUserLoading } = useUser();
   const isCommentAuthor = currentUser?.id === writer.id; // 로그인한 사용자가 댓글 작성자인지 확인
+  const { toast } = useToast();
 
   // ArticleEdit 훅 사용
   const {
@@ -30,50 +32,46 @@ function CommentCard({ comment, onDeleteSuccess }: CommentCardProps) {
     setContent,
   } = ArticleEdit(comment.content);
 
-  // 댓글 수정을 위한 useMutation 훅
-  const {
-    mutate: updateComment,
-    isPending: isUpdating,
-    isError: isUpdateError,
-    error: updateError,
-  } = useMutation({
+  // 댓글 수정을 위한 useMutation 훅 리팩터링
+  const updateCommentMutation = useMutation({
     mutationFn: (newContent: string) => patchArticleComment(id, newContent),
     onSuccess: (updatedComment) => {
       // 수정된 댓글 내용으로 상태 업데이트
       setContent(updatedComment.content);
       toggleEditMode();
+      toast('Success', '댓글이 성공적으로 수정되었습니다.');
     },
-    onError: (error) => {
-      console.error('Failed to update the comment:', error);
+    onError: () => {
+      toast('Error', '댓글 수정이 실패했습니다.');
     },
   });
 
-  // 댓글 삭제를 위한 useMutation 훅
-  const {
-    mutate: removeComment,
-    isPending: isDeleting,
-    isError: isDeleteError,
-    error: deleteError,
-  } = useMutation({
+  // 댓글 삭제를 위한 useMutation 훅 리팩터링
+  const removeCommentMutation = useMutation({
     mutationFn: () => deleteArticleComment(id),
     onSuccess: () => {
-      // 삭제 성공 후 처리: 부모 컴포넌트에 삭제 완료 알림
+      toast('Success', '댓글이 성공적으로 삭제되었습니다.');
       onDeleteSuccess();
     },
-    onError: (error) => {
-      console.error('Failed to delete the comment:', error);
+    onError: () => {
+      toast('Error', '댓글 삭제가 실패했습니다.');
     },
   });
 
   // 수정 완료 함수
   const handleSave = () => {
-    updateComment(content);
+    updateCommentMutation.mutate(content); // 객체의 mutate 메서드 사용
   };
 
   // 삭제 완료 함수
   const handleDelete = () => {
-    removeComment();
+    removeCommentMutation.mutate(); // 객체의 mutate 메서드 사용
   };
+
+  // 로딩 상태 처리
+  if (isUserLoading) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <div className='pt-24 pb-24 px-32 bg-background-secondary rounded-12 border border-background-tertiary'>
@@ -101,32 +99,12 @@ function CommentCard({ comment, onDeleteSuccess }: CommentCardProps) {
           />
         )}
 
-        {/* 수정 중 로딩 상태 처리 */}
-        {isUpdating && <p>수정 중입니다...</p>}
-
-        {/* 수정 중 에러 발생 시 에러 메시지 처리 */}
-        {isUpdateError && (
-          <p>댓글 수정에 실패했습니다: {String(updateError)}</p>
-        )}
-
-        {/* 삭제 중 로딩 상태 처리 */}
-        {isDeleting && <p>삭제 중입니다...</p>}
-
-        {/* 삭제 중 에러 발생 시 에러 메시지 처리 */}
-        {isDeleteError && (
-          <p>댓글 삭제에 실패했습니다: {String(deleteError)}</p>
-        )}
-
         {/* isEditing이 false일 때만 프로필 정보를 보여줌 */}
         {!isEditing && (
           <div className='mt-32 flex justify-between gap-16'>
             <div className='flex items-center gap-10'>
               <div className='w-32 h-32'>
-                <BoardProfile
-                  size={32}
-                  nickname={writer.nickname}
-                  image={writer.image}
-                />
+                <ProfileImage userImage={writer.image} size={32} />
               </div>
               <p className='text-text-primary text-md font-medium'>
                 {writer.nickname}
