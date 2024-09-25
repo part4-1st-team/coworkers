@@ -49,13 +49,15 @@ function GroupPage() {
   }
 
   return (
-    <div className='w-full h-full bg-background-primary text-text-primary text-lg px-24'>
-      <section className='w-full desktop:w-1200 desktop:mx-auto pt-24'>
-        <GroupBar>{group.name}</GroupBar>
-        <GroupTask Lists={groupTaskLists} />
-        <GroupReport doneCount={doneCount} totalCount={totalCount} />
-        <GroupMembers Members={groupMembers} />
-      </section>
+    <div className='main-container'>
+      <div className='w-full h-full bg-background-primary text-text-primary text-lg px-24'>
+        <section className='w-full desktop:w-1200 desktop:mx-auto pt-24'>
+          <GroupBar>{group.name}</GroupBar>
+          <GroupTask Lists={groupTaskLists} />
+          <GroupReport doneCount={doneCount} totalCount={totalCount} />
+          <GroupMembers Members={groupMembers} groupId={groupId} />
+        </section>
+      </div>
     </div>
   );
 }
