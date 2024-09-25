@@ -1,6 +1,7 @@
 import { getUserGroups } from '@/services/userAPI';
 import { getGroup } from '@/services/GroupAPI';
 import { useQuery } from '@tanstack/react-query';
+
 function useGroups(groupId?: number) {
   const {
     data: groups,
