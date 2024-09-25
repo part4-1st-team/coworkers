@@ -18,6 +18,8 @@ import TaskDeleteModal from '@/components/modal/TaskDeleteModal';
 import TaskEditModal from '@/components/modal/TaskEditModal';
 import useQueryParameter from '@/hooks/useQueryParameter';
 import useModalStore from '@/stores/ModalStore';
+import getMonthDay from '@/utils/getMonthDay';
+import { useMediaQuery } from 'react-responsive';
 import EditDeleteDropdown from '../EditDeleteDropdown';
 import HalfPageContent from './HalfPage/HalfListContent';
 import useDeleteTaskMutation from './hooks/useDeleteTaskMutation';
@@ -51,6 +53,7 @@ function Task({ task }: { task: DateTask }) {
   const handleDoneTask = TaskDoneHandler(task, isDone, setIsDone);
 
   const { setModalOpen } = useModalStore();
+  const isMobile = useMediaQuery({ maxWidth: 768 });
 
   return (
     /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -60,7 +63,7 @@ function Task({ task }: { task: DateTask }) {
       onClick={() =>
         setHalfPageOpen(<HalfPageContent task={task} isDone={isDone} />)
       }
-      className='cursor-pointer bg-background-secondary flex flex-col gap-10 rounded-8 py-12 px-14'
+      className='cursor-pointer bg-background-tertiary flex flex-col gap-10 rounded-8 py-12 px-14'
     >
       <div className='flex justify-between w-full items-center'>
         <div className='flex gap-12'>
@@ -97,7 +100,7 @@ function Task({ task }: { task: DateTask }) {
           <IconCalendar width={16} height={16} />
 
           <span className='text-xs font-normal text-text-default'>
-            {getDate(date)}
+            {isMobile ? getMonthDay(date, undefined, false) : getDate(date)}
           </span>
         </div>
 

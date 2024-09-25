@@ -15,7 +15,7 @@ function TodoAddButton() {
           <TaskCreateDateModal groupId={groupId} taskListId={taskListId} />,
         )
       }
-      className='absolute right-24 bottom-24 tablet:bottom-25 desktop:right-0 desktop:bottom-49 bg-brand-primary flex gap-4 items-center px-21 py-14 rounded-40'
+      className='absolute right-24 bottom-24 tablet:bottom-25 desktop:right-20 desktop:bottom-30 bg-brand-primary flex gap-4 items-center px-21 py-14 rounded-40'
     >
       <IconPlus width={16} height={16} />
       <span className='text-white'>할 일 추가</span>

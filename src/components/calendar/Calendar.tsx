@@ -24,6 +24,8 @@ export const CalendarInput = forwardRef<
   );
 });
 
+CalendarInput.displayName = 'CalendarInput';
+
 function Calendar({
   trigger,
   pickDate,
