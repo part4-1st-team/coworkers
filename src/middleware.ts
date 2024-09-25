@@ -12,7 +12,7 @@ export default function middleware(request: NextRequest) {
     if (
       pathname.startsWith('/group') ||
       pathname.startsWith('/user') ||
-      pathname === '/board/add-post'
+      pathname.startsWith('/board')
     ) {
       return NextResponse.redirect(new URL('/auth/signin', request.url));
     }

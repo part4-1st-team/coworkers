@@ -9,6 +9,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { useState } from 'react';
 import TaskAddButton from '../TaskAddButton';
+import useDayNavigation from '../useDayNavigation';
 import Task from './Task';
 import TodoAddButton from './TodoAddButton';
 
@@ -22,20 +23,14 @@ function Tasks() {
 
   const { taskLists, isLoading: isListLoading } = useTaskLists(groupId);
 
+  const handleNavigateDay = useDayNavigation(setPickDate);
+
   const handlePreviousDay = () => {
-    setPickDate((prevDate) => {
-      const newDate = new Date(prevDate); // 이전 상태 복사
-      newDate.setDate(newDate.getDate() - 1); // 하루 전날로 변경
-      return newDate;
-    });
+    handleNavigateDay('prev');
   };
 
   const handleNextDay = () => {
-    setPickDate((prevDate) => {
-      const newDate = new Date(prevDate); // 이전 상태 복사
-      newDate.setDate(newDate.getDate() + 1); // 하루 전날로 변경
-      return newDate;
-    });
+    handleNavigateDay('next');
   };
 
   if (isLoading) return <>임시 로딩중 ... </>;

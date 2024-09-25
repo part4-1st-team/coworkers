@@ -1,8 +1,10 @@
 import { IconKebabLarge, IconX } from '@/assets/IconList';
 import FloatingButton from '@/components/button/floatingButton';
+import TaskDeleteModal from '@/components/modal/TaskDeleteModal';
 import useQueryParameter from '@/hooks/useQueryParameter';
 import useTaskCommentList from '@/hooks/useTaskCommentList';
 import useHalfPageStore from '@/stores/HalfPageStore';
+import useModalStore from '@/stores/ModalStore';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
@@ -34,6 +36,7 @@ function HalfPageContent({ task, isDone }: Props) {
   const { id: taskId, name, description, date } = task;
 
   const { taskCommentList } = useTaskCommentList(taskId);
+  const { setModalOpen } = useModalStore();
 
   const { handleSubmit, register } = useForm<TitleEditForm>({
     mode: 'onSubmit',
@@ -138,7 +141,7 @@ function HalfPageContent({ task, isDone }: Props) {
               trigger={<IconKebabLarge />}
               handleEdit={() => setIsAllEditing(true)}
               handleDelete={() => {
-                deleteMutation.mutate();
+                setModalOpen(<TaskDeleteModal task={task} />);
                 setHalfPageClose();
               }}
             />
