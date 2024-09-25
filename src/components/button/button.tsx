@@ -35,7 +35,7 @@ function Button({
       'px-5 bg-brand-primary text-text-inverse  hover:bg-interaction-hover active:bg-interaction-pressed disabled:bg-interaction-inactive',
     white:
       'bg-background-inverse text-brand-primary border border-border-primary hover:text-interaction-hover hover:border hover:border-interaction-hover active:borer-interaction-pressed active:text-interaction-pressed disabled:bg-interaction-inactive',
-    red: 'bg-status-danger text-text-inverse',
+    red: 'bg-status-danger hover:bg-status-danger-hover active:bg-status-danger-active text-text-inverse',
     outline:
       'px-8 bg-none text-brand-primary border border-brand-primary hover:border hover:border-interaction-hover hover:text-interaction-hover active:text-interaction-pressed  disabled:border-interaction-inactive',
   };

@@ -1,35 +1,40 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import BoardProfile from '@/components/profile/boardProfile';
 import { IconHeart } from '@/assets/IconList';
 import BoardDropdownMenu from '@/components/board/boardDropdown';
 import { deleteArticle } from '@/services/ArticleAPI';
 import useArticleDetail from '@/hooks/useArticleDetail';
+import useToast from '@/components/toast/useToast';
 import { useMutation } from '@tanstack/react-query';
-import CurrentUser from '@/hooks/useCurrentUser';
+import useUser from '@/hooks/useUser';
+import ProfileImage from '@/components/member/ProfileImage';
+import useModalStore from '@/stores/ModalStore';
+import DeleteArticleModal from '@/components/modal/DeleteArticleModal';
 
 interface ArticleCardProps {
-  board: Article;
+  article: Article;
   onDeleteSuccess: () => void;
 }
 
-function ArticleCard({ board, onDeleteSuccess }: ArticleCardProps) {
-  const { createdAt, likeCount, title, image, writer, id } = board;
+function ArticleCard({ article, onDeleteSuccess }: ArticleCardProps) {
+  const { createdAt, likeCount, title, image, writer, id } = article;
 
   const { articleDetail, error, isFetching } = useArticleDetail(id as number);
-  const { data: currentUser } = CurrentUser(); // 현재 사용자 정보 가져오기
+  const { user: currentUser, isLoading, error: userError } = useUser();
   const router = useRouter();
+  const { toast } = useToast();
+
+  const { setModalOpen, setModalClose } = useModalStore();
 
   // 삭제 Mutation 설정
   const deleteMutation = useMutation({
     mutationFn: () => deleteArticle(id),
     onSuccess: () => {
-      console.log('게시글이 성공적으로 삭제되었습니다.');
+      toast('Success', '게시글이 성공적으로 삭제되었습니다.');
       onDeleteSuccess();
     },
-    onError: (err) => {
-      console.error('게시글 삭제 중 오류가 발생했습니다:', err);
+    onError: () => {
+      toast('Error', '게시글 삭제 중 오류가 발생했습니다.');
     },
   });
 
@@ -55,19 +60,33 @@ function ArticleCard({ board, onDeleteSuccess }: ArticleCardProps) {
     });
   };
 
-  // 삭제 기능 구현
+  // 삭제 기능 구현 - 삭제 모달 적용
   const handleDelete = () => {
-    if (window.confirm('정말 이 게시글을 삭제하시겠습니까?')) {
-      deleteMutation.mutate(); // 삭제 API 호출
-    }
+    setModalOpen(
+      <DeleteArticleModal
+        onConfirm={() => {
+          deleteMutation.mutate();
+          setModalClose();
+        }}
+        onCancel={() => setModalClose()}
+      />,
+    );
   };
 
-  if (isFetching) {
-    return <div>Loading...</div>;
+  if (isFetching || isLoading) {
+    return (
+      <div className='flex items-center text-text-default font-medium text-md'>
+        Loading...
+      </div>
+    );
   }
 
-  if (error) {
-    return <div>Error loading article detail</div>;
+  if (error || userError) {
+    return (
+      <div className='flex items-center text-text-default font-medium text-md'>
+        Error loading article detail
+      </div>
+    );
   }
 
   // 현재 로그인한 사용자가 작성자인 경우에만 수정/삭제 버튼을 렌더링
@@ -76,46 +95,28 @@ function ArticleCard({ board, onDeleteSuccess }: ArticleCardProps) {
   return (
     <>
       {/* 모바일 사이즈 레이아웃 */}
-      <div
-        role='button'
+      <button
+        type='button'
         onClick={handleClick}
-        tabIndex={0}
-        className='block tablet:hidden tablet:h-220 pt-24 pb-16 px-16 bg-background-secondary rounded-12 border border-background-tertiary relative'
+        className='block tablet:hidden w-full tablet:h-220 pt-24 pb-16 px-16 bg-background-secondary rounded-12 border border-background-tertiary relative'
       >
-        {image ? (
-          <>
-            <div className='flex flex-col '>
-              <p className='w-224 h-30 text-lg text-text-secondary font-medium'>
-                {renderContentPreview(title, 30)}
-              </p>
-              <p className='mt-10 w-350 text-md text-text-secondary'>
-                {renderContentPreview(articleDetail?.content, 50)}
-              </p>
-            </div>
-            <div className='w-72 h-72 absolute top-15 right-15'>
-              <Image src={image} alt='샘플이미지' width={72} height={72} />
-            </div>
-          </>
-        ) : (
-          <>
-            <p className='w-224 h-30 text-lg text-text-secondary font-medium'>
-              {renderContentPreview(title, 30)}
-            </p>
-            <p className='mt-10 w-350 text-md text-text-secondary'>
-              {renderContentPreview(articleDetail?.content, 50)}
-            </p>
-          </>
+        <div className='flex flex-col'>
+          <p className='w-224 h-30 text-lg text-text-secondary font-medium text-left'>
+            {renderContentPreview(title, 30)}
+          </p>
+          <p className='mt-10 w-350 text-md text-text-secondary text-left'>
+            {renderContentPreview(articleDetail?.content, 50)}
+          </p>
+        </div>
+        {image && (
+          <div className='w-72 h-72 absolute top-15 right-15'>
+            <Image src={image} alt='샘플이미지' width={72} height={72} />
+          </div>
         )}
 
         <div className='mt-16 flex justify-between gap-12'>
           <div className='flex items-center gap-12'>
-            <div className='w-32 h-32'>
-              <BoardProfile
-                size={32}
-                nickname={writer.nickname}
-                image={writer.image}
-              />
-            </div>
+            <ProfileImage userImage={writer.image} size={32} />
             <p className='text-text-primary text-md font-medium '>
               {writer.nickname}
             </p>
@@ -126,7 +127,7 @@ function ArticleCard({ board, onDeleteSuccess }: ArticleCardProps) {
           </div>
           <div className='flex items-center gap-8'>
             <p className='text-md text-text-disabled flex items-center'>
-              {likeCount}
+              {likeCount >= 999 ? '999+' : likeCount}
             </p>
             {isOwner && (
               <div>
@@ -138,23 +139,21 @@ function ArticleCard({ board, onDeleteSuccess }: ArticleCardProps) {
             )}
           </div>
         </div>
-      </div>
+      </button>
 
       {/* 데스크탑 사이즈 레이아웃 */}
-      <div
-        role='button'
+      <button
+        type='button'
         onClick={handleClick}
-        tabIndex={0}
-        className='hidden tablet:block h-auto pt-24 pb-24 px-32 bg-background-secondary rounded-12 border border-background-tertiary'
+        className='hidden w-full tablet:block h-auto pt-24 pb-24 px-32 bg-background-secondary rounded-12 border border-background-tertiary'
       >
         <div className='flex flex-col justify-between h-full'>
           <div className='flex justify-between'>
             <div className='flex flex-col'>
-              <p className='w-400 text-2lg leading-relaxed text-text-secondary font-medium'>
+              <p className='w-400 text-2lg leading-relaxed text-text-secondary font-medium text-left'>
                 {renderContentPreview(title, 30)}
               </p>
-
-              <p className='mt-12 text-md text-text-secondary'>
+              <p className='mt-12 text-md text-text-secondary text-left'>
                 {renderContentPreview(articleDetail?.content, 50)}
               </p>
             </div>
@@ -175,13 +174,7 @@ function ArticleCard({ board, onDeleteSuccess }: ArticleCardProps) {
 
           <div className='mt-16 flex justify-between gap-16 '>
             <div className='flex items-center gap-10'>
-              <div className='w-32 h-32 '>
-                <BoardProfile
-                  size={32}
-                  nickname={writer.nickname}
-                  image={writer.image}
-                />
-              </div>
+              <ProfileImage userImage={writer.image} size={32} />
               <p className='text-text-primary text-md font-medium '>
                 {writer.nickname}
               </p>
@@ -193,12 +186,12 @@ function ArticleCard({ board, onDeleteSuccess }: ArticleCardProps) {
             <div className='flex items-center gap-8'>
               <IconHeart />
               <p className='text-md text-text-disabled flex items-center'>
-                {likeCount}
+                {likeCount >= 999 ? '999+' : likeCount}
               </p>
             </div>
           </div>
         </div>
-      </div>
+      </button>
     </>
   );
 }

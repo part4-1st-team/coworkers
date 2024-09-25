@@ -6,12 +6,14 @@ import { postArticle } from '@/services/ArticleAPI';
 import useImageMutation from '@/hooks/useImageMutation';
 import ImageAddButton from '@/components/button/ImageAddButton';
 import { useMutation } from '@tanstack/react-query';
-import { useRouter } from 'next/router'; // useRouter 가져오기
+import { useRouter } from 'next/router';
+import useToast from '@/components/toast/useToast';
 
 function AddPostPage() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [imageUrl, setImageUrl] = useState<string>('');
+  const { toast } = useToast();
 
   const router = useRouter(); // useRouter 초기화
 
@@ -27,12 +29,12 @@ function AddPostPage() {
       setTitle('');
       setContent('');
       setImageUrl('');
+      toast('Success', '게시글이 성공적으로 등록되었습니다.');
       // 게시글 등록 성공 후 게시판 페이지로 이동
       router.push('/board');
     },
     onError: (error) => {
-      // alert('게시글 등록 중 오류가 발생했습니다.');
-      /* TODO: 모달 교체 */
+      toast('Error', '게시글이 등록이 실패되었습니다.');
     },
   });
 
@@ -51,7 +53,7 @@ function AddPostPage() {
     if (file) {
       uploadImageMutate(file, {
         onSuccess: (data) => {
-          setImageUrl(data.url); // 성공적으로 업로드된 이미지 URL 설정
+          setImageUrl(data.url);
         },
         onError: (error) => {
           // alert('이미지 업로드 중 오류가 발생했습니다.');
@@ -66,8 +68,7 @@ function AddPostPage() {
   // 게시글 등록 핸들러
   const handleSubmit = () => {
     if (!title || !content) {
-      // alert('제목과 내용을 입력해 주세요.');
-      /* TODO : 프로필 컴포넌트로 변경하기 */
+      toast('Error', '제목과 내용을 입력해 주세요.');
       return;
     }
 
@@ -79,7 +80,7 @@ function AddPostPage() {
   };
 
   return (
-    <div className='mt-40 min-w-343 h-auto tablet:mt-56 mx-16 tablet:mx-24 desktop:w-1200 desktop:mx-auto relative'>
+    <main className='main-container relative'>
       <div className='flex items-center justify-between'>
         <p className='text-lg font-medium tablet:text-xl tablet:font-bold text-text-primary'>
           게시글 쓰기
@@ -151,7 +152,7 @@ function AddPostPage() {
           />
         </div>
       </div>
-    </div>
+    </main>
   );
 }
 

@@ -18,6 +18,7 @@ function CommentList({ articleId, limit, cursor }: CommentListProps) {
   // 댓글 불러오기 중이면 로딩 메시지 표시
   if (isLoading) {
     return <div>Loading comments...</div>;
+    // TODO 애니메이션추가 여부
   }
 
   // 댓글 불러오기 에러 처리

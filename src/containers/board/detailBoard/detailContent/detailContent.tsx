@@ -13,8 +13,11 @@ import ArticleEdit from '@/hooks/useArticleEdit';
 import EditInput from '@/components/input/editCommentInput';
 import AddComment from '@/containers/board/detailBoard/comment/addComment/addComment';
 import BoardProfile from '@/components/profile/boardProfile';
-import CurrentUser from '@/hooks/useCurrentUser';
+import useUser from '@/hooks/useUser';
 import useArticleDetail from '@/hooks/useArticleDetail';
+import Image from 'next/image';
+import useModalStore from '@/stores/ModalStore';
+import DeleteArticleModal from '@/components/modal/DeleteArticleModal';
 
 interface DetailContentProps {
   boardId: number | number[] | undefined;
@@ -22,7 +25,7 @@ interface DetailContentProps {
 
 function DetailContent({ boardId }: DetailContentProps) {
   const router = useRouter();
-  const { data: currentUser } = CurrentUser();
+  const { user: currentUser, isLoading, error: userError } = useUser();
 
   // useArticleDetail 훅 사용
   const { articleDetail, error, isFetching, refetch } = useArticleDetail(
@@ -85,6 +88,22 @@ function DetailContent({ boardId }: DetailContentProps) {
     },
   });
 
+  // useModalStore를 사용해 모달 열기 및 닫기
+  const { setModalOpen, setModalClose } = useModalStore();
+
+  // 삭제 버튼 클릭 시 모달 열기
+  const handleDelete = () => {
+    setModalOpen(
+      <DeleteArticleModal
+        onConfirm={() => {
+          deleteArticleMutation.mutate();
+          setModalClose();
+        }}
+        onCancel={() => setModalClose()}
+      />,
+    );
+  };
+
   const handleLikeClick = () => {
     if (isLiked) {
       dislikeMutation.mutate();
@@ -105,17 +124,12 @@ function DetailContent({ boardId }: DetailContentProps) {
     toggleEditMode();
   };
 
-  const handleDelete = () => {
-    if (window.confirm('정말 이 게시글을 삭제하시겠습니까?')) {
-      deleteArticleMutation.mutate();
-    }
-  };
-
-  if (isFetching) return <div>Loading...</div>;
-  if (error instanceof Error) return <div>{error.message}</div>;
+  if (isFetching || isLoading) return <div>Loading...</div>;
+  if (error || userError)
+    return <div>{error?.message || userError?.message || 'Unknown error'}</div>;
   if (!articleDetail) return <div>Loading...</div>;
 
-  const { title, commentCount, writer, createdAt } = articleDetail;
+  const { title, commentCount, writer, createdAt, image } = articleDetail;
 
   return (
     <div>
@@ -175,7 +189,18 @@ function DetailContent({ boardId }: DetailContentProps) {
             onCancel={handleCancelEdit}
           />
         ) : (
-          <p>{content}</p>
+          <div className='flex flex-row'>
+            <p>{content}</p>
+            {image && (
+              <Image
+                src={image}
+                alt='샘플이미지'
+                width={100}
+                height={100}
+                className='ml-auto'
+              />
+            )}
+          </div>
         )}
       </div>
       {typeof boardId === 'number' && <AddComment boardId={boardId} />}

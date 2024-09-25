@@ -1,20 +1,16 @@
 import clsx from 'clsx';
 import React, { forwardRef } from 'react';
 
+// InputProps
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   className?: string;
   children?: React.ReactNode;
-  value?: string; // value를 제어할 수 있는 컴포넌트
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   error?: boolean;
 }
 
-// Input 컴포넌트 정의
+// Input 컴포넌트
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  (
-    { children, className = '', value = '', onChange, error, ...props },
-    ref,
-  ) => {
+  ({ children, className = '', error, ...props }, ref) => {
     // 기본 클래스들
     const baseClasses =
       'w-full px-16 py-14 text-lg font-normal rounded-xl bg-background-secondary border border-background-tertiary text-text-primary font-font-normal';
@@ -40,20 +36,11 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       className,
     );
 
-    return (
-      <input
-        ref={ref}
-        id={props.id}
-        disabled={props.disabled}
-        value={value}
-        onChange={onChange}
-        className={classNames}
-        {...props}
-      />
-    );
+    return <input ref={ref} className={classNames} {...props} />;
   },
 );
 
 Input.displayName = 'Input';
 
+// 타입 설정
 export default Input;

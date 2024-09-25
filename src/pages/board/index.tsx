@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import SearchInput from '@/components/input/searchInput';
 import BestArticleList from '@/containers/board/bestArticleList/bestArticleList';
-import ArticleList from '@/containers/board/articleList/artticleList';
+import ArticleList from '@/containers/board/articleList/articleList';
 import Link from 'next/link';
 import FloatingButton from '@/components/button/floatingButton';
 
@@ -13,7 +13,7 @@ function BoardPage() {
   };
 
   return (
-    <div className='mt-32 tablet:mt-40 mx-16 tablet:mx-24 desktop:w-1200 desktop:mx-auto relative '>
+    <main className='main-container relative'>
       <div className='flex flex-col gap-24'>
         <div className='text-2lg tablet:text-2xl font-bold text-text-primary'>
           자유게시판
@@ -41,7 +41,7 @@ function BoardPage() {
           </Link>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
 
