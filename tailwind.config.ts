@@ -58,6 +58,8 @@ const config: Config = {
       },
       status: {
         danger: 'var(--status-danger)',
+        'danger-hover': 'var(--status-danger-hover)',
+        'danger-active': 'var(--status-danger-active)',
       },
       icon: {
         primary: 'var(--icon-primary)',
@@ -142,8 +144,15 @@ const config: Config = {
         '12px': '12px',
       },
     },
-    keyframes: {},
-    animation: {},
+    animation: {
+      'line-through': 'line-through 0.3s forwards',
+    },
+    keyframes: {
+      'line-through': {
+        '0%': { width: '0%' },
+        '100%': { width: '100%' },
+      },
+    },
   },
   plugins: [],
 };

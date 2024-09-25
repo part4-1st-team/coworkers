@@ -1,16 +1,25 @@
+import { useState, useEffect, ChangeEvent, useRef } from 'react';
 import { IconImg } from '@/assets/IconList';
 import EditButton from '@/components/button/editButton';
 import postImageUpload from '@/services/ImageAPI';
-
-import { useState, ChangeEvent, useRef } from 'react';
+import useToast from '@/components/toast/useToast';
 
 interface ImgUploadProps {
-  setImgUrl: (url: string) => void; // 이미지 URL을 부모 컴포넌트로 전달
+  prevImg?: string;
+  setImgUrl: (url: string) => void;
 }
 
-function ImgUpload({ setImgUrl }: ImgUploadProps) {
-  const [localImgUrl, setLocalImgUrl] = useState<string>();
+function ImgUpload({ prevImg, setImgUrl }: ImgUploadProps) {
+  const [localImgUrl, setLocalImgUrl] = useState<string | undefined>(prevImg);
+  const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    if (prevImg) {
+      setLocalImgUrl(prevImg); // prevImg가 있으면 설정
+    }
+  }, [prevImg]);
 
   const handleEditButtonClick = () => {
     if (fileInputRef.current) {
@@ -21,16 +30,20 @@ function ImgUpload({ setImgUrl }: ImgUploadProps) {
   const handleImageChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      const prevImgUrl = URL.createObjectURL(file);
-      setLocalImgUrl(prevImgUrl);
+      const tempUrl = URL.createObjectURL(file); // 미리보기
+      setLocalImgUrl(tempUrl);
+      setIsUploading(true);
 
       try {
-        const uploadedImage: ImageURL = await postImageUpload(file);
-        setLocalImgUrl(uploadedImage.url); // 로컬 이미지 URL 상태 업데이트
-        setImgUrl(uploadedImage.url); // 부모 컴포넌트로 URL 전달
+        const uploadedImage: ImageURL = await postImageUpload(file); // 파일 업로드
+        setImgUrl(uploadedImage.url); // 업로드된 이미지 URL을 부모 컴포넌트에 전달
+        setLocalImgUrl(uploadedImage.url); // 업로드 성공 시 로컬 이미지 URL도 업데이트
+        toast('Success', '이미지가 성공적으로 업로드되었습니다.');
       } catch (error) {
-        console.error('이미지 업로드 실패:', error);
-        setLocalImgUrl(undefined);
+        toast('Error', '이미지 업로드에 실패했습니다. 다시 시도해주세요.');
+        setLocalImgUrl(prevImg); // 업로드 실패 시 이전 이미지를 유지
+      } finally {
+        setIsUploading(false);
       }
     }
   };
@@ -57,7 +70,7 @@ function ImgUpload({ setImgUrl }: ImgUploadProps) {
         <input
           ref={fileInputRef}
           type='file'
-          accept='.jpg,.png' // 파일 확장자 제한
+          accept='.jpg,.png'
           className='hidden'
           onChange={handleImageChange}
         />

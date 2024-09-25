@@ -21,7 +21,7 @@ function Header() {
             <LogoLarge className='hidden desktop:block fill-brand-primary' />
           </Link>
         </div>
-        {currentPath.includes('auth') || currentPath.includes('landing') ? (
+        {currentPath.includes('auth') || currentPath === '/' ? (
           <div> </div>
         ) : (
           <div className='w-full flex justify-between items-center'>
