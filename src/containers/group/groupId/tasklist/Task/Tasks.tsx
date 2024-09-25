@@ -1,7 +1,7 @@
 import useQueryParameter from '@/hooks/useQueryParameter';
 import useTasks from '@/hooks/useTasks';
 import useDateStore from '../../useDateStore';
-import Task from '../Task';
+import Task from './Task';
 
 function Tasks() {
   const { pickDate } = useDateStore();
@@ -9,6 +9,8 @@ function Tasks() {
   const { tasks, isLoading } = useTasks(groupId, taskListId, String(pickDate));
 
   if (isLoading) <>tasks 임시 로딩중~</>;
+
+  // TODO task들 무한스크롤 구현
 
   if (tasks.length === 0)
     return (

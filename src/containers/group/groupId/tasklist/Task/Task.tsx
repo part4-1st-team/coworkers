@@ -20,10 +20,10 @@ import useQueryParameter from '@/hooks/useQueryParameter';
 import useModalStore from '@/stores/ModalStore';
 import getMonthDay from '@/utils/getMonthDay';
 import { useMediaQuery } from 'react-responsive';
-import EditDeleteDropdown from '../EditDeleteDropdown';
-import HalfPageContent from './HalfPage/HalfListContent';
-import useDeleteTaskMutation from './hooks/useDeleteTaskMutation';
-import TaskDoneHandler from './TaskDoneHandler';
+import EditDeleteDropdown from '../../EditDeleteDropdown';
+import HalfPageContent from '../HalfPage/HalfListContent';
+import useDeleteTaskMutation from '../hooks/useDeleteTaskMutation';
+import TaskDoneHandler from '../TaskDoneHandler';
 
 function Task({ task }: { task: DateTask }) {
   const {
