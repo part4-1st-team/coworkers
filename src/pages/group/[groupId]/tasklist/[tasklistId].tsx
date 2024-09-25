@@ -1,7 +1,7 @@
-import Tasks from '@/containers/group/groupId/tasklist/Tasks';
+import ListPage from '@/containers/group/groupId/tasklist/ListPage';
 
 function TaskListPage() {
-  return <Tasks />;
+  return <ListPage />;
 }
 
 export default TaskListPage;

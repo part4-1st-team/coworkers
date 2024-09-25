@@ -13,7 +13,7 @@ import useDayNavigation from '../useDayNavigation';
 import Task from './Task';
 import TodoAddButton from './TodoAddButton';
 
-function Tasks() {
+function ListPage() {
   // 기본으로는 현재 날짜, 화살표 버튼을 통해 날짜 변경함
   const [pickDate, setPickDate] = useState<Date>(new Date());
 
@@ -24,14 +24,6 @@ function Tasks() {
   const { taskLists, isLoading: isListLoading } = useTaskLists(groupId);
 
   const handleNavigateDay = useDayNavigation(setPickDate);
-
-  const handlePreviousDay = () => {
-    handleNavigateDay('prev');
-  };
-
-  const handleNextDay = () => {
-    handleNavigateDay('next');
-  };
 
   if (isLoading) return <>임시 로딩중 ... </>;
   if (isListLoading) return <>임시 리스트 로딩</>;
@@ -47,8 +39,14 @@ function Tasks() {
               {getMonthDay(pickDate)}
             </span>
             <div className='flex gap-4'>
-              <ArrowButton direction='left' onClick={handlePreviousDay} />
-              <ArrowButton direction='right' onClick={handleNextDay} />
+              <ArrowButton
+                direction='left'
+                onClick={() => handleNavigateDay('prev')}
+              />
+              <ArrowButton
+                direction='right'
+                onClick={() => handleNavigateDay('next')}
+              />
             </div>
             <Calendar
               trigger={
@@ -94,4 +92,4 @@ function Tasks() {
   );
 }
 
-export default Tasks;
+export default ListPage;
