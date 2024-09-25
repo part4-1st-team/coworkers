@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import BoardProfile from '@/components/profile/boardProfile';
+import ProfileImage from '@/components/member/ProfileImage';
 import BoardDropdownMenu from '@/components/board/boardDropdown';
 import EditInput from '@/components/input/editCommentInput';
 import ArticleEdit from '@/hooks/useArticleEdit';
@@ -104,11 +104,7 @@ function CommentCard({ comment, onDeleteSuccess }: CommentCardProps) {
           <div className='mt-32 flex justify-between gap-16'>
             <div className='flex items-center gap-10'>
               <div className='w-32 h-32'>
-                <BoardProfile
-                  size={32}
-                  nickname={writer.nickname}
-                  image={writer.image}
-                />
+                <ProfileImage userImage={writer.image} size={32} />
               </div>
               <p className='text-text-primary text-md font-medium'>
                 {writer.nickname}
