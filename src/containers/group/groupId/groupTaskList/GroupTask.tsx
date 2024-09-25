@@ -1,5 +1,4 @@
 // import { useEffect, useState } from 'react';
-import TaskCreateModal from '@/components/modal/TaskCreateModal';
 import GroupTaskList from './GroupTaskList';
 import TaskAddButton from '../TaskAddButton';
 
@@ -21,19 +20,26 @@ function GroupTask({ Lists }: { Lists: TaskList[] }) {
             아직 할 일 목록이 없습니다.
           </div>
         ) : (
-          Lists.map((tasklist) => (
-            <GroupTaskList
-              key={tasklist.id}
-              doneCount={3}
-              totalCount={5}
-              color={colors[tasklist.id % 7]}
-              isDone={false}
-              groupId={tasklist.groupId}
-              taskListId={tasklist.id}
-            >
-              {tasklist.name}
-            </GroupTaskList>
-          ))
+          Lists.map((tasklist) => {
+            const doneCount = tasklist.tasks.filter(
+              (task) => task.doneAt !== null,
+            ).length;
+            const totalCount = tasklist.tasks.length;
+
+            return (
+              <GroupTaskList
+                key={tasklist.id}
+                doneCount={doneCount}
+                totalCount={totalCount}
+                color={colors[tasklist.id % 7]}
+                isDone={doneCount === totalCount && totalCount !== 0}
+                groupId={tasklist.groupId}
+                taskListId={tasklist.id}
+              >
+                {tasklist.name}
+              </GroupTaskList>
+            );
+          })
         )}
       </div>
     </section>
