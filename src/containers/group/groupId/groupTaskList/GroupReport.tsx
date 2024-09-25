@@ -7,9 +7,10 @@ import DoughnutChart from '@/components/chart/DoughnutChart';
 interface Props {
   doneCount: number;
   totalCount: number;
+  todayCount: number;
 }
 
-function GroupReport({ doneCount = 0, totalCount = 0 }: Props) {
+function GroupReport({ doneCount = 0, totalCount = 0, todayCount = 0 }: Props) {
   let taskPercent = 0;
   if (totalCount !== 0) taskPercent = Math.ceil((doneCount / totalCount) * 100);
 
@@ -39,7 +40,7 @@ function GroupReport({ doneCount = 0, totalCount = 0 }: Props) {
               <div className='flex flex-col gap-6'>
                 <p className='text-xs'>오늘의 할 일</p>
                 <p className='text-2xl text-brand-tertiary font-bold'>
-                  {totalCount}개
+                  {todayCount}개
                 </p>
               </div>
               <div>
