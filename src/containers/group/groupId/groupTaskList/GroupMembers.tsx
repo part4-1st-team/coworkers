@@ -1,7 +1,12 @@
 import MemberInfo from '@/components/member/MemberInfo';
 import MemberInviteButton from './MemberInviteButton';
 
-function GroupMembers({ Members = [] }: { Members: IMember[] }) {
+interface GroupMembersProps {
+  Members: Member[];
+  groupId: number;
+}
+
+function GroupMembers({ Members, groupId }: GroupMembersProps) {
   const memberCount = Members.length;
 
   return (
@@ -11,7 +16,7 @@ function GroupMembers({ Members = [] }: { Members: IMember[] }) {
           <p>멤버</p>
           <p className='text-text-default'>({memberCount}명)</p>
         </div>
-        <MemberInviteButton />
+        <MemberInviteButton groupId={groupId} />
       </div>
       <section className='mt-24 grid grid-cols-2 tablet:grid-cols-3 gap-24'>
         {Members.map((item) => (

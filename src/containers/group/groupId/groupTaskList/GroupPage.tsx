@@ -1,7 +1,7 @@
 import useQueryParameter from '@/hooks/useQueryParameter';
+import useGroups from '@/hooks/useGroups';
 import { useEffect, useState } from 'react';
-import { getGroup } from '@/services/GroupAPI';
-import { getUser } from '@/services/userAPI';
+
 import EmptyGroup from './EmptyGroup';
 import GroupBar from './GroupBar';
 import GroupTask from './GroupTask';
@@ -10,50 +10,66 @@ import GroupMembers from './GroupMembers';
 
 function GroupPage() {
   const { groupId } = useQueryParameter();
+  const { group, isGroupLoading, groupError, groupTaskLists, groupMembers } =
+    useGroups(Number(groupId));
 
-  const [group, setGroup] = useState<Group | null>(null);
-  const [groupTaskLists, setGroupTaskLists] = useState<TaskList[]>([]);
-  const [groupMembers, setGroupMembers] = useState<Member[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [doneCount, setDoneCount] = useState<number>(0);
-  const [totalCount, setTotalCount] = useState<number>(0);
-  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+
+  // 전체 할 일, 전체 한 일, 오늘의 할 일
+  const [doneTaskCount, setTaskDoneCount] = useState<number>(0);
+  const [todayTaskCount, setTodayTaskCount] = useState<number>(0);
+  const [totalTaskCount, setTotalTaskCount] = useState<number>(0);
+
+  const calculateDoneCount = (taskLists: TaskList[]) => {
+    return taskLists.reduce((acc, taskList) => {
+      return (
+        acc +
+        taskList.tasks.filter(
+          (task) => task.doneAt !== null || task.doneBy !== null,
+        ).length
+      );
+    }, 0);
+  };
+
+  const calculateTodayCount = (taskLists: TaskList[]) => {
+    const today = new Date();
+    return taskLists.reduce((acc, taskList) => {
+      return (
+        acc +
+        taskList.tasks.filter((task) => {
+          const taskDate = new Date(task.date);
+          return (
+            taskDate.getFullYear() === today.getFullYear() &&
+            taskDate.getMonth() === today.getMonth() &&
+            taskDate.getDate() === today.getDate()
+          );
+        }).length
+      );
+    }, 0);
+  };
 
   useEffect(() => {
-    async function fetchData() {
-      if (groupId) {
-        try {
-          const groupData = await getGroup(Number(groupId));
-          const { members, taskLists } = groupData;
+    if (groupTaskLists) {
+      const doneCount = calculateDoneCount(groupTaskLists);
+      const todayCount = calculateTodayCount(groupTaskLists);
+      const totalCount = groupTaskLists.reduce(
+        (total, taskList) => total + taskList.tasks.length,
+        0,
+      );
 
-          setGroup(groupData);
-          setGroupTaskLists(taskLists);
-          setGroupMembers(members);
-
-          const userData = await getUser();
-          const userId = userData.id;
-
-          const userRole = members.find(
-            (member) => member.userId === userId,
-          )?.role;
-          if (userRole === 'ADMIN') {
-            setIsAdmin(true);
-          } else {
-            setIsAdmin(false);
-          }
-        } catch (error) {
-          console.error('Error fetching group data:', error);
-        } finally {
-          setIsLoading(false);
-        }
-      }
+      setTaskDoneCount(doneCount);
+      setTodayTaskCount(todayCount);
+      setTotalTaskCount(totalCount);
     }
+  }, [groupTaskLists]);
 
-    fetchData();
-  }, [groupId, groupTaskLists]);
+  useEffect(() => {}, [groupMembers]);
 
-  if (isLoading) {
+  if (isGroupLoading) {
     return <div>Loading...</div>;
+  }
+
+  if (groupError) {
+    return <div>Error loading group data.</div>;
   }
 
   // TODO 그룹 목록 페이지로 따로 처리하기
@@ -62,15 +78,19 @@ function GroupPage() {
   }
 
   return (
-    <div className='w-full h-full bg-background-primary text-text-primary text-lg px-24'>
-      <section className='w-full desktop:w-1200 desktop:mx-auto pt-24'>
-        <GroupBar groupId={groupId} groupName={group.name} isAdmin={isAdmin}>
-          {group.name}
-        </GroupBar>
-        <GroupTask Lists={groupTaskLists} />
-        <GroupReport doneCount={doneCount} totalCount={totalCount} />
-        <GroupMembers Members={groupMembers} />
-      </section>
+    <div className='main-container'>
+      <div className='w-full h-full bg-background-primary text-text-primary text-lg px-24'>
+        <section className='w-full desktop:w-1200 desktop:mx-auto pt-24'>
+          <GroupBar>{group.name}</GroupBar>
+          <GroupTask Lists={groupTaskLists} />
+          <GroupReport
+            doneCount={doneTaskCount}
+            totalCount={totalTaskCount}
+            todayCount={todayTaskCount}
+          />
+          <GroupMembers Members={groupMembers} groupId={groupId} />
+        </section>
+      </div>
     </div>
   );
 }
