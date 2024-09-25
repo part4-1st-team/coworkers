@@ -30,9 +30,7 @@ function TaskDeleteModal({ task }: { task: DateTask }) {
     <Modal.Alert>
       <div className='mt-16 mb-24 flex flex-col gap-8 items-center text-center'>
         <Modal.Title title={`'<b>${name}</b>' 일정을 삭제하시겠습니까?`} />
-        <Modal.Description
-          description={`삭제 시 선택한 날짜의 일정만 삭제되며,<br/>반복 삭제 시 반복 설정이 삭제됩니다.`}
-        />
+        <Modal.Description description='삭제 시 선택한 날짜의 일정만 삭제되며,<br/>반복 삭제 시 반복 설정이 삭제됩니다.' />
       </div>
       <Modal.Buttons>
         <Button
