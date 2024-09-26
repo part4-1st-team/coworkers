@@ -11,18 +11,18 @@ function HeaderGroupDropdown() {
   const { handleOffDropdown, handleToggleDropdown, isOpen } = useDropdown();
 
   const { memberships } = useMemberships();
-  const { groups, isLoading } = useGroups();
+  const { groups, isGroupsLoading } = useGroups();
 
   const router = useRouter();
   const { groupId } = router.query;
 
-  let currentGroup: ResponseGroup;
+  let currentGroup: ResponseGroup | undefined = undefined;
   if (router.pathname === '/group/[groupId]') {
     const filterGroup = groups.filter((group) => group.id === Number(groupId));
     [currentGroup] = filterGroup;
   }
 
-  if (isLoading) return null;
+  if (isGroupsLoading) return null;
 
   return (
     <Dropdown onClose={handleOffDropdown}>
@@ -31,7 +31,9 @@ function HeaderGroupDropdown() {
           <p className='text-lg font-medium text-text-primary'>
             {router.pathname !== '/group/[groupId]'
               ? '팀 선택하기'
-              : currentGroup!.name}
+              : currentGroup
+                ? currentGroup.name
+                : '알 수 없는 팀'}
           </p>
           <IconCheck className='fill-text-inverse' />
         </div>

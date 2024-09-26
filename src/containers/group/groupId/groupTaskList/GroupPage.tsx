@@ -13,7 +13,6 @@ function GroupPage() {
   const { group, isGroupLoading, groupError, groupTaskLists, groupMembers } =
     useGroups(Number(groupId));
 
-
   // 전체 할 일, 전체 한 일, 오늘의 할 일
   const [doneTaskCount, setTaskDoneCount] = useState<number>(0);
   const [todayTaskCount, setTodayTaskCount] = useState<number>(0);
@@ -81,7 +80,13 @@ function GroupPage() {
     <div className='main-container'>
       <div className='w-full h-full bg-background-primary text-text-primary text-lg px-24'>
         <section className='w-full desktop:w-1200 desktop:mx-auto pt-24'>
-          <GroupBar>{group.name}</GroupBar>
+          <GroupBar
+            groupId={Number(groupId)}
+            groupName={group.name}
+            isAdmin={false}
+          >
+            {group.name}
+          </GroupBar>
           <GroupTask Lists={groupTaskLists} />
           <GroupReport
             doneCount={doneTaskCount}
