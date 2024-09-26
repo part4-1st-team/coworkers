@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link'; // Link를 사용해 페이지 이동 구현
 import { useRouter } from 'next/router';
 import { IconHeart } from '@/assets/IconList';
 import BoardDropdownMenu from '@/components/board/boardDropdown';
@@ -18,10 +19,9 @@ interface ArticleCardProps {
 
 function ArticleCard({ article, onDeleteSuccess }: ArticleCardProps) {
   const { createdAt, likeCount, title, image, writer, id } = article;
-
+  const router = useRouter();
   const { articleDetail, error, isFetching } = useArticleDetail(id as number);
   const { user: currentUser, isLoading, error: userError } = useUser();
-  const router = useRouter();
   const { toast } = useToast();
 
   const { setModalOpen, setModalClose } = useModalStore();
@@ -37,10 +37,6 @@ function ArticleCard({ article, onDeleteSuccess }: ArticleCardProps) {
       toast('Error', '게시글 삭제 중 오류가 발생했습니다.');
     },
   });
-
-  const handleClick = () => {
-    router.push(`/board/${id}`);
-  };
 
   // 콘텐츠 일부만 보여주고 "더 보기" 링크 제공
   const renderContentPreview = (
@@ -95,103 +91,104 @@ function ArticleCard({ article, onDeleteSuccess }: ArticleCardProps) {
   return (
     <>
       {/* 모바일 사이즈 레이아웃 */}
-      <button
-        type='button'
-        onClick={handleClick}
-        className='block tablet:hidden w-full tablet:h-220 pt-24 pb-16 px-16 bg-background-secondary rounded-12 border border-background-tertiary relative'
-      >
-        <div className='flex flex-col'>
-          <p className='w-224 h-30 text-lg text-text-secondary font-medium text-left'>
-            {renderContentPreview(title, 30)}
-          </p>
-          <p className='mt-10 w-350 text-md text-text-secondary text-left'>
-            {renderContentPreview(articleDetail?.content, 50)}
-          </p>
-        </div>
-        {image && (
-          <div className='w-72 h-72 absolute top-15 right-15'>
-            <Image src={image} alt='샘플이미지' width={72} height={72} />
-          </div>
-        )}
-
-        <div className='mt-16 flex justify-between gap-12'>
-          <div className='flex items-center gap-12'>
-            <ProfileImage userImage={writer.image} size={32} />
-            <p className='text-text-primary text-md font-medium '>
-              {writer.nickname}
+      <Link href={`/board/${id}`}>
+        <div className='block tablet:hidden w-full tablet:h-220 pt-24 pb-16 px-16 bg-background-secondary rounded-12 border border-background-tertiary relative'>
+          <div className='flex flex-col'>
+            <p className='w-224 h-30 text-lg text-text-secondary font-medium text-left'>
+              {renderContentPreview(title, 30)}
             </p>
-            <div className='h-12 border border-background-tertiary' />
-            <p className='text-md text-text-disabled flex items-center'>
-              {new Date(createdAt).toLocaleDateString()}
+            <p className='mt-10 w-350 text-md text-text-secondary text-left'>
+              {renderContentPreview(articleDetail?.content, 50)}
             </p>
           </div>
-          <div className='flex items-center gap-8'>
-            <p className='text-md text-text-disabled flex items-center'>
-              {likeCount >= 999 ? '999+' : likeCount}
-            </p>
-            {isOwner && (
-              <div>
-                <BoardDropdownMenu
-                  onEdit={handleEdit}
-                  onDelete={handleDelete}
-                />
-              </div>
-            )}
-          </div>
-        </div>
-      </button>
-
-      {/* 데스크탑 사이즈 레이아웃 */}
-      <button
-        type='button'
-        onClick={handleClick}
-        className='hidden w-full tablet:block h-auto pt-24 pb-24 px-32 bg-background-secondary rounded-12 border border-background-tertiary'
-      >
-        <div className='flex flex-col justify-between h-full'>
-          <div className='flex justify-between'>
-            <div className='flex flex-col'>
-              <p className='w-400 text-2lg leading-relaxed text-text-secondary font-medium text-left'>
-                {renderContentPreview(title, 30)}
-              </p>
-              <p className='mt-12 text-md text-text-secondary text-left'>
-                {renderContentPreview(articleDetail?.content, 50)}
-              </p>
+          {image && (
+            <div className='w-72 h-72 absolute top-15 right-15'>
+              <Image src={image} alt='샘플이미지' width={72} height={72} />
             </div>
-            <div className='flex gap-16'>
-              {image && (
-                <div className='w-72 h-72'>
-                  <Image src={image} alt='샘플이미지' width={72} height={72} />
-                </div>
-              )}
-              {isOwner && (
-                <BoardDropdownMenu
-                  onEdit={handleEdit}
-                  onDelete={handleDelete}
-                />
-              )}
-            </div>
-          </div>
+          )}
 
-          <div className='mt-16 flex justify-between gap-16 '>
-            <div className='flex items-center gap-10'>
+          <div className='mt-16 flex justify-between gap-12'>
+            <div className='flex items-center gap-12'>
               <ProfileImage userImage={writer.image} size={32} />
               <p className='text-text-primary text-md font-medium '>
                 {writer.nickname}
               </p>
               <div className='h-12 border border-background-tertiary' />
-              <p className='text-md text-text-disabled'>
+              <p className='text-md text-text-disabled flex items-center'>
                 {new Date(createdAt).toLocaleDateString()}
               </p>
             </div>
             <div className='flex items-center gap-8'>
-              <IconHeart />
               <p className='text-md text-text-disabled flex items-center'>
                 {likeCount >= 999 ? '999+' : likeCount}
               </p>
+              {isOwner && (
+                <div>
+                  <BoardDropdownMenu
+                    onEdit={handleEdit}
+                    onDelete={handleDelete}
+                  />
+                </div>
+              )}
             </div>
           </div>
         </div>
-      </button>
+      </Link>
+
+      {/* 데스크탑 사이즈 레이아웃 */}
+      <Link href={`/board/${id}`}>
+        <div className='hidden w-full tablet:block tablet:h-220 pt-24 pb-24 px-32 bg-background-secondary rounded-12 border border-background-tertiary'>
+          <div className='flex flex-col justify-between h-full'>
+            <div className='flex justify-between'>
+              <div className='flex flex-col'>
+                <p className='w-400 text-2lg leading-relaxed text-text-secondary font-medium text-left'>
+                  {renderContentPreview(title, 30)}
+                </p>
+                <p className='mt-12 text-md text-text-secondary text-left'>
+                  {renderContentPreview(articleDetail?.content, 50)}
+                </p>
+              </div>
+              <div className='flex gap-16'>
+                {image && (
+                  <div className='w-72 h-72'>
+                    <Image
+                      src={image}
+                      alt='샘플이미지'
+                      width={72}
+                      height={72}
+                    />
+                  </div>
+                )}
+                {isOwner && (
+                  <BoardDropdownMenu
+                    onEdit={handleEdit}
+                    onDelete={handleDelete}
+                  />
+                )}
+              </div>
+            </div>
+
+            <div className='mt-16 flex justify-between gap-16 '>
+              <div className='flex items-center gap-10'>
+                <ProfileImage userImage={writer.image} size={32} />
+                <p className='text-text-primary text-md font-medium '>
+                  {writer.nickname}
+                </p>
+                <div className='h-12 border border-background-tertiary' />
+                <p className='text-md text-text-disabled'>
+                  {new Date(createdAt).toLocaleDateString()}
+                </p>
+              </div>
+              <div className='flex items-center gap-8'>
+                <IconHeart />
+                <p className='text-md text-text-disabled flex items-center'>
+                  {likeCount >= 999 ? '999+' : likeCount}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Link>
     </>
   );
 }

@@ -36,6 +36,27 @@
   }
 }
 
+
+@media (max-width: 767px) {
+  .best-article-grid > *:nth-child(n + 2) {
+    display: none;
+  }
+}
+
+/* 태블릿에서 3번째 카드부터 숨김 */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .best-article-grid > *:nth-child(n + 3) {
+    display: none;
+  }
+}
+
+/* 데스크탑에서는 모든 카드 표시 */
+@media (min-width: 1200px) {
+  .best-article-grid > * {
+    display: block;
+  }
+}
+
 :root {
   font-family: pretendard;
   -webkit-font-smoothing: antialiased;
