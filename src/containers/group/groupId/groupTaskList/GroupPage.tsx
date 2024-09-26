@@ -13,7 +13,7 @@ function GroupPage() {
   const { groupId } = useQueryParameter();
   const { user } = useUser();
   const { group, isGroupLoading, groupError, groupTaskLists, groupMembers } =
-    useGroups(Number(groupId));
+    useGroups(groupId);
 
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const checkRole = (group: Group, user: User) => {
@@ -71,8 +71,6 @@ function GroupPage() {
     }
   }, [group, user, groupTaskLists]);
 
-  useEffect(() => {}, [groupMembers]);
-
   if (isGroupLoading) {
     return <div>Loading...</div>;
   }
@@ -88,8 +86,8 @@ function GroupPage() {
 
   return (
     <div className='main-container'>
-      <div className='w-full h-full bg-background-primary text-text-primary text-lg px-24'>
-        <section className='w-full desktop:w-1200 desktop:mx-auto pt-24'>
+      <div className='text-text-primary text-lg px-24'>
+        <section className='w-full desktop:mx-auto pt-24'>
           <GroupBar
             groupId={Number(groupId)}
             groupName={group.name}
