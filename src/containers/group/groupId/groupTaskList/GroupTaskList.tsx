@@ -1,29 +1,34 @@
-import {
-  IconKebabLarge,
-  IconProgressDone,
-  IconProgressOngoing,
-} from '@/assets/IconList';
+import { IconProgressDone, IconProgressOngoing } from '@/assets/IconList';
 import Link from 'next/link';
 import GroupDropDown from './GroupDropDown';
+import { useMutation } from '@tanstack/react-query';
+import { patchTaskLists } from '@/services/TaskListAPI';
+import useToast from '@/components/toast/useToast';
+import useModalStore from '@/stores/ModalStore';
+import TaskListDeleteModal from '@/components/modal/TaskListDeleteModal';
+import TaskListEditModal from '@/components/modal/TaskListEditModal';
 
-interface Props extends React.HTMLAttributes<HTMLButtonElement> {
+interface Props {
   color: string;
   doneCount: number;
   totalCount: number;
   isDone: boolean;
   groupId: number;
   taskListId: number;
+  taskListName: string;
 }
 
 function GroupTaskList({
-  children,
   color = 'purple',
   isDone = false,
   doneCount = 0,
   totalCount = 0,
   groupId = 0,
   taskListId = 0,
+  taskListName = '',
 }: Props) {
+  const { setModalOpen } = useModalStore();
+
   return (
     <div className='w-full h-40 rounded-12 bg-background-secondary flex text-md text-text-primary'>
       <div className={`w-12 h-full rounded-l-12 bg-point-${color}`} />
@@ -32,7 +37,7 @@ function GroupTaskList({
           href={`/group/${groupId}/tasklist/${taskListId}`}
           className='w-full'
         >
-          {children}
+          {taskListName}
         </Link>
         <div className='flex '>
           <section className=' flex items-center'>
@@ -45,11 +50,20 @@ function GroupTaskList({
               {`${doneCount}/${totalCount}`}
             </div>
           </section>
-          {/* TODO 그룹 목록 수정하기, 삭제하기 구현(모달???) */}
           <GroupDropDown
             icon='kebab'
-            handleEdit={() => {}}
-            handleDelete={() => {}}
+            handleEdit={() =>
+              setModalOpen(
+                <TaskListEditModal
+                  taskListId={taskListId}
+                  groupId={groupId}
+                  taskListName={taskListName}
+                />,
+              )
+            }
+            handleDelete={() =>
+              setModalOpen(<TaskListDeleteModal taskListId={taskListId} />)
+            }
           />
         </div>
       </div>
