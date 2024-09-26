@@ -7,11 +7,22 @@ import GroupBar from './GroupBar';
 import GroupTask from './GroupTask';
 import GroupReport from './GroupReport';
 import GroupMembers from './GroupMembers';
+import useUser from '@/hooks/useUser';
 
 function GroupPage() {
   const { groupId } = useQueryParameter();
+  const { user } = useUser();
   const { group, isGroupLoading, groupError, groupTaskLists, groupMembers } =
     useGroups(Number(groupId));
+
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const checkRole = (group: Group, user: User) => {
+    if (group && group.members && user) {
+      const member = group.members.find((member) => member.userId === user.id);
+      return member ? member.role === 'ADMIN' : false;
+    }
+    return false;
+  };
 
   // 전체 할 일, 전체 한 일, 오늘의 할 일
   const [doneTaskCount, setTaskDoneCount] = useState<number>(0);
@@ -47,6 +58,10 @@ function GroupPage() {
   };
 
   useEffect(() => {
+    if (group && user) {
+      const isAdmin = checkRole(group, user);
+      setIsAdmin(isAdmin);
+    }
     if (groupTaskLists) {
       const doneCount = calculateDoneCount(groupTaskLists);
       const todayCount = calculateTodayCount(groupTaskLists);
@@ -59,7 +74,7 @@ function GroupPage() {
       setTodayTaskCount(todayCount);
       setTotalTaskCount(totalCount);
     }
-  }, [groupTaskLists]);
+  }, [group, user, groupTaskLists]);
 
   useEffect(() => {}, [groupMembers]);
 
@@ -83,7 +98,7 @@ function GroupPage() {
           <GroupBar
             groupId={Number(groupId)}
             groupName={group.name}
-            isAdmin={false}
+            isAdmin={isAdmin}
           >
             {group.name}
           </GroupBar>
