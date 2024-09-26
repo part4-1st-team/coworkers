@@ -31,12 +31,7 @@ function GroupPage() {
 
   const calculateDoneCount = (taskLists: TaskList[]) => {
     return taskLists.reduce((acc, taskList) => {
-      return (
-        acc +
-        taskList.tasks.filter(
-          (task) => task.doneAt !== null || task.doneBy !== null,
-        ).length
-      );
+      return acc + taskList.tasks.filter((task) => task.doneAt !== null).length;
     }, 0);
   };
 
