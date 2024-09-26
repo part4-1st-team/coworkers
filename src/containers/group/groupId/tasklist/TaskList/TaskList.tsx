@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useEffect } from 'react';
+import { useMediaQuery } from 'react-responsive';
 import useCurrentTaskListName from '../useCurrentTaskListName';
 
 interface TaskListProps {
@@ -11,6 +12,7 @@ interface TaskListProps {
 
 function TaskList({ taskList, groupId, taskListId }: TaskListProps) {
   const { setCurrentName } = useCurrentTaskListName();
+  const isMobile = useMediaQuery({ maxWidth: 768 });
 
   useEffect(() => {
     if (taskListId === taskList.id) setCurrentName(taskList.name);
@@ -27,7 +29,7 @@ function TaskList({ taskList, groupId, taskListId }: TaskListProps) {
         taskListId === taskList.id && 'text-white bg-brand-primary',
       )}
     >
-      {taskList.name}
+      {isMobile ? '⦁' : taskList.name}
     </Link>
   );
 }
