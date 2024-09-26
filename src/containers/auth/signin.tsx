@@ -86,15 +86,6 @@ function SignInPage() {
         <h2 className='block text-40 text-text-primary text-center font-500 h-48 mb-80 leading-48'>
           로그인
         </h2>
-        {error && (
-          <div className='text-status-danger mb-4 h-50 bg-authNotification-auth rounded-5 border-status-danger border-2 pl-5'>
-            {' '}
-            {/* 에러 창 디자인 논의 필요 */}
-            아이디 또는 비밀번호를 잘못 입력하셨습니다.
-            <br />
-            다시 확인 후 입력해 주세요.
-          </div>
-        )}
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className='mb-24 text-text-primary'>
             이메일
@@ -137,15 +128,18 @@ function SignInPage() {
               비밀번호를 잊으셨나요?
             </span>
           </button>
-          <Button
-            type='submit'
-            color='primary'
-            size='lg'
-            className='w-full mt-40'
-          >
+          {error && (
+            <div className='text-status-danger text-center h-50 bg-authNotification-auth rounded-5 border-status-danger border-2 pl-5 my-16'>
+              {' '}
+              {/* 에러 창 디자인 논의 필요 */}
+              입력하신 이메일 또는 비밀번호가 올바르지 않습니다. <br />
+              다시 시도해 주세요.
+            </div>
+          )}
+          <Button type='submit' color='primary' size='lg' className='w-full'>
             로그인
           </Button>
-          <span className='flex justify-center gap-12 text-text-primary font-500 w-full mt-24'>
+          <span className='flex justify-center gap-12 text-text-primary font-500 w-full mt-24 mb-16'>
             <p>아직 계정이 없으신가요?</p>
             <Link
               href='/auth/signup'
