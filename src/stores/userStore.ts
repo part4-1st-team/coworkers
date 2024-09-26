@@ -2,7 +2,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { setTokenCookies, removeTokenCookies } from '@/utils/cookieUtils';
-import { NextRouter } from 'next/router';
 
 // user 인터페이스 추가
 interface User {
@@ -20,7 +19,13 @@ interface UserStoreState {
   accessToken: string | null;
   refreshToken: string | null;
   isLoggedIn: boolean;
-  setLogin: (user: User, atoken: string, rToken: string) => void;
+  isSocialLogin: boolean; // 간편 로그인 여부 상태 추가
+  setLogin: (
+    user: User,
+    atoken: string,
+    rToken: string,
+    isSocialLogin?: boolean,
+  ) => void;
   setLogout: () => void;
   setToken: (aToken: string, rToken: string) => void;
   removeToken: () => void;
@@ -33,12 +38,19 @@ const useUserStore = create<UserStoreState>()(
       accessToken: null,
       isLoggedIn: false,
       refreshToken: null,
-      setLogin: (newUser: User, aToken: string, rToken: string) => {
+      isSocialLogin: false, // 기본값 false
+      setLogin: (
+        newUser: User,
+        aToken: string,
+        rToken: string,
+        isSocialLogin = false, // 인자 3개 전달 오류 해결을 위해 기본값 설정
+      ) => {
         set({
           user: newUser,
           isLoggedIn: true,
           accessToken: aToken,
           refreshToken: rToken,
+          isSocialLogin, // 간편 로그인 여부 저장
         });
         // 쿠키에 토큰 저장
         setTokenCookies(aToken, rToken);
@@ -50,6 +62,7 @@ const useUserStore = create<UserStoreState>()(
           isLoggedIn: false,
           accessToken: null,
           refreshToken: null,
+          isSocialLogin: false, // 로그아웃 시 간편 로그인 여부 초기화
         });
         // 쿠키에서 토큰 삭제
         removeTokenCookies();

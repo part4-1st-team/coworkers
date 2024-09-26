@@ -43,7 +43,11 @@ function AuthInput<T extends FieldValues>({
           <div className='relative'>
             <Input
               type={inputType()}
-              className={clsx('w-full py-11 px-16', className)}
+              className={clsx(
+                'w-full py-11 px-16',
+                className,
+                error && 'border-1 border-red',
+              )}
               error={error}
               placeholder={placeholder}
               {...field}
