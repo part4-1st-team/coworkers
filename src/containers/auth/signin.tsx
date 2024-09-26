@@ -129,7 +129,7 @@ function SignInPage() {
             </span>
           </button>
           {error && (
-            <div className='text-status-danger text-center h-50 bg-authNotification-auth rounded-5 border-status-danger border-2 pl-5 my-16'>
+            <div className='text-status-danger text-md text-center h-35 rounded-5 pl-5 mt-16 mb-8'>
               {' '}
               {/* 에러 창 디자인 논의 필요 */}
               입력하신 이메일 또는 비밀번호가 올바르지 않습니다. <br />
