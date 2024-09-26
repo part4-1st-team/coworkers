@@ -36,7 +36,6 @@
   }
 }
 
-
 @media (max-width: 767px) {
   .best-article-grid > *:nth-child(n + 2) {
     display: none;
