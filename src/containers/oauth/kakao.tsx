@@ -17,7 +17,6 @@ function KakaoSignIn() {
     const code = new URL(window.location.href).searchParams.get('code');
 
     // code가 없으면 return하여 요청 중단
-    console.log(code, CLIENT_ID);
     if (!code) return;
 
     const fetchKakaoToken = async () => {
