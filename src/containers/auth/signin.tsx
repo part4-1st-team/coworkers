@@ -15,15 +15,14 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import {
   GOOGLE_REDIRECT_URI,
   KAKAO_REDIRECT_URI,
+  KAKAO_CLIENT_ID,
+  GOOGLE_CLIENT_ID,
 } from '@/constants/authConstants';
 
 type FormValues = {
   email: string;
   password: string;
 };
-
-const KAKAO_CLIENT_ID = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID; // 카카오 개발자 콘솔에서 발급받은 클라이언트 ID
-const GOOGLE_CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID; // 구글 클라우드 콘솔에서 발급받은 클라이언트 ID
 
 function SignInPage() {
   const router = useRouter();
