@@ -10,6 +10,7 @@ function useTasks(groupId: number, taskListId: number, date: string) {
   } = useQuery<DateTask[]>({
     queryKey: ['getTasks', groupId, taskListId, getMonthDay(date)],
     queryFn: () => getTasks(groupId, taskListId, date),
+    enabled: !Number.isNaN(groupId) && !Number.isNaN(taskListId),
   });
 
   return { tasks: tasks ?? [], isLoading, error };
