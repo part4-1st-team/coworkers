@@ -16,11 +16,21 @@ function HeaderGroupDropdown() {
   const router = useRouter();
   const { groupId } = router.query;
 
-  let currentGroup: ResponseGroup | undefined = undefined;
+  let currentGroup: ResponseGroup | undefined;
   if (router.pathname === '/group/[groupId]') {
     const filterGroup = groups.filter((group) => group.id === Number(groupId));
     [currentGroup] = filterGroup;
   }
+
+  const getGroupName = () => {
+    if (router.pathname !== '/group/[groupId]') {
+      return '팀 선택하기';
+    }
+    if (currentGroup) {
+      return currentGroup.name;
+    }
+    return '알 수 없는 팀';
+  };
 
   if (isGroupsLoading) return null;
 
@@ -29,11 +39,7 @@ function HeaderGroupDropdown() {
       <Dropdown.Trigger onClick={handleToggleDropdown}>
         <div className='flex items-center gap-11'>
           <p className='text-lg font-medium text-text-primary'>
-            {router.pathname !== '/group/[groupId]'
-              ? '팀 선택하기'
-              : currentGroup
-                ? currentGroup.name
-                : '알 수 없는 팀'}
+            {getGroupName()}
           </p>
           <IconCheck className='fill-text-inverse' />
         </div>
