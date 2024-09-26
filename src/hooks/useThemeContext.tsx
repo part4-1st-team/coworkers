@@ -3,17 +3,18 @@ import {
   ReactNode,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from 'react';
 
 type Theme = 'light' | 'dark';
 
-interface ThemeContext {
+interface ThemeContextType {
   theme: Theme;
   switchTheme: () => void;
 }
 
-const ThemeContext = createContext<ThemeContext | undefined>(undefined);
+const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<Theme>('dark');
@@ -43,10 +44,10 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const value = useMemo(() => ({ theme, switchTheme }), [theme, switchTheme]);
+
   return (
-    <ThemeContext.Provider value={{ theme, switchTheme }}>
-      {children}
-    </ThemeContext.Provider>
+    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
   );
 }
 
