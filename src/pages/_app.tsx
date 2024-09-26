@@ -8,15 +8,18 @@ import type { AppProps } from 'next/app';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import '@/components/calendar/calendar.css';
+import { ThemeProvider } from '@/hooks/useThemeContext';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <ReactQueryProviders>
-      <Header />
-      <Modal />
-      <HalfPage />
-      <Toast />
-      <Component {...pageProps} />
+      <ThemeProvider>
+        <Header />
+        <Modal />
+        <HalfPage />
+        <Toast />
+        <Component {...pageProps} />
+      </ThemeProvider>
       <ReactQueryDevtools initialIsOpen />
     </ReactQueryProviders>
   );
