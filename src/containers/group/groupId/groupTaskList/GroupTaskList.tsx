@@ -1,12 +1,9 @@
 import { IconProgressDone, IconProgressOngoing } from '@/assets/IconList';
 import Link from 'next/link';
-import GroupDropDown from './GroupDropDown';
-import { useMutation } from '@tanstack/react-query';
-import { patchTaskLists } from '@/services/TaskListAPI';
-import useToast from '@/components/toast/useToast';
 import useModalStore from '@/stores/ModalStore';
 import TaskListDeleteModal from '@/components/modal/TaskListDeleteModal';
 import TaskListEditModal from '@/components/modal/TaskListEditModal';
+import GroupDropDown from './GroupDropDown';
 
 interface Props {
   color: string;

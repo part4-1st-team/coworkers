@@ -1,13 +1,12 @@
 import useQueryParameter from '@/hooks/useQueryParameter';
 import useGroups from '@/hooks/useGroups';
 import { useEffect, useState } from 'react';
-
+import useUser from '@/hooks/useUser';
 import EmptyGroup from './EmptyGroup';
 import GroupBar from './GroupBar';
 import GroupTask from './GroupTask';
 import GroupReport from './GroupReport';
 import GroupMembers from './GroupMembers';
-import useUser from '@/hooks/useUser';
 
 function GroupPage() {
   const { groupId } = useQueryParameter();
@@ -16,7 +15,7 @@ function GroupPage() {
     useGroups(groupId);
 
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
-  const checkRole = (group: Group, user: User) => {
+  const checkRole = () => {
     if (group && group.members && user) {
       const member = group.members.find((member) => member.userId === user.id);
       return member ? member.role === 'ADMIN' : false;
@@ -54,8 +53,8 @@ function GroupPage() {
 
   useEffect(() => {
     if (group && user) {
-      const isAdmin = checkRole(group, user);
-      setIsAdmin(isAdmin);
+      const isAdminCheck = checkRole();
+      setIsAdmin(isAdminCheck);
     }
     if (groupTaskLists) {
       const doneCount = calculateDoneCount(groupTaskLists);
