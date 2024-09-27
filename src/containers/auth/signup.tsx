@@ -37,6 +37,7 @@ function SignUpPage() {
     mode: 'onChange',
   });
 
+  // 회원가입 데이터 전송
   const onSubmit: SubmitHandler<SignUpFormValues> = async (data) => {
     try {
       const response = await signup(data);
