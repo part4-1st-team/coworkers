@@ -5,25 +5,23 @@ import TooltipWrapper from '@/components/tooltip/TooltipWrapper';
 import { useTheme } from '@/hooks/useThemeContext';
 
 function LoginIcon({ loginType }: { loginType: 'kakao' | 'google' | null }) {
-  const message = !loginType
-    ? '이메일로 로그인하셨습니다.'
-    : loginType === 'kakao'
-      ? '카카오톡으로 로그인하셨습니다.'
-      : '구글로 로그인하셨습니다.';
-
   const { theme } = useTheme();
 
-  return (
-    <TooltipWrapper message={message}>
-      {!loginType ? (
-        <EmailIcon size={24} theme={theme} />
-      ) : loginType === 'kakao' ? (
-        <KakaoIcon size={24} />
-      ) : (
-        <GoogleIcon size={24} />
-      )}
-    </TooltipWrapper>
-  );
+  let message;
+  let IconComponent;
+
+  if (!loginType) {
+    message = '이메일로 로그인하셨습니다.';
+    IconComponent = <EmailIcon size={24} theme={theme} />;
+  } else if (loginType === 'kakao') {
+    message = '카카오톡으로 로그인하셨습니다.';
+    IconComponent = <KakaoIcon size={24} />;
+  } else {
+    message = '구글로 로그인하셨습니다.';
+    IconComponent = <GoogleIcon size={24} />;
+  }
+
+  return <TooltipWrapper message={message}>{IconComponent}</TooltipWrapper>;
 }
 
 export default LoginIcon;
