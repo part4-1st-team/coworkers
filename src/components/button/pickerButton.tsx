@@ -19,10 +19,10 @@ function PickerButton({ text, value, onClick, className }: PickerProps) {
       }}
       value={value}
       className={clsx(
-        'w-44 h-48 rounded-12 py-8 px-10 bg-background-primary text-text-default text-md font-medium',
+        'w-44 h-48 rounded-12 py-8 px-10 bg-background-primary dark:bg-background-primary-dark text-text-default dark:text-text-default-dark text-md font-medium',
         isChecked
-          ? 'bg-brand-primary text-text-primary'
-          : 'bg-button-background text-text-default',
+          ? 'bg-brand-primary dark:bg-brand-primary-dark text-text-primary dark:text-text-primary-dark'
+          : 'bg-button-background text-text-default dark:text-text-default-dark',
         className,
       )}
     >

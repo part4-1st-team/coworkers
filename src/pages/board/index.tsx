@@ -15,7 +15,7 @@ function BoardPage() {
   return (
     <main className='main-container relative'>
       <div className='flex flex-col gap-24'>
-        <div className='text-2lg tablet:text-2xl font-bold text-text-primary'>
+        <div className='text-2lg tablet:text-2xl font-bold text-text-primary dark:text-text-primary-dark'>
           자유게시판
         </div>
 

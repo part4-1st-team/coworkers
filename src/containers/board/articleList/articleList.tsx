@@ -65,7 +65,7 @@ function ArticleList({ searchValue }: ArticleListProps) {
   return (
     <div className='max-w-desktop h-auto overflow-hidden mx-auto my-auto flex flex-col gap-32'>
       <div className='flex items-center justify-between'>
-        <p className='text-lg font-medium tablet:text-xl tablet:font-bold text-text-primary'>
+        <p className='text-lg font-medium tablet:text-xl tablet:font-bold text-text-primary dark:text-text-primary-dark'>
           게시글
         </p>
         <SortDropdown orderBy={orderBy} onSortChange={handleSortChange} />
@@ -81,19 +81,19 @@ function ArticleList({ searchValue }: ArticleListProps) {
 
       {/* 검색 결과 없을 때 표시 */}
       {articles.length === 0 && !isLoading && !error && (
-        <div className='mt-180  tablet:mt-158 text-text-default font-medium text-md tablet:text-lg flex justify-center'>
+        <div className='mt-180  tablet:mt-158 text-text-default dark:text-text-default-dark font-medium text-md tablet:text-lg flex justify-center'>
           검색 결과가 없습니다.
         </div>
       )}
 
       {(isFetchingNextPage || isLoading) && (
-        <div className='flex justify-center items-center text-text-default font-medium text-md'>
+        <div className='flex justify-center items-center text-text-default dark:text-text-default-dark font-medium text-md'>
           <div className='loader'>Loading...</div>
         </div>
       )}
 
       {error && (
-        <div className='flex flex-col justify-center items-center text-text-default font-medium text-md '>
+        <div className='flex flex-col justify-center items-center text-text-default dark:text-text-default-dark font-medium text-md '>
           <p>에러가 발생했습니다: {error.message}</p>
         </div>
       )}

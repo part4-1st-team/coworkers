@@ -1,8 +1,9 @@
 import Image from 'next/image';
-import Link from 'next/link'; // Link를 사용해 페이지 이동 구현
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { IconHeart } from '@/assets/IconList';
 import BoardDropdownMenu from '@/components/board/boardDropdown';
+import ReportDropdownMenu from '@/components/board/ReportDropdownMenu';
 import { deleteArticle } from '@/services/ArticleAPI';
 import useArticleDetail from '@/hooks/useArticleDetail';
 import useToast from '@/components/toast/useToast';
@@ -23,10 +24,8 @@ function ArticleCard({ article, onDeleteSuccess }: ArticleCardProps) {
   const { articleDetail, error, isFetching } = useArticleDetail(id as number);
   const { user: currentUser, isLoading, error: userError } = useUser();
   const { toast } = useToast();
-
   const { setModalOpen, setModalClose } = useModalStore();
 
-  // 삭제 Mutation 설정
   const deleteMutation = useMutation({
     mutationFn: () => deleteArticle(id),
     onSuccess: () => {
@@ -38,7 +37,6 @@ function ArticleCard({ article, onDeleteSuccess }: ArticleCardProps) {
     },
   });
 
-  // 콘텐츠 일부만 보여주고 "더 보기" 링크 제공
   const renderContentPreview = (
     text: string | undefined,
     maxLength: number,
@@ -48,7 +46,6 @@ function ArticleCard({ article, onDeleteSuccess }: ArticleCardProps) {
     return `${text.substring(0, maxLength)}...`;
   };
 
-  // 수정하기 및 삭제하기 기능 구현
   const handleEdit = () => {
     router.push({
       pathname: `/board/${id}`,
@@ -56,7 +53,6 @@ function ArticleCard({ article, onDeleteSuccess }: ArticleCardProps) {
     });
   };
 
-  // 삭제 기능 구현 - 삭제 모달 적용
   const handleDelete = () => {
     setModalOpen(
       <DeleteArticleModal
@@ -71,7 +67,7 @@ function ArticleCard({ article, onDeleteSuccess }: ArticleCardProps) {
 
   if (isFetching || isLoading) {
     return (
-      <div className='flex items-center text-text-default font-medium text-md'>
+      <div className='flex items-center text-text-default dark:text-text-default-dark font-medium text-md'>
         Loading...
       </div>
     );
@@ -79,117 +75,78 @@ function ArticleCard({ article, onDeleteSuccess }: ArticleCardProps) {
 
   if (error || userError) {
     return (
-      <div className='flex items-center text-text-default font-medium text-md'>
+      <div className='flex items-center text-text-default dark:text-text-default-dark font-medium text-md'>
         Error loading article detail
       </div>
     );
   }
 
-  // 현재 로그인한 사용자가 작성자인 경우에만 수정/삭제 버튼을 렌더링
   const isOwner = currentUser?.id === writer.id;
 
   return (
-    <>
-      {/* 모바일 사이즈 레이아웃 */}
-      <Link href={`/board/${id}`}>
-        <div className='block tablet:hidden w-full tablet:h-220 pt-24 pb-16 px-16 bg-background-secondary rounded-12 border border-background-tertiary relative'>
-          <div className='flex flex-col'>
-            <p className='w-224 h-30 text-lg text-text-secondary font-medium text-left'>
-              {renderContentPreview(title, 30)}
-            </p>
-            <p className='mt-10 w-350 text-md text-text-secondary text-left'>
-              {renderContentPreview(articleDetail?.content, 50)}
-            </p>
-          </div>
+    <div className='w-full tablet:h-220 pt-24 pb-16 tablet:pb-24 px-16 tablet:px-32 bg-background-secondary dark:bg-background-secondary-dark rounded-12 relative'>
+      <div className='flex flex-col justify-between h-full'>
+        <div className='flex justify-between'>
+          {/* 링크로 이동하는 부분 */}
+          <Link href={`/board/${id}`} className='w-full'>
+            <div className='flex flex-col'>
+              <p className='w-224 tablet:w-400 h-30 tablet:h-30 text-lg tablet:text-2lg tablet:leading-relaxed text-text-secondary dark:text-text-secondary-dark font-medium text-left'>
+                {renderContentPreview(title, 30)}
+              </p>
+              <p className='mt-10 tablet:mt-20 w-350 tablet:w-auto text-md text-text-secondary dark:text-text-secondary-dark text-left'>
+                {renderContentPreview(articleDetail?.content, 50)}
+              </p>
+            </div>
+          </Link>
           {image && (
-            <div className='w-72 h-72 absolute top-15 right-15'>
+            <div className='w-72 h-72 absolute top-15 right-15 tablet:hidden'>
               <Image src={image} alt='샘플이미지' width={72} height={72} />
             </div>
           )}
+          <div className='hidden tablet:flex gap-16'>
+            {image && (
+              <div className='w-72 h-72'>
+                <Image src={image} alt='샘플이미지' width={72} height={72} />
+              </div>
+            )}
+            {isOwner ? (
+              <BoardDropdownMenu onEdit={handleEdit} onDelete={handleDelete} />
+            ) : (
+              <ReportDropdownMenu />
+            )}
+          </div>
+        </div>
 
-          <div className='mt-16 flex justify-between gap-12'>
-            <div className='flex items-center gap-12'>
-              <ProfileImage userImage={writer.image} size={32} />
-              <p className='text-text-primary text-md font-medium '>
-                {writer.nickname}
-              </p>
-              <div className='h-12 border border-background-tertiary' />
-              <p className='text-md text-text-disabled flex items-center'>
-                {new Date(createdAt).toLocaleDateString()}
-              </p>
-            </div>
-            <div className='flex items-center gap-8'>
-              <p className='text-md text-text-disabled flex items-center'>
-                {likeCount >= 999 ? '999+' : likeCount}
-              </p>
-              {isOwner && (
-                <div>
-                  <BoardDropdownMenu
-                    onEdit={handleEdit}
-                    onDelete={handleDelete}
-                  />
-                </div>
+        <div className='mt-16 flex justify-between gap-12'>
+          <div className='flex items-center gap-12'>
+            <ProfileImage userImage={writer.image} size={32} />
+            <p className='text-text-primary dark:text-text-primary-dark text-md font-medium'>
+              {writer.nickname}
+            </p>
+            <div className='h-12 border border-background-tertiary dark:border-background-tertiary-dark' />
+            <p className='text-md text-text-disabled dark:text-text-disabled-dark flex items-center'>
+              {new Date(createdAt).toLocaleDateString()}
+            </p>
+          </div>
+          <div className='flex items-center gap-8'>
+            <IconHeart />
+            <p className='text-md text-text-disabled dark:text-text-disabled-dark flex items-center'>
+              {likeCount >= 999 ? '999+' : likeCount}
+            </p>
+            <div className='tablet:hidden'>
+              {isOwner ? (
+                <BoardDropdownMenu
+                  onEdit={handleEdit}
+                  onDelete={handleDelete}
+                />
+              ) : (
+                <ReportDropdownMenu />
               )}
             </div>
           </div>
         </div>
-      </Link>
-
-      {/* 데스크탑 사이즈 레이아웃 */}
-      <Link href={`/board/${id}`}>
-        <div className='hidden w-full tablet:block tablet:h-220 pt-24 pb-24 px-32 bg-background-secondary rounded-12 border border-background-tertiary'>
-          <div className='flex flex-col justify-between h-full'>
-            <div className='flex justify-between'>
-              <div className='flex flex-col'>
-                <p className='w-400 text-2lg leading-relaxed text-text-secondary font-medium text-left'>
-                  {renderContentPreview(title, 30)}
-                </p>
-                <p className='mt-12 text-md text-text-secondary text-left'>
-                  {renderContentPreview(articleDetail?.content, 50)}
-                </p>
-              </div>
-              <div className='flex gap-16'>
-                {image && (
-                  <div className='w-72 h-72'>
-                    <Image
-                      src={image}
-                      alt='샘플이미지'
-                      width={72}
-                      height={72}
-                    />
-                  </div>
-                )}
-                {isOwner && (
-                  <BoardDropdownMenu
-                    onEdit={handleEdit}
-                    onDelete={handleDelete}
-                  />
-                )}
-              </div>
-            </div>
-
-            <div className='mt-16 flex justify-between gap-16 '>
-              <div className='flex items-center gap-10'>
-                <ProfileImage userImage={writer.image} size={32} />
-                <p className='text-text-primary text-md font-medium '>
-                  {writer.nickname}
-                </p>
-                <div className='h-12 border border-background-tertiary' />
-                <p className='text-md text-text-disabled'>
-                  {new Date(createdAt).toLocaleDateString()}
-                </p>
-              </div>
-              <div className='flex items-center gap-8'>
-                <IconHeart />
-                <p className='text-md text-text-disabled flex items-center'>
-                  {likeCount >= 999 ? '999+' : likeCount}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Link>
-    </>
+      </div>
+    </div>
   );
 }
 

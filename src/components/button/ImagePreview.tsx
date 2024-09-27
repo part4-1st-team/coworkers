@@ -17,7 +17,9 @@ function ImagePreview({ imagePreview }: ImagePreviewProps) {
   ) : (
     <>
       <IconPlus width={48} height={48} />
-      <p className='text-text-default text-lg'>이미지 등록</p>
+      <p className='text-text-default dark:text-text-default-dark text-lg'>
+        이미지 등록
+      </p>
     </>
   );
 }

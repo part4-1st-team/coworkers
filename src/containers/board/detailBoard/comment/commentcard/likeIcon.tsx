@@ -7,18 +7,22 @@ interface IconHandLikeProps {
 function LikeIcon({ icon }: IconHandLikeProps) {
   if (icon === 'Like') {
     return (
-      <div>
+      <div className='flex flex-row gap-8'>
         <IconHandLike />
-        <p className='text-text-primary text-md'>4</p>
+        <p className='text-text-primary dark:text-text-primary-dark text-md'>
+          22
+        </p>
       </div>
     );
   }
 
   if (icon === 'DisLike') {
     return (
-      <div>
+      <div className='flex flex-row gap-8'>
         <IconHandLike className='ml-10 transform rotate-180' />
-        <p className='text-text-primary text-md'>100</p>
+        <p className='text-text-primary dark:text-text-primary-dark text-md'>
+          4
+        </p>
       </div>
     );
   }

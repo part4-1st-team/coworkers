@@ -13,7 +13,6 @@ import useToast from '@/components/toast/useToast';
 import ReportDropdownMenu from '@/components/board/ReportDropdownMenu';
 import clsx from 'clsx';
 import Button from '@/components/button/button';
-import { IconHandLike } from '@/assets/IconList';
 import LikeIcon from './likeIcon';
 
 interface CommentCardProps {
@@ -82,6 +81,11 @@ function CommentCard({ comment, onDeleteSuccess }: CommentCardProps) {
     setIsReplying((prev) => !prev);
   };
 
+  // 답글 제출 로직 처리
+  const handleReplySubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  };
+
   // 로딩 상태 처리
   if (isUserLoading) {
     return <p>Loading...</p>;
@@ -89,8 +93,10 @@ function CommentCard({ comment, onDeleteSuccess }: CommentCardProps) {
 
   // clsx를 사용하여 작성자인 경우와 아닌 경우의 border 색상 설정
   const commentCardClass = clsx(
-    'pt-24 pb-24 px-32 rounded-12 bg-background-secondary ',
-    isCommentAuthor ? 'border-4 border-background-tertiary ' : '',
+    'pt-24 pb-24 px-32 rounded-12 bg-background-secondary dark:bg-background-secondary-dark',
+    isCommentAuthor
+      ? 'border-4 border-background-tertiary dark:border-background-tertiary-dark'
+      : '',
   );
 
   return (
@@ -98,7 +104,7 @@ function CommentCard({ comment, onDeleteSuccess }: CommentCardProps) {
       <div className='flex flex-col justify-between h-full'>
         {!isEditing && (
           <div className='mt-10 flex justify-between'>
-            <p className='w-auto text-lg text-text-secondary font-medium'>
+            <p className='w-auto text-lg text-text-secondary dark:text-text-secondary-dark font-medium'>
               {content}
             </p>
 
@@ -129,10 +135,10 @@ function CommentCard({ comment, onDeleteSuccess }: CommentCardProps) {
               <div className='w-32 h-32'>
                 <ProfileImage userImage={writer.image} size={32} />
               </div>
-              <p className='text-text-primary text-md font-medium'>
+              <p className='text-text-primary dark:text-text-primary-dark text-md font-medium'>
                 {writer.nickname}
               </p>
-              <div className='h-12 border border-background-tertiary' />
+              <div className='h-12 border border-background-tertiary dark:border-background-tertiary-dark' />
               <p className='text-md text-text-disabled'>
                 {new Date(createdAt).toLocaleDateString()}
               </p>
@@ -148,7 +154,7 @@ function CommentCard({ comment, onDeleteSuccess }: CommentCardProps) {
             <button
               type='button'
               onClick={handleReplyClick}
-              className='text-text-primary text-md font-medium'
+              className='text-text-primary dark:text-text-primary-dark text-md font-medium'
             >
               답글 달기
             </button>
@@ -157,30 +163,32 @@ function CommentCard({ comment, onDeleteSuccess }: CommentCardProps) {
 
         {/* 답글 입력창 표시 여부 */}
         {isReplying && (
-          <div className='mt-20'>
-            <textarea
-              className='w-full h-30 bg-background-tertiary rounded-md p-2 resize-none'
-              placeholder='답글을 작성하세요...'
-            />
-            <div className='mt-2 flex gap-10 items-center  justify-end'>
-              <Button
-                type='button'
-                size='md'
-                onClick={handleReplyClick}
-                className='text-text-default font-semibold hover:text-text-tertiary active:text-text-inverse'
-              >
-                취소
-              </Button>
-              <Button
-                type='button'
-                color='outline'
-                size='md'
-                className='w-74 h-32 px-1 py-6'
-              >
-                답글 달기
-              </Button>
+          <form onSubmit={handleReplySubmit}>
+            <div className='mt-20'>
+              <textarea
+                className='w-full h-30 bg-background-tertiary dark:bg-background-tertiary-dark rounded-md p-2 resize-none'
+                placeholder='답글을 작성하세요...'
+              />
+              <div className='mt-2 flex gap-10 items-center justify-end'>
+                <Button
+                  type='button'
+                  size='md'
+                  onClick={handleReplyClick}
+                  className='text-text-default dark:text-text-default-dark font-semibold hover:text-text-tertiary  active:text-text-inverse'
+                >
+                  취소
+                </Button>
+                <Button
+                  type='submit'
+                  color='outline'
+                  size='md'
+                  className='w-74 h-32 px-1 py-6'
+                >
+                  답글 달기
+                </Button>
+              </div>
             </div>
-          </div>
+          </form>
         )}
       </div>
     </div>

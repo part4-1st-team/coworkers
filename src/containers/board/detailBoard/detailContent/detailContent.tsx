@@ -134,14 +134,14 @@ function DetailContent({ boardId }: DetailContentProps) {
   return (
     <div>
       <div className='flex justify-between'>
-        <div className='text-lg font-medium tablet:text-2lg text-text-secondary'>
+        <div className='text-lg font-medium tablet:text-2lg text-text-secondary dark:text-text-secondary-dark'>
           {title}
         </div>
         {currentUser?.id === writer.id && (
           <BoardDropdownMenu onEdit={handleEdit} onDelete={handleDelete} />
         )}
       </div>
-      <div className='mt-16 w-full border-t border-border-primary' />
+      <div className='mt-16 w-full border-t border-border-primary dark:border-border-primary-dark' />
       <div className='mt-16 flex justify-between gap-16'>
         <div className='flex items-center gap-10'>
           <div className='w-32 h-32'>
@@ -151,18 +151,18 @@ function DetailContent({ boardId }: DetailContentProps) {
               image={writer.image}
             />
           </div>
-          <p className='text-text-primary text-md font-medium'>
+          <p className='text-text-primary dark:text-text-primary-dark text-md font-medium'>
             {writer.nickname}
           </p>
-          <div className='h-12 border border-background-tertiary' />
-          <p className='text-md text-text-disabled'>
+          <div className='h-12 border border-background-tertiary dark:border-background-tertiary-dark' />
+          <p className='text-md text-text-disabled dark:text-text-disabled-dark'>
             {new Date(createdAt).toLocaleDateString()}
           </p>
         </div>
         <div className='flex items-center gap-16'>
           <div className='flex gap-4'>
             <IconComment />
-            <p className='text-md text-text-disabled flex items-center'>
+            <p className='text-md text-text-disabled dark:text-text-disabled-dark flex items-center'>
               {commentCount}
             </p>
           </div>
@@ -173,13 +173,13 @@ function DetailContent({ boardId }: DetailContentProps) {
               fill={isLiked ? 'gray' : 'none'}
               style={{ cursor: 'pointer' }}
             />
-            <p className='text-md text-text-disabled flex items-center'>
+            <p className='text-md text-text-disabled dark:text-text-disabled-dark flex items-center'>
               {likeCount}
             </p>
           </div>
         </div>
       </div>
-      <div className='mt-48 py-10 text-md font-normal text-text-secondary'>
+      <div className='mt-48 py-10 text-md font-normal text-text-secondary dark:text-text-secondary-dark'>
         {isEditing ? (
           <EditInput
             value={content}

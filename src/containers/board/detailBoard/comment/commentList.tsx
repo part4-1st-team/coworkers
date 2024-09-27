@@ -42,7 +42,7 @@ function CommentList({ articleId, limit, cursor }: CommentListProps) {
           />
         ))
       ) : (
-        <div className='mt-180  tablet:mt-158 text-text-default font-medium text-md tablet:text-lg flex justify-center'>
+        <div className='mt-180  tablet:mt-158 text-text-default dark:text-text-default-dark font-medium text-md tablet:text-lg flex justify-center'>
           아직 작성된 댓글이 없습니다.
         </div>
       )}
