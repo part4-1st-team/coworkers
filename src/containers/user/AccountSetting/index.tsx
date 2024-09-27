@@ -1,25 +1,7 @@
-import Button from '@/components/button/button';
-import Input from '@/components/input/input';
-import Label from '@/components/form/Label';
-import ModifyProfile from '@/components/member/modifyProfile';
-import useToast from '@/components/toast/useToast';
-import useImageMutation from '@/hooks/useImageMutation';
-import useUser from '@/hooks/useUser';
-import { patchUser } from '@/services/userAPI';
-import { PatchUserType } from '@/types/userAPIType';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import Head from 'next/head';
+import AccountSettingForm from './AccountSettingForm';
 import ChangePasswordButton from './ChangePasswordButton';
 import UserSecessionButton from './UserSecessionButton';
-import FormFieldSet from '@/components/form/FormFieldset';
-import Head from 'next/head';
-import useUserStore from '@/stores/userStore';
-import GoogleIcon from '@/components/icon/Google';
-import KakaoIcon from '@/components/icon/Kakao';
-import TooltipWrapper from '@/components/tooltip/TooltipWrapper';
-import LoginIcon from './LoginIcon';
-import AccountSettingForm from './AccountSettingForm';
 
 function AccountSetting() {
   // const { isSocialLogin } = useUserStore();
