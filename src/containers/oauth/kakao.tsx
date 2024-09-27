@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import axios from '@/libs/axios';
 import { isAxiosError } from 'axios';
 import { KAKAO_CLIENT_ID, KAKAO_REDIRECT_URI } from '@/constants/authConstants';
+import qs from 'qs'; // qs 라이브러리 임포트
+import { useRouter } from 'next/router';
 
 function KakaoSignIn() {
   const router = useRouter();
@@ -15,16 +17,20 @@ function KakaoSignIn() {
     const fetchKakaoToken = async () => {
       try {
         console.log('카카오 토큰 요청');
+        console.log(redirectUrl);
+
+        // URL 인코딩된 데이터 생성
+        const params = qs.stringify({
+          grant_type: 'authorization_code',
+          client_id: KAKAO_CLIENT_ID!,
+          redirect_uri: KAKAO_REDIRECT_URI,
+          code: code as string,
+        });
 
         // 카카오 토큰 요청
         const kakaoTokenResponse = await axios.post(
           `https://kauth.kakao.com/oauth/token`,
-          {
-            grant_type: 'authorization_code',
-            client_id: KAKAO_CLIENT_ID!, // Type assertion을 통해 null 체크
-            redirect_uri: redirectUrl,
-            code: code as string,
-          },
+          params,
           {
             headers: {
               'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
@@ -32,7 +38,10 @@ function KakaoSignIn() {
           },
         );
 
+        // 콘솔에 액세스 토큰 출력
         const kakaoAccessToken = kakaoTokenResponse.data.access_token;
+        console.log(kakaoAccessToken);
+
         // 백엔드에 토큰 전송
         const backendResponse = await axios.post(
           `/auth/signIn/kakao`, // 상대 경로 사용
@@ -43,7 +52,7 @@ function KakaoSignIn() {
           },
         );
 
-        console.log('카카오 로그인 성공');
+        console.log('백엔드 리스폰스', backendResponse);
 
         // 로그인 후 리디렉션 처리
         router.replace('/'); // 성공 후 홈으로 이동, 원하는 경로로 변경 가능
@@ -62,7 +71,7 @@ function KakaoSignIn() {
     };
 
     fetchKakaoToken();
-  });
+  }, [router.query]);
 
   return <div>카카오 로그인 중...</div>;
 }
