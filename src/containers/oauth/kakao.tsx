@@ -3,9 +3,7 @@ import { useRouter } from 'next/router';
 import useToast from '@/components/toast/useToast';
 import axios from '@/libs/axios';
 import { isAxiosError } from 'axios';
-
-const CLIENT_ID = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID; // 카카오 개발자 콘솔에서 발급받은 클라이언트 ID
-const REDIRECT_URI = 'http://localhost:3000/oauth/kakao'; // 카카오 로그인 후 리디렉션될 URI
+import { KAKAO_CLIENT_ID, KAKAO_REDIRECT_URI } from '@/constants/authConstants';
 
 function KakaoSignIn() {
   const router = useRouter();
@@ -26,8 +24,8 @@ function KakaoSignIn() {
           `https://kauth.kakao.com/oauth/token`,
           {
             grant_type: 'authorization_code',
-            client_id: CLIENT_ID!, // Type assertion을 통해 null 체크
-            redirect_uri: REDIRECT_URI,
+            client_id: KAKAO_CLIENT_ID!, // Type assertion을 통해 null 체크
+            redirect_uri: KAKAO_REDIRECT_URI,
             code: code as string,
           },
           {

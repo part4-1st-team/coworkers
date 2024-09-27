@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import axios from '@/libs/axios';
 import useUserStore from '@/stores/userStore';
 import useToast from '@/components/toast/useToast'; // useToast 훅 가져오기
+import { GOOGLE_REDIRECT_URI } from '@/constants/authConstants';
 
 function GoogleOAuth() {
   const router = useRouter();
@@ -17,7 +18,7 @@ function GoogleOAuth() {
           // 백엔드로 code를 전송하여 구글 토큰을 요청
           const response = await axios.post('/auth/signIn/google', {
             state: String(state),
-            redirectUri: 'http://localhost:3000/oauth/google', // 구글에 등록한 리디렉트 URI
+            redirectUri: GOOGLE_REDIRECT_URI, // 구글에 등록한 리디렉트 URI
             token: String(code), // URL에서 추출한 code를 token으로 전송
           });
 

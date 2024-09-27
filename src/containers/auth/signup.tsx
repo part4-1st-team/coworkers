@@ -5,6 +5,12 @@ import AuthInput from '@/components/input/authInput';
 import { signup } from '@/services/Auth.API';
 import { yupResolver } from '@hookform/resolvers/yup';
 import signUpSchema from '@/schema/signUpSchema';
+import {
+  GOOGLE_REDIRECT_URI,
+  GOOGLE_CLIENT_ID,
+  KAKAO_REDIRECT_URI,
+  KAKAO_CLIENT_ID,
+} from '@/constants/authConstants';
 
 interface SignUpFormValues {
   nickname: string;
@@ -12,11 +18,6 @@ interface SignUpFormValues {
   password: string;
   passwordConfirmation: string;
 }
-
-const CLIENT_ID = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID; // 카카오 개발자 콘솔에서 발급받은 클라이언트 ID
-const REDIRECT_URI = 'http://localhost:3000/oauth/kakao'; // 카카오 로그인 후 리디렉션 URI
-const GOOGLE_CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID; // 구글 클라우드 콘솔에서 발급받은 클라이언트 ID
-const GOOGLE_REDIRECT_URI = 'http://localhost:3000/oauth/google'; // 구글 로그인 후 리디렉션 URI
 
 /** 테스트 계정
  * id : sin1234@test.com
@@ -50,7 +51,7 @@ function SignUpPage() {
 
   // 카카오 로그인 요청 URL
   const handleKakaoLogin = () => {
-    const loginUrl = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}`;
+    const loginUrl = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${KAKAO_CLIENT_ID}&redirect_uri=${encodeURIComponent(KAKAO_REDIRECT_URI)}`;
     window.location.href = loginUrl;
   };
 
