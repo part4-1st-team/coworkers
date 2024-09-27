@@ -118,7 +118,7 @@ export async function patchTaskOrder(
   displayIndex: number,
 ): Promise<void> {
   await axios.patch(
-    `/groups/${groupId}/task-lists/${taskListId}/tasks/${taskId}`,
+    `/groups/${groupId}/task-lists/${taskListId}/tasks/${taskId}/order`,
     { displayIndex },
   );
 }

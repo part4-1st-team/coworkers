@@ -75,3 +75,9 @@ interface PostRecurring {
   monthDay?: number | null;
   weekDays?: number[] | null;
 }
+
+interface OrderTask {
+  taskListId: number;
+  taskId: number;
+  displayIndex: number;
+}
