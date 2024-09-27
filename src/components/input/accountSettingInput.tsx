@@ -29,7 +29,7 @@ function AccountSettingInput({
           <div className='relative'>
             <Input
               type={type === 'password' ? 'password' : 'text'}
-              className={`w-full h-48 py-[10.5px] px-[16px] border border-border-primary bg-background-tertiary hover:border-border-primary focus:border-border-primary ${className}`}
+              className={`w-full h-48 py-[10.5px] px-[16px] border border-border-primary dark:border-border-primary-dark bg-background-tertiary dark:bg-background-tertiary-dark hover:border-border-primary focus:border-border-primary ${className}`}
               placeholder={placeholder}
               {...field}
               style={{ color: '#94A3B8' }}

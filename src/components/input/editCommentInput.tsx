@@ -32,11 +32,11 @@ function EditInput({
   };
 
   return (
-    <div className='py-[16px] border-b border-b-background-tertiary flex items-center'>
+    <div className='py-[16px] border-b border-b-background-tertiary dark:border-b-background-tertiary-dark flex items-center'>
       <div className='w-full'>
         <textarea
           ref={textareaRef}
-          className={`w-full text-text-inverse resize-none focus:outline-none focus:ring-0 ${className}`}
+          className={`w-full text-text-inverse dark:text-text-inverse-dark resize-none focus:outline-none focus:ring-0 ${className}`}
           placeholder={placeholder}
           value={value}
           onChange={handleInputChange}
@@ -50,7 +50,7 @@ function EditInput({
         <div className='flex gap-8 justify-end items-center'>
           <Button
             type='button'
-            className='text-text-default font-semibold hover:text-text-tertiary active:text-text-inverse'
+            className='text-text-default dark:text-text-default-dark font-semibold hover:text-text-tertiary dark: active:text-text-inverse'
             onClick={onCancel}
           >
             취소
