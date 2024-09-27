@@ -1,7 +1,7 @@
 import useQueryParameter from '@/hooks/useQueryParameter';
 import useGroups from '@/hooks/useGroups';
 import { useEffect, useState } from 'react';
-
+import useUser from '@/hooks/useUser';
 import EmptyGroup from './EmptyGroup';
 import GroupBar from './GroupBar';
 import GroupTask from './GroupTask';
@@ -10,8 +10,20 @@ import GroupMembers from './GroupMembers';
 
 function GroupPage() {
   const { groupId } = useQueryParameter();
+  const { user } = useUser();
   const { group, isGroupLoading, groupError, groupTaskLists, groupMembers } =
-    useGroups(Number(groupId));
+    useGroups(groupId);
+
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const checkRole = () => {
+    if (group && group.members && user) {
+      const userMember = group.members.find(
+        (member) => member.userId === user.id,
+      );
+      return userMember ? userMember.role === 'ADMIN' : false;
+    }
+    return false;
+  };
 
   // 전체 할 일, 전체 한 일, 오늘의 할 일
   const [doneTaskCount, setTaskDoneCount] = useState<number>(0);
@@ -20,12 +32,7 @@ function GroupPage() {
 
   const calculateDoneCount = (taskLists: TaskList[]) => {
     return taskLists.reduce((acc, taskList) => {
-      return (
-        acc +
-        taskList.tasks.filter(
-          (task) => task.doneAt !== null || task.doneBy !== null,
-        ).length
-      );
+      return acc + taskList.tasks.filter((task) => task.doneAt !== null).length;
     }, 0);
   };
 
@@ -47,6 +54,10 @@ function GroupPage() {
   };
 
   useEffect(() => {
+    if (group && user) {
+      const isAdminCheck = checkRole();
+      setIsAdmin(isAdminCheck);
+    }
     if (groupTaskLists) {
       const doneCount = calculateDoneCount(groupTaskLists);
       const todayCount = calculateTodayCount(groupTaskLists);
@@ -59,9 +70,7 @@ function GroupPage() {
       setTodayTaskCount(todayCount);
       setTotalTaskCount(totalCount);
     }
-  }, [groupTaskLists]);
-
-  useEffect(() => {}, [groupMembers]);
+  }, [group, user, groupTaskLists]);
 
   if (isGroupLoading) {
     return <div>Loading...</div>;
@@ -78,12 +87,12 @@ function GroupPage() {
 
   return (
     <div className='main-container'>
-      <div className='w-full h-full bg-background-primary text-text-primary text-lg px-24'>
-        <section className='w-full desktop:w-1200 desktop:mx-auto pt-24'>
+      <div className='text-text-primary text-lg px-24'>
+        <section className='w-full desktop:mx-auto pt-24'>
           <GroupBar
             groupId={Number(groupId)}
             groupName={group.name}
-            isAdmin={false}
+            isAdmin={isAdmin}
           >
             {group.name}
           </GroupBar>

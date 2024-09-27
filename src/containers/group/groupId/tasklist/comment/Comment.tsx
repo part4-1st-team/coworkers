@@ -6,6 +6,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import EditDeleteDropdown from '../../EditDeleteDropdown';
+import AddEmoji from './AddEmoji';
+import Emoji from './Emoji';
 
 function Comment({ comment }: { comment: Comment }) {
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -74,7 +76,6 @@ function Comment({ comment }: { comment: Comment }) {
             placeholder='댓글을 입력해주세요'
             {...register('content')}
           />
-
           <div className='flex justify-end'>
             <div className='flex gap-8 items-center'>
               <button
@@ -111,10 +112,28 @@ function Comment({ comment }: { comment: Comment }) {
           <span className='text-md font-medium text-text-primary'>
             {nickname}
           </span>
+          {/* TODO 밑에 중복되는 부분은 컴포넌트화 예정 */}
+          <div className='desktop:flex items-center gap-12 hidden'>
+            <AddEmoji comment={comment} />
+            <div className='flex gap-4'>
+              <Emoji type='check' comment={comment} />
+              <Emoji type='like' comment={comment} />
+              <Emoji type='thumb' comment={comment} />
+            </div>
+          </div>
         </div>
+
         <span className='text-md font-normal text-text-secondary'>
           {getDate(updatedAt)}
         </span>
+      </div>
+      <div className='flex items-center gap-12 desktop:hidden'>
+        <AddEmoji comment={comment} />
+        <div className='flex gap-4'>
+          <Emoji type='check' comment={comment} />
+          <Emoji type='like' comment={comment} />
+          <Emoji type='thumb' comment={comment} />
+        </div>
       </div>
     </div>
   );

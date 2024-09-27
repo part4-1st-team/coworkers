@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import ProfileImage from '@/components/member/ProfileImage';
 import BoardDropdownMenu from '@/components/board/boardDropdown';
@@ -9,6 +10,10 @@ import {
 } from '@/services/ArticleCommentAPI';
 import useUser from '@/hooks/useUser';
 import useToast from '@/components/toast/useToast';
+import ReportDropdownMenu from '@/components/board/ReportDropdownMenu';
+import clsx from 'clsx';
+import Button from '@/components/button/button';
+import { IconHandLike } from '@/assets/IconList';
 
 interface CommentCardProps {
   comment: ArticleComment;
@@ -22,6 +27,9 @@ function CommentCard({ comment, onDeleteSuccess }: CommentCardProps) {
   const { user: currentUser, isLoading: isUserLoading } = useUser();
   const isCommentAuthor = currentUser?.id === writer.id; // 로그인한 사용자가 댓글 작성자인지 확인
   const { toast } = useToast();
+
+  // 답글 입력창 상태 관리
+  const [isReplying, setIsReplying] = useState(false); // 답글 달기 상태
 
   // ArticleEdit 훅 사용
   const {
@@ -68,23 +76,39 @@ function CommentCard({ comment, onDeleteSuccess }: CommentCardProps) {
     removeCommentMutation.mutate(); // 객체의 mutate 메서드 사용
   };
 
+  // 답글 달기 버튼 클릭 시 호출될 함수
+  const handleReplyClick = () => {
+    setIsReplying((prev) => !prev);
+  };
+
   // 로딩 상태 처리
   if (isUserLoading) {
     return <p>Loading...</p>;
   }
 
+  // clsx를 사용하여 작성자인 경우와 아닌 경우의 border 색상 설정
+  const commentCardClass = clsx(
+    'pt-24 pb-24 px-32 rounded-12 bg-background-secondary ',
+    isCommentAuthor ? 'border-4 border-background-tertiary ' : '',
+  );
+
   return (
-    <div className='pt-24 pb-24 px-32 bg-background-secondary rounded-12 border border-background-tertiary'>
+    <div className={commentCardClass}>
       <div className='flex flex-col justify-between h-full'>
         {!isEditing && (
           <div className='mt-10 flex justify-between'>
             <p className='w-auto text-lg text-text-secondary font-medium'>
               {content}
             </p>
-            {isCommentAuthor && ( // 댓글 작성자만 수정/삭제 드롭다운 표시
+
+            {isCommentAuthor ? (
               <BoardDropdownMenu
                 onEdit={toggleEditMode}
                 onDelete={handleDelete}
+              />
+            ) : (
+              <ReportDropdownMenu
+                onReport={() => toast('Success', '신고가 접수되었습니다.')}
               />
             )}
           </div>
@@ -95,13 +119,13 @@ function CommentCard({ comment, onDeleteSuccess }: CommentCardProps) {
             value={content}
             onChange={handleContentChange}
             onCancel={toggleEditMode}
-            onSave={handleSave} // 수정 버튼 클릭 시 handleSave 호출
+            onSave={handleSave}
           />
         )}
 
         {/* isEditing이 false일 때만 프로필 정보를 보여줌 */}
         {!isEditing && (
-          <div className='mt-32 flex justify-between gap-16'>
+          <div className='mt-15 flex justify-between gap-16'>
             <div className='flex items-center gap-10'>
               <div className='w-32 h-32'>
                 <ProfileImage userImage={writer.image} size={32} />
@@ -113,6 +137,49 @@ function CommentCard({ comment, onDeleteSuccess }: CommentCardProps) {
               <p className='text-md text-text-disabled'>
                 {new Date(createdAt).toLocaleDateString()}
               </p>
+              <div className='ml-15 flex flex-row items-center gap-10'>
+                <IconHandLike />
+                <p className='text-text-primary text-md'>100</p>
+                <IconHandLike className='ml-10 transform rotate-180' />
+                <p className='text-text-primary text-md'>6</p>
+              </div>
+            </div>
+
+            {/* 답글 달기 버튼 추가 */}
+            <button
+              type='button'
+              onClick={handleReplyClick}
+              className='text-text-primary text-md font-medium'
+            >
+              답글 달기
+            </button>
+          </div>
+        )}
+
+        {/* 답글 입력창 표시 여부 */}
+        {isReplying && (
+          <div className='mt-20'>
+            <textarea
+              className='w-full h-30 bg-background-tertiary rounded-md p-2 resize-none'
+              placeholder='답글을 작성하세요...'
+            />
+            <div className='mt-2 flex gap-10 items-center  justify-end'>
+              <Button
+                type='button'
+                size='md'
+                onClick={handleReplyClick}
+                className='text-text-default font-semibold hover:text-text-tertiary active:text-text-inverse'
+              >
+                취소
+              </Button>
+              <Button
+                type='button'
+                color='outline'
+                size='md'
+                className='w-74 h-32 px-1 py-6'
+              >
+                답글 달기
+              </Button>
             </div>
           </div>
         )}

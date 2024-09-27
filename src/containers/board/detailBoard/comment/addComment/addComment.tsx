@@ -60,7 +60,7 @@ function AddComment({ boardId }: AddCommentProps) {
         <BaseButton
           type='button'
           color='primary'
-          className='w-74 h-32 tablet:w-184 tablet:h-48'
+          className='w-75 h-32 tablet:w-184 tablet:h-48'
           onClick={handleSubmit}
           disabled={postCommentStatus === 'pending'}
           text={postCommentStatus === 'pending' ? '등록 중...' : '등록'}

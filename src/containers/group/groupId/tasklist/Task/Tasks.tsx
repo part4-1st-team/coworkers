@@ -1,5 +1,6 @@
 import useQueryParameter from '@/hooks/useQueryParameter';
 import useTasks from '@/hooks/useTasks';
+import { Droppable } from 'react-beautiful-dnd';
 import useDateStore from '../../useDateStore';
 import Task from './Task';
 
@@ -21,11 +22,20 @@ function Tasks() {
     );
 
   return (
-    <section className='flex flex-col gap-12 tablet:gap-16 desktop:gap-20 bg-background-secondary w-full h-full rounded-12'>
-      {tasks.map((task: DateTask) => (
-        <Task task={task} key={task.id} />
-      ))}
-    </section>
+    <Droppable droppableId={String(taskListId)}>
+      {(provided) => (
+        <section
+          {...provided.droppableProps}
+          ref={provided.innerRef}
+          className='flex flex-col gap-12 tablet:gap-16 desktop:gap-20 bg-background-secondary w-full h-full rounded-12'
+        >
+          {tasks.map((task: DateTask, index) => (
+            <Task task={task} key={task.id} index={index} />
+          ))}
+          {provided.placeholder}
+        </section>
+      )}
+    </Droppable>
   );
 }
 

@@ -34,9 +34,8 @@ function GroupTask({ Lists }: { Lists: TaskList[] }) {
                 isDone={doneCount === totalCount && totalCount !== 0}
                 groupId={tasklist.groupId}
                 taskListId={tasklist.id}
-              >
-                {tasklist.name}
-              </GroupTaskList>
+                taskListName={tasklist.name}
+              />
             );
           })
         )}
