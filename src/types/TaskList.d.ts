@@ -47,3 +47,9 @@ interface ResponseTaskLists {
   teadId: number;
   updatedAt: string;
 }
+
+interface OrderTaskList {
+  groupId: number;
+  taskListId: number;
+  displayIndex: number;
+}
