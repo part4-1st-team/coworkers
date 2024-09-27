@@ -1,6 +1,6 @@
 import Button from '@/components/button/button';
 import Input from '@/components/input/input';
-import Label from '@/components/input/Label';
+import Label from '@/components/form/Label';
 import ModifyProfile from '@/components/member/modifyProfile';
 import useToast from '@/components/toast/useToast';
 import useImageMutation from '@/hooks/useImageMutation';
@@ -12,114 +12,37 @@ import { useEffect, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import ChangePasswordButton from './ChangePasswordButton';
 import UserSecessionButton from './UserSecessionButton';
-
-interface FormState {
-  name: string;
-  email: string;
-  password: string;
-}
+import FormFieldSet from '@/components/form/FormFieldset';
+import Head from 'next/head';
+import useUserStore from '@/stores/userStore';
+import GoogleIcon from '@/components/icon/Google';
+import KakaoIcon from '@/components/icon/Kakao';
+import TooltipWrapper from '@/components/tooltip/TooltipWrapper';
+import LoginIcon from './LoginIcon';
+import AccountSettingForm from './AccountSettingForm';
 
 function AccountSetting() {
-  const { toast } = useToast();
+  // const { isSocialLogin } = useUserStore();
 
-  const [currentImage, setCurrentImage] = useState<Blob | null>(null);
-  const [preview, setPreview] = useState<string | null>(null);
-  const { control, handleSubmit } = useForm<FormState>();
-  const queryClient = useQueryClient();
-
-  const { user } = useUser();
-
-  const imageMutation = useImageMutation();
-
-  const updateUserMutation = useMutation({
-    mutationFn: async (name: string) => {
-      const data: PatchUserType = {};
-
-      if (currentImage !== null) {
-        const formData = new FormData();
-        formData.append('image', currentImage);
-        const uploadedImage = await imageMutation.mutateAsync(currentImage);
-        data.image = uploadedImage.url;
-      }
-
-      if (user?.nickname !== name) {
-        data.nickname = name;
-      }
-
-      return patchUser(data);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['user'],
-      });
-      toast('Success', '프로필이 업데이트되었습니다.');
-    },
-    onError: () => {
-      toast('Error', '프로필 업데이트에 실패했습니다.');
-    },
-  });
-
-  const handleChangeUser: SubmitHandler<FormState> = (data) => {
-    const { name } = data;
-
-    // TODO 이미지 변경 후 프리뷰 변경되지 않는 부분 수정하기
-    updateUserMutation.mutateAsync(name);
-  };
-
-  useEffect(() => {
-    if (user) setPreview(user.image);
-  }, [user]);
-
-  if (!user) return null;
-
-  const { email, nickname, image } = user;
-
+  const isSocialLogin: 'kakao' | 'google' | null = 'kakao';
   return (
-    <main className='main-container'>
-      <div className='flex flex-col gap-24'>
-        <h2 className='text-xl font-bold text-text-primary'>계정 설정</h2>
-
-        <ModifyProfile
-          preview={preview}
-          setImage={setCurrentImage}
-          setPreview={setPreview}
-        />
-        <form
-          onSubmit={handleSubmit(handleChangeUser)}
-          className='flex flex-col gap-[24px]'
-        >
-          <div className='flex flex-col gap-12'>
-            <Label id='name'>이름</Label>
-            <Controller
-              name='name'
-              control={control}
-              defaultValue={nickname}
-              render={({ field }) => <Input id='name' type='text' {...field} />}
-            />
+    <>
+      <Head>
+        <title>계정 설정 페이지</title>
+      </Head>
+      <main className='auth-container'>
+        <div className='flex flex-col gap-24'>
+          <h2 className='text-xl font-bold text-text-primary dark:text-text-primary-dark'>
+            계정 설정
+          </h2>
+          <AccountSettingForm />
+          <div className='flex justify-between'>
+            <UserSecessionButton />
+            {!isSocialLogin && <ChangePasswordButton />}
           </div>
-
-          <div className='flex flex-col gap-12'>
-            <Label id='email'>이메일</Label>
-            <Controller
-              name='email'
-              control={control}
-              defaultValue={email}
-              render={({ field }) => (
-                <Input id='email' disabled type='text' {...field} />
-              )}
-            />
-          </div>
-
-          <Button color='primary' type='submit'>
-            변경하기
-          </Button>
-        </form>
-        <div className='flex justify-between'>
-          <UserSecessionButton />
-          <ChangePasswordButton />
         </div>
-      </div>
-    </main>
+      </main>
+    </>
   );
 }
 
