@@ -14,6 +14,7 @@ import ReportDropdownMenu from '@/components/board/ReportDropdownMenu';
 import clsx from 'clsx';
 import Button from '@/components/button/button';
 import { IconHandLike } from '@/assets/IconList';
+import LikeIcon from './likeIcon';
 
 interface CommentCardProps {
   comment: ArticleComment;
@@ -107,9 +108,7 @@ function CommentCard({ comment, onDeleteSuccess }: CommentCardProps) {
                 onDelete={handleDelete}
               />
             ) : (
-              <ReportDropdownMenu
-                onReport={() => toast('Success', '신고가 접수되었습니다.')}
-              />
+              <ReportDropdownMenu />
             )}
           </div>
         )}
@@ -138,10 +137,10 @@ function CommentCard({ comment, onDeleteSuccess }: CommentCardProps) {
                 {new Date(createdAt).toLocaleDateString()}
               </p>
               <div className='ml-15 flex flex-row items-center gap-10'>
-                <IconHandLike />
-                <p className='text-text-primary text-md'>100</p>
-                <IconHandLike className='ml-10 transform rotate-180' />
-                <p className='text-text-primary text-md'>6</p>
+                <LikeIcon icon='Like' />
+                <div>
+                  <LikeIcon icon='DisLike' />
+                </div>
               </div>
             </div>
 

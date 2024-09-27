@@ -1,8 +1,10 @@
 import useBestArticles from '@/hooks/useBestArticles';
 import BestArticleCard from './bestArticleCard/bestArticleCard';
 
+const BEST_ARTICLE_SIZE = 3;
+
 function BestArticleList() {
-  const { data, isLoading, isError } = useBestArticles(3); // 최대 3개의 데이터를 요청
+  const { data, isLoading, isError } = useBestArticles(BEST_ARTICLE_SIZE);
 
   if (isLoading) {
     return <div>Loading...</div>;
