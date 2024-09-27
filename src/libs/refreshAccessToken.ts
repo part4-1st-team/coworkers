@@ -4,6 +4,7 @@ import axios from 'axios';
 const useRefreshAccessToken = () => {
   const setLogin = useUserStore((state) => state.setLogin);
   const refreshToken = useUserStore((state) => state.refreshToken);
+  const setToken = useUserStore((state) => state.setToken);
 
   const refreshAccessToken = async (): Promise<string> => {
     if (!refreshToken) throw new Error('리프레시 토큰이 없습니다.');
@@ -19,12 +20,7 @@ const useRefreshAccessToken = () => {
       setLogin(user, accessToken, newRefreshToken);
 
       // 유저 정보와 함께 localStorage에 새 토큰 저장
-      localStorage.setItem(
-        'User',
-        JSON.stringify({
-          state: { accessToken, refreshToken: newRefreshToken, user },
-        }),
-      );
+      setToken(accessToken, refreshToken);
 
       return accessToken;
     } catch (error) {
