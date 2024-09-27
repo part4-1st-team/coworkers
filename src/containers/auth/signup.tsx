@@ -5,6 +5,7 @@ import AuthInput from '@/components/input/authInput';
 import { signup } from '@/services/Auth.API';
 import { yupResolver } from '@hookform/resolvers/yup';
 import signUpSchema from '@/schema/signUpSchema';
+import useToast from '@/components/toast/useToast';
 import {
   GOOGLE_REDIRECT_URI,
   GOOGLE_CLIENT_ID,
@@ -26,6 +27,7 @@ interface SignUpFormValues {
  */
 
 function SignUpPage() {
+  const { toast } = useToast();
   const {
     control,
     handleSubmit,
@@ -37,15 +39,10 @@ function SignUpPage() {
 
   const onSubmit: SubmitHandler<SignUpFormValues> = async (data) => {
     try {
-      // eslint-disable-next-line no-console
-      console.log('회원가입 요청 데이터:', data);
-      const response = await signup(data); // API 호출 변경
-      // eslint-disable-next-line no-console
-      console.log('회원가입 성공:', response);
-      // 성공 시 추가 처리
+      const response = await signup(data);
+      toast('Success', response);
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error('회원가입 실패:', error);
+      toast('Error', '회원가입 실패');
     }
   };
 
