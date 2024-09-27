@@ -3,6 +3,7 @@ import axios from 'axios';
 
 const useRefreshAccessToken = () => {
   const setLogin = useUserStore((state) => state.setLogin);
+  const setLogout = useUserStore((state) => state.setLogin);
   const refreshToken = useUserStore((state) => state.refreshToken);
   const setToken = useUserStore((state) => state.setToken);
 
@@ -19,11 +20,12 @@ const useRefreshAccessToken = () => {
       // 새로운 액세스 및 리프레시 토큰 저장
       setLogin(user, accessToken, newRefreshToken);
 
-      // 유저 정보와 함께 localStorage에 새 토큰 저장
+      // userStore에 토큰 저장
       setToken(accessToken, refreshToken);
 
       return accessToken;
     } catch (error) {
+      setLogout();
       console.error('리프레시 토큰 갱신 실패:', error);
       throw new Error('토큰 갱신 실패. 다시 로그인하세요.');
     }
