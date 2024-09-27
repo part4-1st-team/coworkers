@@ -17,8 +17,10 @@ function GroupPage() {
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const checkRole = () => {
     if (group && group.members && user) {
-      const member = group.members.find((member) => member.userId === user.id);
-      return member ? member.role === 'ADMIN' : false;
+      const userMember = group.members.find(
+        (member) => member.userId === user.id,
+      );
+      return userMember ? userMember.role === 'ADMIN' : false;
     }
     return false;
   };
