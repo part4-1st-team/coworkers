@@ -6,9 +6,10 @@ import Image from 'next/image';
 
 interface BestArticleCardProps {
   article: Article;
+  className?: string;
 }
 
-function BestArticleCard({ article }: BestArticleCardProps) {
+function BestArticleCard({ article, className }: BestArticleCardProps) {
   const { createdAt, likeCount, title, image, writer, id } = article;
   const router = useRouter();
 
