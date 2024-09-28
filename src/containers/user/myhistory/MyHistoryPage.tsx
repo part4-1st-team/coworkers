@@ -43,6 +43,12 @@ function MyHistoryPage({ historyList }: { historyList: DoneTask[] }) {
     }, 300); // 0.5초 후 애니메이션 상태 초기화
   };
 
+  let translateY = 0;
+
+  if (isAnimating) {
+    translateY = direction === 'up' ? 20 : -20;
+  }
+
   return (
     <main className='main-container'>
       <div>
@@ -53,7 +59,7 @@ function MyHistoryPage({ historyList }: { historyList: DoneTask[] }) {
         <div className='flex flex-col gap-20'>
           <div className='flex justify-between items-center'>
             <h3 className='text-xl text-text-primary dark:text-text-primary-dark font-semibold'>
-              {weekOffset === 0 ? '이번주' : weekOffset + '주 전'}
+              {weekOffset === 0 ? '이번주' : `${weekOffset}주 전`}
             </h3>
             <div className='flex gap-10'>
               <WeekArrowButton
@@ -90,7 +96,7 @@ function MyHistoryPage({ historyList }: { historyList: DoneTask[] }) {
               initial={{ opacity: 0, translateY: 0 }}
               animate={{
                 opacity: isAnimating ? 0 : 1,
-                translateY: isAnimating ? (direction === 'up' ? 20 : -20) : 0,
+                translateY,
               }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.5, ease: 'easeInOut' }}

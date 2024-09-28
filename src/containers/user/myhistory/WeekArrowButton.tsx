@@ -21,6 +21,7 @@ function WeekArrowButton({
 
   return (
     <button
+      type='button'
       className='text-md text-text-default dark:text-text-default-dark font-medium flex gap-10 items-center'
       onClick={onClick}
       disabled={disabled}

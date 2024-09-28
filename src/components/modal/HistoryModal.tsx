@@ -22,9 +22,11 @@ function HistoryModal({ history }: { history: DoneTask }) {
               }
             />
           )}
-          <Modal.Description description={'완료일 : ' + getDate(doneAt)} />
+          <Modal.Description description={`완료일 : ${getDate(doneAt)}`} />
           {isDeleted && (
-            <Modal.Description description={'삭제일 : ' + getDate(deletedAt)} />
+            <Modal.Description
+              description={`삭제일 : ${getDate(deletedAt)} `}
+            />
           )}
         </div>
 
