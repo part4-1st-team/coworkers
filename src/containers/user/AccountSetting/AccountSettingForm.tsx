@@ -81,9 +81,9 @@ function AccountSettingForm() {
         <div className='flex gap-20'>
           <ProfileImage userImage={null} size={64} />
           <div className='flex flex-col gap-10 justify-center'>
-            <p className='text-2lg font-semibold text-text-primary dark:text-text-primary-dark'>
+            <span className='text-2lg font-semibold text-text-primary dark:text-text-primary-dark'>
               이메일
-            </p>
+            </span>
 
             <LoginIcon loginType={null} />
           </div>
@@ -117,9 +117,9 @@ function AccountSettingForm() {
           <p className='text-2lg font-semibold text-text-primary dark:text-text-primary-dark'>
             이메일
           </p>
-          <p className='text-lg font-semibold text-text-secondary dark:text-text-secondary-dark flex gap-10 items-center'>
+          <div className='text-lg font-semibold text-text-secondary dark:text-text-secondary-dark flex gap-10 items-center'>
             {email} <LoginIcon loginType={isSocialLogin} />
-          </p>
+          </div>
         </div>
       </div>
       <form
