@@ -141,6 +141,7 @@ const config: Config = {
       boxShadow: {
         'shadow-xl': 'var(--shadow-xl)',
         left: '-4px 0 10px rgba(0, 0, 0, 1)', // 진한 그림자 설정
+        history: '2px 2px 3px rgba(0, 0, 0, 0.1)',
       },
       zIndex: {
         modal: '350',
