@@ -2,6 +2,7 @@ import MyHistoryPage from '@/containers/user/myhistory/MyHistoryPage';
 import { basicInstance } from '@/libs/axios';
 import Cookies from 'cookies';
 import { GetServerSidePropsContext } from 'next';
+import Head from 'next/head';
 
 // SSR
 export const getServerSideProps = async (
@@ -20,7 +21,7 @@ export const getServerSideProps = async (
         Authorization: `Bearer ${token}`, // 토큰을 헤더에 추가
       },
     })
-    .then((res) => res.data)
+    .then((response) => response.data)
     .then((data) => {
       return data.tasksDone;
     })
@@ -37,7 +38,18 @@ export const getServerSideProps = async (
 };
 
 function UserMyHistoryPage({ historyList }: { historyList: DoneTask[] }) {
-  return <MyHistoryPage historyList={historyList} />;
+  return (
+    <>
+      <Head>
+        <title>마이 히스토리</title>
+        <meta
+          name='description'
+          content='내가 완료한 작업과 활동 내역을 한눈에 확인할 수 있는 마이 히스토리 페이지입니다.'
+        />
+      </Head>
+      <MyHistoryPage historyList={historyList} />
+    </>
+  );
 }
 
 export default UserMyHistoryPage;
