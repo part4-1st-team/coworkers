@@ -41,7 +41,7 @@ function ImageAddButton({ onImageChange, imageUrl }: ImageAddButtonProps) {
     'relative w-160 h-160 tablet:w-240 tablet:h-240 flex flex-col items-center justify-center rounded-12 overflow-hidden';
   const imageStyles = imagePreview
     ? 'bg-none border-none'
-    : 'bg-background-secondary border border-border-primary hover:border-interaction-hover focus:border-interaction-focus';
+    : 'bg-background-secondary dark:bg-background-secondary-dark border border-background-secondary dark:border-border-primary-dark hover:border-interaction-hover focus:border-interaction-focus';
 
   return (
     <>

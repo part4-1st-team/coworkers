@@ -21,7 +21,7 @@ function RadioButton() {
   return (
     <CircleButton
       type='button'
-      className='bg-background-secondary w-28 h-28 border border-icon-primary p-0 flex items-center justify-center hover:bg-transparent focus:bg-transparent'
+      className='bg-background-secondary dark:bg-background-secondary-dark w-28 h-28 border border-icon-primary p-0 flex items-center justify-center hover:bg-transparent focus:bg-transparent'
       onClick={handleClick}
     >
       <div
@@ -29,7 +29,7 @@ function RadioButton() {
           'transition-all duration-300 ease-in-out rounded-full',
           isActive
             ? 'bg-icon-brand w-12 h-12'
-            : 'bg-background-secondary w-0 h-0',
+            : 'bg-background-secondary dark:bg-background-secondary-dark w-0 h-0',
         )}
       />
     </CircleButton>

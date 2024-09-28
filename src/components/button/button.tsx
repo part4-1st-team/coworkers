@@ -32,18 +32,20 @@ function Button({
   /* 컬러에 따른 분기  */
   const colorStyle = {
     primary:
-      'px-5 bg-brand-primary text-text-inverse  hover:bg-interaction-hover active:bg-interaction-pressed disabled:bg-interaction-inactive',
+      'px-5 bg-brand-primary text-text-inverse dark:text-text-inverse-dark  hover:bg-interaction-hover active:bg-interaction-pressed disabled:bg-interaction-inactive',
     white:
-      'bg-background-inverse text-brand-primary border border-border-primary hover:text-interaction-hover hover:border hover:border-interaction-hover active:borer-interaction-pressed active:text-interaction-pressed disabled:bg-interaction-inactive',
-    red: 'bg-status-danger hover:bg-status-danger-hover active:bg-status-danger-active text-text-inverse',
+      'bg-background-inverse dark:bg-background-inverse-dark text-brand-primary dark:text-brand-primary-dark border border-border-primary hover:text-interaction-hover hover:border hover:border-interaction-hover active:borer-interaction-pressed active:text-interaction-pressed disabled:bg-interaction-inactive',
+    red: 'bg-status-danger hover:bg-status-danger-hover active:bg-status-danger-active text-text-inverse dark:text-text-inverse-dark',
     outline:
       'px-8 bg-none text-brand-primary border border-brand-primary hover:border hover:border-interaction-hover hover:text-interaction-hover active:text-interaction-pressed  disabled:border-interaction-inactive',
   };
 
   /* 디스에이블에 따른 스타일 분기 */
   const disabledColorStyle = {
-    primary: 'bg-interaction-inactive cursor-not-allowed text-text-inverse',
-    white: 'text-interaction-inactive cursor-not-allowed bg-background-inverse',
+    primary:
+      'bg-interaction-inactive cursor-not-allowed text-text-inverse dark:text-text-inverse-dark',
+    white:
+      'text-interaction-inactive cursor-not-allowed bg-background-inverse dark:bg-background-inverse-dark',
     outline:
       'border border-interaction-inactive text-interaction-inactive cursor-not-allowed',
     red: '',

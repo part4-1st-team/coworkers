@@ -1,30 +1,30 @@
 import { useState } from 'react';
-import { useMutation, useQueryClient } from '@tanstack/react-query'; // useQueryClient 추가
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import BaseButton from '@/components/button/baseButton';
 import BoxInput from '@/components/input/boxInput';
 import { postArticleComment } from '@/services/ArticleCommentAPI';
 import useToast from '@/components/toast/useToast';
 
 interface AddCommentProps {
-  boardId: number; // 댓글을 작성할 게시글 ID
+  boardId: number;
 }
 
 function AddComment({ boardId }: AddCommentProps) {
-  const [comment, setComment] = useState(''); // 댓글 내용
+  const [comment, setComment] = useState('');
   const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
-  const queryClient = useQueryClient(); // QueryClient 가져오기
+  const queryClient = useQueryClient();
 
   // 댓글을 생성하는 mutation
   const { mutate: postCommentMutate, status: postCommentStatus } = useMutation({
     mutationFn: (newComment: string) => postArticleComment(boardId, newComment),
     onSuccess: () => {
-      setComment(''); // 성공적으로 댓글을 작성하면 입력 필드 초기화
-      setError(null); // 에러 초기화
+      setComment('');
+      setError(null);
 
       // 댓글 목록을 다시 불러오기 위해 해당 query 무효화
       queryClient.invalidateQueries({
-        queryKey: ['ArticleComments', boardId], // 쿼리 키 배열
+        queryKey: ['ArticleComments', boardId],
       });
 
       toast('Success', '댓글이 성공적으로 등록되었습니다.');
@@ -47,7 +47,7 @@ function AddComment({ boardId }: AddCommentProps) {
 
   return (
     <div className='mt-80 flex flex-col gap-16 tablet:gap-24'>
-      <p className='text-lg font-medium tablet:text-xl tablet:font-bold text-text-primary'>
+      <p className='text-lg font-medium tablet:text-xl tablet:font-bold text-text-primary dark:text-text-primary-dark'>
         댓글달기
       </p>
       <BoxInput
@@ -60,13 +60,13 @@ function AddComment({ boardId }: AddCommentProps) {
         <BaseButton
           type='button'
           color='primary'
-          className='w-75 h-32 tablet:w-184 tablet:h-48'
+          className='w-73 h-32 tablet:w-184 tablet:h-48'
           onClick={handleSubmit}
           disabled={postCommentStatus === 'pending'}
           text={postCommentStatus === 'pending' ? '등록 중...' : '등록'}
         />
       </div>
-      <div className='mt-32 tablet:mt-40 w-full border-t border-border-primary' />
+      <div className='mt-32 tablet:mt-40 w-full border-t border-border-primary dark:border-border-primary-dark' />
     </div>
   );
 }

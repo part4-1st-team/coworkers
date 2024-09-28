@@ -47,11 +47,11 @@ function BaseButton({
 
   const colorStyle = {
     primary:
-      'bg-brand-primary text-text-inverse hover:bg-interaction-hover focus:outline-none focus:bg-interaction-pressed disabled:bg-interaction-inactive',
+      'bg-brand-primary text-text-inverse dark:text-text-inverse-dark hover:bg-interaction-hover focus:outline-none focus:bg-interaction-pressed disabled:bg-interaction-inactive',
     outlined:
-      'bg-background-inverse text-brand-primary border border-brand-primary hover:text-interaction-hover hover:border-interaction-hover focus:border-interaction-pressed focus:text-interaction-pressed disabled:border-interaction-inactive disabled:text-interaction-inactive',
+      'bg-background-inverse dark:bg-background-inverse-dark text-brand-primary dark:text-brand-primary-dark border border-brand-primary hover:text-interaction-hover hover:border-interaction-hover focus:border-interaction-pressed focus:text-interaction-pressed disabled:border-interaction-inactive disabled:text-interaction-inactive',
     outlinedSecon:
-      'bg-background-inverse text-text-default border border-text-secondary',
+      'bg-background-inverse dark:bg-background-inverse text-text-default dark:text-text-default-dark border border-text-secondary dark:border-text-secondary',
     red: 'bg-status-danger text-text-inverse',
     bgNon:
       'bg-none text-brand-primary border border-brand-primary hover: hover:border-interaction-hover hover:text-interaction-hover active:text-interaction-pressed disabled:border-interaction-inactive disabled:text-interaction-inactive',

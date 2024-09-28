@@ -59,14 +59,16 @@ function FloatingButton({
 
   const colorStyle = {
     primary:
-      'bg-brand-primary text-text-inverse hover:bg-interaction-hover active:outline-none active:bg-interaction-pressed disabled:bg-interaction-inactive',
+      'bg-brand-primary dark:bg-brand-primary-dark text-text-inverse dark:text-text-inverse-dark hover:bg-interaction-hover  active:outline-none active:bg-interaction-pressed  disabled:bg-interaction-inactive',
     outlined:
-      'bg-background-inverse text-brand-primary border border-brand-primary hover:text-interaction-hover hover:border-interaction-hover active:border-interaction-pressed active:text-interaction-pressed disabled:border-interaction-inactive disabled:text-interaction-inactive',
+      'bg-background-inverse dark:bg-background-inverse-dark text-brand-primary dark:text-brand-primary-dark border border-brand-primary dark:border-brand-primary-dark hover:text-interaction-hover hover:border-interaction-hover active:border-interaction-pressed active:text-interaction-pressed  disabled:border-interaction-inactive dark:border-interaction-inactive-dark disabled:text-interaction-inactive',
   };
 
   const iconComponents = {
     plus: <IconPlus className='w-16 h-16' />,
-    checkWhite: <IconCheckWhite className='w-16 h-16 text-icon-inverse' />,
+    checkWhite: (
+      <IconCheckWhite className='w-16 h-16 text-icon-inverse dark:text-icon-inverse-dark' />
+    ),
     checkGray: (
       <IconCheckGray className='w-16 h-16 text-interaction-inactive' />
     ),
