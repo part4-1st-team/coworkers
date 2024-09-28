@@ -3,7 +3,10 @@ import { useRouter } from 'next/router';
 import axios from '@/libs/axios';
 import useUserStore from '@/stores/userStore';
 import useToast from '@/components/toast/useToast'; // useToast 훅 가져오기
-import { GOOGLE_REDIRECT_URI } from '@/constants/authConstants';
+import {
+  GOOGLE_REDIRECT_URI,
+  GOOGLE_CLIENT_ID,
+} from '@/constants/authConstants';
 
 function GoogleOAuth() {
   const router = useRouter();
@@ -15,16 +18,38 @@ function GoogleOAuth() {
 
   useEffect(() => {
     const fetchGoogleToken = async () => {
-      if (code && state) {
+      if (code && state && GOOGLE_CLIENT_ID) {
         try {
           console.log('구글 간편 로그인 시작');
           // 로딩 시작
           setIsLoading(true);
+
+          // 구글 토큰 요청 파라미터 설정
+          const params = new URLSearchParams({
+            code: String(code),
+            client_id: GOOGLE_CLIENT_ID,
+            redirect_uri: GOOGLE_REDIRECT_URI,
+            grant_type: 'authorization_code',
+          });
+
+          // 구글 서버에 토큰 요청
+          const googleTokenResponse = await axios.post(
+            'https://oauth2.googleapis.com/token',
+            params,
+            {
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+              },
+            },
+          );
+
+          const { access_token: googleAccessToken } = googleTokenResponse.data;
+
           // 백엔드로 code를 전송하여 구글 토큰을 요청
           const response = await axios.post('/auth/signIn/google', {
             state: String(state),
             redirectUri: GOOGLE_REDIRECT_URI, // 구글 리디렉트 URI
-            token: String(code), // URL에서 추출한 code를 token으로 전송
+            token: googleAccessToken, // URL에서 추출한 code를 token으로 전송
           });
 
           const { user, accessToken, refreshToken } = response.data;

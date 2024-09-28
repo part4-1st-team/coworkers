@@ -12,7 +12,7 @@ function KakaoSignIn() {
     const { code, state } = router.query; // code와 state를 router.query에서 추출
     const redirectUrl = router.asPath; // 현재 URL을 변수에 저장
 
-    if (!code) return; // code가 없으면 요청 중단
+    if (!code && !state) return; // code가 없으면 요청 중단
 
     const fetchKakaoToken = async () => {
       try {
@@ -41,10 +41,11 @@ function KakaoSignIn() {
         // 콘솔에 액세스 토큰 출력
         const kakaoAccessToken = kakaoTokenResponse.data.access_token;
         console.log(kakaoAccessToken);
+        console.log(state);
 
         // 백엔드에 토큰 전송
         const backendResponse = await axios.post(
-          `/auth/signIn/kakao`, // 상대 경로 사용
+          `/auth/signIn/KAKAO`, // 상대 경로 사용
           {
             state: String(state),
             redirectUri: KAKAO_REDIRECT_URI,
