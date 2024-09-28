@@ -10,7 +10,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 
 // Input 컴포넌트
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ children, className = '', error, ...props }, ref) => {
+  ({ children, className = '', error, value, defaultValue, ...props }, ref) => {
     // 기본 클래스들
     const baseClasses =
       'w-full px-16 py-14 text-lg font-normal rounded-xl bg-background-secondary dark:bg-background-secondary-dark border border-background-tertiary dark:border-background-tertiary-dark text-text-primary dark:text-text-primary-dark font-font-normal';
@@ -36,7 +36,11 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       className,
     );
 
-    return <input ref={ref} className={classNames} {...props} />;
+    const inputValue = value !== undefined ? value : (defaultValue ?? '');
+
+    return (
+      <input ref={ref} className={classNames} value={inputValue} {...props} />
+    );
   },
 );
 
