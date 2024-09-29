@@ -26,7 +26,7 @@ function DoughnutChart({ percentage }: DoughnutChartProps) {
               data: [percentage, 100 - percentage],
               backgroundColor: [gradient, '#ffffff00'],
               borderWidth: 0,
-              borderRadius: 30,
+              borderRadius: percentage >= 100 ? 0 : 30, // borderRadius 조건부 설정
             },
           ],
         },
@@ -50,6 +50,7 @@ function DoughnutChart({ percentage }: DoughnutChartProps) {
     }
     return undefined;
   }, [percentage]);
+
   return (
     <div className='size-150 tablet:size-180 bg-background-tertiary rounded-full flex justify-center items-center'>
       <div className='absolute size-90 tablet:size-108 bg-background-secondary rounded-full'>
