@@ -6,7 +6,6 @@ import useTaskCommentList from '@/hooks/useTaskCommentList';
 import useHalfPageStore from '@/stores/HalfPageStore';
 import useModalStore from '@/stores/ModalStore';
 import clsx from 'clsx';
-import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import EditDeleteDropdown from '../../EditDeleteDropdown';
@@ -34,13 +33,16 @@ function HalfPageContent({ task, isDone }: Props) {
 
   const { id: taskId, name, description, date } = task;
 
+  const [title, setTitle] = useState<string>(name);
+  const [content, setContent] = useState<string>(description);
+
   const { taskCommentList } = useTaskCommentList(taskId);
   const { setModalOpen } = useModalStore();
 
   const { handleSubmit, register } = useForm<TitleEditForm>({
     mode: 'onSubmit',
     defaultValues: {
-      title: name,
+      title,
     },
   });
 
@@ -48,10 +50,11 @@ function HalfPageContent({ task, isDone }: Props) {
   const patchMutation = useTaskMutation(task, groupId, taskListId);
 
   const onTitleEditSubmit: SubmitHandler<TitleEditForm> = (data) => {
-    const { title } = data;
+    const { title: dataTitle } = data;
 
-    patchMutation.mutate({ name: title });
+    patchMutation.mutate({ name: dataTitle });
     setisTitleEditing(false);
+    setTitle(dataTitle);
   };
 
   useEffect(() => {
@@ -80,6 +83,10 @@ function HalfPageContent({ task, isDone }: Props) {
 
         <HalfEditForm
           task={task}
+          title={title}
+          content={content}
+          setTitle={setTitle}
+          setContent={setContent}
           handleCancelEdit={() => setIsAllEditing(false)}
         />
       </section>
@@ -121,7 +128,7 @@ function HalfPageContent({ task, isDone }: Props) {
                     isDone && 'line-through',
                   )}
                 >
-                  {name}
+                  {title}
                 </p>
               )}
               <EditPencilButton
@@ -138,8 +145,8 @@ function HalfPageContent({ task, isDone }: Props) {
           </div>
           <HalfUserInfo task={task} />
         </div>
-        <div className='w-full h-200 text-md font-normal text-text-primary dark:text-text-primary-dark'>
-          {description}
+        <div className='whitespace-pre-wrap w-full h-200 text-md font-normal text-text-primary dark:text-text-primary-dark'>
+          {content}
         </div>
         <CommentInput taskId={taskId} />
         {taskCommentList.map((taskComment: Comment) => (
