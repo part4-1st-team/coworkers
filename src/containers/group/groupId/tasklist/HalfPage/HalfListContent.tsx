@@ -133,10 +133,7 @@ function HalfPageContent({ task, isDone }: Props) {
             <EditDeleteDropdown
               trigger={<IconKebabLarge />}
               handleEdit={() => setIsAllEditing(true)}
-              handleDelete={() => {
-                setModalOpen(<TaskDeleteModal task={task} />);
-                setHalfPageClose();
-              }}
+              handleDelete={() => setModalOpen(<TaskDeleteModal task={task} />)}
             />
           </div>
           <HalfUserInfo task={task} />

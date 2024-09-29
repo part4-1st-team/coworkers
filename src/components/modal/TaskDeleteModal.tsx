@@ -2,11 +2,13 @@ import Button from '@/components/button/button';
 import useDeleteRecurringMutation from '@/containers/group/groupId/tasklist/hooks/useDeleteRecurringMutation';
 import useDeleteTaskMutation from '@/containers/group/groupId/tasklist/hooks/useDeleteTaskMutation';
 import useQueryParameter from '@/hooks/useQueryParameter';
+import useHalfPageStore from '@/stores/HalfPageStore';
 import useModalStore from '@/stores/ModalStore';
 import Modal from './Modal';
 
 function TaskDeleteModal({ task }: { task: DateTask }) {
   const { setModalClose } = useModalStore();
+  const { setHalfPageClose } = useHalfPageStore();
 
   const { name, id: taskId, date, recurringId } = task;
   const { groupId, taskListId } = useQueryParameter();
@@ -38,6 +40,7 @@ function TaskDeleteModal({ task }: { task: DateTask }) {
           onClick={() => {
             deleteTaskMutation.mutate();
             setModalClose();
+            setHalfPageClose();
           }}
           color='white'
           className='w-full'
@@ -49,6 +52,7 @@ function TaskDeleteModal({ task }: { task: DateTask }) {
           onClick={() => {
             deleteRecurringMutation.mutate();
             setModalClose();
+            setHalfPageClose();
           }}
           color='red'
           className='w-full'
