@@ -5,10 +5,15 @@ import BestArticleCard from './bestArticleCard/bestArticleCard';
 const BEST_ARTICLE_SIZE = 3;
 
 function BestArticleList() {
-  const { data, isLoading, isError } = useBestArticles(BEST_ARTICLE_SIZE);
+  const { bestArticles, isLoading, isError } =
+    useBestArticles(BEST_ARTICLE_SIZE);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className='flex items-center text-text-primary dark:text-text-primary-dark font-medium text-md'>
+        Loading...
+      </div>
+    );
   }
 
   if (isError) {
@@ -25,7 +30,7 @@ function BestArticleList() {
       </div>
 
       <div className='flex flex-row gap-16'>
-        {data?.list.map((article, index) => (
+        {bestArticles?.list.map((article, index) => (
           <BestArticleCard
             key={article.id}
             article={article}
@@ -37,7 +42,7 @@ function BestArticleList() {
         ))}
       </div>
 
-      <div className='w-full border-t border-border-primary dark:border-border-primary-dark' />
+      <div className='w-full border-b border-border-primary dark:border-border-primary-dark border-opacity-10' />
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import {
   postArticleLike,
@@ -11,13 +11,13 @@ import { IconHeart, IconComment } from '@/assets/IconList';
 import BoardDropdownMenu from '@/components/board/boardDropdown';
 import ArticleEdit from '@/hooks/useArticleEdit';
 import EditInput from '@/components/input/editCommentInput';
-import AddComment from '@/containers/board/detailBoard/comment/addComment/addComment';
 import BoardProfile from '@/components/profile/boardProfile';
 import useUser from '@/hooks/useUser';
 import useArticleDetail from '@/hooks/useArticleDetail';
 import Image from 'next/image';
 import useModalStore from '@/stores/ModalStore';
 import DeleteArticleModal from '@/components/modal/DeleteArticleModal';
+import TitleEditInput from '@/components/input/titleEditInput';
 
 interface DetailContentProps {
   boardId: number | number[] | undefined;
@@ -27,7 +27,7 @@ function DetailContent({ boardId }: DetailContentProps) {
   const router = useRouter();
   const { user: currentUser, isLoading, error: userError } = useUser();
 
-  // useArticleDetail 훅 사용
+  // 게시글 세부 정보, 댓글, 좋아요 등을 불러오는 훅
   const { articleDetail, error, isFetching, refetch } = useArticleDetail(
     boardId as number,
   );
@@ -35,22 +35,29 @@ function DetailContent({ boardId }: DetailContentProps) {
   const [likeCount, setLikeCount] = useState<number>(0);
   const [isLiked, setIsLiked] = useState<boolean>(false);
 
+  // 게시글 수정 모드를 관리하는 훅 (제목 및 본문 수정)
   const {
     isEditing,
+    title,
     content,
     toggleEditMode,
     handleContentChange,
+    handleTitleChange,
     setContent,
-  } = ArticleEdit(articleDetail?.content || '');
+    setTitle,
+  } = ArticleEdit(articleDetail?.title || '', articleDetail?.content || '');
 
+  // 게시글 데이터가 변경될 때마다 상태값 업데이트
   useEffect(() => {
     if (articleDetail) {
       setLikeCount(articleDetail.likeCount || 0);
       setIsLiked(articleDetail.isLiked || false);
       setContent(articleDetail.content);
+      setTitle(articleDetail.title);
     }
-  }, [articleDetail, setContent]);
+  }, [articleDetail, setContent, setTitle]);
 
+  // 좋아요 추가 Mutation (성공 시 상태 업데이트)
   const likeMutation = useMutation({
     mutationFn: () => postArticleLike(boardId as number),
     onSuccess: (data) => {
@@ -59,6 +66,7 @@ function DetailContent({ boardId }: DetailContentProps) {
     },
   });
 
+  // 좋아요 취소 Mutation (성공 시 상태 업데이트)
   const dislikeMutation = useMutation({
     mutationFn: () => deleteArticleLike(boardId as number),
     onSuccess: (data) => {
@@ -67,20 +75,16 @@ function DetailContent({ boardId }: DetailContentProps) {
     },
   });
 
+  // 게시글 수정 Mutation (성공 시 수정 모드 종료 및 refetch 호출)
   const patchArticleMutation = useMutation({
-    mutationFn: (newContent: string) => {
-      const requestBody = {
-        title: articleDetail?.title || '',
-        content: newContent,
-      };
-      return patchArticle(boardId as number, requestBody);
-    },
+    mutationFn: () => patchArticle(boardId as number, { title, content }),
     onSuccess: () => {
       toggleEditMode();
       refetch();
     },
   });
 
+  // 게시글 삭제 Mutation (성공 시 게시판 페이지로 리다이렉트)
   const deleteArticleMutation = useMutation({
     mutationFn: () => deleteArticle(boardId as number),
     onSuccess: () => {
@@ -88,122 +92,149 @@ function DetailContent({ boardId }: DetailContentProps) {
     },
   });
 
-  // useModalStore를 사용해 모달 열기 및 닫기
+  // 모달을 제어하기 위한 상태 관리
   const { setModalOpen, setModalClose } = useModalStore();
 
-  // 삭제 버튼 클릭 시 모달 열기
-  const handleDelete = () => {
+  // 게시글 삭제 시 모달을 열고, 삭제 확정 시 Mutation 실행
+  const handleDelete = useCallback(() => {
     setModalOpen(
       <DeleteArticleModal
         onConfirm={() => {
           deleteArticleMutation.mutate();
           setModalClose();
         }}
-        onCancel={() => setModalClose()}
+        onCancel={setModalClose}
       />,
     );
-  };
+  }, [deleteArticleMutation, setModalOpen, setModalClose]);
 
-  const handleLikeClick = () => {
+  // 좋아요 또는 좋아요 취소 버튼 클릭 시 호출되는 함수
+  const handleLikeClick = useCallback(() => {
     if (isLiked) {
       dislikeMutation.mutate();
     } else {
       likeMutation.mutate();
     }
-  };
+  }, [isLiked, likeMutation, dislikeMutation]);
 
-  const handleSaveEdit = () => {
-    patchArticleMutation.mutate(content);
-  };
+  // 게시글 수정 완료 버튼 클릭 시 호출되는 함수
+  const handleSaveEdit = useCallback(() => {
+    patchArticleMutation.mutate();
+  }, [patchArticleMutation]);
 
-  const handleCancelEdit = () => {
+  // 게시글 수정 취소 시 수정 모드 종료
+  const handleCancelEdit = useCallback(() => {
     toggleEditMode();
-  };
+  }, [toggleEditMode]);
 
-  const handleEdit = () => {
+  // 수정 모드로 전환
+  const handleEdit = useCallback(() => {
     toggleEditMode();
-  };
+  }, [toggleEditMode]);
 
-  if (isFetching || isLoading) return <div>Loading...</div>;
+  // 데이터 로딩 상태 처리
+  if (isFetching || isLoading)
+    return (
+      <div className='flex items-center text-text-primary dark:text-text-primary-dark font-medium text-md'>
+        Loading...
+      </div>
+    );
+
+  // 에러 처리
   if (error || userError)
     return <div>{error?.message || userError?.message || 'Unknown error'}</div>;
+
+  // 데이터가 없을 경우
   if (!articleDetail) return <div>Loading...</div>;
 
-  const { title, commentCount, writer, createdAt, image } = articleDetail;
+  const { commentCount, writer, createdAt, image } = articleDetail;
 
   return (
-    <div>
-      <div className='flex justify-between'>
-        <div className='text-lg font-medium tablet:text-2lg text-text-secondary dark:text-text-secondary-dark'>
-          {title}
-        </div>
-        {currentUser?.id === writer.id && (
-          <BoardDropdownMenu onEdit={handleEdit} onDelete={handleDelete} />
-        )}
-      </div>
-      <div className='mt-16 w-full border-t border-border-primary dark:border-border-primary-dark' />
-      <div className='mt-16 flex justify-between gap-16'>
-        <div className='flex items-center gap-10'>
-          <div className='w-32 h-32'>
-            <BoardProfile
-              size={32}
-              nickname={writer.nickname}
-              image={writer.image}
+    <div className='p-30 rounded-12 bg-background-secondary dark:bg-background-secondary-dark border border-background-tertiary dark:border-background-tertiary-dark shadow-md'>
+      <div>
+        <div className='flex justify-between'>
+          {isEditing ? (
+            // 제목을 수정하는 인풋 필드
+            <TitleEditInput
+              value={title}
+              onChange={handleTitleChange}
+              placeholder='제목을 수정하세요'
             />
-          </div>
-          <p className='text-text-primary dark:text-text-primary-dark text-md font-medium'>
-            {writer.nickname}
-          </p>
-          <div className='h-12 border border-background-tertiary dark:border-background-tertiary-dark' />
-          <p className='text-md text-text-disabled dark:text-text-disabled-dark'>
-            {new Date(createdAt).toLocaleDateString()}
-          </p>
+          ) : (
+            <div className='text-lg font-bold tablet:text-2lg text-text-secondary dark:text-text-secondary-dark'>
+              {title}
+            </div>
+          )}
+          {currentUser?.id === writer.id && (
+            <BoardDropdownMenu onEdit={handleEdit} onDelete={handleDelete} />
+          )}
         </div>
-        <div className='flex items-center gap-16'>
-          <div className='flex gap-4'>
-            <IconComment />
-            <p className='text-md text-text-disabled dark:text-text-disabled-dark flex items-center'>
-              {commentCount}
-            </p>
-          </div>
-          <div className='flex items-center gap-4'>
-            <IconHeart
-              onClick={handleLikeClick}
-              color={isLiked ? 'gray' : 'gray'}
-              fill={isLiked ? 'gray' : 'none'}
-              style={{ cursor: 'pointer' }}
-            />
-            <p className='text-md text-text-disabled dark:text-text-disabled-dark flex items-center'>
-              {likeCount}
-            </p>
-          </div>
-        </div>
-      </div>
-      <div className='mt-48 py-10 text-md font-normal text-text-secondary dark:text-text-secondary-dark'>
-        {isEditing ? (
-          <EditInput
-            value={content}
-            onChange={(e) => handleContentChange(e)}
-            placeholder='게시글을 수정하세요'
-            onSave={handleSaveEdit}
-            onCancel={handleCancelEdit}
-          />
-        ) : (
-          <div className='flex flex-row'>
-            <p>{content}</p>
-            {image && (
-              <Image
-                src={image}
-                alt='샘플이미지'
-                width={100}
-                height={100}
-                className='ml-auto'
+        <div className='mt-16 w-full border-t border-border-primary dark:border-border-primary-dark' />
+        <div className='mt-16 flex justify-between gap-16'>
+          <div className='flex items-center gap-10'>
+            <div className='w-32 h-32'>
+              <BoardProfile
+                size={32}
+                nickname={writer.nickname}
+                image={writer.image}
               />
-            )}
+            </div>
+            <p className='text-text-primary dark:text-text-primary-dark text-md font-medium'>
+              {writer.nickname}
+            </p>
+            <div className='h-12 border border-background-tertiary dark:border-background-tertiary-dark' />
+            <p className='text-md text-text-disabled dark:text-text-disabled-dark'>
+              {new Date(createdAt).toLocaleDateString()}
+            </p>
           </div>
-        )}
+          <div className='flex items-center gap-16'>
+            <div className='flex gap-4'>
+              <IconComment />
+              <p className='text-md text-text-disabled dark:text-text-disabled-dark flex items-center'>
+                {commentCount}
+              </p>
+            </div>
+            <div className='flex items-center gap-4'>
+              <IconHeart
+                onClick={handleLikeClick}
+                color={isLiked ? 'gray' : 'gray'}
+                fill={isLiked ? 'gray' : 'none'}
+                style={{ cursor: 'pointer' }}
+              />
+              <p className='text-md text-text-disabled dark:text-text-disabled-dark flex items-center'>
+                {likeCount}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className='mt-48 py-10 text-md font-normal text-text-secondary dark:text-text-secondary-dark'>
+          {isEditing ? (
+            // 본문을 수정하는 텍스트 영역
+            <EditInput
+              value={content}
+              onChange={(e) => handleContentChange(e)}
+              placeholder='게시글을 수정하세요'
+              onSave={handleSaveEdit}
+              onCancel={handleCancelEdit}
+            />
+          ) : (
+            <div className='flex flex-row'>
+              <p className='text-lg font-medium text-text-secondary'>
+                {content}
+              </p>
+              {image && (
+                <Image
+                  src={image}
+                  alt='샘플이미지'
+                  width={100}
+                  height={100}
+                  className='ml-auto'
+                />
+              )}
+            </div>
+          )}
+        </div>
       </div>
-      {typeof boardId === 'number' && <AddComment boardId={boardId} />}
     </div>
   );
 }

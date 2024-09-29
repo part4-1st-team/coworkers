@@ -3,7 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 import ProfileImage from '@/components/member/ProfileImage';
 import BoardDropdownMenu from '@/components/board/boardDropdown';
 import EditInput from '@/components/input/editCommentInput';
-import ArticleEdit from '@/hooks/useArticleEdit';
+import CommentEdit from '@/hooks/useCommentEdit';
 import {
   patchArticleComment,
   deleteArticleComment,
@@ -25,20 +25,20 @@ function CommentCard({ comment, onDeleteSuccess }: CommentCardProps) {
 
   // useUser 훅을 사용하여 로그인된 사용자 정보 가져오기
   const { user: currentUser, isLoading: isUserLoading } = useUser();
-  const isCommentAuthor = currentUser?.id === writer.id; // 로그인한 사용자가 댓글 작성자인지 확인
+  const isCommentAuthor = currentUser?.id === writer.id;
   const { toast } = useToast();
 
   // 답글 입력창 상태 관리
-  const [isReplying, setIsReplying] = useState(false); // 답글 달기 상태
+  const [isReplying, setIsReplying] = useState(false);
 
-  // ArticleEdit 훅 사용
+  // 댓글 편집을 위한 CommentEdit 훅 사용
   const {
     isEditing,
     content,
     toggleEditMode,
     handleContentChange,
     setContent,
-  } = ArticleEdit(comment.content);
+  } = CommentEdit('', comment.content);
 
   // 댓글 수정을 위한 useMutation 훅 리팩터링
   const updateCommentMutation = useMutation({
@@ -88,14 +88,18 @@ function CommentCard({ comment, onDeleteSuccess }: CommentCardProps) {
 
   // 로딩 상태 처리
   if (isUserLoading) {
-    return <p>Loading...</p>;
+    return (
+      <p className='flex items-center text-text-primary dark:text-text-primary-dark font-medium text-md'>
+        Loading...
+      </p>
+    );
   }
 
   // clsx를 사용하여 작성자인 경우와 아닌 경우의 border 색상 설정
   const commentCardClass = clsx(
-    'pt-24 pb-24 px-32 rounded-12 bg-background-secondary dark:bg-background-secondary-dark',
+    'pt-24 pb-24 px-32 rounded-12 bg-background-secondary dark:bg-background-secondary-dark shadow-md',
     isCommentAuthor
-      ? 'border-4 border-background-tertiary dark:border-background-tertiary-dark'
+      ? ' bg-background-tertiary dark:bg-background-tertiary-dark shadow-lg'
       : '',
   );
 
@@ -139,7 +143,7 @@ function CommentCard({ comment, onDeleteSuccess }: CommentCardProps) {
                 {writer.nickname}
               </p>
               <div className='h-12 border border-background-tertiary dark:border-background-tertiary-dark' />
-              <p className='text-md text-text-disabled'>
+              <p className='text-md text-text-disabled dark:text-text-disabled-dark flex items-center'>
                 {new Date(createdAt).toLocaleDateString()}
               </p>
               <div className='ml-15 flex flex-row items-center gap-10'>
