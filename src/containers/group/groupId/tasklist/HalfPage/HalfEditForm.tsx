@@ -39,9 +39,9 @@ function HalfEditForm({
 
   const patchMutation = useTaskMutation(task, groupId, taskListId);
   const onEditSubmit: SubmitHandler<HalfFormState> = (data) => {
-    const { dataTitle: title, dataContent: content } = data;
+    const { dataTitle, dataContent } = data;
 
-    patchMutation.mutate({ name: title, description: content });
+    patchMutation.mutate({ name: dataTitle, description: dataContent });
     setTitle(title);
     setContent(content);
     handleCancelEdit();
