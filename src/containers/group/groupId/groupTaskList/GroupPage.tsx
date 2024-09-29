@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import useQueryParameter from '@/hooks/useQueryParameter';
 import useGroups from '@/hooks/useGroups';
 import { useEffect, useState } from 'react';
@@ -9,12 +10,17 @@ import GroupReport from './GroupReport';
 import GroupMembers from './GroupMembers';
 
 function GroupPage() {
+  const router = useRouter();
   const { groupId } = useQueryParameter();
   const { user } = useUser();
-  const { group, isGroupLoading, groupError, groupTaskLists, groupMembers } =
+  const { group, isGroupLoading, groupTaskLists, groupMembers } =
     useGroups(groupId);
 
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const [doneTaskCount, setTaskDoneCount] = useState<number>(0);
+  const [todayTaskCount, setTodayTaskCount] = useState<number>(0);
+  const [totalTaskCount, setTotalTaskCount] = useState<number>(0);
+
   const checkRole = () => {
     if (group && group.members && user) {
       const userMember = group.members.find(
@@ -24,11 +30,6 @@ function GroupPage() {
     }
     return false;
   };
-
-  // 전체 할 일, 전체 한 일, 오늘의 할 일
-  const [doneTaskCount, setTaskDoneCount] = useState<number>(0);
-  const [todayTaskCount, setTodayTaskCount] = useState<number>(0);
-  const [totalTaskCount, setTotalTaskCount] = useState<number>(0);
 
   const calculateDoneCount = (taskLists: TaskList[]) => {
     return taskLists.reduce((acc, taskList) => {
@@ -54,10 +55,13 @@ function GroupPage() {
   };
 
   useEffect(() => {
-    if (group && user) {
+    if (user && group) {
       const isAdminCheck = checkRole();
       setIsAdmin(isAdminCheck);
     }
+  }, [group, user]);
+
+  useEffect(() => {
     if (groupTaskLists) {
       const doneCount = calculateDoneCount(groupTaskLists);
       const todayCount = calculateTodayCount(groupTaskLists);
@@ -70,42 +74,46 @@ function GroupPage() {
       setTodayTaskCount(todayCount);
       setTotalTaskCount(totalCount);
     }
-  }, [group, user, groupTaskLists]);
+  }, [groupTaskLists]);
+
+  useEffect(() => {
+    if (!isGroupLoading && !group) {
+      router.push('/group');
+    }
+  }, [isGroupLoading, group, router]);
 
   if (isGroupLoading) {
     return <div>Loading...</div>;
-  }
-
-  if (groupError) {
-    return <div>Error loading group data.</div>;
-  }
-
-  // TODO 그룹 목록 페이지로 따로 처리하기
-  if (!group) {
-    return <EmptyGroup />;
   }
 
   return (
     <div className='main-container'>
       <div className='text-text-primary text-lg px-24'>
         <section className='w-full desktop:mx-auto pt-24'>
-          <GroupBar
-            groupId={Number(groupId)}
-            groupName={group.name}
-            isAdmin={isAdmin}
-          >
-            {group.name}
-          </GroupBar>
-          <GroupTask Lists={groupTaskLists} />
-          <GroupReport
-            doneCount={doneTaskCount}
-            totalCount={totalTaskCount}
-            todayCount={todayTaskCount}
-          />
-          <GroupMembers Members={groupMembers} groupId={groupId} />
+          {group ? (
+            <>
+              <GroupBar
+                groupId={groupId}
+                groupName={group.name}
+                isAdmin={isAdmin}
+              >
+                {group.name}
+              </GroupBar>
+              <GroupTask Lists={groupTaskLists} />
+              <GroupReport
+                doneCount={doneTaskCount}
+                totalCount={totalTaskCount}
+                todayCount={todayTaskCount}
+              />
+              <GroupMembers Members={groupMembers} groupId={groupId} />
+            </>
+          ) : (
+            <EmptyGroup />
+          )}
         </section>
       </div>
     </div>
   );
 }
+
 export default GroupPage;
