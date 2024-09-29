@@ -169,7 +169,7 @@ function DetailContent({ boardId }: DetailContentProps) {
             <BoardDropdownMenu onEdit={handleEdit} onDelete={handleDelete} />
           )}
         </div>
-        <div className='mt-16 w-full border-t border-border-primary dark:border-border-primary-dark' />
+        <div className='mt-16 w-full border-t border-border-primary dark:border-border-primary-dark border-opacity-10' />
         <div className='mt-16 flex justify-between gap-16'>
           <div className='flex items-center gap-10'>
             <div className='w-32 h-32'>
