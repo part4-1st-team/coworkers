@@ -27,12 +27,13 @@ function GroupTaskList({
   const { setModalOpen } = useModalStore();
 
   return (
-    <div className='w-full h-40 rounded-12 bg-background-secondary flex text-md text-text-primary'>
-      <div className={`w-12 h-full rounded-l-12 bg-point-${color}`} />
+    <div className='relative w-full h-40 rounded-12 bg-background-secondary flex text-md text-text-primary'>
+      <div className={`absolute w-12 h-full rounded-l-12 bg-point-${color}`} />
       <div className='w-full px-12 flex items-center justify-between'>
         <Link
           href={`/group/${groupId}/tasklist/${taskListId}`}
-          className='w-full'
+          className='w-full pl-12 overflow-hidden text-ellipsis whitespace-nowrap'
+          title={taskListName}
         >
           {taskListName}
         </Link>
