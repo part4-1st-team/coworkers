@@ -43,7 +43,7 @@ function HalfEditForm({ task, handleCancelEdit }: Props) {
         <div className='flex justify-between'>
           <input
             {...register('title')}
-            className='bg-background-primary rounded-8 h-45 w-fit text-text-secondary text-xl font-medium px-10 py-10'
+            className='bg-background-primary dark:bg-background-primary-dark rounded-8 h-45 w-fit text-text-secondary dark:text-text-secondary-dark text-xl font-medium px-10 py-10'
           />
         </div>
 
@@ -51,7 +51,7 @@ function HalfEditForm({ task, handleCancelEdit }: Props) {
       </div>
       <textarea
         {...register('content')}
-        className='bg-background-primary rounded-8 h-200 w-full text-text-secondary text-md font-normal px-10 py-10 resize-none'
+        className='bg-background-primary dark:bg-background-primary-dark rounded-8 h-200 w-full text-text-secondary dark:text-text-secondary-dark text-md font-normal px-10 py-10 resize-none'
       />
 
       <div className='w-fit absolute bottom-60 right-50 flex gap-10'>

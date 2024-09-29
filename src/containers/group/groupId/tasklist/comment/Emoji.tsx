@@ -62,7 +62,7 @@ function Emoji({ type, comment }: EmojiProps) {
       type='button'
       onClick={handleClickReaction}
       className={clsx(
-        'bg-background-tertiary rounded-12 flex items-center gap-8 text-text-secondary text-md font-medium px-8 py-4',
+        'bg-background-tertiary dark:bg-background-tertiary-dark rounded-12 flex items-center gap-8 text-text-secondary dark:text-text-secondary-dark text-md font-medium px-8 py-4',
         'hover:outline hover:outline-brand-primary',
         !isClicked && 'bg-brand-primary',
       )}

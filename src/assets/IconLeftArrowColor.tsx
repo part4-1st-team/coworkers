@@ -9,7 +9,7 @@ const IconLeftArrowColor = ({
     width={width}
     height={height}
     viewBox='0 0 16 16'
-    fill='current'
+    fill='none'
     xmlns='http://www.w3.org/2000/svg'
   >
     <path

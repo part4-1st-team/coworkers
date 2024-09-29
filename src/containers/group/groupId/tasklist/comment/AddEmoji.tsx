@@ -58,14 +58,17 @@ function AddEmoji({ comment }: { comment: Comment }) {
       onMouseLeave={handleMouseLeave}
       className='relative flex items-center'
     >
-      <button type='button' className='rounded-full bg-text-secondary'>
+      <button
+        type='button'
+        className='rounded-full bg-text-secondary-dark dark:bg-text-secondary-dark'
+      >
         <Image src={IconSmile} alt='emoji button' width={24} height={24} />
       </button>
       {showEmojiList && (
         <div
           onMouseEnter={handleEmojiListMouseEnter}
           onMouseLeave={handleEmojiListMouseLeave}
-          className='absolute bg-background-tertiary top-[-45px] rounded-12 flex gap-12 py-7 px-14 text-2lg'
+          className='absolute bg-background-tertiary dark:bg-background-tertiary-dark top-[-45px] rounded-12 flex gap-12 py-7 px-14 text-2lg'
         >
           <button type='button' onClick={() => handleClickAddReaction('like')}>
             ❤️

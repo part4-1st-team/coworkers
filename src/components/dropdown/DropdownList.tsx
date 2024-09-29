@@ -1,3 +1,4 @@
+import { useTheme } from '@/hooks/useThemeContext';
 import { motion } from 'framer-motion';
 import { ReactNode } from 'react';
 
@@ -15,6 +16,7 @@ interface Props {
  * @returns 드롭다운 리스트 컴포넌트 반환
  */
 function DropdownList({ children, onClick, onClose }: Props) {
+  const { theme } = useTheme();
   return (
     <motion.li
       onClick={(e: any) => {
@@ -22,12 +24,20 @@ function DropdownList({ children, onClick, onClose }: Props) {
         onClick();
         onClose();
       }}
-      initial={{ backgroundColor: 'var(--background-secondary)' }}
+      initial={{
+        backgroundColor:
+          theme === 'dark'
+            ? 'var(--background-secondary)'
+            : 'var(--background-secondary-light)',
+      }}
       whileHover={{
-        backgroundColor: 'var(--background-tertiary)', // 원하는 색상으로 변경
+        backgroundColor:
+          theme === 'dark'
+            ? 'var(--background-tertiary)'
+            : 'var(--background-primary-light)', // 원하는 색상으로 변경
         transition: { duration: 0.3 }, // 부드러운 전환을 위해 지속 시간 설정
       }}
-      className='cursor-pointer rounded-8 px-14 py-10 list-none text-text-primary text-md font-normal text-center whitespace-nowrap'
+      className='cursor-pointer rounded-8 px-14 py-10 list-none text-text-primary dark:text-text-primary-dark text-md font-normal text-center whitespace-nowrap'
     >
       {children}
     </motion.li>

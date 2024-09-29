@@ -15,7 +15,7 @@ function Tasks() {
 
   if (tasks.length === 0)
     return (
-      <section className='flex flex-col bg-background-secondary w-full h-full rounded-12 items-center justify-center text-md font-medium text-text-default'>
+      <section className='flex flex-col w-full h-full rounded-12 items-center justify-center text-md font-medium text-text-default'>
         아직 할 일 목록이 없습니다. <br />
         새로운 목록을 추가해주세요.
       </section>
@@ -27,7 +27,7 @@ function Tasks() {
         <section
           {...provided.droppableProps}
           ref={provided.innerRef}
-          className='flex flex-col gap-12 tablet:gap-16 desktop:gap-20 bg-background-secondary w-full h-full rounded-12'
+          className='flex flex-col gap-12 tablet:gap-16 desktop:gap-20 w-full h-full rounded-12'
         >
           {tasks.map((task: DateTask, index) => (
             <Task task={task} key={task.id} index={index} />

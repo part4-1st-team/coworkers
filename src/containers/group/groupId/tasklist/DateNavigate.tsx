@@ -33,7 +33,7 @@ function DateNavigate() {
         <UnderLine>
           <button
             type='button'
-            className='p-10 text-text-primary text-md tablet:text-lg desktop:text-2lg'
+            className='p-10 text-text-primary dark:text-text-primary-dark text-md tablet:text-lg desktop:text-2lg'
             onClick={() =>
               handleNavigateDay('prev', queryClient, groupId, taskListId)
             }
@@ -44,7 +44,7 @@ function DateNavigate() {
 
         <UnderLine active>
           <button
-            className='p-10 text-text-primary text-md tablet:text-lg desktop:text-2lg'
+            className='p-10 text-text-primary dark:text-text-primary-dark text-md tablet:text-lg desktop:text-2lg'
             type='button'
           >
             {getMonthDay(pickDate, undefined, false)}
@@ -54,7 +54,7 @@ function DateNavigate() {
         <UnderLine>
           <button
             type='button'
-            className='p-10 text-text-primary text-md tablet:text-lg desktop:text-2lg'
+            className='p-10 text-text-primary dark:text-text-primary-dark text-md tablet:text-lg desktop:text-2lg'
             onClick={() =>
               handleNavigateDay('next', queryClient, groupId, taskListId)
             }

@@ -12,7 +12,6 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import EditDeleteDropdown from '../../EditDeleteDropdown';
 import Comment from '../comment/Comment';
 import CommentInput from '../comment/CommentInput';
-import useDeleteTaskMutation from '../hooks/useDeleteTaskMutation';
 import useTaskMutation from '../hooks/useTaskMutation';
 import EditPencilButton from './EditPencilButton';
 import HalfEditForm from './HalfEditForm';
@@ -47,12 +46,6 @@ function HalfPageContent({ task, isDone }: Props) {
 
   const { groupId, taskListId } = useQueryParameter();
   const patchMutation = useTaskMutation(task, groupId, taskListId);
-  const deleteMutation = useDeleteTaskMutation(
-    groupId,
-    taskListId,
-    taskId,
-    date,
-  );
 
   const onTitleEditSubmit: SubmitHandler<TitleEditForm> = (data) => {
     const { title } = data;
@@ -70,11 +63,11 @@ function HalfPageContent({ task, isDone }: Props) {
 
   if (isAllEditing) {
     return (
-      <motion.div
-        initial={{ x: 300 }}
-        animate={{ x: 0 }}
-        transition={{ type: 'spring', stiffness: 100, damping: 20 }}
-        className='bg-background-secondary h-[96vh] w-full relative border-x border-background-tertiary pt-80 px-40 pb-40'
+      <section
+        className={clsx(
+          'h-[96vh] w-full relative border-x pt-80 px-40 pb-40',
+          'bg-background-secondary dark:bg-background-secondary-dark border-border-primary dark:border-border-primary-dark',
+        )}
       >
         <button
           className='absolute top-40 left-40'
@@ -89,16 +82,16 @@ function HalfPageContent({ task, isDone }: Props) {
           task={task}
           handleCancelEdit={() => setIsAllEditing(false)}
         />
-      </motion.div>
+      </section>
     );
   }
 
   return (
-    <motion.div
-      initial={{ x: 300 }}
-      animate={{ x: 0 }}
-      transition={{ type: 'spring', stiffness: 100, damping: 20 }}
-      className='bg-background-secondary h-[96vh] w-full relative border-x border-background-tertiary pt-80 px-40 pb-40'
+    <section
+      className={clsx(
+        'h-[96vh] w-full relative border-x pt-80 px-40 pb-40',
+        'bg-background-secondary dark:bg-background-secondary-dark border-border-primary dark:border-border-primary-dark',
+      )}
     >
       <button
         className='absolute top-40 left-40'
@@ -119,12 +112,12 @@ function HalfPageContent({ task, isDone }: Props) {
               {isTitleEditing ? (
                 <input
                   {...register('title')}
-                  className='bg-background-primary rounded-8 h-45 w-fit text-text-secondary text-xl font-medium px-10 py-10'
+                  className='bg-background-primary dark:bg-background-primary-dark rounded-8 h-45 w-fit text-text-secondary dark:text-text-secondary-dark text-xl font-medium px-10 py-10'
                 />
               ) : (
                 <p
                   className={clsx(
-                    'text-text-primary text-xl font-bold h-45 flex items-center',
+                    'text-text-primary dark:text-text-primary-dark text-xl font-bold h-45 flex items-center',
                     isDone && 'line-through',
                   )}
                 >
@@ -148,7 +141,7 @@ function HalfPageContent({ task, isDone }: Props) {
           </div>
           <HalfUserInfo task={task} />
         </div>
-        <div className='w-full h-200 text-md font-normal text-text-primary'>
+        <div className='w-full h-200 text-md font-normal text-text-primary dark:text-text-primary-dark'>
           {description}
         </div>
         <CommentInput taskId={taskId} />
@@ -164,7 +157,7 @@ function HalfPageContent({ task, isDone }: Props) {
         icon={isDone ? 'checkWhite' : 'checkGray'}
         className='w-fit absolute bottom-60 right-50'
       />
-    </motion.div>
+    </section>
   );
 }
 
