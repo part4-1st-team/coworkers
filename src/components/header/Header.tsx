@@ -3,9 +3,9 @@ import LogoLarge from '@/assets/images/img_logo_large.svg';
 import LogoSmall from '@/assets/images/img_logo_small.svg';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 import HeaderGroupDropdown from './HeaderGroupDropdown';
 import UserDropdown from './UserDropdown';
-import { useState } from 'react';
 import SideMenu from '../sidemenu/SideMenu';
 
 function Header() {

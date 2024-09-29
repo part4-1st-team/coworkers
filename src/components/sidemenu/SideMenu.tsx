@@ -2,9 +2,9 @@ import { IconX } from '@/assets/IconList';
 import useGroups from '@/hooks/useGroups';
 import useMemberships from '@/hooks/useMemberships';
 import { useRouter } from 'next/router';
-import SideTabList from '../header/SideTabList';
 import { useEffect } from 'react';
 import Link from 'next/link';
+import SideTabList from '../header/SideTabList';
 
 function SideMenu({ onClose }: { onClose: () => void }) {
   const { memberships } = useMemberships();
@@ -39,7 +39,7 @@ function SideMenu({ onClose }: { onClose: () => void }) {
     <div className='side-menu w-270 inset-y-0 left-0 p-16 bg-background-secondary z-modal fixed'>
       <div className='flex flex-col gap-8 items-center'>
         <div className='w-full flex flex-row-reverse mb-35'>
-          <button type='button' onClick={onClose}>
+          <button type='button' onClick={onClose} aria-label='close button'>
             <IconX className='w-24 h-24' />
           </button>
         </div>
