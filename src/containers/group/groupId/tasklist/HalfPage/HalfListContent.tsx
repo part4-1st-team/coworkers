@@ -6,7 +6,7 @@ import useTaskCommentList from '@/hooks/useTaskCommentList';
 import useHalfPageStore from '@/stores/HalfPageStore';
 import useModalStore from '@/stores/ModalStore';
 import clsx from 'clsx';
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import EditDeleteDropdown from '../../EditDeleteDropdown';
 import Comment from '../comment/Comment';
@@ -23,9 +23,10 @@ interface TitleEditForm {
 interface Props {
   task: DateTask;
   isDone: boolean;
+  setIsDone: Dispatch<SetStateAction<boolean>>;
 }
 
-function HalfPageContent({ task, isDone }: Props) {
+function HalfPageContent({ task, isDone, setIsDone }: Props) {
   const { setHalfPageClose } = useHalfPageStore();
 
   const [isTitleEditing, setisTitleEditing] = useState<boolean>(false);
@@ -35,6 +36,7 @@ function HalfPageContent({ task, isDone }: Props) {
 
   const [title, setTitle] = useState<string>(name);
   const [content, setContent] = useState<string>(description);
+  const [done, setDone] = useState<boolean>(isDone);
 
   const { taskCommentList } = useTaskCommentList(taskId);
   const { setModalOpen } = useModalStore();
@@ -125,7 +127,7 @@ function HalfPageContent({ task, isDone }: Props) {
                 <p
                   className={clsx(
                     'text-text-primary dark:text-text-primary-dark text-xl font-bold h-45 flex items-center',
-                    isDone && 'line-through',
+                    done && 'line-through',
                   )}
                 >
                   {title}
@@ -154,11 +156,15 @@ function HalfPageContent({ task, isDone }: Props) {
         ))}
       </div>
       <FloatingButton
-        onClick={() => patchMutation.mutate({ done: true })}
-        disabled={isDone || patchMutation.isPending}
-        text={isDone ? '완료됨' : '완료하기'}
+        onClick={() => {
+          patchMutation.mutate({ done: true });
+          setIsDone((prev) => !prev);
+          setDone((prev) => !prev);
+        }}
+        disabled={patchMutation.isPending}
+        text={done ? '완료 취소' : '완료'}
         type='button'
-        icon={isDone ? 'checkWhite' : 'checkGray'}
+        icon={done ? 'checkWhite' : 'checkGray'}
         className='w-fit absolute bottom-60 right-50'
       />
     </section>

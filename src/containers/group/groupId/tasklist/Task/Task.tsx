@@ -57,7 +57,13 @@ function Task({ task, index }: { task: DateTask; index: number }) {
           role='button'
           tabIndex={0}
           onClick={() =>
-            setHalfPageOpen(<HalfPageContent task={task} isDone={isDone} />)
+            setHalfPageOpen(
+              <HalfPageContent
+                setIsDone={setIsDone}
+                task={task}
+                isDone={isDone}
+              />,
+            )
           }
           className={clsx(
             'cursor-pointer flex flex-col gap-10 rounded-8 py-12 px-14',
