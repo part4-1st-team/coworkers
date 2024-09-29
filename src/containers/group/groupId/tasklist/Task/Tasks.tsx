@@ -27,7 +27,7 @@ function Tasks() {
         <section
           {...provided.droppableProps}
           ref={provided.innerRef}
-          className='flex flex-col gap-12 tablet:gap-16 desktop:gap-20 w-full h-full rounded-12'
+          className='overflow-y-auto overscroll-contain flex flex-col gap-12 tablet:gap-16 desktop:gap-20 w-full h-full rounded-12'
         >
           {tasks.map((task: DateTask, index) => (
             <Task task={task} key={task.id} index={index} />
