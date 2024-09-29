@@ -64,7 +64,6 @@ function Emoji({ type, comment }: EmojiProps) {
       className={clsx(
         'bg-background-tertiary dark:bg-background-tertiary-dark rounded-12 flex items-center gap-8 text-text-secondary dark:text-text-secondary-dark text-md font-medium px-8 py-4',
         'hover:outline hover:outline-brand-primary',
-        !isClicked && 'bg-brand-primary',
       )}
     >
       <span>{reaction}</span>
