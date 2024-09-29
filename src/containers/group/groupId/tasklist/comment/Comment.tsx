@@ -117,9 +117,9 @@ function Comment({ comment }: { comment: Comment }) {
           <div className='desktop:flex items-center gap-12 hidden'>
             <AddEmoji comment={comment} />
             <div className='flex gap-4'>
-              <Emoji type='check' comment={comment} />
               <Emoji type='like' comment={comment} />
               <Emoji type='thumb' comment={comment} />
+              <Emoji type='check' comment={comment} />
             </div>
           </div>
         </div>
