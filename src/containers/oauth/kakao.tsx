@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import axios from '@/libs/axios';
 import { isAxiosError } from 'axios';
 import { KAKAO_CLIENT_ID, KAKAO_REDIRECT_URI } from '@/constants/authConstants';
-import qs from 'qs'; // qs 라이브러리 임포트
 import { useRouter } from 'next/router';
 import useUserStore from '@/stores/userStore';
 
