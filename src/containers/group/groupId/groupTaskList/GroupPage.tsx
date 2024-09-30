@@ -8,6 +8,8 @@ import GroupBar from './GroupBar';
 import GroupTask from './GroupTask';
 import GroupReport from './GroupReport';
 import GroupMembers from './GroupMembers';
+import UnderLine from '../tasklist/underline';
+import TaskListReport from './TaskListReport';
 
 function GroupPage() {
   const router = useRouter();
@@ -20,6 +22,7 @@ function GroupPage() {
   const [doneTaskCount, setTaskDoneCount] = useState<number>(0);
   const [todayTaskCount, setTodayTaskCount] = useState<number>(0);
   const [totalTaskCount, setTotalTaskCount] = useState<number>(0);
+  const [activeTab, setActiveTab] = useState<'total' | 'progress'>('total');
 
   const checkRole = () => {
     if (group && group.members && user) {
@@ -82,6 +85,10 @@ function GroupPage() {
     }
   }, [isGroupLoading, group, router]);
 
+  const handleTabChange = (tab: 'total' | 'progress') => {
+    setActiveTab(tab);
+  };
+
   if (isGroupLoading) {
     return <div>Loading...</div>;
   }
@@ -92,20 +99,48 @@ function GroupPage() {
         <section className='w-full desktop:mx-auto pt-24'>
           {group ? (
             <>
-              <GroupBar
-                groupId={groupId}
-                groupName={group.name}
-                isAdmin={isAdmin}
-              >
-                {group.name}
-              </GroupBar>
-              <GroupTask Lists={groupTaskLists} />
-              <GroupReport
-                doneCount={doneTaskCount}
-                totalCount={totalTaskCount}
-                todayCount={todayTaskCount}
-              />
-              <GroupMembers Members={groupMembers} groupId={groupId} />
+              <div className='flex flex-row-reverse gap-4 mb-12'>
+                <UnderLine active={activeTab === 'progress'}>
+                  <button
+                    className='w-64 pb-6 text-text-primary text-md tablet:text-lg desktop:text-2lg'
+                    type='button'
+                    onClick={() => handleTabChange('progress')}
+                  >
+                    진척도
+                  </button>
+                </UnderLine>
+                <UnderLine active={activeTab === 'total'}>
+                  <button
+                    className='w-64 pb-6 text-text-primary text-md tablet:text-lg desktop:text-2lg'
+                    type='button'
+                    onClick={() => handleTabChange('total')}
+                  >
+                    전체
+                  </button>
+                </UnderLine>
+              </div>
+              {activeTab === 'total' ? (
+                <div className='group-total'>
+                  <GroupBar
+                    groupId={groupId}
+                    groupName={group.name}
+                    isAdmin={isAdmin}
+                  >
+                    {group.name}
+                  </GroupBar>
+                  <GroupTask Lists={groupTaskLists} />
+                  <GroupReport
+                    doneCount={doneTaskCount}
+                    totalCount={totalTaskCount}
+                    todayCount={todayTaskCount}
+                  />
+                  <GroupMembers Members={groupMembers} groupId={groupId} />
+                </div>
+              ) : (
+                <div className='group-progress'>
+                  <TaskListReport Lists={groupTaskLists} />
+                </div>
+              )}
             </>
           ) : (
             <EmptyGroup />
