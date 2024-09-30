@@ -29,7 +29,8 @@ function DropdownMenu({
       transition={{ duration: 0.3 }} // 애니메이션 지속 시간
       exit={{ opacity: 0, y: -20 }}
       className={clsx(
-        'absolute z-dropdown bg-background-secondary border border-background-tertiary border-opacity-10 rounded-12 p-16 space-y-8',
+        'absolute z-dropdown shadow-md  border border-opacity-10 rounded-12 p-16 space-y-8',
+        'bg-background-secondary dark:bg-background-secondary-dark border-background-tertiary dark:border-background-tertiary-dark',
         position,
         className,
       )}

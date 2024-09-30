@@ -1,6 +1,8 @@
 import useDetectClose from '@/hooks/useDetectClose';
 import useEscapeClose from '@/hooks/useEscapeClose';
 import useHalfPageStore from '@/stores/HalfPageStore';
+import clsx from 'clsx';
+import { motion } from 'framer-motion';
 import { ReactNode, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
@@ -13,9 +15,19 @@ function HalfPosition({
 }) {
   const ref = useDetectClose(onClose);
   return (
-    <div ref={ref} className='fixed right-0 top-60 w-full tablet:w-1/2'>
+    <motion.div
+      initial={{ x: 300 }}
+      animate={{ x: 0 }}
+      transition={{ type: 'spring', stiffness: 100, damping: 20 }}
+      ref={ref}
+      className={clsx('fixed right-0 top-60 w-full tablet:w-1/2', 'shadow-2xl')}
+    >
       {children}
-    </div>
+    </motion.div>
+
+    // <div ref={ref} className='fixed right-0 top-60 w-full tablet:w-1/2'>
+    //   {children}
+    // </div>
   );
 }
 

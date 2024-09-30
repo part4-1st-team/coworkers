@@ -19,6 +19,7 @@ function ProfileImage({ userImage, size = 32, className }: ProfileImageProps) {
       height={size}
       className={clsx(
         'rounded-full border-2 border-background-tertiary border-opacity-10 flex items-center',
+        'shadow-md',
         className,
       )}
       priority

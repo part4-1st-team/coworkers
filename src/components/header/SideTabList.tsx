@@ -1,8 +1,8 @@
 import IconImage from '@/assets/images/img.png';
-import IconCrown from '@/assets/images/img_crown.png';
 import clsx from 'clsx';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import CrownIcon from '../icon/Crown';
 
 interface ListProps {
   size: 'header' | 'side';
@@ -40,7 +40,7 @@ function SideTabList({ size, membership, onClick, className }: ListProps) {
         router.push(`/group/${groupId}`);
       }}
       className={clsx(
-        'flex items-center justify-between py-7 px-8 hover:bg-slate-700 rounded-8',
+        'flex items-center justify-between py-7 px-8 hover:bg-background-primary dark:hover:bg-slate-700 rounded-8',
         widthClass,
         className,
       )}
@@ -55,9 +55,7 @@ function SideTabList({ size, membership, onClick, className }: ListProps) {
         />
         <span>{name}</span>
       </div>
-      {OWNER && (
-        <Image src={IconCrown} alt='왕관 아이콘' width={12} height={12} />
-      )}
+      {OWNER && <CrownIcon />}
     </button>
   );
 }

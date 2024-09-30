@@ -1,5 +1,6 @@
 import { IconKebabSmall } from '@/assets/IconList';
 import Button from '@/components/button/button';
+import ProfileImage from '@/components/member/ProfileImage';
 import { deleteTaskComment, patchTaskComment } from '@/services/TaskCommentAPI';
 import getDate from '@/utils/getDate';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -22,7 +23,7 @@ function Comment({ comment }: { comment: Comment }) {
     userId,
   } = comment;
 
-  const { nickname } = user;
+  const { nickname, image: userImage } = user;
 
   const queryClient = useQueryClient();
 
@@ -95,9 +96,9 @@ function Comment({ comment }: { comment: Comment }) {
     );
 
   return (
-    <div className='w-full flex flex-col gap-16 border-b border-background-tertiary pb-16 border-opacity-10'>
+    <div className='w-full flex flex-col gap-16 border-b border-border-primary dark:border-border-primary-dark pb-16 border-opacity-10'>
       <div className='flex justify-between items-center'>
-        <span className='text-md font-normal text-text-primary'>
+        <span className='text-md font-normal text-text-primary dark:text-text-primary-dark'>
           {commentContent}
         </span>
         <EditDeleteDropdown
@@ -108,22 +109,22 @@ function Comment({ comment }: { comment: Comment }) {
       </div>
       <div className='flex justify-between items-center'>
         <div className='flex gap-12 items-center'>
-          <div className='w-32 h-32 rounded-[9999px] bg-white' />
-          <span className='text-md font-medium text-text-primary'>
+          <ProfileImage size={32} userImage={userImage} />
+          <span className='text-md font-medium text-text-primary dark:text-text-primary-dark'>
             {nickname}
           </span>
           {/* TODO 밑에 중복되는 부분은 컴포넌트화 예정 */}
           <div className='desktop:flex items-center gap-12 hidden'>
             <AddEmoji comment={comment} />
             <div className='flex gap-4'>
-              <Emoji type='check' comment={comment} />
               <Emoji type='like' comment={comment} />
               <Emoji type='thumb' comment={comment} />
+              <Emoji type='check' comment={comment} />
             </div>
           </div>
         </div>
 
-        <span className='text-md font-normal text-text-secondary'>
+        <span className='text-md font-normal text-text-secondary dark:text-text-secondary-dark'>
           {getDate(updatedAt)}
         </span>
       </div>

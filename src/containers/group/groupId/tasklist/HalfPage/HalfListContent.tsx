@@ -6,13 +6,11 @@ import useTaskCommentList from '@/hooks/useTaskCommentList';
 import useHalfPageStore from '@/stores/HalfPageStore';
 import useModalStore from '@/stores/ModalStore';
 import clsx from 'clsx';
-import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import EditDeleteDropdown from '../../EditDeleteDropdown';
 import Comment from '../comment/Comment';
 import CommentInput from '../comment/CommentInput';
-import useDeleteTaskMutation from '../hooks/useDeleteTaskMutation';
 import useTaskMutation from '../hooks/useTaskMutation';
 import EditPencilButton from './EditPencilButton';
 import HalfEditForm from './HalfEditForm';
@@ -25,9 +23,10 @@ interface TitleEditForm {
 interface Props {
   task: DateTask;
   isDone: boolean;
+  setIsDone: Dispatch<SetStateAction<boolean>>;
 }
 
-function HalfPageContent({ task, isDone }: Props) {
+function HalfPageContent({ task, isDone, setIsDone }: Props) {
   const { setHalfPageClose } = useHalfPageStore();
 
   const [isTitleEditing, setisTitleEditing] = useState<boolean>(false);
@@ -35,30 +34,29 @@ function HalfPageContent({ task, isDone }: Props) {
 
   const { id: taskId, name, description, date } = task;
 
+  const [title, setTitle] = useState<string>(name);
+  const [content, setContent] = useState<string>(description);
+  const [done, setDone] = useState<boolean>(isDone);
+
   const { taskCommentList } = useTaskCommentList(taskId);
   const { setModalOpen } = useModalStore();
 
   const { handleSubmit, register } = useForm<TitleEditForm>({
     mode: 'onSubmit',
     defaultValues: {
-      title: name,
+      title,
     },
   });
 
   const { groupId, taskListId } = useQueryParameter();
   const patchMutation = useTaskMutation(task, groupId, taskListId);
-  const deleteMutation = useDeleteTaskMutation(
-    groupId,
-    taskListId,
-    taskId,
-    date,
-  );
 
   const onTitleEditSubmit: SubmitHandler<TitleEditForm> = (data) => {
-    const { title } = data;
+    const { title: dataTitle } = data;
 
-    patchMutation.mutate({ name: title });
+    patchMutation.mutate({ name: dataTitle });
     setisTitleEditing(false);
+    setTitle(dataTitle);
   };
 
   useEffect(() => {
@@ -70,11 +68,11 @@ function HalfPageContent({ task, isDone }: Props) {
 
   if (isAllEditing) {
     return (
-      <motion.div
-        initial={{ x: 300 }}
-        animate={{ x: 0 }}
-        transition={{ type: 'spring', stiffness: 100, damping: 20 }}
-        className='bg-background-secondary h-[96vh] w-full relative border-x border-background-tertiary pt-80 px-40 pb-40'
+      <section
+        className={clsx(
+          'h-[96vh] w-full relative border-x pt-80 px-40 pb-40',
+          'bg-background-secondary dark:bg-background-secondary-dark border-border-primary dark:border-border-primary-dark',
+        )}
       >
         <button
           className='absolute top-40 left-40'
@@ -87,18 +85,22 @@ function HalfPageContent({ task, isDone }: Props) {
 
         <HalfEditForm
           task={task}
+          title={title}
+          content={content}
+          setTitle={setTitle}
+          setContent={setContent}
           handleCancelEdit={() => setIsAllEditing(false)}
         />
-      </motion.div>
+      </section>
     );
   }
 
   return (
-    <motion.div
-      initial={{ x: 300 }}
-      animate={{ x: 0 }}
-      transition={{ type: 'spring', stiffness: 100, damping: 20 }}
-      className='bg-background-secondary h-[96vh] w-full relative border-x border-background-tertiary pt-80 px-40 pb-40'
+    <section
+      className={clsx(
+        'h-[96vh] w-full relative border-x pt-80 px-40 pb-40',
+        'bg-background-secondary dark:bg-background-secondary-dark border-border-primary dark:border-border-primary-dark',
+      )}
     >
       <button
         className='absolute top-40 left-40'
@@ -119,16 +121,16 @@ function HalfPageContent({ task, isDone }: Props) {
               {isTitleEditing ? (
                 <input
                   {...register('title')}
-                  className='bg-background-primary rounded-8 h-45 w-fit text-text-secondary text-xl font-medium px-10 py-10'
+                  className='bg-background-primary dark:bg-background-primary-dark rounded-8 h-45 w-fit text-text-secondary dark:text-text-secondary-dark text-xl font-medium px-10 py-10'
                 />
               ) : (
                 <p
                   className={clsx(
-                    'text-text-primary text-xl font-bold h-45 flex items-center',
-                    isDone && 'line-through',
+                    'text-text-primary dark:text-text-primary-dark text-xl font-bold h-45 flex items-center',
+                    done && 'line-through',
                   )}
                 >
-                  {name}
+                  {title}
                 </p>
               )}
               <EditPencilButton
@@ -140,16 +142,13 @@ function HalfPageContent({ task, isDone }: Props) {
             <EditDeleteDropdown
               trigger={<IconKebabLarge />}
               handleEdit={() => setIsAllEditing(true)}
-              handleDelete={() => {
-                setModalOpen(<TaskDeleteModal task={task} />);
-                setHalfPageClose();
-              }}
+              handleDelete={() => setModalOpen(<TaskDeleteModal task={task} />)}
             />
           </div>
           <HalfUserInfo task={task} />
         </div>
-        <div className='w-full h-200 text-md font-normal text-text-primary'>
-          {description}
+        <div className='whitespace-pre-wrap w-full h-200 text-md font-normal text-text-primary dark:text-text-primary-dark'>
+          {content}
         </div>
         <CommentInput taskId={taskId} />
         {taskCommentList.map((taskComment: Comment) => (
@@ -157,14 +156,18 @@ function HalfPageContent({ task, isDone }: Props) {
         ))}
       </div>
       <FloatingButton
-        onClick={() => patchMutation.mutate({ done: true })}
-        disabled={isDone || patchMutation.isPending}
-        text={isDone ? '완료됨' : '완료하기'}
+        onClick={() => {
+          patchMutation.mutate({ done: true });
+          setIsDone((prev) => !prev);
+          setDone((prev) => !prev);
+        }}
+        disabled={patchMutation.isPending}
+        text={done ? '완료 취소' : '완료'}
         type='button'
-        icon={isDone ? 'checkWhite' : 'checkGray'}
+        icon={done ? 'checkWhite' : 'checkGray'}
         className='w-fit absolute bottom-60 right-50'
       />
-    </motion.div>
+    </section>
   );
 }
 
