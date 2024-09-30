@@ -90,7 +90,7 @@ function SignInPage() {
 
   return (
     <div className='flex justify-center items-center bg-transparent tablet:mx-142 tablet:mt-160 desktop:mx-430 desktop:mt-200 mt-84'>
-      <div className='w-full max-w-md bg-transparent p-8 rounded-md shadow-md'>
+      <div className='w-full max-w-md bg-transparent p-8 rounded-md'>
         <h2 className='block text-40 text-text-primary dark:text-text-primary-dark text-center font-500 h-48 mb-80 leading-48'>
           로그인
         </h2>
@@ -161,7 +161,9 @@ function SignInPage() {
         </form>
         <div className='flex items-center'>
           <div className='flex-grow border-t border-border-primary dark:border-border-primary-dark' />
-          <div className='border-white mx-24 text-white'>OR</div>
+          <div className='border-border-primary-DEAFULT dark:border-border-primary-dark mx-24 text-text-primary-DEAFULT dark:text-text-primary-dark'>
+            OR
+          </div>
           <div className='flex-grow border-t border-border-primary dark:border-border-primary-dark' />
         </div>
         <div className='flex justify-between mt-16'>

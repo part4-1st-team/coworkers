@@ -6,6 +6,7 @@ import { signup } from '@/services/Auth.API';
 import { yupResolver } from '@hookform/resolvers/yup';
 import signUpSchema from '@/schema/signUpSchema';
 import useToast from '@/components/toast/useToast';
+import Button from '@/components/button/button';
 import {
   GOOGLE_REDIRECT_URI,
   GOOGLE_CLIENT_ID,
@@ -129,16 +130,15 @@ function SignUpPage() {
               </span>
             )}
           </div>
-          <button
-            type='submit'
-            className='w-full h-47 rounded-12 px-14 py-auto bg-interaction-focus mt-40 mb-48'
-          >
+          <Button type='submit' color='primary' size='lg' className='w-full'>
             회원가입
-          </button>
+          </Button>
         </form>
-        <div className='flex items-center border-border-primary'>
+        <div className='flex items-center border-border-primary mt-24 mb-16'>
           <div className='flex-grow border-t border-border-primary dark:border-border-primary-dark' />
-          <div className='border-border-primary mx-24'>OR</div>
+          <div className='border-border-primary border-border-primary-dark text-text-primary dark:text-text-primary-dark mx-24'>
+            OR
+          </div>
           <div className='flex-grow border-t border-border-primary border-border-primary-dark' />
         </div>
         <div className='flex justify-between mt-16'>
