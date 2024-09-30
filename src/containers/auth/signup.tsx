@@ -45,7 +45,7 @@ function SignUpPage() {
     try {
       const response = await signup(data);
       toast('Success', response);
-      router.push('/');
+      router.push('/auth/signIn');
     } catch (error) {
       toast('Error', '회원가입 실패');
     }
@@ -64,9 +64,9 @@ function SignUpPage() {
   };
 
   return (
-    <div className='flex justify-center items-center h-screen bg-background-primary dark:bg-background-primary-dark text-text-primary-DEAFULT dark:text-text-primary-dark'>
-      <div className='w-480 h-516'>
-        <h1 className='block w-139 h-48 text-40 leading-48 font-500 mx-auto mb-80'>
+    <div className='flex justify-center items-center bg-background-primary dark:bg-background-primary-dark text-text-primary-DEAFULT dark:text-text-primary-dark tablet:mx-142 tablet:mt-160 desktop:mx-430 desktop:mt-160 mt-84'>
+      <div className='w-480'>
+        <h1 className='block w-139 text-40 leading-48 font-500 mx-auto mb-80'>
           회원가입
         </h1>
         <form
@@ -139,10 +139,10 @@ function SignUpPage() {
         </form>
         <div className='flex items-center border-border-primary mt-24 mb-16'>
           <div className='flex-grow border-t border-border-primary dark:border-border-primary-dark' />
-          <div className='border-border-primary border-border-primary-dark text-text-primary dark:text-text-primary-dark mx-24'>
+          <div className='border-border-primary dark:border-border-primary-dark text-text-primary dark:text-text-primary-dark mx-24'>
             OR
           </div>
-          <div className='flex-grow border-t border-border-primary border-border-primary-dark' />
+          <div className='flex-grow border-t border-border-primary dark:border-border-primary-dark' />
         </div>
         <div className='flex justify-between mt-16'>
           <span className='text-text-primary dark:text-text-primary-dark'>
