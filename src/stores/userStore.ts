@@ -19,12 +19,12 @@ interface UserStoreState {
   accessToken: string | null;
   refreshToken: string | null;
   isLoggedIn: boolean;
-  isSocialLogin: boolean; // 간편 로그인 여부 상태 추가
+  isSocialLogin: string | null;
   setLogin: (
     user: User,
     atoken: string,
     rToken: string,
-    isSocialLogin?: boolean,
+    isSocialLogin?: string,
   ) => void;
   setLogout: () => void;
   setToken: (aToken: string, rToken: string) => void;
@@ -38,12 +38,12 @@ const useUserStore = create<UserStoreState>()(
       accessToken: null,
       isLoggedIn: false,
       refreshToken: null,
-      isSocialLogin: false, // 기본값 false
+      isSocialLogin: null,
       setLogin: (
         newUser: User,
         aToken: string,
         rToken: string,
-        isSocialLogin = false, // 인자 3개 전달 오류 해결을 위해 기본값 설정
+        isSocialLogin = 'kakao', // 인자 3개 전달 오류 해결을 위해 기본값 설정
       ) => {
         set({
           user: newUser,
@@ -62,7 +62,7 @@ const useUserStore = create<UserStoreState>()(
           isLoggedIn: false,
           accessToken: null,
           refreshToken: null,
-          isSocialLogin: false, // 로그아웃 시 간편 로그인 여부 초기화
+          isSocialLogin: null, // 로그아웃 시 간편 로그인 여부 초기화
         });
         // 쿠키에서 토큰 삭제
         removeTokenCookies();
