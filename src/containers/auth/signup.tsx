@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import Image from 'next/image';
 import AuthInput from '@/components/input/authInput';
@@ -29,6 +30,7 @@ interface SignUpFormValues {
 
 function SignUpPage() {
   const { toast } = useToast();
+  const router = useRouter();
   const {
     control,
     handleSubmit,
@@ -43,6 +45,7 @@ function SignUpPage() {
     try {
       const response = await signup(data);
       toast('Success', response);
+      router.push('/');
     } catch (error) {
       toast('Error', '회원가입 실패');
     }
