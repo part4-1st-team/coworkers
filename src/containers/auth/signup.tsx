@@ -61,8 +61,8 @@ function SignUpPage() {
 
   return (
     <div className='flex justify-center items-center h-screen'>
-      <div className='w-480 h-516 text-text-primary'>
-        <h1 className='block w-139 h-48 text-text-primary text-40 leading-48 font-500 mx-auto mb-80'>
+      <div className='w-480 h-516 text-text-primary dark:text-text-primary-dark'>
+        <h1 className='block w-139 h-48 text-text-primary dark:text-text-primary-dark text-40 leading-48 font-500 mx-auto mb-80'>
           회원가입
         </h1>
         <form
@@ -137,9 +137,9 @@ function SignUpPage() {
           </button>
         </form>
         <div className='flex items-center'>
-          <div className='flex-grow border-t border-border-primary' />
+          <div className='flex-grow border-t border-border-primary dark:border-border-primary ' />
           <div className='border-white mx-24 text-white'>OR</div>
-          <div className='flex-grow border-t border-border-primary' />
+          <div className='flex-grow border-t border-border-primary border-border-primary' />
         </div>
         <div className='flex justify-between mt-16'>
           <span className='text-text-primary'>간편 로그인하기</span>
