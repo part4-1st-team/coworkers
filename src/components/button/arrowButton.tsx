@@ -28,7 +28,7 @@ function ArrowButton({ direction, className, onClick }: ArrowButtonProps) {
   const isLeft = direction === 'left';
 
   const buttonClass = clsx(
-    'w-16 h-16 border-none bg-background-secondary hover:bg-interaction-hover focus:bg-interaction-pressed',
+    'w-16 h-16 border-none bg-background-secondary dark:bg-background-secondary-dark hover:bg-interaction-hover focus:bg-interaction-pressed',
     className,
   );
 

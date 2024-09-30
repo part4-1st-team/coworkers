@@ -35,10 +35,22 @@ const config: Config = {
         yellow: 'var(--point-yellow)',
       },
       background: {
-        primary: 'var(--background-primary)',
-        secondary: 'var(--background-secondary)',
-        tertiary: 'var(--background-tertiary)',
-        inverse: 'var(--background-inverse)',
+        primary: {
+          DEFAULT: 'var(--background-primary-light)',
+          dark: 'var(--background-primary)',
+        },
+        secondary: {
+          DEFAULT: 'var(--background-secondary-light)',
+          dark: 'var(--background-secondary)',
+        },
+        tertiary: {
+          DEFAULT: 'var(--background-tertiary-light)',
+          dark: 'var(--background-tertiary)',
+        },
+        inverse: {
+          DEFAULT: 'var(--background-inverse-light)',
+          dark: 'var(--background-inverse)',
+        },
       },
       interaction: {
         inactive: 'var(--interaction-inactive)',
@@ -47,15 +59,36 @@ const config: Config = {
         focus: 'var(--interaction-focus)',
       },
       border: {
-        primary: 'var(--border-primary)',
+        primary: {
+          DEAFULT: 'var(--border-primary-light)',
+          dark: 'var(--border-primary)',
+        },
       },
       text: {
-        primary: 'var(--text-primary)',
-        secondary: 'var(--text-secondary)',
-        tertiary: 'var(--text-tertiary)',
-        default: 'var(--text-default)',
-        inverse: 'var(--text-inverse)',
-        disabled: 'var(--text-disabled)',
+        primary: {
+          DEAFULT: 'var(--text-primary-light)',
+          dark: 'var(--text-primary)',
+        },
+        secondary: {
+          DEFAULT: 'var(--text-secondary-light)',
+          dark: 'var(--text-secondary)',
+        },
+        tertiary: {
+          DEFAULT: 'var(--text-tertiary-light)',
+          dark: 'var(--text-tertiary)',
+        },
+        default: {
+          DEFAULT: 'var(--text-default-light)',
+          dark: 'var(--text-default)',
+        },
+        inverse: {
+          DEFAULT: 'var(--text-inverse-light)',
+          dark: 'var(--text-inverse)',
+        },
+        disabled: {
+          DEFAULT: 'var(--text-disabled-light)',
+          dark: 'var(--text-disabled)',
+        },
       },
       status: {
         danger: 'var(--status-danger)',
@@ -107,6 +140,7 @@ const config: Config = {
       },
       boxShadow: {
         'shadow-xl': 'var(--shadow-xl)',
+        left: '-4px 0 10px rgba(0, 0, 0, 1)', // 진한 그림자 설정
       },
       zIndex: {
         modal: '350',
@@ -114,35 +148,6 @@ const config: Config = {
         dropdown: '20',
         'time-picker': '30',
         header: '10',
-      },
-      margin: {
-        '3px': '3px',
-        '14px': '14px',
-      },
-      padding: {
-        '10px': '10px',
-        '8px': '8px',
-        '7.5px': '7.5px',
-        '14.5px': '14.5px',
-        '12px': '12px',
-        '16px': '16px',
-      },
-      width: {
-        '78px': '78px',
-        '336px': '336px',
-        '124px': '124px',
-        '220px': '220px',
-      },
-      height: {
-        '19px': '19px',
-        '176px': '176px',
-        '48px': '48px',
-        '40px': '40px',
-        '152px': '152px',
-        '34px': '34px',
-      },
-      borderRadius: {
-        '12px': '12px',
       },
     },
     animation: {

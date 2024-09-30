@@ -20,9 +20,9 @@ function SortDropdown({ orderBy, onSortChange }: SortDropdownProps) {
   return (
     <Dropdown onClose={handleOffDropdown}>
       <Dropdown.Trigger onClick={handleToggleDropdown}>
-        <div className='bg-background-secondary text-text-primary font-normal w-130 h-44 px-14 py-10 rounded-12 flex items-center justify-between text-sm tablet:text-md'>
+        <div className='bg-background-secondary dark:bg-background-secondary-dark text-text-primary dark:text-text-primary-dark font-normal w-130 h-44 px-14 py-10 rounded-12 flex items-center justify-between text-sm tablet:text-md'>
           {orderBy === 'like' ? '좋아요 많은순' : '최신순'}
-          <IconToggleDown className='text-icon-primary' />
+          <IconToggleDown className='text-icon-primary dark:text-icon-primary-dark' />
         </div>
       </Dropdown.Trigger>
       <Dropdown.Menu isOpen={isOpen} className='w-130 absolute top-44'>

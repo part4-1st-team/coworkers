@@ -9,7 +9,7 @@ type CalendarButtonProps = {
 
 function CalendarButton({ className }: CalendarButtonProps) {
   const buttonClass = clsx(
-    'bg-background-secondary w-24 h-24 hover:bg-interaction-hover focus:bg-interaction-pressed',
+    'bg-background-secondary dark:bg-background-secondary-dark w-24 h-24 hover:bg-interaction-hover focus:bg-interaction-pressed',
     className,
   );
 

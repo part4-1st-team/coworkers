@@ -17,7 +17,6 @@ function ArticleDetailPage() {
   return (
     <main className='main-container relative'>
       <DetailContent boardId={numericBoardId} />
-      {/* CommentList에 articleId로 numericBoardId 전달 */}
       <CommentList articleId={numericBoardId} limit={10} />
     </main>
   );

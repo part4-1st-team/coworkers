@@ -28,8 +28,8 @@ function EditButton({ size, className }: EditButtonProps) {
   const buttonClass = clsx(
     size === 'lg'
       ? 'w-32 h-32'
-      : 'w-18 h-18 border-1 border-background-primary',
-    'w-4 h-4 border-none bg-background-tertiary hover:bg-interaction-hover focus:bg-interaction-pressed',
+      : 'w-18 h-18 border-1 border-background-primary dark:border-background-primary-dark',
+    'w-4 h-4 border-none bg-background-tertiary dark:bg-background-tertiary-dark hover:bg-interaction-hover focus:bg-interaction-pressed',
     className,
   );
 

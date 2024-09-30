@@ -33,7 +33,7 @@ function AddPostPage() {
       // 게시글 등록 성공 후 게시판 페이지로 이동
       router.push('/board');
     },
-    onError: (error) => {
+    onError: () => {
       toast('Error', '게시글이 등록이 실패되었습니다.');
     },
   });
@@ -55,10 +55,7 @@ function AddPostPage() {
         onSuccess: (data) => {
           setImageUrl(data.url);
         },
-        onError: (error) => {
-          // alert('이미지 업로드 중 오류가 발생했습니다.');
-          /* TODO: 모달 교체 */
-        },
+        onError: () => {},
       });
     } else {
       setImageUrl('');
@@ -82,7 +79,7 @@ function AddPostPage() {
   return (
     <main className='main-container relative'>
       <div className='flex items-center justify-between'>
-        <p className='text-lg font-medium tablet:text-xl tablet:font-bold text-text-primary'>
+        <p className='text-lg font-medium tablet:text-xl tablet:font-bold text-text-primary dark:text-text-primary-dark'>
           게시글 쓰기
         </p>
         <div className='hidden tablet:block'>
@@ -103,12 +100,12 @@ function AddPostPage() {
         </div>
       </div>
 
-      <div className='mt-32 w-full border-t border-border-primary' />
+      <div className='mt-32 w-full border-t border-border-primary dark:border-border-primary-dark' />
 
       <div className='flex flex-col mt-24 tablet:mt-40'>
         <div className='flex gap-6 mb-16'>
           <p className='text-brand-tertiary'>*</p>
-          <p className='text-md tablet:text-lg font-medium text-text-primary'>
+          <p className='text-md tablet:text-lg font-medium text-text-primary dark:text-text-primary-dark'>
             제목
           </p>
         </div>
@@ -120,7 +117,7 @@ function AddPostPage() {
         />
         <div className='flex gap-6 mb-16 mt-32 tablet:mt-40'>
           <p className='text-brand-tertiary'>*</p>
-          <p className='text-md tablet:text-lg font-medium text-text-primary'>
+          <p className='text-md tablet:text-lg font-medium text-text-primary dark:text-text-primary-dark'>
             내용
           </p>
         </div>
@@ -131,7 +128,7 @@ function AddPostPage() {
           onChange={handleContentChange}
         />
 
-        <p className='mb-16 text-md mt-32 tablet:mt-40 tablet:text-lg font-medium text-text-primary'>
+        <p className='mb-16 text-md mt-32 tablet:mt-40 tablet:text-lg font-medium text-text-primary dark:text-text-primary-dark'>
           이미지
         </p>
         <ImageAddButton onImageChange={handleImageChange} imageUrl={imageUrl} />

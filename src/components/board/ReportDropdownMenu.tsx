@@ -1,13 +1,14 @@
 import Dropdown from '@/components/dropdown/Dropdown';
 import { IconKebabSmall } from '@/assets/IconList';
 import useDropdown from '@/hooks/useDropdown';
+import useToast from '../toast/useToast';
 
-interface ReportDropdownMenuProps {
-  onReport: () => void; // 신고하기 기능을 위한 함수
-}
-
-function ReportDropdownMenu({ onReport }: ReportDropdownMenuProps) {
+function ReportDropdownMenu() {
   const { isOpen, handleToggleDropdown, handleOffDropdown } = useDropdown();
+  const { toast } = useToast();
+  const onReport = () => {
+    toast('Success', '신고가 접수되었습니다.');
+  };
 
   return (
     <Dropdown onClose={handleOffDropdown}>

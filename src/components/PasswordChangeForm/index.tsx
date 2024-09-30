@@ -12,7 +12,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import ErrorLabel from '../form/errorMessage';
 import AuthInput from '../input/authInput';
 
-import Label from '../input/Label';
+import Label from '../form/Label';
 import useToast from '../toast/useToast';
 
 interface PasswordChangeFormState {

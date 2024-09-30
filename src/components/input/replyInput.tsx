@@ -30,11 +30,11 @@ function ReplyInput({
   };
 
   return (
-    <div className='py-[13px] border-y border-y-background-tertiary flex items-center'>
+    <div className='py-[13px] border-y border-y-background-tertiary dark:border-y-background-tertiary-dark flex items-center'>
       <div className='w-full flex gap-[8px]'>
         <textarea
           ref={textareaRef}
-          className={`w-full text-text-inverse resize-none focus:outline-none focus:ring-0 ${className}`}
+          className={`w-full text-text-inverse dark:text-text-inverse-dark resize-none focus:outline-none focus:ring-0 ${className}`}
           placeholder={placeholder}
           value={value}
           onChange={handleInputChange}

@@ -10,7 +10,7 @@
   }
 
   .modal-container {
-    @apply fixed z-modal bg-background-secondary pt-16 pr-16 pb-32 pl-16;
+    @apply fixed z-modal bg-background-secondary dark:bg-background-secondary-dark pt-16 pr-16 pb-32 pl-16;
   }
 
   .modal-container-position {
@@ -93,13 +93,13 @@
   --background-primary: #0f172a;
   --background-secondary: #1e293b;
   --background-tertiary: #334155;
-  --background-inverse: #ffffff;
+  --background-inverse: #f5f6f9;
 
   /* 라이트모드 background */
-  /* --background-primary: #fcfaf5;
-  --background-secondary: #f0efec;
-  --background-tertiary: #ffffff;
-  --background-inverse: #0f172a; */
+  --background-primary-light: #f5f6f9;
+  --background-secondary-light: #fefefe;
+  --background-tertiary-light: #f9fafc;
+  --background-inverse-light: #0f172a;
 
   /* ------------------ */
   /* interaction Colors */
@@ -116,11 +116,10 @@
   /* ------------- */
 
   /* 다크모드 보더 */
-  --border-primary: rgba(248, 250, 252, 0.5); /* #f8fafc, 50% */
+  --border-primary: #334155;
 
   /* 라이트모드 보더 */
-  /* --border-primary: #5d73e8;
-  --border-secondary: #cbd5e1; */
+  --border-primary-light: #eceef3;
 
   /* ----------- */
   /* text Colors */
@@ -135,13 +134,12 @@
   --text-disabled: #94a3b8;
 
   /* 라이트모드 텍스트 컬러 */
-  /* --text-primary: #5d73e8;
-  --text-primary: #0f172a;
-  --text-secondary: #1e293b;
-  --text-tertiary: #334155;
-  --text-default: #64748b;
-  --text-inverse: #ffffff;
-  --text-disabled: #94a3b8; */
+  --text-primary-light: #0f172a;
+  --text-secondary-light: #1e293b;
+  --text-tertiary-light: #334155;
+  --text-default-light: #64748b;
+  --text-inverse-light: #ffffff;
+  --text-disabled-light: #94a3b8;
 
   /* ---------- */
   /* etc Colors */
