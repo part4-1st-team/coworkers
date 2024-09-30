@@ -88,7 +88,7 @@ function SignUpPage() {
             이메일
             <AuthInput
               name='email'
-              type='email'
+              type='text'
               placeholder='이메일을 입력해주세요.'
               control={control}
               className='flex align-middle mt-12'
