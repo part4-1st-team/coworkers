@@ -122,7 +122,7 @@ function SignUpPage() {
               type='password'
               placeholder='비밀번호를 다시 한 번 입력해주세요.'
               control={control}
-              className='flex align-middle mt-12'
+              className='flex align-middle mt-12 mb-16'
             />
             {errors.passwordConfirmation && (
               <span className='text-status-danger text-sm'>
