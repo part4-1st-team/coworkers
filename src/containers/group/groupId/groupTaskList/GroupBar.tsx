@@ -34,6 +34,7 @@ function GroupBar({ groupId, groupName, isAdmin, children }: Props) {
       </div>
       <div className='flex h-full items-center justify-between'>
         <button
+          type='button'
           onClick={handleGroupClick}
           className='w-fill overflow-hidden text-ellipsis whitespace-nowrap '
           title={typeof children === 'string' ? children : ''}
