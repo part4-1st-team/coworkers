@@ -1,45 +1,39 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import SearchInput from '@/components/input/searchInput';
 import BestArticleList from '@/containers/board/bestArticleList/bestArticleList';
 import ArticleList from '@/containers/board/articleList/articleList';
-import Link from 'next/link';
-import FloatingButton from '@/components/button/floatingButton';
+import FloatingActionButton from '@/containers/board/commponent/floatingActionButton';
+import Header from '@/containers/board/commponent/header';
 
-function BoardPage() {
+// 커스텀 훅으로 검색 로직 분리 (SRP 적용)
+function useSearch() {
   const [searchValue, setSearchValue] = useState('');
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(e.target.value);
-  };
+  const handleSearchChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchValue(e.target.value);
+    },
+    [],
+  );
+
+  return { searchValue, handleSearchChange };
+}
+
+function BoardPage() {
+  const { searchValue, handleSearchChange } = useSearch();
 
   return (
     <main className='main-container relative'>
       <div className='flex flex-col gap-24'>
-        <div className='text-2lg tablet:text-2xl font-bold text-text-primary dark:text-text-primary-dark'>
-          자유게시판
-        </div>
-
+        <Header title='자유게시판' />
         <SearchInput
           placeholder='검색어를 입력해 주세요'
           value={searchValue}
           onChange={handleSearchChange}
         />
-
         <BestArticleList />
-        <div className=''>
-          <ArticleList searchValue={searchValue} />
-        </div>
-
-        <div className='w-104 fixed bottom-145 desktop:bottom-45 right-21 tablet:right-25 desktop:right-80 '>
-          <Link href='/board/add-post'>
-            <FloatingButton
-              type='button'
-              icon='plus'
-              className='text-lg w-104 h-49'
-              text='글쓰기'
-            />
-          </Link>
-        </div>
+        <ArticleList searchValue={searchValue} />
+        <FloatingActionButton href='/board/add-post' text='글쓰기' />{' '}
       </div>
     </main>
   );

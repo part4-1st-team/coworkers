@@ -36,7 +36,7 @@ function EditInput({
       <div className='w-full'>
         <textarea
           ref={textareaRef}
-          className={`w-full text-text-inverse dark:text-text-inverse-dark resize-none focus:outline-none focus:ring-0 ${className}`}
+          className={`w-full text-text-primary dark:text-text-primary-dark resize-none focus:outline-none focus:ring-0 ${className}`}
           placeholder={placeholder}
           value={value}
           onChange={handleInputChange}

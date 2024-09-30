@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
-function ArticleEdit(initialTitle: string, initialContent: string) {
-  const [title, setTitle] = useState(initialTitle);
+function CommentEdit(initialTitle: string, initialContent: string) {
   const [content, setContent] = useState(initialContent);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -15,21 +14,13 @@ function ArticleEdit(initialTitle: string, initialContent: string) {
     setContent(e.target.value);
   };
 
-  // 제목 변경 핸들러 추가
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
-  };
-
   return {
     isEditing,
-    title,
     content,
     toggleEditMode,
     handleContentChange,
-    handleTitleChange,
     setContent,
-    setTitle,
   };
 }
 
-export default ArticleEdit;
+export default CommentEdit;
