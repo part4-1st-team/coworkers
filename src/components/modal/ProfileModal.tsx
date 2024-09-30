@@ -1,7 +1,7 @@
 import Button from '@/components/button/button';
+import useModalStore from '@/stores/ModalStore';
 import Modal from './Modal';
 import useToast from '../toast/useToast';
-import useModalStore from '@/stores/ModalStore';
 import ProfileImage from '../member/ProfileImage';
 
 function ProfileModal({ member }: { member: IMember }) {
@@ -23,7 +23,7 @@ function ProfileModal({ member }: { member: IMember }) {
     <Modal.Close>
       <div className='px-16 pt-32 flex flex-col items-center gap-24'>
         <ProfileImage userImage={userImage} size={52} />
-        {/* TODO : 텍스트 생략*/}
+        {/* TODO : 텍스트 생략 */}
         <div className='text-center'>
           <p className='text-text-primary-dark text-md font-medium mb-8 overflow-hidden whitespace-nowrap text-ellipsis'>
             {userName}

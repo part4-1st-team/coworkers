@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import MemberInfo from '@/components/member/MemberInfo';
-import MemberInviteButton from './MemberInviteButton';
 import { IconArrowLeft, IconArrowRight } from '@/assets/IconList';
+import MemberInviteButton from './MemberInviteButton';
 
 interface GroupMembersProps {
   Members: Member[];

@@ -33,13 +33,13 @@ function GroupBar({ groupId, groupName, isAdmin, children }: Props) {
         />
       </div>
       <div className='flex h-full items-center justify-between'>
-        <div
+        <button
           onClick={handleGroupClick}
-          className='cursor-pointer w-fill overflow-hidden text-ellipsis whitespace-nowrap '
+          className='w-fill overflow-hidden text-ellipsis whitespace-nowrap '
           title={typeof children === 'string' ? children : ''}
         >
           {children}
-        </div>
+        </button>
         <div className='flex items-center h-64'>
           {isAdmin ? (
             <GroupDropDown

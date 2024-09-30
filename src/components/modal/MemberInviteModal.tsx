@@ -1,7 +1,7 @@
 import Button from '@/components/button/button';
+import useModalStore from '@/stores/ModalStore';
 import Modal from './Modal';
 import useToast from '../toast/useToast';
-import useModalStore from '@/stores/ModalStore';
 
 interface MemberInviteModalProps {
   inviteLink: string;

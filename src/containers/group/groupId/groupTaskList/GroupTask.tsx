@@ -1,7 +1,7 @@
+import { useState } from 'react';
+import { IconArrowLeft, IconArrowRight } from '@/assets/IconList';
 import GroupTaskList from './GroupTaskList';
 import TaskAddButton from '../TaskAddButton';
-import { IconArrowLeft, IconArrowRight } from '@/assets/IconList';
-import { useState } from 'react';
 
 const colors = ['purple', 'blue', 'cyan', 'pink', 'rose', 'orange', 'yellow'];
 
