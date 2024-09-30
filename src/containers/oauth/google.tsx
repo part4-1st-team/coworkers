@@ -55,7 +55,7 @@ function GoogleOAuth() {
           const { user, accessToken, refreshToken } = response.data;
 
           // 유저 정보 및 토큰 저장
-          setLogin(user, accessToken, refreshToken, true); // true는 간편 로그인 여부
+          setLogin(user, accessToken, refreshToken, 'google');
 
           // 성공적으로 로그인된 후 원하는 페이지로 리디렉션
           router.push('group/join-Group');

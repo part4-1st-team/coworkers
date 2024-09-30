@@ -4,20 +4,20 @@ import { isAxiosError } from 'axios';
 import { KAKAO_CLIENT_ID, KAKAO_REDIRECT_URI } from '@/constants/authConstants';
 import qs from 'qs'; // qs 라이브러리 임포트
 import { useRouter } from 'next/router';
+import useUserStore from '@/stores/userStore';
 
 function KakaoSignIn() {
   const router = useRouter();
+  const { setLogin } = useUserStore();
 
   useEffect(() => {
     const { code, state } = router.query; // code와 state를 router.query에서 추출
-    const redirectUrl = router.asPath; // 현재 URL을 변수에 저장
 
     if (!code && !state) return; // code가 없으면 요청 중단
 
     const fetchKakaoToken = async () => {
       try {
         console.log('카카오 토큰 요청');
-        console.log(redirectUrl);
 
         // URL 인코딩된 데이터 생성
         const params = qs.stringify({
@@ -40,8 +40,6 @@ function KakaoSignIn() {
 
         // 콘솔에 액세스 토큰 출력
         const kakaoAccessToken = kakaoTokenResponse.data.access_token;
-        console.log(kakaoAccessToken);
-        console.log(state);
 
         // 백엔드에 토큰 전송
         const backendResponse = await axios.post(
@@ -53,8 +51,9 @@ function KakaoSignIn() {
           },
         );
 
-        console.log('백엔드 리스폰스', backendResponse);
+        const { user, accessToken, refreshToken } = backendResponse.data;
 
+        setLogin(user, accessToken, refreshToken, 'kakao');
         // 로그인 후 리디렉션 처리
         router.replace('/'); // 성공 후 홈으로 이동, 원하는 경로로 변경 가능
       } catch (error: unknown) {
