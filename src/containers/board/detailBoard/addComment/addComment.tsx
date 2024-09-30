@@ -46,7 +46,7 @@ function AddComment({ boardId }: AddCommentProps) {
   };
 
   return (
-    <div className='mt-80 flex flex-col gap-16 tablet:gap-24'>
+    <div className='mt-40 flex flex-col gap-16 tablet:gap-24'>
       <p className='text-lg font-medium tablet:text-xl tablet:font-bold text-text-primary dark:text-text-primary-dark'>
         댓글달기
       </p>
@@ -54,13 +54,14 @@ function AddComment({ boardId }: AddCommentProps) {
         placeholder='댓글을 입력해주세요.'
         value={comment}
         onChange={(e) => setComment(e.target.value)}
+        className='border-background-tertiary shadow-md'
       />
       {error && <div className='text-red-500'>{error}</div>}
       <div className='flex justify-end'>
         <BaseButton
           type='button'
           color='primary'
-          className='w-73 h-32 tablet:w-184 tablet:h-48'
+          className='w-71 h-32 tablet:w-184 tablet:h-48'
           onClick={handleSubmit}
           disabled={postCommentStatus === 'pending'}
           text={postCommentStatus === 'pending' ? '등록 중...' : '등록'}

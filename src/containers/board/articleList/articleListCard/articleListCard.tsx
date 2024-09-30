@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { IconHeart } from '@/assets/IconList';
 import BoardDropdownMenu from '@/components/board/boardDropdown';
@@ -25,6 +26,7 @@ function ArticleCard({ article, onDeleteSuccess }: ArticleCardProps) {
   const { user: currentUser, isLoading, error: userError } = useUser();
   const { toast } = useToast();
   const { setModalOpen, setModalClose } = useModalStore();
+  const [redirected, setRedirected] = useState(false);
 
   const deleteMutation = useMutation({
     mutationFn: () => deleteArticle(id),
@@ -65,18 +67,17 @@ function ArticleCard({ article, onDeleteSuccess }: ArticleCardProps) {
     );
   };
 
+  // 에러 발생 시 '/board'로 리다이렉션
+  useEffect(() => {
+    if ((error || userError) && !redirected) {
+      setRedirected(true);
+      router.push('/board');
+    }
+  }, [error, userError, router, redirected]);
   if (isFetching || isLoading) {
     return (
-      <div className='flex items-center text-text-default dark:text-text-default-dark font-medium text-md'>
+      <div className='flex items-center text-text-primary dark:text-text-primary-dark font-medium text-md'>
         Loading...
-      </div>
-    );
-  }
-
-  if (error || userError) {
-    return (
-      <div className='flex items-center text-text-default dark:text-text-default-dark font-medium text-md'>
-        Error loading article detail
       </div>
     );
   }
@@ -84,20 +85,21 @@ function ArticleCard({ article, onDeleteSuccess }: ArticleCardProps) {
   const isOwner = currentUser?.id === writer.id;
 
   return (
-    <div className='w-full tablet:h-220 pt-24 pb-16 tablet:pb-24 px-16 tablet:px-32 bg-background-secondary dark:bg-background-secondary-dark rounded-12 relative'>
-      <div className='flex flex-col justify-between h-full'>
-        <div className='flex justify-between'>
-          {/* 링크로 이동하는 부분 */}
-          <Link href={`/board/${id}`} className='w-full'>
-            <div className='flex flex-col'>
-              <p className='w-224 tablet:w-400 h-30 tablet:h-30 text-lg tablet:text-2lg tablet:leading-relaxed text-text-secondary dark:text-text-secondary-dark font-medium text-left'>
-                {renderContentPreview(title, 30)}
-              </p>
-              <p className='mt-10 tablet:mt-20 w-350 tablet:w-auto text-md text-text-secondary dark:text-text-secondary-dark text-left'>
-                {renderContentPreview(articleDetail?.content, 50)}
-              </p>
-            </div>
-          </Link>
+    <div className='w-full tablet:h-220 pt-24 pb-16 tablet:pb-24 px-16 tablet:px-32 bg-background-secondary dark:bg-background-secondary-dark rounded-12 relative shadow-md'>
+      <Link
+        href={`/board/${id}`}
+        className='w-full flex flex-col justify-between h-full'
+      >
+        <div className='flex justify-between '>
+          <div className='flex flex-col'>
+            <p className='w-224 tablet:w-400 h-30 tablet:h-30 text-lg tablet:text-2lg tablet:leading-relaxed text-text-secondary dark:text-text-secondary-dark font-medium text-left'>
+              {renderContentPreview(title, 30)}
+            </p>
+            <p className='mt-10 tablet:mt-20 w-350 tablet:w-auto text-md text-text-secondary dark:text-text-secondary-dark text-left'>
+              {renderContentPreview(articleDetail?.content, 50)}
+            </p>
+          </div>
+
           {image && (
             <div className='w-72 h-72 absolute top-15 right-15 tablet:hidden'>
               <Image src={image} alt='샘플이미지' width={72} height={72} />
@@ -145,7 +147,7 @@ function ArticleCard({ article, onDeleteSuccess }: ArticleCardProps) {
             </div>
           </div>
         </div>
-      </div>
+      </Link>
     </div>
   );
 }

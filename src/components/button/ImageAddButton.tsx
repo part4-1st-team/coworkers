@@ -38,10 +38,10 @@ function ImageAddButton({ onImageChange, imageUrl }: ImageAddButtonProps) {
   };
 
   const baseStyles =
-    'relative w-160 h-160 tablet:w-240 tablet:h-240 flex flex-col items-center justify-center rounded-12 overflow-hidden';
+    'relative w-160 h-160 tablet:w-240 tablet:h-240  flex flex-col items-center justify-center rounded-12 overflow-hidden';
   const imageStyles = imagePreview
-    ? 'bg-none border-none'
-    : 'bg-background-secondary dark:bg-background-secondary-dark border border-background-secondary dark:border-border-primary-dark hover:border-interaction-hover focus:border-interaction-focus';
+    ? 'bg-none border border-border-primary '
+    : 'bg-background-secondary dark:bg-background-secondary-dark border border-border-primary dark:border-border-primary-dark hover:border-interaction-hover dark:hover:border-interaction-hover focus:border-interaction-focus dark:focus:border-interaction-focus';
 
   return (
     <>

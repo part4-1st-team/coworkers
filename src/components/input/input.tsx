@@ -10,13 +10,13 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 
 // Input 컴포넌트
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ children, className = '', error, ...props }, ref) => {
+  ({ children, className = '', error, value, defaultValue, ...props }, ref) => {
     // 기본 클래스들
     const baseClasses =
-      'w-full px-16 py-14 text-lg font-normal rounded-xl bg-background-secondary dark:bg-background-secondary-dark border border-background-tertiary dark:border-background-tertiary-dark text-text-primary dark:text-text-primary-dark font-font-normal';
+      'w-full px-16 py-14 text-lg font-normal rounded-xl bg-background-secondary dark:bg-background-secondary-dark border border-border-primary dark:border-border-primary-dark text-text-primary dark:text-text-primary-dark font-font-normal hover:border-interaction-hover dark:hover:border-interaction-hover ';
     const placeholderClasses = 'placeholder-text-default text-lg font-normal';
     const focusClasses =
-      'pl-16 focus:border-interaction-focus border focus:outline-none';
+      'pl-16 focus:border-interaction-focus dark:focus:border-interaction-focus border focus:outline-none';
 
     const disabledClasses = props.disabled
       ? 'cursor-not-allowed placeholder-text-disabled focus:outline-none'
@@ -36,7 +36,11 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       className,
     );
 
-    return <input ref={ref} className={classNames} {...props} />;
+    const inputValue = value !== undefined ? value : (defaultValue ?? '');
+
+    return (
+      <input ref={ref} className={classNames} value={inputValue} {...props} />
+    );
   },
 );
 

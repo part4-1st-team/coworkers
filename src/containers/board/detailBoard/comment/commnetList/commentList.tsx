@@ -1,5 +1,5 @@
 import useArticleComment from '@/hooks/useArticleComment'; // 댓글 데이터를 가져오는 훅
-import CommentCard from './commentcard/commentcard';
+import CommentCard from '../commentcard/commentcard';
 
 interface CommentListProps {
   articleId: number;

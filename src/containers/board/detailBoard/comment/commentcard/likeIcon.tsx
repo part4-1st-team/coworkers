@@ -1,31 +1,23 @@
 import { IconHandLike } from '@/assets/IconList';
+import clsx from 'clsx';
 
 interface IconHandLikeProps {
   icon: 'Like' | 'DisLike';
 }
 
 function LikeIcon({ icon }: IconHandLikeProps) {
-  if (icon === 'Like') {
-    return (
-      <div className='flex flex-row gap-8'>
-        <IconHandLike />
-        <p className='text-text-primary dark:text-text-primary-dark text-md'>
-          22
-        </p>
-      </div>
-    );
-  }
-
-  if (icon === 'DisLike') {
-    return (
-      <div className='flex flex-row gap-8'>
-        <IconHandLike className='ml-10 transform rotate-180' />
-        <p className='text-text-primary dark:text-text-primary-dark text-md'>
-          4
-        </p>
-      </div>
-    );
-  }
+  return (
+    <div className='flex flex-row gap-8'>
+      <IconHandLike
+        className={clsx({
+          'ml-10 transform rotate-180': icon === 'DisLike',
+        })}
+      />
+      <p className='text-text-tertiary dark:text-text-tertiary-dark text-md'>
+        {icon === 'Like' ? '22' : '4'}
+      </p>
+    </div>
+  );
 }
 
 export default LikeIcon;

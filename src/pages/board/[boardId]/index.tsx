@@ -1,22 +1,19 @@
 import DetailContent from '@/containers/board/detailBoard/detailContent/detailContent';
-import CommentList from '@/containers/board/detailBoard/comment/commentList';
+import CommentList from '@/containers/board/detailBoard/comment/commnetList/commentList';
+import AddComment from '@/containers/board/detailBoard/addComment/addComment';
 import { useRouter } from 'next/router';
 
 function ArticleDetailPage() {
-  // Aticle -> Article로 오타 수정
   const router = useRouter();
   const { boardId } = router.query;
 
   // boardId를 바로 number로 변환
   const numericBoardId = Number(boardId);
 
-  if (!numericBoardId) {
-    return <div>Loading...</div>;
-  }
-
   return (
-    <main className='main-container relative'>
+    <main className='main-container relative mt-116'>
       <DetailContent boardId={numericBoardId} />
+      <AddComment boardId={numericBoardId} />
       <CommentList articleId={numericBoardId} limit={10} />
     </main>
   );
