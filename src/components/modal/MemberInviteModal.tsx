@@ -1,4 +1,5 @@
 import Button from '@/components/button/button';
+import useModalStore from '@/stores/ModalStore';
 import Modal from './Modal';
 import useToast from '../toast/useToast';
 
@@ -8,11 +9,13 @@ interface MemberInviteModalProps {
 
 function MemberInviteModal({ inviteLink }: MemberInviteModalProps) {
   const { toast } = useToast();
+  const { setModalClose } = useModalStore();
 
   const handleLinkCopy = async () => {
     try {
       await navigator.clipboard.writeText(inviteLink);
       toast('Success', '링크가 복사되었습니다.');
+      setModalClose();
     } catch (error) {
       toast('Error', '링크 복사에 실패했습니다.');
     }
