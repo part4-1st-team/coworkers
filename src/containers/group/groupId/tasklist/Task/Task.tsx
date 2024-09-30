@@ -57,12 +57,20 @@ function Task({ task, index }: { task: DateTask; index: number }) {
           role='button'
           tabIndex={0}
           onClick={() =>
-            setHalfPageOpen(<HalfPageContent task={task} isDone={isDone} />)
+            setHalfPageOpen(
+              <HalfPageContent
+                setIsDone={setIsDone}
+                task={task}
+                isDone={isDone}
+              />,
+            )
           }
           className={clsx(
-            'cursor-pointer bg-background-tertiary flex flex-col gap-10 rounded-8 py-12 px-14',
+            'cursor-pointer flex flex-col gap-10 rounded-8 py-12 px-14',
             'transition-transform duration-300 ease-in-out',
             snapshot.isDragging && 'scale-105',
+            'bg-background-tertiary dark:bg-background-tertiary-dark',
+            'shadow-task',
           )}
           style={{
             ...provided.draggableProps.style,
@@ -77,10 +85,13 @@ function Task({ task, index }: { task: DateTask; index: number }) {
                 <Checkbox checked={isDone} handleClick={handleDoneTask} />
                 <div className='relative'>
                   {isDone && (
-                    <span className='absolute left-0 top-1/2 transform -translate-y-1/2 h-1 bg-text-primary animate-line-through w-full' />
+                    <span className='absolute left-0 top-1/2 transform -translate-y-1/2 h-1 bg-text-primary dark:bg-text-primary-dark animate-line-through w-full' />
                   )}
                   <span
-                    className={clsx('text-text-primary text-md font-normal')}
+                    className={clsx(
+                      'text-text-primary dark:text-text-primary-dark text-md font-normal',
+                      'line-clamp-1',
+                    )}
                   >
                     {name}
                   </span>
@@ -90,7 +101,7 @@ function Task({ task, index }: { task: DateTask; index: number }) {
               <div className='flex gap-2 items-center'>
                 <IconComment />
 
-                <span className='text-xs font-normal text-text-default'>
+                <span className='text-xs font-normal text-text-default dark:text-text-default-dark'>
                   {commentCount}
                 </span>
               </div>
@@ -107,17 +118,17 @@ function Task({ task, index }: { task: DateTask; index: number }) {
             <div className='flex gap-6 items-center'>
               <IconCalendar width={16} height={16} />
 
-              <span className='text-xs font-normal text-text-default'>
+              <span className='text-xs font-normal text-text-default dark:text-text-default-dark'>
                 {isMobile ? getMonthDay(date, undefined, false) : getDate(date)}
               </span>
             </div>
 
-            <div className='w-1 h-8 rounded bg-background-tertiary' />
+            <div className='w-1 h-8 rounded bg-background-tertiary dark:bg-background-tertiary' />
 
             <div className='flex gap-6 items-center'>
               <IconRepeat />
 
-              <span className='text-xs font-normal text-text-default'>
+              <span className='text-xs font-normal text-text-default dark:text-text-default-dark'>
                 {getDaily(frequency)}
               </span>
             </div>

@@ -34,7 +34,7 @@ function ReplyInput({
       <div className='w-full flex gap-[8px]'>
         <textarea
           ref={textareaRef}
-          className={`w-full text-text-inverse dark:text-text-inverse-dark resize-none focus:outline-none focus:ring-0 ${className}`}
+          className={`w-full text-md font-nomal text-text-primary dark:text-text-primary-dark resize-none focus:outline-none focus:ring-0 ${className}`}
           placeholder={placeholder}
           value={value}
           onChange={handleInputChange}

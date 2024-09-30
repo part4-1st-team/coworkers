@@ -5,7 +5,7 @@ function ModalTitle({ title }: { title: string }) {
   const cleanTitle = sanitizer(title);
   return (
     <h2
-      className='text-text-primary text-lg font-medium'
+      className='text-text-primary dark:text-text-primary-dark text-lg font-medium'
       dangerouslySetInnerHTML={{ __html: cleanTitle }}
     />
   );

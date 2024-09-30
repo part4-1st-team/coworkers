@@ -34,7 +34,7 @@ function TaskList({ taskList, groupId, taskListId, index }: TaskListProps) {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           className={clsx(
-            'text-text-secondary text-lg font-medium p-10 rounded-8 transition-all duration-300 ease-in-out',
+            'text-text-secondary dark:text-text-secondary-dark text-lg font-medium p-10 rounded-8 transition-all duration-300 ease-in-out',
             'hover:bg-brand-secondary w-full truncate transform',
             taskListId === taskList.id && 'text-white bg-brand-primary',
             snapshot.isDragging && 'bg-background-tertiary',

@@ -13,7 +13,9 @@ function UnderLine({ children, active, className }: UnderlineProps) {
       <div
         className={clsx(
           'h-3 rounded-8',
-          active ? 'bg-brand-primary' : 'bg-background-secondary',
+          active
+            ? 'bg-brand-primary'
+            : 'bg-background-secondary dark:bg-background-secondary-dark',
           className,
         )}
       />

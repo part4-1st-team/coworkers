@@ -5,7 +5,7 @@ function ModalDescription({ description }: { description: string }) {
   const cleanDescription = sanitizer(description);
   return (
     <p
-      className='text-text-secondary text-md font-medium mt-[8px]'
+      className='text-text-secondary dark:text-text-secondary-dark text-md font-medium mt-[8px]'
       dangerouslySetInnerHTML={{ __html: cleanDescription }}
     />
   );

@@ -62,3 +62,10 @@ instance.interceptors.response.use(
 );
 
 export default instance;
+
+export const basicInstance = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
