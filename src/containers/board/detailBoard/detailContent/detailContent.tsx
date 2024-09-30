@@ -219,7 +219,7 @@ function DetailContent({ boardId }: DetailContentProps) {
             />
           ) : (
             <div className='flex flex-row'>
-              <p className='text-lg font-medium text-text-secondary'>
+              <p className='text-lg font-medium text-text-secondary dark:text-text-secondary-dark'>
                 {content}
               </p>
               {image && (

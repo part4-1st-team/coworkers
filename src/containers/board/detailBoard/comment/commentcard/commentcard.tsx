@@ -170,7 +170,7 @@ function CommentCard({ comment, onDeleteSuccess }: CommentCardProps) {
           <form onSubmit={handleReplySubmit}>
             <div className='mt-20'>
               <textarea
-                className='w-full h-30 bg-background-tertiary dark:bg-background-tertiary-dark rounded-md p-2 resize-none'
+                className='w-full h-30 text-md font-normal bg-background-tertiary dark:bg-background-tertiary-dark text-text-primary dark:text-text-primary-dark rounded-md p-2 resize-none  focus:outline-none'
                 placeholder='답글을 작성하세요...'
               />
               <div className='mt-2 flex gap-10 items-center justify-end'>
