@@ -154,7 +154,6 @@ function DetailContent({ boardId }: DetailContentProps) {
       <div>
         <div className='flex justify-between'>
           {isEditing ? (
-            // 제목을 수정하는 인풋 필드
             <TitleEditInput
               value={title}
               onChange={handleTitleChange}
@@ -207,7 +206,7 @@ function DetailContent({ boardId }: DetailContentProps) {
             </div>
           </div>
         </div>
-        <div className='mt-48 py-10 text-md font-normal text-text-secondary dark:text-text-secondary-dark'>
+        <div className='mt-28 py-10 text-md font-normal text-text-secondary dark:text-text-secondary-dark'>
           {isEditing ? (
             // 본문을 수정하는 텍스트 영역
             <EditInput
@@ -219,7 +218,10 @@ function DetailContent({ boardId }: DetailContentProps) {
             />
           ) : (
             <div className='flex flex-row'>
-              <p className='text-lg font-medium text-text-secondary dark:text-text-secondary-dark'>
+              <p
+                className='text-lg font-medium text-text-secondary dark:text-text-secondary-dark'
+                style={{ whiteSpace: 'pre-wrap' }}
+              >
                 {content}
               </p>
               {image && (

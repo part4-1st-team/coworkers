@@ -97,10 +97,10 @@ function CommentCard({ comment, onDeleteSuccess }: CommentCardProps) {
 
   // clsx를 사용하여 작성자인 경우와 아닌 경우의 border 색상 설정
   const commentCardClass = clsx(
-    'pt-24 pb-24 px-32 rounded-12 bg-background-secondary dark:bg-background-secondary-dark shadow-md',
-    isCommentAuthor
-      ? ' bg-background-tertiary dark:bg-background-tertiary-dark shadow-lg'
-      : '',
+    'pt-24 pb-24 px-32 rounded-12',
+    'bg-background-secondary dark:bg-background-secondary-dark',
+    'border border-background-tertiary dark:border-background-tertiary-dark shadow-md',
+    isCommentAuthor ? ' shadow-lg' : '',
   );
 
   return (

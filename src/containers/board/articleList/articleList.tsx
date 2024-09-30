@@ -50,7 +50,6 @@ function ArticleList({ searchValue }: ArticleListProps) {
     getNextPageParam: (lastPage, allPages) =>
       lastPage.list.length < pageSize ? undefined : allPages.length + 1,
     initialPageParam: 1,
-    staleTime: 1000 * 60 * 1,
   });
 
   // 마지막 게시글 감지
@@ -70,7 +69,10 @@ function ArticleList({ searchValue }: ArticleListProps) {
 
   if (error) {
     return (
-      <div className='flex flex-col justify-center items-center text-text-primary dark:text-text-primary-dark font-medium text-md'>
+      <div
+        className='flex flex-col justify-center items-center,
+        text-text-primary dark:text-text-primary-dark font-medium text-md'
+      >
         <p>에러가 발생했습니다: {error.message}</p>
       </div>
     );
@@ -79,7 +81,10 @@ function ArticleList({ searchValue }: ArticleListProps) {
   return (
     <div className='max-w-desktop h-auto overflow-hidden my-auto flex flex-col gap-32'>
       <div className='flex items-center justify-between'>
-        <p className='text-lg font-medium tablet:text-xl tablet:font-bold text-text-primary dark:text-text-primary-dark'>
+        <p
+          className='text-lg font-medium tablet:text-xl tablet:font-bold,
+        text-text-primary dark:text-text-primary-dark'
+        >
           게시글
         </p>
         <SortDropdown orderBy={orderBy} onSortChange={handleSortChange} />
@@ -97,13 +102,19 @@ function ArticleList({ searchValue }: ArticleListProps) {
       </div>
 
       {articles.length === 0 && !isLoading && !error && (
-        <div className='mt-180 tablet:mt-158 text-text-default dark:text-text-default-dark font-medium text-md tablet:text-lg flex justify-center'>
+        <div
+          className='mt-180 tablet:mt-158 flex justify-center font-medium text-md tablet:text-lg,
+        text-text-default dark:text-text-default-dark'
+        >
           검색 결과가 없습니다.
         </div>
       )}
 
       {isFetchingNextPage && (
-        <div className='flex justify-center items-center text-text-default dark:text-text-default-dark font-medium text-md'>
+        <div
+          className='flex justify-center items-center font-medium text-md,
+        text-text-default dark:text-text-default-dark'
+        >
           <div className='loader'>Loading...</div>
         </div>
       )}

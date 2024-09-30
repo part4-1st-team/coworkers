@@ -69,11 +69,11 @@ function ArticleCard({ article, onDeleteSuccess }: ArticleCardProps) {
 
   // 에러 발생 시 '/board'로 리다이렉션
   useEffect(() => {
-    if ((error || userError) && !redirected) {
+    if (error || userError) {
       setRedirected(true);
       router.push('/board');
     }
-  }, [error, userError, router, redirected]);
+  }, [error, userError, router]);
   if (isFetching || isLoading) {
     return (
       <div className='flex items-center text-text-primary dark:text-text-primary-dark font-medium text-md'>
@@ -85,7 +85,7 @@ function ArticleCard({ article, onDeleteSuccess }: ArticleCardProps) {
   const isOwner = currentUser?.id === writer.id;
 
   return (
-    <div className='w-full tablet:h-220 pt-24 pb-16 tablet:pb-24 px-16 tablet:px-32 bg-background-secondary dark:bg-background-secondary-dark rounded-12 relative shadow-md'>
+    <div className='w-full tablet:h-220 pt-24 pb-16 tablet:pb-24 px-16 tablet:px-32 flex bg-background-secondary dark:bg-background-secondary-dark rounded-12 relative shadow-md'>
       <Link
         href={`/board/${id}`}
         className='w-full flex flex-col justify-between h-full'
@@ -95,28 +95,25 @@ function ArticleCard({ article, onDeleteSuccess }: ArticleCardProps) {
             <p className='w-224 tablet:w-400 h-30 tablet:h-30 text-lg tablet:text-2lg tablet:leading-relaxed text-text-secondary dark:text-text-secondary-dark font-medium text-left'>
               {renderContentPreview(title, 30)}
             </p>
-            <p className='mt-10 tablet:mt-20 w-350 tablet:w-auto text-md text-text-secondary dark:text-text-secondary-dark text-left'>
+            <p
+              className='mt-10 tablet:mt-20 w-350 tablet:w-auto text-md text-text-secondary dark:text-text-secondary-dark text-left'
+              style={{
+                display: '-webkit-box',
+                WebkitBoxOrient: 'vertical',
+                WebkitLineClamp: 4, // 최대 줄 표시
+                overflow: 'hidden', // 넘치는 텍스트는 숨기기
+                whiteSpace: 'pre-wrap', // 줄바꿈 처리
+              }}
+            >
               {renderContentPreview(articleDetail?.content, 50)}
             </p>
           </div>
 
           {image && (
-            <div className='w-72 h-72 absolute top-15 right-15 tablet:hidden'>
+            <div className='w-72 h-72 absolute top-15 right-15 tablet:top-30 tablet:right-60 '>
               <Image src={image} alt='샘플이미지' width={72} height={72} />
             </div>
           )}
-          <div className='hidden tablet:flex gap-16'>
-            {image && (
-              <div className='w-72 h-72'>
-                <Image src={image} alt='샘플이미지' width={72} height={72} />
-              </div>
-            )}
-            {isOwner ? (
-              <BoardDropdownMenu onEdit={handleEdit} onDelete={handleDelete} />
-            ) : (
-              <ReportDropdownMenu />
-            )}
-          </div>
         </div>
 
         <div className='mt-16 flex justify-between gap-12'>
@@ -130,24 +127,31 @@ function ArticleCard({ article, onDeleteSuccess }: ArticleCardProps) {
               {new Date(createdAt).toLocaleDateString()}
             </p>
           </div>
-          <div className='flex items-center gap-8'>
-            <IconHeart />
-            <p className='text-md text-text-disabled dark:text-text-disabled-dark flex items-center'>
-              {likeCount >= 999 ? '999+' : likeCount}
-            </p>
-            <div className='tablet:hidden'>
-              {isOwner ? (
-                <BoardDropdownMenu
-                  onEdit={handleEdit}
-                  onDelete={handleDelete}
-                />
-              ) : (
-                <ReportDropdownMenu />
-              )}
-            </div>
-          </div>
         </div>
       </Link>
+      <div className='flex flex-col justify-between'>
+        <div className='hidden tablet:flex justify-end'>
+          {isOwner ? (
+            <BoardDropdownMenu onEdit={handleEdit} onDelete={handleDelete} />
+          ) : (
+            <ReportDropdownMenu />
+          )}
+        </div>
+
+        <div className='flex items-center gap-8'>
+          <IconHeart />
+          <p className='text-md text-text-disabled dark:text-text-disabled-dark flex items-center'>
+            {likeCount >= 999 ? '999+' : likeCount}
+          </p>
+          <div className='tablet:hidden'>
+            {isOwner ? (
+              <BoardDropdownMenu onEdit={handleEdit} onDelete={handleDelete} />
+            ) : (
+              <ReportDropdownMenu />
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

@@ -32,10 +32,10 @@ function Button({
   /* 컬러에 따른 분기  */
   const colorStyle = {
     primary:
-      'px-5 bg-brand-primary text-text-inverse dark:text-text-inverse-dark  hover:bg-interaction-hover active:bg-interaction-pressed disabled:bg-interaction-inactive',
+      'px-5 bg-brand-primary text-text-inverse-dark dark:text-text-inverse-dark hover:bg-interaction-hover active:bg-interaction-pressed disabled:bg-interaction-inactive',
     white:
-      'bg-background-inverse dark:bg-background-inverse-dark text-brand-primary dark:text-brand-primary-dark border border-border-primary hover:text-interaction-hover hover:border hover:border-interaction-hover active:borer-interaction-pressed active:text-interaction-pressed disabled:bg-interaction-inactive',
-    red: 'bg-status-danger hover:bg-status-danger-hover active:bg-status-danger-active text-text-inverse dark:text-text-inverse-dark',
+      'bg-background-primary dark:bg-background-primary text-brand-primary dark:text-brand-primary-dark border border-brand-primary dark:border-brand-primary hover:text-interaction-hover hover:border hover:border-interaction-hover active:borer-interaction-pressed active:text-interaction-pressed disabled:bg-interaction-inactive',
+    red: 'bg-status-danger hover:bg-status-danger-hover active:bg-status-danger-active text-text-inverse-dark dark:text-text-inverse-dark',
     outline:
       'px-8 bg-none text-brand-primary border border-brand-primary hover:border hover:border-interaction-hover hover:text-interaction-hover active:text-interaction-pressed  disabled:border-interaction-inactive',
   };

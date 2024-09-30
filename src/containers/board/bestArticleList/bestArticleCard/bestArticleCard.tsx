@@ -31,7 +31,9 @@ function BestArticleCard({ article, className }: BestArticleCardProps) {
       onKeyPress={handleKeyPress}
       onClick={handleClick}
       className={clsx(
-        'w-full tablet:h-220 pt-9 pb-16 px-24 bg-background-secondary dark:bg-background-secondary-dark rounded-12 border border-background-tertiary dark:border-background-tertiary-dark shadow-md',
+        'w-full tablet:h-220 pt-9 pb-16 px-24',
+        'bg-background-secondary dark:bg-background-secondary-dark',
+        'rounded-12 border border-background-tertiary dark:border-background-tertiary-dark shadow-md',
         className,
       )}
     >

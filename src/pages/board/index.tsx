@@ -3,7 +3,7 @@ import SearchInput from '@/components/input/searchInput';
 import BestArticleList from '@/containers/board/bestArticleList/bestArticleList';
 import ArticleList from '@/containers/board/articleList/articleList';
 import FloatingActionButton from '@/containers/board/commponent/floatingActionButton';
-import Header from '@/containers/board/commponent/header';
+import BoardHeader from '@/containers/board/commponent/boardHeader';
 
 // 커스텀 훅으로 검색 로직 분리 (SRP 적용)
 function useSearch() {
@@ -25,7 +25,7 @@ function BoardPage() {
   return (
     <main className='main-container relative'>
       <div className='flex flex-col gap-24'>
-        <Header title='자유게시판' />
+        <BoardHeader title='자유게시판' />
         <SearchInput
           placeholder='검색어를 입력해 주세요'
           value={searchValue}
@@ -33,7 +33,7 @@ function BoardPage() {
         />
         <BestArticleList />
         <ArticleList searchValue={searchValue} />
-        <FloatingActionButton href='/board/add-post' text='글쓰기' />{' '}
+        <FloatingActionButton href='/board/add-post' text='글쓰기' />
       </div>
     </main>
   );
