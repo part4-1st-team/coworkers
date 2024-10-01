@@ -18,7 +18,7 @@ export const CalendarInput = forwardRef<
   return (
     <TooltipWrapper
       position='right-0 top-[-100%]'
-      message={`현재 날짜 이전은 선택이 불가능합니다.`}
+      message='현재 날짜 이전은 선택이 불가능합니다.'
     >
       <button
         type='button'
