@@ -57,8 +57,6 @@ function PasswordChangeForm({ submitButton, type, formClass = '' }: FormProps) {
     // token을 포함한 리퀘스트 바디 생성
     const requestData = { ...data, token };
 
-    console.log('Sending requestData', requestData);
-
     passwordChangeMutation.mutate(requestData);
   };
 
