@@ -1,5 +1,4 @@
-/* eslint-disable react/require-default-props */
-import { useRef } from 'react';
+import { useRef, useLayoutEffect } from 'react';
 import Button from '@/components/button/button';
 
 interface EditInputProps {
@@ -17,17 +16,28 @@ function EditInput({
   placeholder = '댓글을 달아주세요',
   value = '',
   onChange,
-  rows = 1,
+  rows = 10,
   onCancel,
   onSave,
 }: EditInputProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+  // 텍스트가 변경될 때마다 텍스트 영역의 높이를 조정하는 로직
+  useLayoutEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto'; // 높이 초기화
+      textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 400)}px`; // 높이 설정
+    }
+  }, [value]); // value가 바뀔 때마다 실행
+
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (textareaRef.current) {
+      // 높이를 auto로 설정하여 초기화
       textareaRef.current.style.height = 'auto';
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+      // scrollHeight를 기준으로 높이 설정
+      textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 400)}px`;
     }
+
     if (onChange) onChange(e);
   };
 
@@ -44,6 +54,7 @@ function EditInput({
           style={{
             minHeight: '17px',
             maxHeight: '400px',
+            overflowY: 'auto',
             backgroundColor: 'transparent',
           }}
         />

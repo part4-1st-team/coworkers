@@ -1,5 +1,6 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import Button from '../button/button';
+import FormFieldSet from '../form/FormFieldset';
 import Input from '../input/input';
 import Modal from './Modal';
 
@@ -21,14 +22,12 @@ function TaskCreateModalWithMemo() {
       onSubmit={handleSubmit(onSubmit)}
       className='pt-32 px-36 flex flex-col items-center'
     >
-      <div className='mb-24 w-full'>
+      <div className='mb-24 w-full space-y-16'>
         <div className='flex flex-col items-center text-center'>
           <Modal.Title title='할 일 만들기' />
           <Modal.Description description='할 일은 실제로 행동 가능한 작업 중심으로<br/>작성해주시면 좋습니다.' />
         </div>
-        <div className='my-16'>
-          <span className='text-lg font-medium text-white '>할 일 제목</span>
-
+        <FormFieldSet id='title' label='할 일 제목'>
           <Controller
             name='title'
             control={control}
@@ -40,13 +39,9 @@ function TaskCreateModalWithMemo() {
               />
             )}
           />
-        </div>
+        </FormFieldSet>
 
-        <div>
-          <span className='text-lg font-medium text-white mb-8'>
-            할 일 메모
-          </span>
-
+        <FormFieldSet id='memo' label='할 일 메모'>
           <Controller
             name='memo'
             control={control}
@@ -58,7 +53,7 @@ function TaskCreateModalWithMemo() {
               />
             )}
           />
-        </div>
+        </FormFieldSet>
       </div>
 
       <Button type='submit' className='w-full' color='primary'>

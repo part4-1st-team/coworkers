@@ -1,4 +1,4 @@
-function Header({ title }: { title: string }) {
+function BoardHeader({ title }: { title: string }) {
   return (
     <div className='text-2lg tablet:text-2xl font-bold text-text-primary dark:text-text-primary-dark'>
       {title}
@@ -6,4 +6,4 @@ function Header({ title }: { title: string }) {
   );
 }
 
-export default Header;
+export default BoardHeader;
