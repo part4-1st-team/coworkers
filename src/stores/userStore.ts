@@ -19,12 +19,12 @@ interface UserStoreState {
   accessToken: string | null;
   refreshToken: string | null;
   isLoggedIn: boolean;
-  isSocialLogin: string | null;
+  isSocialLogin: 'kakao' | 'google' | null;
   setLogin: (
     user: User,
     atoken: string,
     rToken: string,
-    isSocialLogin?: string,
+    isSocialLogin: 'kakao' | 'google' | null,
   ) => void;
   setLogout: () => void;
   setToken: (aToken: string, rToken: string) => void;
@@ -43,7 +43,7 @@ const useUserStore = create<UserStoreState>()(
         newUser: User,
         aToken: string,
         rToken: string,
-        isSocialLogin = 'kakao', // 인자 3개 전달 오류 해결을 위해 기본값 설정
+        isSocialLogin = null, // 인자 3개 전달 오류 해결을 위해 기본값 설정
       ) => {
         set({
           user: newUser,
