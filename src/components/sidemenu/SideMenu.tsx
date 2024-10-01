@@ -4,7 +4,7 @@ import useMemberships from '@/hooks/useMemberships';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import Link from 'next/link';
-import SideTabList from '../header/SideTabList';
+import CrownIcon from '../icon/Crown';
 
 function SideMenu({ onClose }: { onClose: () => void }) {
   const { memberships } = useMemberships();
@@ -44,23 +44,35 @@ function SideMenu({ onClose }: { onClose: () => void }) {
           </button>
         </div>
         {memberships.map((membership: Membership) => (
-          <SideTabList
+          <Link
+            href={`/group/${membership.groupId}`}
             onClick={() => {
               onClose();
             }}
-            key={membership.group.id}
-            size='side'
-            membership={membership}
-          />
+            className='w-248 h-45 flex items-center py-7 px-8 hover:bg-background-primary rounded-8'
+          >
+            {String(groupId) === String(membership.groupId) && (
+              <div className='absolute size-8 rounded-full bg-brand-primary' />
+            )}
+            <div className='pl-14 flex items-center gap-6'>
+              <span className='truncate max-w-150'>
+                {membership.group.name}
+              </span>
+              {membership.role === 'ADMIN' && <CrownIcon />}
+            </div>
+          </Link>
         ))}
         <Link
           href='/board'
           onClick={() => {
             onClose();
           }}
-          className='w-248 h-45 flex items-center justify-between py-7 px-8 hover:bg-slate-700 rounded-8'
+          className='w-248 h-45 flex items-center py-6 px-8 hover:bg-background-primary rounded-8'
         >
-          자유게시판
+          {router.pathname === '/board' && (
+            <div className='absolute size-8 rounded-full bg-brand-primary' />
+          )}
+          <span className='pl-14'>자유게시판</span>
         </Link>
       </div>
     </div>
