@@ -12,16 +12,17 @@ import PasswordResetModal from '@/components/modal/PasswordResetModal';
 import Button from '@/components/button/button';
 import signInSchema from '@/schema/signInSchema';
 import { yupResolver } from '@hookform/resolvers/yup';
+import {
+  GOOGLE_REDIRECT_URI,
+  KAKAO_REDIRECT_URI,
+  KAKAO_CLIENT_ID,
+  GOOGLE_CLIENT_ID,
+} from '@/constants/authConstants';
 
 type FormValues = {
   email: string;
   password: string;
 };
-
-const CLIENT_ID = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID; // 카카오 개발자 콘솔에서 발급받은 클라이언트 ID
-const REDIRECT_URI = 'http://localhost:3000/oauth/kakao'; // 카카오 로그인 후 리디렉션 URI
-const GOOGLE_CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID; // 구글 클라우드 콘솔에서 발급받은 클라이언트 ID
-const GOOGLE_REDIRECT_URI = 'http://localhost:3000/oauth/google'; // 구글 로그인 후 리디렉션 URI
 
 function SignInPage() {
   const router = useRouter();
@@ -63,15 +64,22 @@ function SignInPage() {
     }
   };
 
+  // 임의의 state 값 생성 함수 (CSRF 방지용)
+  const generateState = () => {
+    return Math.random().toString(36).substring(2);
+  };
+
   // 카카오 로그인 요청 URL
   const handleKakaoLogin = () => {
-    const loginUrl = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}`;
+    const state = generateState();
+    const loginUrl = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${KAKAO_CLIENT_ID}&redirect_uri=${encodeURIComponent(KAKAO_REDIRECT_URI)}&state=${state}`;
     window.location.href = loginUrl;
   };
 
   // 구글 로그인 요청 URL
   const handleGoogleLogin = () => {
-    const loginUrl = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${encodeURIComponent(GOOGLE_REDIRECT_URI)}&scope=email%20profile`;
+    const state = generateState();
+    const loginUrl = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${encodeURIComponent(GOOGLE_REDIRECT_URI)}&scope=email%20profile&state=${state}`;
     window.location.href = loginUrl;
   };
 
@@ -82,12 +90,12 @@ function SignInPage() {
 
   return (
     <div className='flex justify-center items-center bg-transparent tablet:mx-142 tablet:mt-160 desktop:mx-430 desktop:mt-200 mt-84'>
-      <div className='w-full max-w-md bg-transparent p-8 rounded-md shadow-md'>
-        <h2 className='block text-40 text-text-primary text-center font-500 h-48 mb-80 leading-48'>
+      <div className='w-full max-w-md bg-transparent p-8 rounded-md'>
+        <h2 className='block text-40 text-text-primary dark:text-text-primary-dark text-center font-500 h-48 mb-80 leading-48'>
           로그인
         </h2>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className='mb-24 text-text-primary'>
+          <div className='mb-24 text-text-primary dark:text-text-primary-dark'>
             이메일
             <AuthInput
               type='text'
@@ -103,7 +111,7 @@ function SignInPage() {
               </p>
             )}
           </div>
-          <div className='text-text-primary'>
+          <div className='text-text-primary dark:text-text-primary-dark'>
             비밀번호
             <AuthInput
               type='password'
@@ -119,27 +127,29 @@ function SignInPage() {
               </p>
             )}
           </div>
-          <button
-            type='button'
-            onClick={handleOpenPasswordResetModal}
-            className='text-right w-full mt-12'
-          >
-            <span className='block text-interaction-focus underline decoration-interaction-focus'>
-              비밀번호를 잊으셨나요?
-            </span>
-          </button>
-          {error && (
-            <div className='text-status-danger text-md text-center h-35 rounded-5 pl-5 mt-16 mb-8'>
-              {' '}
-              {/* 에러 창 디자인 논의 필요 */}
-              입력하신 이메일 또는 비밀번호가 올바르지 않습니다. <br />
-              다시 시도해 주세요.
-            </div>
-          )}
+          <div className='mb-40'>
+            <button
+              type='button'
+              onClick={handleOpenPasswordResetModal}
+              className='text-right w-full h-24 mt-1'
+            >
+              <span className='block text-interaction-focus dark:text-interaction-focus-dark underline decoration-interaction-focus'>
+                비밀번호를 잊으셨나요?
+              </span>
+            </button>
+            {error && (
+              <div className='text-status-danger text-md text-center h-35 rounded-5 pl-5 mt-16 mb-8'>
+                {' '}
+                {/* 에러 창 디자인 논의 필요 */}
+                입력하신 이메일 또는 비밀번호가 올바르지 않습니다. <br />
+                다시 시도해 주세요.
+              </div>
+            )}
+          </div>
           <Button type='submit' color='primary' size='lg' className='w-full'>
             로그인
           </Button>
-          <span className='flex justify-center gap-12 text-text-primary font-500 w-full mt-24 mb-16'>
+          <span className='flex justify-center gap-12 text-text-primary dark:text-text-primary-dark font-500 w-full mt-24 mb-16'>
             <p>아직 계정이 없으신가요?</p>
             <Link
               href='/auth/signup'
@@ -150,12 +160,16 @@ function SignInPage() {
           </span>
         </form>
         <div className='flex items-center'>
-          <div className='flex-grow border-t border-border-primary' />
-          <div className='border-white mx-24 text-white'>OR</div>
-          <div className='flex-grow border-t border-border-primary' />
+          <div className='flex-grow border-t border-border-primary dark:border-border-primary-dark' />
+          <div className='border-border-primary-DEAFULT dark:border-border-primary-dark mx-24 text-text-primary-DEAFULT dark:text-text-primary-dark'>
+            OR
+          </div>
+          <div className='flex-grow border-t border-border-primary dark:border-border-primary-dark' />
         </div>
         <div className='flex justify-between mt-16'>
-          <span className='text-text-primary'>간편 로그인하기</span>
+          <span className='text-text-primary dark:text-text-primary-dark'>
+            간편 로그인하기
+          </span>
           <div className='flex gap-16'>
             <button type='button' onClick={handleKakaoLogin}>
               <Image

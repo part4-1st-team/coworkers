@@ -1,6 +1,6 @@
-import { getAccessToken } from '@/utils/cookieUtils';
 import type { InternalAxiosRequestConfig } from 'axios';
 import axios from 'axios';
+import useUserStore from '@/stores/userStore';
 import useRefreshAccessToken from './refreshAccessToken';
 
 // Axios 인스턴스 생성
@@ -35,6 +35,8 @@ instance.interceptors.response.use(
     const originalRequest = error.config;
     const { response } = error;
 
+    const setLogout = useUserStore((state) => state.setLogout);
+
     // 401 오류 발생 시 (만료된 액세스 토큰 처리)
     // eslint-disable-next-line no-underscore-dangle
     if (response?.status === 401 && !originalRequest._retry) {
@@ -43,19 +45,15 @@ instance.interceptors.response.use(
 
       try {
         // 리프레시 토큰을 사용하여 새로운 액세스 토큰을 가져옴
-        // const newAccessToken = await refreshAccessToken();
-
         const refreshAccessToken = useRefreshAccessToken();
         const accessToken = await refreshAccessToken();
 
         // 요청 헤더에 새로운 액세스 토큰을 추가하여 다시 시도
-        // originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
         originalRequest.headers.Authorization = `Bearer ${accessToken}`;
-        // eslint-disable-next-line no-underscore-dangle
         return await axios(originalRequest);
       } catch (err) {
-        // eslint-disable-next-line no-console
-        console.error('토큰 갱신 후에도 요청 실패:', err);
+        setLogout();
+        window.location.href = '/auth/signin';
         return Promise.reject(err);
       }
     }
