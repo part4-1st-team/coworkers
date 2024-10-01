@@ -45,6 +45,7 @@ function SideMenu({ onClose }: { onClose: () => void }) {
         </div>
         {memberships.map((membership: Membership) => (
           <Link
+            key={membership.groupId}
             href={`/group/${membership.groupId}`}
             onClick={() => {
               onClose();
