@@ -20,7 +20,7 @@ function PasswordResetModal() {
     try {
       const response = await instance.post('/user/send-reset-password-email', {
         email: data.email,
-        redirectUrl: 'http://localhost:3000/user/password-change',
+        redirectUrl: 'http://localhost:3000/',
       });
 
       if (response.status === 200) {

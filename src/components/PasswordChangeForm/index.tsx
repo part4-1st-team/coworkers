@@ -7,7 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useMutation } from '@tanstack/react-query';
 import { clsx } from 'clsx';
 import { useRouter } from 'next/router';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import ErrorLabel from '../form/errorMessage';
 import AuthInput from '../input/authInput';
@@ -38,6 +38,15 @@ function PasswordChangeForm({ submitButton, type, formClass = '' }: FormProps) {
   const { toast } = useToast();
   const { setModalClose } = useModalStore();
   const router = useRouter();
+
+  const { token } = router.query; // URL에서 token 추출
+
+  useEffect(() => {
+    if (!token) {
+      // 비밀번호 변경 페이지로 리디렉션
+      router.push('/reset-password');
+    }
+  }, [token]);
 
   const passwordChangeMutation = useMutation({
     mutationFn: (data: PatchPassword) => patchUserPassword(data),
