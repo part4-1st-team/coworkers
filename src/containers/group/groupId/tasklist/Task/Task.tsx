@@ -123,7 +123,7 @@ function Task({ task, index }: { task: DateTask; index: number }) {
               </span>
             </div>
 
-            <div className='w-1 h-8 rounded bg-background-tertiary dark:bg-background-tertiary' />
+            <div className='w-1 h-8 rounded bg-text-default' />
 
             <div className='flex gap-6 items-center'>
               <IconRepeat />
