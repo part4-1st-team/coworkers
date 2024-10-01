@@ -9,7 +9,6 @@
 /* Datepicker 디스플레이 속성 변경 */
 .react-datepicker-popper {
   border: none;
-  /*margin-left: 65px !important;*/
 }
 
 /* 캘린더 - 달력 style - 연 */
@@ -32,6 +31,12 @@
 .react-datepicker-time__header,
 .react-datepicker-year-header {
   color: #f8fafc !important;
+}
+
+html[data-theme='light'] .react-datepicker__current-month,
+html[data-theme='light'] .react-datepicker-time__header,
+html[data-theme='light'] .react-datepicker-year-header {
+  color: #0f172a !important;
 }
 
 /* 캘린더 - 달력 style - 요일 */
@@ -58,6 +63,11 @@
   padding: 16px !important;
 }
 
+html[data-theme='light'] .react-datepicker__month-container {
+  border: 1px solid #0f172a1a !important;
+  background-color: #fefefe !important;
+}
+
 .react-datepicker__month-container:hover {
   border: 1px solid var(--interaction-hover) !important;
 }
@@ -67,7 +77,6 @@
   margin: 0 !important;
 }
 
-/* 캘린더 - 달력 style - 일 */
 .react-datepicker__day-name,
 .react-datepicker__day,
 .react-datepicker__time-name {
@@ -82,9 +91,22 @@
   margin: 0 !important;
 }
 
+/* 캘린더 - 달력 style - 일 */
+html[data-theme='light'] .react-datepicker__day-name,
+html[data-theme='light'] .react-datepicker__day,
+html[data-theme='light'] .react-datepicker__time-name {
+  color: #0f172a !important;
+}
+
 /* 캘린더 - 달력 style - 일(hover, selected) */
 .react-datepicker__day:hover {
   background-color: var(--interaction-hover) !important;
+  color: #f8fafc !important;
+}
+
+html[data-theme='light'] .react-datepicker__day:hover {
+  background-color: var(--interaction-hover) !important;
+  color: #f8fafc !important;
 }
 
 .react-datepicker__day--selected,
@@ -99,7 +121,23 @@
 .react-datepicker__year-text--selected,
 .react-datepicker__year-text--in-selecting-range,
 .react-datepicker__year-text--in-range {
-  background-color: #059669 !important;
+  background-color: #8194fb !important;
+}
+
+html[data-theme='light'] .react-datepicker__day--selected,
+html[data-theme='light'] .react-datepicker__day--in-selecting-range,
+html[data-theme='light'] .react-datepicker__day--in-range,
+html[data-theme='light'] .react-datepicker__month-text--selected,
+html[data-theme='light'] .react-datepicker__month-text--in-selecting-range,
+html[data-theme='light'] .react-datepicker__month-text--in-range,
+html[data-theme='light'] .react-datepicker__quarter-text--selected,
+html[data-theme='light'] .react-datepicker__quarter-text--in-selecting-range,
+html[data-theme='light'] .react-datepicker__quarter-text--in-range,
+html[data-theme='light'] .react-datepicker__year-text--selected,
+html[data-theme='light'] .react-datepicker__year-text--in-selecting-range,
+html[data-theme='light'] .react-datepicker__year-text--in-range {
+  outline: 1px solid #8194fb !important;
+  background: none !important;
 }
 
 /* Datepicker 버튼, 달력 사이 UI 요소 숨김 처리 */

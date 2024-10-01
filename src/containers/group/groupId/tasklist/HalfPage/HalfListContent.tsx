@@ -12,6 +12,7 @@ import EditDeleteDropdown from '../../EditDeleteDropdown';
 import Comment from '../comment/Comment';
 import CommentInput from '../comment/CommentInput';
 import useTaskMutation from '../hooks/useTaskMutation';
+import DoneButton from './DoneButton';
 import EditPencilButton from './EditPencilButton';
 import HalfEditForm from './HalfEditForm';
 import HalfUserInfo from './HalfUserInfo';
@@ -155,18 +156,14 @@ function HalfPageContent({ task, isDone, setIsDone }: Props) {
           <Comment comment={taskComment} key={taskComment.id} />
         ))}
       </div>
-      <FloatingButton
-        onClick={() => {
-          patchMutation.mutate({ done: true });
-          setIsDone((prev) => !prev);
-          setDone((prev) => !prev);
-        }}
-        disabled={patchMutation.isPending}
-        text={done ? '완료 취소' : '완료'}
-        type='button'
-        icon={done ? 'checkWhite' : 'checkGray'}
-        className='w-fit absolute bottom-60 right-50'
-      />
+      <div className='absolute bottom-60 right-50'>
+        <DoneButton
+          setIsDone={setIsDone}
+          setDone={setDone}
+          done={done}
+          task={task}
+        />
+      </div>
     </section>
   );
 }

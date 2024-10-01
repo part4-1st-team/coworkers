@@ -1,5 +1,5 @@
 import { IconSecession } from '@/assets/IconList';
-import MemberDeleteModal from '@/components/modal/MemberDeleteModal';
+import SecessionModal from '@/components/modal/SecessionModal';
 import useModalStore from '@/stores/ModalStore';
 
 function UserSecessionButton() {
@@ -8,7 +8,7 @@ function UserSecessionButton() {
   return (
     <button
       type='button'
-      onClick={() => setModalOpen(<MemberDeleteModal />)}
+      onClick={() => setModalOpen(<SecessionModal />)}
       className='text-status-danger flex gap-8 items-center'
     >
       <IconSecession /> <span>회원 탈퇴하기</span>
