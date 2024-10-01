@@ -1,4 +1,3 @@
-import { getAccessToken } from '@/utils/cookieUtils';
 import type { InternalAxiosRequestConfig } from 'axios';
 import axios from 'axios';
 import useRefreshAccessToken from './refreshAccessToken';
