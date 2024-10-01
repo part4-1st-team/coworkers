@@ -1,3 +1,8 @@
+import Button from '@/components/button/button';
+import Calendar, { CalendarInput } from '@/components/calendar/Calendar';
+import FormFieldSet from '@/components/form/FormFieldset';
+import BoxInput from '@/components/input/boxInput';
+import Input from '@/components/input/input';
 import RepeatDropdown from '@/containers/group/groupId/dropdown/RepeatDropdown';
 import WeeklyDatePicker from '@/containers/group/groupId/tasklist/WeeklyDatePicker';
 import { postRecurring } from '@/services/TaskAPI';
@@ -8,11 +13,6 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import Button from '../button/button';
-import Calendar, { CalendarInput } from '../calendar/Calendar';
-import BoxInput from '../input/boxInput';
-import Input from '../input/input';
-import TimePicker from '../timeSelect/TimePicker';
 import Modal from './Modal';
 
 interface FormState {
@@ -65,7 +65,7 @@ function TaskCreateDateModal({
     const task: PostRecurring = {
       name: title,
       description: memo,
-      startDate: combineDateTime(selectedDate, time),
+      startDate: selectedDate,
       frequencyType: frequency,
     };
 
@@ -85,11 +85,7 @@ function TaskCreateDateModal({
         className='flex flex-col gap-24'
         onSubmit={handleSubmit(handleTaskCreate)}
       >
-        <div className='flex flex-col gap-16 mb-8'>
-          <span className='text-lg font-medium text-text-primary'>
-            할 일 제목
-          </span>
-
+        <FormFieldSet id='title' label='할 일 제목'>
           <Controller
             name='title'
             control={control}
@@ -101,45 +97,33 @@ function TaskCreateDateModal({
               />
             )}
           />
-        </div>
-        <div className='flex flex-col  mb-8'>
-          <span className='text-lg font-medium text-text-primary mb-16'>
-            시작 날짜 및 시간
-          </span>
-          <div className='flex'>
-            <Calendar
-              trigger={<CalendarInput />}
-              pickDate={selectedDate}
-              setPickDate={setSelectedDate}
-            />
-          </div>
-        </div>
-        <div className='flex flex-col gap-16'>
-          <span className='text-lg font-medium text-text-primary'>
-            반복 설정
-          </span>
+        </FormFieldSet>
+
+        <FormFieldSet id='calendar' label='시작 날짜 및 시간'>
+          <Calendar
+            trigger={<CalendarInput />}
+            pickDate={selectedDate}
+            setPickDate={setSelectedDate}
+            min
+          />
+        </FormFieldSet>
+        <FormFieldSet id='frequency' label='반복 설정'>
           <RepeatDropdown frequency={frequency} handleClick={setFrequency} />
-        </div>
-        <div
-          className={clsx(
-            'flex flex-col gap-16 mb-8',
-            frequency === 'WEEKLY' ? 'block' : 'hidden',
-          )}
+        </FormFieldSet>
+
+        <FormFieldSet
+          id='frquency-day'
+          label='반복 요일'
+          className={clsx(frequency === 'WEEKLY' ? 'flex' : 'hidden')}
         >
-          <span className='text-lg font-medium text-text-primary'>
-            반복 요일
-          </span>
           <WeeklyDatePicker handleClick={setWeekDays} />
-        </div>
-        <div
-          className={clsx(
-            'flex flex-col gap-16 mb-8',
-            frequency === 'MONTHLY' ? 'block' : 'hidden',
-          )}
+        </FormFieldSet>
+
+        <FormFieldSet
+          id='frequency-date'
+          label='반복 날짜'
+          className={clsx(frequency === 'MONTHLY' ? 'flex' : 'hidden')}
         >
-          <span className='text-lg font-medium text-text-primary'>
-            반복 날짜
-          </span>
           <Calendar
             trigger={
               <button
@@ -152,13 +136,9 @@ function TaskCreateDateModal({
             pickDate={monthDay}
             setPickDate={setMonthDay}
           />
-        </div>
+        </FormFieldSet>
 
-        <div className='flex flex-col gap-16 mb-8'>
-          <span className='text-lg font-medium text-text-primary'>
-            할 일 메모
-          </span>
-
+        <FormFieldSet id='memo' label='할 일 메모'>
           <Controller
             name='memo'
             control={control}
@@ -166,7 +146,8 @@ function TaskCreateDateModal({
               <BoxInput placeholder='메모를 입력해주세요' {...field} />
             )}
           />
-        </div>
+        </FormFieldSet>
+
         <Button type='submit' color='primary' className=''>
           만들기
         </Button>

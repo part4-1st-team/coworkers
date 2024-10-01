@@ -4,6 +4,7 @@ import useTaskMutation from '@/containers/group/groupId/tasklist/hooks/useTaskMu
 import useQueryParameter from '@/hooks/useQueryParameter';
 import useModalStore from '@/stores/ModalStore';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import FormFieldSet from '../form/FormFieldset';
 import BoxInput from '../input/boxInput';
 import Modal from './Modal';
 
@@ -40,14 +41,12 @@ function TaskEditModal({ task }: { task: DateTask }) {
         onSubmit={handleSubmit(handleTaskEdit)}
         className='pt-32 px-36 flex flex-col items-center'
       >
-        <div className='mb-24 w-full'>
+        <div className='mb-24 w-full space-y-24'>
           <div className='flex flex-col items-center text-center'>
             <Modal.Title title='할 일 수정하기' />
             <Modal.Description description='할 일은 실제로 행동 가능한 작업 중심으로<br/>작성해주시면 좋습니다.' />
           </div>
-          <div className='my-16'>
-            <span className='text-lg font-medium text-white '>할 일 제목</span>
-
+          <FormFieldSet id='title' label='할 일 제목'>
             <Controller
               name='title'
               control={control}
@@ -55,29 +54,24 @@ function TaskEditModal({ task }: { task: DateTask }) {
                 <Input
                   placeholder='할 일 제목을 입력해주세요.'
                   {...field}
-                  className='w-full h-48 tablet:min-w-280 mt-8'
+                  className='w-full h-48 tablet:min-w-280'
                 />
               )}
             />
-          </div>
-
-          <div>
-            <span className='text-lg font-medium text-white mb-8'>
-              할 일 메모
-            </span>
-
+          </FormFieldSet>
+          <FormFieldSet id='memo' label='할 일 메모'>
             <Controller
               name='memo'
               control={control}
               render={({ field }) => (
                 <BoxInput
-                  className='border-background-tertiary mt-8'
+                  className='border-background-tertiary'
                   placeholder='메모를 입력해주세요.'
                   {...field}
                 />
               )}
             />
-          </div>
+          </FormFieldSet>
         </div>
 
         <Button type='submit' className='w-full' color='primary'>
