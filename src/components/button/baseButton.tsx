@@ -47,7 +47,7 @@ function BaseButton({
 
   const colorStyle = {
     primary:
-      'bg-brand-primary text-text-inverse dark:text-text-inverse-dark hover:bg-interaction-hover focus:outline-none focus:bg-interaction-pressed disabled:bg-interaction-inactive',
+      'bg-brand-primary text-text-primary-dark dark:text-text-text-primary-dark hover:bg-interaction-hover focus:outline-none focus:bg-interaction-pressed disabled:bg-interaction-inactive',
     outlined:
       'bg-background-inverse dark:bg-background-inverse-dark text-brand-primary dark:text-brand-primary-dark border border-brand-primary hover:text-interaction-hover hover:border-interaction-hover focus:border-interaction-pressed focus:text-interaction-pressed disabled:border-interaction-inactive disabled:text-interaction-inactive',
     outlinedSecon:

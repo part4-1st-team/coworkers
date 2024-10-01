@@ -54,7 +54,7 @@ function AddComment({ boardId }: AddCommentProps) {
         placeholder='댓글을 입력해주세요.'
         value={comment}
         onChange={(e) => setComment(e.target.value)}
-        className='border-background-tertiary shadow-md'
+        className='border-background-tertiary dark:border-background-tertiary-drak shadow-md'
       />
       {error && <div className='text-red-500'>{error}</div>}
       <div className='flex justify-end'>
