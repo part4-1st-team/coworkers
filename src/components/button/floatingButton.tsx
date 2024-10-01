@@ -59,7 +59,7 @@ function FloatingButton({
 
   const colorStyle = {
     primary:
-      'bg-brand-primary dark:bg-brand-primary-dark text-text-inverse dark:text-text-inverse-dark hover:bg-interaction-hover  active:outline-none active:bg-interaction-pressed  disabled:bg-interaction-inactive',
+      'bg-brand-primary dark:bg-brand-primary-dark text-text-primary-dark dark:text-text-primary-dark hover:bg-interaction-hover  active:outline-none active:bg-interaction-pressed  disabled:bg-interaction-inactive',
     outlined:
       'bg-background-inverse dark:bg-background-inverse-dark text-brand-primary dark:text-brand-primary-dark border border-brand-primary dark:border-brand-primary-dark hover:text-interaction-hover hover:border-interaction-hover active:border-interaction-pressed active:text-interaction-pressed  disabled:border-interaction-inactive dark:border-interaction-inactive-dark disabled:text-interaction-inactive',
   };
