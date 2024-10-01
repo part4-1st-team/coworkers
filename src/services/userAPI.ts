@@ -89,6 +89,6 @@ export async function postUserResetPassword(
  * @returns 응답 메시지 반환
  */
 export async function patchUserPassword(data: PatchPassword): Promise<Message> {
-  const res = await axios.patch('/user/password', data);
+  const res = await axios.patch('/user/reset-password', data);
   return res.data;
 }
