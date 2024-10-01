@@ -1,16 +1,18 @@
 import Button from '@/components/button/button';
 import { deleteUser } from '@/services/userAPI';
 import useModalStore from '@/stores/ModalStore';
+import useUserStore from '@/stores/userStore';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import useToast from '../toast/useToast';
 import Modal from './Modal';
 
-function MemberDeleteModal() {
+function SecessionModal() {
   const { setModalClose } = useModalStore();
 
   const router = useRouter();
   const { toast } = useToast();
+  const { setLogout } = useUserStore();
 
   const secessionMutation = useMutation({
     mutationFn: () => deleteUser(),
@@ -18,6 +20,7 @@ function MemberDeleteModal() {
       setModalClose();
       router.push('/');
       toast('Success', '회원이 성공적으로 탈퇴되었습니다.');
+      setLogout();
     },
     onError: () => {
       toast('Error', '회원 탈퇴에 실패했습니다.');
@@ -56,4 +59,4 @@ function MemberDeleteModal() {
   );
 }
 
-export default MemberDeleteModal;
+export default SecessionModal;
