@@ -36,7 +36,7 @@ function SideMenu({ onClose }: { onClose: () => void }) {
   if (isGroupsLoading) return null;
 
   return (
-    <div className='side-menu w-270 inset-y-0 left-0 p-16 bg-background-secondary z-modal fixed'>
+    <div className='side-menu w-270 inset-y-0 left-0 p-16 bg-background-secondary dark:bg-background-secondary-dark z-modal fixed'>
       <div className='flex flex-col gap-8 items-center'>
         <div className='w-full flex flex-row-reverse mb-35'>
           <button type='button' onClick={onClose} aria-label='close button'>
@@ -49,7 +49,7 @@ function SideMenu({ onClose }: { onClose: () => void }) {
             onClick={() => {
               onClose();
             }}
-            className='w-248 h-45 flex items-center py-7 px-8 hover:bg-background-primary rounded-8'
+            className='w-248 h-45 flex items-center py-7 px-8 hover:bg-background-primary dark:hover:bg-background-tertiary-dark rounded-8'
           >
             {String(groupId) === String(membership.groupId) && (
               <div className='absolute size-8 rounded-full bg-brand-primary' />
@@ -67,7 +67,7 @@ function SideMenu({ onClose }: { onClose: () => void }) {
           onClick={() => {
             onClose();
           }}
-          className='w-248 h-45 flex items-center py-6 px-8 hover:bg-background-primary rounded-8'
+          className='w-248 h-45 flex items-center py-6 px-8 hover:bg-background-primary dark:hover:bg-background-tertiary-dark rounded-8'
         >
           {router.pathname === '/board' && (
             <div className='absolute size-8 rounded-full bg-brand-primary' />

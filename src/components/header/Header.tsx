@@ -18,7 +18,10 @@ function Header() {
   };
 
   return (
-    <div className='fixed top-0 left-0 border border-background-tertiary z-header w-full h-60 bg-background-secondary text-text-primary text-lg font-md px-16 tablet:px-24 flex items-center'>
+    <div
+      className='fixed inset-0 border-b dark:border-background-tertiary-dark z-header w-full h-60 bg-background-secondary 
+    dark:bg-background-secondary-dark text-text-primary dark:text-text-primary-dark text-lg font-md px-16 tablet:px-24 flex items-center'
+    >
       <div className='w-full desktop:w-1200 desktop:mx-auto flex'>
         <div className='flex items-center'>
           <IconMenu
