@@ -1,18 +1,16 @@
 import useDropdown from '@/hooks/useDropdown';
-import useUser from '@/hooks/useUser';
 import useModalStore from '@/stores/ModalStore';
 import { useRouter } from 'next/router';
 import Dropdown from '../dropdown/Dropdown';
 import ProfileImage from '../member/ProfileImage';
 import LogoutModal from '../modal/LogoutModal';
+import useUserStore from '@/stores/userStore';
 
-function UserDropdown() {
+function UserDropdown({ user }: { user: User | null }) {
   const { handleOffDropdown, handleToggleDropdown, isOpen } = useDropdown();
   const router = useRouter();
-
-  const { user } = useUser();
-
   const { setModalOpen } = useModalStore();
+  const { isLoggedIn } = useUserStore();
 
   return (
     <Dropdown onClose={handleOffDropdown}>
@@ -28,32 +26,50 @@ function UserDropdown() {
           )}
         </div>
       </Dropdown.Trigger>
-      <Dropdown.Menu isOpen={isOpen} className='right-0 top-45'>
-        <Dropdown.List
-          onClick={() => router.push('/groups')}
-          onClose={handleOffDropdown}
-        >
-          그룹 리스트
-        </Dropdown.List>
-        <Dropdown.List
-          onClick={() => router.push('/user/my-history')}
-          onClose={handleOffDropdown}
-        >
-          마이 히스토리
-        </Dropdown.List>
-        <Dropdown.List
-          onClick={() => router.push('/user/account-setting')}
-          onClose={handleOffDropdown}
-        >
-          계정 설정
-        </Dropdown.List>
-        <Dropdown.List
-          onClick={() => setModalOpen(<LogoutModal />)}
-          onClose={handleOffDropdown}
-        >
-          로그아웃
-        </Dropdown.List>
-      </Dropdown.Menu>
+
+      {!isLoggedIn ? (
+        <Dropdown.Menu isOpen={isOpen} className='right-0 top-45'>
+          <Dropdown.List
+            onClick={() => router.push('/auth/signin')}
+            onClose={handleOffDropdown}
+          >
+            로그인
+          </Dropdown.List>
+          <Dropdown.List
+            onClick={() => router.push('/auth/signup')}
+            onClose={handleOffDropdown}
+          >
+            회원가입
+          </Dropdown.List>
+        </Dropdown.Menu>
+      ) : (
+        <Dropdown.Menu isOpen={isOpen} className='right-0 top-45'>
+          <Dropdown.List
+            onClick={() => router.push('/groups')}
+            onClose={handleOffDropdown}
+          >
+            그룹 리스트
+          </Dropdown.List>
+          <Dropdown.List
+            onClick={() => router.push('/user/my-history')}
+            onClose={handleOffDropdown}
+          >
+            마이 히스토리
+          </Dropdown.List>
+          <Dropdown.List
+            onClick={() => router.push('/user/account-setting')}
+            onClose={handleOffDropdown}
+          >
+            계정 설정
+          </Dropdown.List>
+          <Dropdown.List
+            onClick={() => setModalOpen(<LogoutModal />)}
+            onClose={handleOffDropdown}
+          >
+            로그아웃
+          </Dropdown.List>
+        </Dropdown.Menu>
+      )}
     </Dropdown>
   );
 }

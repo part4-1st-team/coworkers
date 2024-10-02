@@ -7,11 +7,15 @@ import { useState } from 'react';
 import HeaderGroupDropdown from './HeaderGroupDropdown';
 import UserDropdown from './UserDropdown';
 import SideMenu from '../sidemenu/SideMenu';
+import useUser from '@/hooks/useUser';
+import useUserStore from '@/stores/userStore';
 
 function Header() {
   const router = useRouter();
   const currentPath = router.pathname;
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
+  const { user } = useUser();
+  const { isLoggedIn } = useUserStore();
 
   const toggleSideMenu = () => {
     setIsSideMenuOpen(!isSideMenuOpen);
@@ -24,28 +28,32 @@ function Header() {
     >
       <div className='w-full desktop:w-1200 desktop:mx-auto flex'>
         <div className='flex items-center'>
-          <IconMenu
-            className='w=24 mr-16 tablet:hidden'
-            onClick={toggleSideMenu}
-          />
+          {isLoggedIn && (
+            <IconMenu
+              className='w=24 mr-16 tablet:hidden'
+              onClick={toggleSideMenu}
+            />
+          )}
           <Link href='/'>
             <LogoSmall className='desktop:hidden fill-brand-primary' />
             <LogoLarge className='hidden desktop:block fill-brand-primary' />
           </Link>
         </div>
-        {currentPath.includes('auth') || currentPath === '/' ? (
+        {currentPath.includes('auth') ? (
           <div> </div>
         ) : (
           <div className='w-full flex justify-between items-center'>
             <div className='flex items-center '>
-              <div className='hidden ml-32 tablet:flex items-center gap-40'>
-                <HeaderGroupDropdown />
-                <Link href='/board' className='desktop:ml-40'>
-                  자유게시판
-                </Link>
-              </div>
+              {isLoggedIn && (
+                <div className='hidden ml-32 tablet:flex items-center gap-40'>
+                  <HeaderGroupDropdown />
+                  <Link href='/board' className='desktop:ml-40'>
+                    자유게시판
+                  </Link>
+                </div>
+              )}
             </div>
-            <UserDropdown />
+            <UserDropdown user={user ?? null} />
           </div>
         )}
         {isSideMenuOpen && <SideMenu onClose={toggleSideMenu} />}
