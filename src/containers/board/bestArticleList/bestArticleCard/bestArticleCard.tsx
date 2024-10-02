@@ -1,9 +1,10 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { IconMedal, IconHeart } from '@/assets/IconList';
 import ProfileImage from '@/components/member/ProfileImage';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import clsx from 'clsx'; // clsx import
+import clsx from 'clsx';
+
+import useLikeStore from '../../commponent/useLikeStore';
 
 interface BestArticleCardProps {
   article: Article;
@@ -11,8 +12,9 @@ interface BestArticleCardProps {
 }
 
 function BestArticleCard({ article, className }: BestArticleCardProps) {
-  const { createdAt, likeCount, title, image, writer, id } = article;
+  const { createdAt, title, image, writer, id } = article;
   const router = useRouter();
+  const { likedArticles, likeCounts } = useLikeStore();
 
   const handleClick = () => {
     router.push(`/board/${id}`);
@@ -23,6 +25,8 @@ function BestArticleCard({ article, className }: BestArticleCardProps) {
       handleClick();
     }
   };
+
+  const LikeCount = likeCounts[id] || 0;
 
   return (
     <button
@@ -70,10 +74,15 @@ function BestArticleCard({ article, className }: BestArticleCardProps) {
           </p>
         </div>
         <div className='flex items-center gap-12'>
-          <IconHeart />
-          <p className='text-md text-text-disabled dark:text-text-disabled-dark flex items-center'>
-            <span>{likeCount}</span>
-          </p>
+          <div className='flex gap-4'>
+            <IconHeart
+              color={likedArticles[id as number] ? 'gray' : 'gray'}
+              fill={likedArticles[id as number] ? 'gray' : 'none'}
+            />
+            <p className='text-md text-text-disabled dark:text-text-disabled-dark flex items-center'>
+              {LikeCount}
+            </p>
+          </div>
         </div>
       </div>
     </button>

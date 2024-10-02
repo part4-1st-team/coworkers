@@ -51,7 +51,7 @@ function SearchInput({
           iconClassName,
         )}
       >
-        <IconSearch />
+        <IconSearch width={24} height={24} />
       </span>
     </div>
   );

@@ -4,6 +4,7 @@ import { useInView } from 'react-intersection-observer';
 import { getArticles } from '@/services/ArticleAPI';
 import SortDropdown from '@/components/board/sortDropdown';
 import ArticleCard from './articleListCard/articleListCard';
+import useLikeStore from '../commponent/useLikeStore';
 
 type ArticleOrder = 'like' | 'recent';
 
@@ -33,6 +34,7 @@ function useInfiniteScroll({
 
 function ArticleList({ searchValue }: ArticleListProps) {
   const [orderBy, setOrderBy] = useState<ArticleOrder>('recent');
+  const { likeCounts } = useLikeStore(); // 전역 상태에서 likeCounts를 가져옴
   const pageSize = 4;
 
   const {
@@ -60,6 +62,14 @@ function ArticleList({ searchValue }: ArticleListProps) {
 
   // 데이터 플래튼
   const articles = data?.pages.flatMap((page) => page.list) ?? [];
+
+  // 좋아요 순으로 정렬
+  const sortedArticles =
+    orderBy === 'like'
+      ? articles.sort(
+          (a, b) => (likeCounts[b.id] || 0) - (likeCounts[a.id] || 0),
+        )
+      : articles;
 
   const handleSortChange = (sortType: ArticleOrder) => setOrderBy(sortType);
 
@@ -91,8 +101,8 @@ function ArticleList({ searchValue }: ArticleListProps) {
       </div>
 
       <div className='flex flex-col gap-24 desktop:grid desktop:grid-cols-2'>
-        {articles.map((article, index) => {
-          const isLastElement = index === articles.length - 1;
+        {sortedArticles.map((article, index) => {
+          const isLastElement = index === sortedArticles.length - 1;
           return (
             <div key={article.id} ref={isLastElement ? lastArticleRef : null}>
               <ArticleCard article={article} onDeleteSuccess={refetch} />
@@ -101,7 +111,7 @@ function ArticleList({ searchValue }: ArticleListProps) {
         })}
       </div>
 
-      {articles.length === 0 && !isLoading && !error && (
+      {sortedArticles.length === 0 && !isLoading && !error && (
         <div
           className='mt-180 tablet:mt-158 flex justify-center font-medium text-md tablet:text-lg,
         text-text-default dark:text-text-default-dark'
