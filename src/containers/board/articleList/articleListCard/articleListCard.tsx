@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { IconHeart } from '@/assets/IconList';
 import BoardDropdownMenu from '@/components/board/boardDropdown';
@@ -13,6 +13,7 @@ import useUser from '@/hooks/useUser';
 import ProfileImage from '@/components/member/ProfileImage';
 import useModalStore from '@/stores/ModalStore';
 import DeleteArticleModal from '@/components/modal/DeleteArticleModal';
+import useLikeStore from '../../commponent/useLikeStore';
 
 interface ArticleCardProps {
   article: Article;
@@ -20,13 +21,13 @@ interface ArticleCardProps {
 }
 
 function ArticleCard({ article, onDeleteSuccess }: ArticleCardProps) {
-  const { createdAt, likeCount, title, image, writer, id } = article;
+  const { createdAt, title, image, writer, id } = article;
   const router = useRouter();
   const { articleDetail, error, isFetching } = useArticleDetail(id as number);
   const { user: currentUser, isLoading, error: userError } = useUser();
   const { toast } = useToast();
   const { setModalOpen, setModalClose } = useModalStore();
-  const [redirected, setRedirected] = useState(false);
+  const { likedArticles, likeCounts } = useLikeStore();
 
   const deleteMutation = useMutation({
     mutationFn: () => deleteArticle(id),
@@ -70,7 +71,6 @@ function ArticleCard({ article, onDeleteSuccess }: ArticleCardProps) {
   // 에러 발생 시 '/board'로 리다이렉션
   useEffect(() => {
     if (error || userError) {
-      setRedirected(true);
       router.push('/board');
     }
   }, [error, userError, router]);
@@ -83,6 +83,7 @@ function ArticleCard({ article, onDeleteSuccess }: ArticleCardProps) {
   }
 
   const isOwner = currentUser?.id === writer.id;
+  const likeCount = likeCounts[id] || 0;
 
   return (
     <div className='w-full tablet:h-220 pt-24 pb-16 tablet:pb-24 px-16 tablet:px-32 flex bg-background-secondary dark:bg-background-secondary-dark rounded-12 relative shadow-md'>
@@ -92,11 +93,11 @@ function ArticleCard({ article, onDeleteSuccess }: ArticleCardProps) {
       >
         <div className='flex justify-between '>
           <div className='flex flex-col'>
-            <p className='w-224 tablet:w-400 h-30 tablet:h-30 text-lg tablet:text-2lg tablet:leading-relaxed text-text-secondary dark:text-text-secondary-dark font-medium text-left'>
-              {renderContentPreview(title, 30)}
+            <p className='w-330 tablet:w-400 h-30 tablet:h-30 text-lg tablet:text-2lg tablet:leading-relaxed text-text-secondary dark:text-text-secondary-dark font-medium text-left'>
+              {renderContentPreview(title, 25)}
             </p>
             <p
-              className='mt-10 tablet:mt-20 w-350 tablet:w-auto text-md text-text-secondary dark:text-text-secondary-dark text-left'
+              className='mt-10 tablet:mt-20 w-330 tablet:w-auto text-md text-text-secondary dark:text-text-secondary-dark text-left'
               style={{
                 display: '-webkit-box',
                 WebkitBoxOrient: 'vertical',
@@ -110,7 +111,7 @@ function ArticleCard({ article, onDeleteSuccess }: ArticleCardProps) {
           </div>
 
           {image && (
-            <div className='w-72 h-72 absolute top-15 right-15 tablet:top-30 tablet:right-60 '>
+            <div className='w-72 h-72 absolute top-60 right-15 tablet:top-30 tablet:right-60 '>
               <Image src={image} alt='샘플이미지' width={72} height={72} />
             </div>
           )}
@@ -138,12 +139,16 @@ function ArticleCard({ article, onDeleteSuccess }: ArticleCardProps) {
           )}
         </div>
 
-        <div className='flex items-center gap-8'>
-          <IconHeart />
+        <div className='flex items-center justify-center gap-8'>
+          <IconHeart
+            color={likedArticles[id as number] ? 'gray' : 'gray'}
+            fill={likedArticles[id as number] ? 'gray' : 'none'}
+            style={{ cursor: 'pointer' }}
+          />
           <p className='text-md text-text-disabled dark:text-text-disabled-dark flex items-center'>
             {likeCount >= 999 ? '999+' : likeCount}
           </p>
-          <div className='tablet:hidden'>
+          <div className='flex items-center tablet:hidden'>
             {isOwner ? (
               <BoardDropdownMenu onEdit={handleEdit} onDelete={handleDelete} />
             ) : (

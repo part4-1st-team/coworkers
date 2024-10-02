@@ -64,7 +64,7 @@ function SignUpPage() {
   };
 
   return (
-    <div className='flex justify-center items-center bg-background-primary dark:bg-background-primary-dark text-text-primary-DEAFULT dark:text-text-primary-dark tablet:mx-142 tablet:mt-160 desktop:mx-430 desktop:mt-160 mt-84'>
+    <div className='flex justify-center items-center bg-background-primary dark:bg-background-primary-dark text-text-primary dark:text-text-primary-dark tablet:mx-142 tablet:mt-160 desktop:mx-430 desktop:mt-160 mt-84'>
       <div className='w-480'>
         <h1 className='block w-139 text-40 leading-48 font-500 mx-auto mb-80'>
           회원가입

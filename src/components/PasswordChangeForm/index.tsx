@@ -39,6 +39,8 @@ function PasswordChangeForm({ submitButton, type, formClass = '' }: FormProps) {
   const { setModalClose } = useModalStore();
   const router = useRouter();
 
+  const { token } = router.query; // URL에서 token 추출
+
   const passwordChangeMutation = useMutation({
     mutationFn: (data: PatchPassword) => patchUserPassword(data),
     onSuccess: () => {
@@ -52,7 +54,10 @@ function PasswordChangeForm({ submitButton, type, formClass = '' }: FormProps) {
   const handleChangePassword: SubmitHandler<PasswordChangeFormState> = (
     data,
   ) => {
-    passwordChangeMutation.mutate(data);
+    // token을 포함한 리퀘스트 바디 생성
+    const requestData = { ...data, token };
+
+    passwordChangeMutation.mutate(requestData);
   };
 
   // 조건부 클래스

@@ -161,7 +161,7 @@ function SignInPage() {
         </form>
         <div className='flex items-center'>
           <div className='flex-grow border-t border-border-primary dark:border-border-primary-dark' />
-          <div className='border-border-primary-DEAFULT dark:border-border-primary-dark mx-24 text-text-primary-DEAFULT dark:text-text-primary-dark'>
+          <div className='border-border-primary dark:border-border-primary-dark mx-24 text-text-primary dark:text-text-primary-dark'>
             OR
           </div>
           <div className='flex-grow border-t border-border-primary dark:border-border-primary-dark' />
