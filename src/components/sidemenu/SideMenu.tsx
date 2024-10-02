@@ -2,7 +2,7 @@ import { IconX } from '@/assets/IconList';
 import useGroups from '@/hooks/useGroups';
 import useMemberships from '@/hooks/useMemberships';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import useDetectClose from '@/hooks/useDetectClose';
 import Link from 'next/link';
 import CrownIcon from '../icon/Crown';
 
@@ -18,25 +18,15 @@ function SideMenu({ onClose }: { onClose: () => void }) {
     [currentGroup] = filterGroup;
   }
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const menu = document.querySelector('.side-menu');
-      if (menu && !menu.contains(event.target as Node)) {
-        onClose();
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [onClose]);
+  const ref = useDetectClose(onClose);
 
   if (isGroupsLoading) return null;
 
   return (
-    <div className='side-menu w-270 inset-y-0 left-0 p-16 bg-background-secondary dark:bg-background-secondary-dark z-modal fixed'>
+    <div
+      ref={ref}
+      className='side-menu w-270 inset-y-0 left-0 p-16 bg-background-secondary dark:bg-background-secondary-dark z-modal fixed'
+    >
       <div className='flex flex-col gap-8 items-center'>
         <div className='w-full flex flex-row-reverse mb-35'>
           <button type='button' onClick={onClose} aria-label='close button'>

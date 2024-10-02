@@ -18,7 +18,7 @@ function Header() {
   const { isLoggedIn } = useUserStore();
 
   const toggleSideMenu = () => {
-    setIsSideMenuOpen(!isSideMenuOpen);
+    setIsSideMenuOpen((prev) => !prev);
   };
 
   return (
@@ -30,7 +30,7 @@ function Header() {
         <div className='flex items-center'>
           {isLoggedIn && (
             <IconMenu
-              className='w=24 mr-16 tablet:hidden'
+              className='w-24 mr-16 tablet:hidden'
               onClick={toggleSideMenu}
             />
           )}
