@@ -1,10 +1,10 @@
 import useDropdown from '@/hooks/useDropdown';
 import useModalStore from '@/stores/ModalStore';
 import { useRouter } from 'next/router';
+import useUserStore from '@/stores/userStore';
 import Dropdown from '../dropdown/Dropdown';
 import ProfileImage from '../member/ProfileImage';
 import LogoutModal from '../modal/LogoutModal';
-import useUserStore from '@/stores/userStore';
 
 function UserDropdown({ user }: { user: User | null }) {
   const { handleOffDropdown, handleToggleDropdown, isOpen } = useDropdown();
