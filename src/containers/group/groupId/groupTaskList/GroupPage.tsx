@@ -97,14 +97,14 @@ function GroupPage() {
 
   return (
     <div className='main-container'>
-      <div className='text-text-primary text-lg px-24'>
+      <div className='text-text-primary text-lg px-24 dark:text-text-primary-dark'>
         <section className='w-full desktop:mx-auto pt-24'>
           {group ? (
             <>
               <div className='flex flex-row-reverse gap-4 mb-12'>
                 <UnderLine active={activeTab === 'progress'}>
                   <button
-                    className='w-64 pb-6 text-text-primary text-md tablet:text-lg desktop:text-2lg'
+                    className='w-64 pb-6 text-text-primary dark:text-text-primary-dark text-md tablet:text-lg desktop:text-2lg'
                     type='button'
                     onClick={() => handleTabChange('progress')}
                   >
@@ -113,7 +113,7 @@ function GroupPage() {
                 </UnderLine>
                 <UnderLine active={activeTab === 'total'}>
                   <button
-                    className='w-64 pb-6 text-text-primary text-md tablet:text-lg desktop:text-2lg'
+                    className='w-64 pb-6 text-text-primary dark:text-text-primary-dark text-md tablet:text-lg desktop:text-2lg'
                     type='button'
                     onClick={() => handleTabChange('total')}
                   >

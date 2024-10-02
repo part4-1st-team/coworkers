@@ -27,7 +27,10 @@ function GroupTaskList({
   const { setModalOpen } = useModalStore();
 
   return (
-    <div className='relative w-full h-40 rounded-12 bg-background-secondary flex text-md text-text-primary'>
+    <div
+      className='relative shadow-md w-full h-40 rounded-12 bg-background-secondary flex text-md text-text-primary
+    dark:bg-background-secondary-dark dark:text-text-primary-dark'
+    >
       <div className={`absolute w-12 h-full rounded-l-12 bg-point-${color}`} />
       <div className='w-full px-12 flex items-center justify-between'>
         <Link
@@ -39,7 +42,7 @@ function GroupTaskList({
         </Link>
         <div className='flex '>
           <section className=' flex items-center'>
-            <div className='py-4 px-8 bg-background-primary rounded-12 flex text-brand-primary gap-4'>
+            <div className='py-4 px-8 bg-background-primary dark:bg-background-primary-dark rounded-12 flex text-brand-primary gap-4'>
               {isDone ? (
                 <IconProgressDone className='fill-brand-primary' />
               ) : (

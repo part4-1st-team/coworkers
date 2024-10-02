@@ -19,7 +19,7 @@ function GroupDropDown({
         {icon === 'kebab' ? (
           <IconKebabLarge className='cursor-pointer' />
         ) : (
-          <IconGear className='cursor-pointer' />
+          <IconGear className='cursor-pointer fill-text-default' />
         )}
       </Dropdown.Trigger>
       <Dropdown.Menu isOpen={isOpen} position='right-0'>

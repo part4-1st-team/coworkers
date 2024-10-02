@@ -24,8 +24,11 @@ function GroupBar({ groupId, groupName, isAdmin, children }: Props) {
   };
 
   return (
-    <div className='relative w-full h-64 bg-white bg-opacity-10 rounded-12 font-medium px-24 border border-border-primary'>
-      <div className='relative -z-10'>
+    <div
+      className='relative w-full h-64 bg-background-secondary rounded-12 font-medium px-24 border-2 border-border-primary
+    dark:bg-background-secondary-dark dark:border-border-primary-dark'
+    >
+      <div className='relative'>
         <Image
           src={MaskGroupBar}
           height={62}
