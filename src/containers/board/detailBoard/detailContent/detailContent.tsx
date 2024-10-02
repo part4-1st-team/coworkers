@@ -7,7 +7,8 @@ import {
   deleteArticle,
 } from '@/services/ArticleAPI';
 import { useRouter } from 'next/router';
-import { IconHeart, IconComment } from '@/assets/IconList';
+import { getArticleViewCount } from '@/services/ArticleViewCount.API';
+import { IconHeart, IconComment, IconSearch } from '@/assets/IconList';
 import BoardDropdownMenu from '@/components/board/boardDropdown';
 import ArticleEdit from '@/hooks/useArticleEdit';
 import EditInput from '@/components/input/editCommentInput';
@@ -18,6 +19,7 @@ import Image from 'next/image';
 import useModalStore from '@/stores/ModalStore';
 import DeleteArticleModal from '@/components/modal/DeleteArticleModal';
 import TitleEditInput from '@/components/input/titleEditInput';
+import useLikeStore from '../../commponent/useLikeStore';
 
 interface DetailContentProps {
   boardId: number | number[] | undefined;
@@ -26,14 +28,15 @@ interface DetailContentProps {
 function DetailContent({ boardId }: DetailContentProps) {
   const router = useRouter();
   const { user: currentUser, isLoading, error: userError } = useUser();
+  const { likedArticles, toggleLike, likeCounts, setLikeCount } =
+    useLikeStore();
 
   // 게시글 세부 정보, 댓글, 좋아요 등을 불러오는 훅
   const { articleDetail, error, isFetching, refetch } = useArticleDetail(
     boardId as number,
   );
 
-  const [likeCount, setLikeCount] = useState<number>(0);
-  const [isLiked, setIsLiked] = useState<boolean>(false);
+  const [viewCount, setViewCount] = useState<number>(0);
 
   // 게시글 수정 모드를 관리하는 훅 (제목 및 본문 수정)
   const {
@@ -47,22 +50,41 @@ function DetailContent({ boardId }: DetailContentProps) {
     setTitle,
   } = ArticleEdit(articleDetail?.title || '', articleDetail?.content || '');
 
+  // 조회수를 Firestore에서 가져오는 useEffect
+  useEffect(() => {
+    if (boardId) {
+      // 조회수 가져오는 함수 호출
+      getArticleViewCount(boardId as number, () => {}).then((views) => {
+        if (views !== null) {
+          setViewCount(views); // 조회수 상태에 저장
+        }
+      });
+    }
+  }, [boardId]);
+
   // 게시글 데이터가 변경될 때마다 상태값 업데이트
   useEffect(() => {
     if (articleDetail) {
-      setLikeCount(articleDetail.likeCount || 0);
-      setIsLiked(articleDetail.isLiked || false);
+      setLikeCount(articleDetail.id, articleDetail.likeCount || 0); // likeCount를 Zustand에 저장
+      toggleLike(articleDetail.id, articleDetail.isLiked || false);
       setContent(articleDetail.content);
       setTitle(articleDetail.title);
     }
-  }, [articleDetail, setContent, setTitle]);
+  }, [articleDetail, setContent, setTitle, toggleLike, setLikeCount]);
+
+  // 페이지가 다시 열릴 때마다 서버에서 최신 데이터 가져오기
+  useEffect(() => {
+    if (boardId) {
+      refetch(); // 서버에서 최신 데이터를 다시 가져옴
+    }
+  }, [router.asPath, boardId, refetch]);
 
   // 좋아요 추가 Mutation (성공 시 상태 업데이트)
   const likeMutation = useMutation({
     mutationFn: () => postArticleLike(boardId as number),
     onSuccess: (data) => {
-      setLikeCount(data.likeCount);
-      setIsLiked(true);
+      setLikeCount(boardId as number, data.likeCount); // likeCount 상태 업데이트
+      toggleLike(boardId as number, true);
     },
   });
 
@@ -70,8 +92,8 @@ function DetailContent({ boardId }: DetailContentProps) {
   const dislikeMutation = useMutation({
     mutationFn: () => deleteArticleLike(boardId as number),
     onSuccess: (data) => {
-      setLikeCount(data.likeCount);
-      setIsLiked(false);
+      setLikeCount(boardId as number, data.likeCount); // likeCount 상태 업데이트
+      toggleLike(boardId as number, false);
     },
   });
 
@@ -110,12 +132,12 @@ function DetailContent({ boardId }: DetailContentProps) {
 
   // 좋아요 또는 좋아요 취소 버튼 클릭 시 호출되는 함수
   const handleLikeClick = useCallback(() => {
-    if (isLiked) {
+    if (likedArticles[boardId as number]) {
       dislikeMutation.mutate();
     } else {
       likeMutation.mutate();
     }
-  }, [isLiked, likeMutation, dislikeMutation]);
+  }, [likedArticles, boardId, likeMutation, dislikeMutation]);
 
   // 게시글 수정 완료 버튼 클릭 시 호출되는 함수
   const handleSaveEdit = useCallback(() => {
@@ -188,6 +210,16 @@ function DetailContent({ boardId }: DetailContentProps) {
           </div>
           <div className='flex items-center gap-16'>
             <div className='flex gap-4'>
+              <IconSearch
+                width={20}
+                height={20}
+                className='text-icon-primary dark:text-icon-primary-dark'
+              />
+              <p className='text-md text-text-disabled dark:text-text-disabled-dark flex items-center'>
+                {viewCount}
+              </p>
+            </div>
+            <div className='flex gap-4'>
               <IconComment />
               <p className='text-md text-text-disabled dark:text-text-disabled-dark flex items-center'>
                 {commentCount}
@@ -196,19 +228,18 @@ function DetailContent({ boardId }: DetailContentProps) {
             <div className='flex items-center gap-4'>
               <IconHeart
                 onClick={handleLikeClick}
-                color={isLiked ? 'gray' : 'gray'}
-                fill={isLiked ? 'gray' : 'none'}
+                color={likedArticles[boardId as number] ? 'gray' : 'gray'}
+                fill={likedArticles[boardId as number] ? 'gray' : 'none'}
                 style={{ cursor: 'pointer' }}
               />
               <p className='text-md text-text-disabled dark:text-text-disabled-dark flex items-center'>
-                {likeCount}
+                {likeCounts[boardId as number] || 0}
               </p>
             </div>
           </div>
         </div>
         <div className='mt-28 py-10 text-md font-normal text-text-secondary dark:text-text-secondary-dark'>
           {isEditing ? (
-            // 본문을 수정하는 텍스트 영역
             <EditInput
               value={content}
               onChange={(e) => handleContentChange(e)}
@@ -218,10 +249,7 @@ function DetailContent({ boardId }: DetailContentProps) {
             />
           ) : (
             <div className='flex flex-row'>
-              <p
-                className='text-lg font-medium text-text-secondary dark:text-text-secondary-dark'
-                style={{ whiteSpace: 'pre-wrap' }}
-              >
+              <p className='text-lg font-medium text-text-secondary dark:text-text-secondary-dark whitespace-pre-wrap'>
                 {content}
               </p>
               {image && (

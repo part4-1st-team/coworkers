@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import clsx from 'clsx';
 import Button from '@/components/button/button';
 
 interface EditInputProps {
@@ -38,20 +39,18 @@ function EditInput({
       <div className='w-full'>
         <textarea
           ref={textareaRef}
-          className='w-full text-text-primary dark:text-text-primary-dark resize-none focus:outline-none focus:ring-0'
+          className={clsx(
+            'w-full resize-none focus:outline-none focus:ring-0',
+            'text-text-primary dark:text-text-primary-dark',
+            'min-h-[17px] max-h-[400px] bg-transparent',
+            'overflow-y-auto whitespace-pre-wrap break-words',
+          )}
           placeholder={placeholder}
           value={value}
           onChange={handleInputChange}
           rows={rows}
-          style={{
-            minHeight: '17px',
-            maxHeight: '400px',
-            backgroundColor: 'transparent',
-            overflowY: 'auto',
-            whiteSpace: 'pre-wrap',
-            wordBreak: 'break-word',
-          }}
         />
+
         <div className='flex gap-8 justify-end items-center mt-2'>
           <Button
             type='button'
