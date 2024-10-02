@@ -35,14 +35,22 @@ function GroupMembers({ Members, groupId }: GroupMembersProps) {
           <p className='text-text-default'>({memberCount}명)</p>
           {totalPages > 1 && (
             <>
-              <IconArrowLeft
-                className={`size-12 cursor-pointer ${currentPage === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+              <button
+                className={`cursor-pointer ${currentPage === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                type='button'
                 onClick={handlePrevPage}
-              />
-              <IconArrowRight
-                className={`size-12 cursor-pointer ${currentPage === totalPages - 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                aria-label='이전 페이지로 이동'
+              >
+                <IconArrowLeft className='size-12' />
+              </button>
+              <button
+                className={`cursor-pointer ${currentPage === totalPages - 1 ? 'opacity-50 cursor-not-allowed ' : ''}`}
                 onClick={handleNextPage}
-              />
+                type='button'
+                aria-label='다음 페이지로 이동'
+              >
+                <IconArrowRight className='size-12' />
+              </button>
             </>
           )}
         </div>

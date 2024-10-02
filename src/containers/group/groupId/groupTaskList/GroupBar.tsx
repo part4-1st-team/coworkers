@@ -4,6 +4,7 @@ import MaskGroupBar from '@/assets/images/img_mask_group_bar.png';
 import { useRouter } from 'next/router';
 import useModalStore from '@/stores/ModalStore';
 import { IconSecession } from '@/assets/IconList';
+import GroupEditModal from '@/components/modal/GroupEditModal';
 import GroupLeaveModal from '@/components/modal/GroupLeaveModal';
 import GroupDeleteModal from '@/components/modal/GroupDeleteModal';
 import GroupDropDown from './GroupDropDown';
@@ -23,8 +24,11 @@ function GroupBar({ groupId, groupName, isAdmin, children }: Props) {
   };
 
   return (
-    <div className='relative w-full h-64 bg-white bg-opacity-10 rounded-12 font-medium px-24 border border-border-primary'>
-      <div className='relative -z-10'>
+    <div
+      className='relative w-full h-64 bg-background-secondary rounded-12 font-medium px-24 border-2 border-border-primary
+    dark:bg-background-secondary-dark dark:border-border-primary-dark'
+    >
+      <div className='relative'>
         <Image
           src={MaskGroupBar}
           height={62}
@@ -46,7 +50,7 @@ function GroupBar({ groupId, groupName, isAdmin, children }: Props) {
             <GroupDropDown
               icon='gear'
               handleEdit={() => {
-                router.push(`/group/${groupId}/edit`);
+                setModalOpen(<GroupEditModal />);
               }}
               handleDelete={() => setModalOpen(<GroupDeleteModal />)}
             />

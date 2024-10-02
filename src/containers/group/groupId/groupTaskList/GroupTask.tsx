@@ -32,11 +32,11 @@ function GroupTask({ Lists }: { Lists: TaskList[] }) {
           {totalPages > 1 && (
             <>
               <IconArrowLeft
-                className={`size-16 bg-background-secondary rounded-full cursor-pointer ${currentPage === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                className={`size-16 bg-background-secondary dark:bg-background-tertiary-dark rounded-full cursor-pointer ${currentPage === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
                 onClick={handlePrevPage}
               />
               <IconArrowRight
-                className={`size-16 bg-background-secondary rounded-full cursor-pointer ${currentPage === totalPages - 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                className={`size-16 bg-background-secondary dark:bg-background-tertiary-dark rounded-full cursor-pointer ${currentPage === totalPages - 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
                 onClick={handleNextPage}
               />
             </>

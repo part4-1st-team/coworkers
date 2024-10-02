@@ -27,10 +27,10 @@ function TaskListReport({ Lists }: { Lists: TaskList[] }) {
     return (
       <section
         key={list.id}
-        className='w-full h-224 bg-background-secondary rounded-12 p-24 tablet:px-36 desktop:px-48'
+        className='w-fill h-224 shadow-md bg-background-secondary dark:bg-background-secondary-dark rounded-12 p-24 tablet:px-36 desktop:p-24'
       >
         <div className='w-fill flex justify-between'>
-          <div className='flex gap-64 items-center'>
+          <div className='flex mr-12 items-center gap-42 desktop:gap-22 justify-between'>
             <DoughnutChart percentage={percentage} />
             <div className='absolute w-150 h-150 flex flex-col items-center justify-center tablet:hidden'>
               <p className='text-xs font-medium'>{list.name}</p>
@@ -41,8 +41,8 @@ function TaskListReport({ Lists }: { Lists: TaskList[] }) {
               <p className='text-4xl font-bold'>{percentage.toFixed(0)}%</p>
             </div>
           </div>
-          <section className='w-1/2 max-w-400 flex flex-col gap-16'>
-            <div className='w-full min-w-130 h-76 rounded-12 bg-background-tertiary p-16 flex justify-between items-center'>
+          <section className='w-1/2 max-w-400 desktop:max-w-184 flex flex-col gap-16'>
+            <div className='w-full min-w-130 h-76 rounded-12 shadow-md bg-background-tertiary dark:bg-background-tertiary-dark p-16 flex justify-between items-center'>
               <div className='flex flex-col gap-6'>
                 <p className='text-xs'>오늘의 할 일</p>
                 <p className='text-2xl text-brand-tertiary font-bold'>
@@ -53,7 +53,7 @@ function TaskListReport({ Lists }: { Lists: TaskList[] }) {
                 <Image src={TodoImg} alt='todo image' width={40} height={40} />
               </div>
             </div>
-            <div className='w-full min-w-130 h-76 rounded-12 bg-background-tertiary p-16 flex justify-between items-center'>
+            <div className='w-full min-w-130 h-76 rounded-12 shadow-md bg-background-tertiary dark:bg-background-tertiary-dark p-16 flex justify-between items-center'>
               <div className='flex flex-col gap-6'>
                 <p className='text-xs'>완료한 일</p>
                 <p className='text-2xl text-brand-tertiary font-bold'>
@@ -71,7 +71,7 @@ function TaskListReport({ Lists }: { Lists: TaskList[] }) {
   };
 
   return (
-    <div className='flex flex-col gap-8'>
+    <div className='flex flex-col desktop:grid grid-cols-2 gap-8'>
       {Lists.length === 0 ? (
         <div className='text-14 font-md text-text-default mx-auto mt-64 mb-48 desktop:mb-64'>
           아직 할 일 목록이 없습니다.
