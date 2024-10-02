@@ -2,9 +2,9 @@ import { IconX } from '@/assets/IconList';
 import useGroups from '@/hooks/useGroups';
 import useMemberships from '@/hooks/useMemberships';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import useDetectClose from '@/hooks/useDetectClose';
 import Link from 'next/link';
-import SideTabList from '../header/SideTabList';
+import CrownIcon from '../icon/Crown';
 
 function SideMenu({ onClose }: { onClose: () => void }) {
   const { memberships } = useMemberships();
@@ -18,25 +18,15 @@ function SideMenu({ onClose }: { onClose: () => void }) {
     [currentGroup] = filterGroup;
   }
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const menu = document.querySelector('.side-menu');
-      if (menu && !menu.contains(event.target as Node)) {
-        onClose();
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [onClose]);
+  const ref = useDetectClose(onClose);
 
   if (isGroupsLoading) return null;
 
   return (
-    <div className='side-menu w-270 inset-y-0 left-0 p-16 bg-background-secondary z-modal fixed'>
+    <div
+      ref={ref}
+      className='side-menu w-270 inset-y-0 left-0 p-16 bg-background-secondary dark:bg-background-secondary-dark z-modal fixed'
+    >
       <div className='flex flex-col gap-8 items-center'>
         <div className='w-full flex flex-row-reverse mb-35'>
           <button type='button' onClick={onClose} aria-label='close button'>
@@ -44,23 +34,36 @@ function SideMenu({ onClose }: { onClose: () => void }) {
           </button>
         </div>
         {memberships.map((membership: Membership) => (
-          <SideTabList
+          <Link
+            key={membership.groupId}
+            href={`/group/${membership.groupId}`}
             onClick={() => {
               onClose();
             }}
-            key={membership.group.id}
-            size='side'
-            membership={membership}
-          />
+            className='w-248 h-45 flex items-center py-7 px-8 hover:bg-background-primary dark:hover:bg-background-tertiary-dark rounded-8'
+          >
+            {String(groupId) === String(membership.groupId) && (
+              <div className='absolute size-8 rounded-full bg-brand-primary' />
+            )}
+            <div className='pl-14 flex items-center gap-6'>
+              <span className='truncate max-w-150'>
+                {membership.group.name}
+              </span>
+              {membership.role === 'ADMIN' && <CrownIcon />}
+            </div>
+          </Link>
         ))}
         <Link
           href='/board'
           onClick={() => {
             onClose();
           }}
-          className='w-248 h-45 flex items-center justify-between py-7 px-8 hover:bg-slate-700 rounded-8'
+          className='w-248 h-45 flex items-center py-6 px-8 hover:bg-background-primary dark:hover:bg-background-tertiary-dark rounded-8'
         >
-          자유게시판
+          {router.pathname === '/board' && (
+            <div className='absolute size-8 rounded-full bg-brand-primary' />
+          )}
+          <span className='pl-14'>자유게시판</span>
         </Link>
       </div>
     </div>

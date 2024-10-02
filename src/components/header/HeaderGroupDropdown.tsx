@@ -29,7 +29,7 @@ function HeaderGroupDropdown() {
     if (currentGroup) {
       return currentGroup.name;
     }
-    return '알 수 없는 팀';
+    return '팀 선택하기';
   };
 
   if (isGroupsLoading) return null;
@@ -38,7 +38,7 @@ function HeaderGroupDropdown() {
     <Dropdown onClose={handleOffDropdown}>
       <Dropdown.Trigger onClick={handleToggleDropdown}>
         <div className='flex items-center gap-11'>
-          <p className='text-lg font-medium text-text-primary'>
+          <p className='text-lg font-medium text-text-primary dark:text-text-primary-dark truncate max-w-110'>
             {getGroupName()}
           </p>
           <IconCheck className='fill-text-inverse' />
@@ -49,7 +49,6 @@ function HeaderGroupDropdown() {
           <SideTabList
             onClick={handleOffDropdown}
             key={membership.group.id}
-            size='header'
             membership={membership}
           />
         ))}
