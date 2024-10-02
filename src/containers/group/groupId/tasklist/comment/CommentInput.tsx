@@ -36,8 +36,18 @@ function CommentInput({ taskId }: { taskId: number }) {
         control={control}
         render={({ field }) => (
           <ReplyInput
-            disabled={!field.value || field.value.trim() === ''}
+            disabled={
+              !field.value ||
+              field.value.trim() === '' ||
+              postTaskCommentMutation.isPending
+            }
             {...field}
+            onKeyDown={(e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handleSubmit(handleSubmitComment)();
+              }
+            }}
           />
         )}
       />

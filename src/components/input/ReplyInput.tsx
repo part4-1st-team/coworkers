@@ -12,6 +12,7 @@ interface ReplyInputProps {
   rows?: number;
   onClick?: () => void;
   disabled?: boolean;
+  onKeyDown: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void;
 }
 
 function ReplyInput({
@@ -21,6 +22,7 @@ function ReplyInput({
   onChange,
   rows = 1,
   disabled,
+  onKeyDown,
 }: ReplyInputProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -45,6 +47,8 @@ function ReplyInput({
           value={value}
           onChange={handleInputChange}
           rows={rows}
+          onKeyPress={onKeyDown}
+          //   onKeyUp={onKeyDown}
           style={{
             backgroundColor: 'transparent',
           }}
