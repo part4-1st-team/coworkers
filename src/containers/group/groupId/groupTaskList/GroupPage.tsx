@@ -36,13 +36,13 @@ function GroupPage() {
     return false;
   };
 
-  const calculateDoneCount = (taskLists: TaskList[]) => {
+  const calculateDoneCount = () => {
     return taskLists.reduce((acc, taskList) => {
       return acc + taskList.tasks.filter((task) => task.doneAt !== null).length;
     }, 0);
   };
 
-  const calculateTodayCount = (taskLists: TaskList[]) => {
+  const calculateTodayCount = () => {
     const today = new Date();
     return taskLists.reduce((acc, taskList) => {
       return (

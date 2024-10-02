@@ -4,10 +4,10 @@ import MaskGroupBar from '@/assets/images/img_mask_group_bar.png';
 import { useRouter } from 'next/router';
 import useModalStore from '@/stores/ModalStore';
 import { IconSecession } from '@/assets/IconList';
+import GroupEditModal from '@/components/modal/GroupEditModal';
 import GroupLeaveModal from '@/components/modal/GroupLeaveModal';
 import GroupDeleteModal from '@/components/modal/GroupDeleteModal';
 import GroupDropDown from './GroupDropDown';
-import GroupEditModal from '@/components/modal/GroupEditModal';
 
 interface Props {
   groupId: number;
