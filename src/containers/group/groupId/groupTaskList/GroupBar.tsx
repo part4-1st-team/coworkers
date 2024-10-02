@@ -7,6 +7,7 @@ import { IconSecession } from '@/assets/IconList';
 import GroupLeaveModal from '@/components/modal/GroupLeaveModal';
 import GroupDeleteModal from '@/components/modal/GroupDeleteModal';
 import GroupDropDown from './GroupDropDown';
+import GroupEditModal from '@/components/modal/GroupEditModal';
 
 interface Props {
   groupId: number;
@@ -46,7 +47,7 @@ function GroupBar({ groupId, groupName, isAdmin, children }: Props) {
             <GroupDropDown
               icon='gear'
               handleEdit={() => {
-                router.push(`/group/${groupId}/edit`);
+                setModalOpen(<GroupEditModal />);
               }}
               handleDelete={() => setModalOpen(<GroupDeleteModal />)}
             />

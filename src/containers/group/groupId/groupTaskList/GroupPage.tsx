@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import useQueryParameter from '@/hooks/useQueryParameter';
 import useGroups from '@/hooks/useGroups';
+import useTaskLists from '@/hooks/useTaskLists';
 import { useEffect, useState } from 'react';
 import useUser from '@/hooks/useUser';
 import EmptyGroup from './EmptyGroup';
@@ -14,6 +15,7 @@ import TaskListReport from './TaskListReport';
 function GroupPage() {
   const router = useRouter();
   const { groupId } = useQueryParameter();
+  const { taskLists, isLoading } = useTaskLists(groupId);
   const { user } = useUser();
   const { group, isGroupLoading, groupTaskLists, groupMembers } =
     useGroups(groupId);
@@ -89,7 +91,7 @@ function GroupPage() {
     setActiveTab(tab);
   };
 
-  if (isGroupLoading) {
+  if (isGroupLoading || isLoading) {
     return <div>Loading...</div>;
   }
 
@@ -128,7 +130,7 @@ function GroupPage() {
                   >
                     {group.name}
                   </GroupBar>
-                  <GroupTask Lists={groupTaskLists} />
+                  <GroupTask Lists={taskLists} />
                   <GroupReport
                     doneCount={doneTaskCount}
                     totalCount={totalTaskCount}

@@ -1,7 +1,7 @@
 import useQueryParameter from '@/hooks/useQueryParameter';
 import { deleteTaskList } from '@/services/TaskListAPI';
 import useModalStore from '@/stores/ModalStore';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Button from '@/components/button/button';
 import useToast from '@/components/toast/useToast';
 import Modal from './Modal';
@@ -10,10 +10,14 @@ function TaskListDeleteModal({ taskListId }: { taskListId: number }) {
   const { setModalClose } = useModalStore();
   const { groupId } = useQueryParameter();
   const { toast } = useToast();
+  const queryClient = useQueryClient();
 
   const taskListDeleteMutation = useMutation({
     mutationFn: () => deleteTaskList(groupId, taskListId),
     onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['getTaskLists', groupId],
+      });
       toast('Success', '목록이 성공적으로 삭제되었습니다.');
       setModalClose();
     },
