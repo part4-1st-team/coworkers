@@ -43,9 +43,8 @@ function SignUpPage() {
   // 회원가입 데이터 전송
   const onSubmit: SubmitHandler<SignUpFormValues> = async (data) => {
     try {
-      const response = await signup(data);
-      toast('Success', response);
-      router.push('/auth/signIn');
+      toast('Success', '회원가입이 완료되었습니다.');
+      router.push('/auth/signin');
     } catch (error) {
       toast('Error', '회원가입 실패');
     }
