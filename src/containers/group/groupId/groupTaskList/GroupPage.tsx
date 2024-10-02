@@ -68,8 +68,8 @@ function GroupPage() {
 
   useEffect(() => {
     if (groupTaskLists) {
-      const doneCount = calculateDoneCount(groupTaskLists);
-      const todayCount = calculateTodayCount(groupTaskLists);
+      const doneCount = calculateDoneCount();
+      const todayCount = calculateTodayCount();
       const totalCount = groupTaskLists.reduce(
         (total, taskList) => total + taskList.tasks.length,
         0,
