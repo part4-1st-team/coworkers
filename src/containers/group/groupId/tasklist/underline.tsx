@@ -22,9 +22,12 @@ function UnderLine({
       <div
         className={twMerge(
           'h-3 rounded-8 w-full',
-          position === 'page'
-            ? 'bg-background-secondary dark:bg-background-secondary-dark'
-            : 'bg-border-primary dark:bg-border-primary-dark ',
+          !active &&
+            position === 'page' &&
+            'bg-background-secondary dark:bg-background-secondary-dark',
+          !active &&
+            position === 'section' &&
+            'bg-border-primary dark:bg-border-primary-dark ',
           active && 'bg-brand-primary',
 
           className,

@@ -16,7 +16,7 @@ function ListPageLayout({ children }: { children: ReactNode }) {
 
   return (
     <main className='main-container relative h-[80vh]'>
-      <section className='flex flex-col tablet:flex-row tablet:justify-between  tablet:items-center gap-20 tablet:gap-0'>
+      <div className='flex flex-col tablet:flex-row tablet:justify-between  tablet:items-center gap-20 tablet:gap-0'>
         <div className='flex items-center gap-6 tablet:gap-10'>
           <Link href={`/group/${groupId}`}>
             <IconLeftArrowColor
@@ -37,7 +37,7 @@ function ListPageLayout({ children }: { children: ReactNode }) {
         <div className='flex justify-center'>
           <DateNavigate />
         </div>
-      </section>
+      </div>
       <article className='relative flex w-full h-full gap-10 tablet:gap-20 mt-15 tablet:mt-25'>
         <div className='flex flex-col gap-10'>
           <TaskListMenu />

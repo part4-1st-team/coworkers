@@ -21,7 +21,7 @@ function TasksSection({ priority = false }: { priority?: boolean }) {
 
   const updateTaskOrderMutation = useMutation({
     mutationFn: ({ taskListId, taskId, displayIndex }: OrderTask) =>
-      patchTaskOrder(groupId, taskListId, taskId, displayIndex),
+      patchTaskOrder(groupId, Number(taskListId), taskId, displayIndex),
     onMutate: (variables) => {
       // groupId를 context에 저장
       return { taskListId: variables.taskListId };
@@ -61,7 +61,7 @@ function TasksSection({ priority = false }: { priority?: boolean }) {
 
   return (
     <DragDropContext onDragEnd={handleTaskDragEnd}>
-      <section className='flex flex-col py-25 px-30 shadow-md bg-background-secondary dark:bg-background-secondary-dark w-full h-full rounded-12'>
+      <section className='flex flex-col py-25 px-20 tablet:px-30 shadow-md bg-background-secondary dark:bg-background-secondary-dark w-full h-full rounded-12'>
         <div className='flex items-center gap-16'>
           <UnderLine
             active={!router.pathname.includes('priority')}
@@ -86,7 +86,7 @@ function TasksSection({ priority = false }: { priority?: boolean }) {
               href={`/group/${groupId}/tasklist/${taskListId}/priority`}
               className='text-text-default dark:text-text-default-dark text-md text-medium'
             >
-              중요 ⭐️
+              즐겨찾기
             </Link>
           </UnderLine>
         </div>
