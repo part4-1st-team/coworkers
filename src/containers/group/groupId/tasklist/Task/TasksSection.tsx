@@ -20,6 +20,7 @@ function TasksSection({ priority = false }: { priority?: boolean }) {
   const { taskListId } = router.query;
 
   const updateTaskOrderMutation = useMutation({
+    // eslint-disable-next-line @typescript-eslint/no-shadow
     mutationFn: ({ taskListId, taskId, displayIndex }: OrderTask) =>
       patchTaskOrder(groupId, Number(taskListId), taskId, displayIndex),
     onMutate: (variables) => {

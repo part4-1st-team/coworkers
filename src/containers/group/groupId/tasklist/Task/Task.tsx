@@ -24,8 +24,6 @@ import EditDeleteDropdown from '../../EditDeleteDropdown';
 import HalfPageContent from '../HalfPage/HalfListContent';
 import TaskDoneHandler from '../TaskDoneHandler';
 import PriorityButton from './PriorityButton';
-import StarEmptyIcon from '@/components/icon/StarEmtpy';
-import StarActiveIcon from '@/components/icon/StarActive';
 
 function Task({
   task,

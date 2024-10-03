@@ -10,7 +10,6 @@ interface ReplyInputProps {
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   rows?: number;
-  onClick?: () => void;
   disabled?: boolean;
   onKeyDown: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void;
 }
