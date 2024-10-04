@@ -13,10 +13,11 @@ export async function postTaskPriority(
   taskListId: number,
   task: DateTask,
   date: string,
+  userId: number,
 ) {
   const docRef = doc(
     fireStore,
-    `/tasks/${groupId}/${taskListId}/priority/${date}/${task.id}`,
+    `/tasks/${groupId}/${taskListId}/user/${userId}/priority/${date}/${task.id}`,
   );
 
   const data = { taskId: task.id, task };
@@ -35,11 +36,12 @@ export async function getTaskPriority(
   groupId: number,
   taskListId: number,
   date: string,
+  userId: number,
 ) {
   // 하위 컬렉션 참조
   const priorityCollectionRef = collection(
     fireStore,
-    `/tasks/${groupId}/${taskListId}/priority/${date}`,
+    `/tasks/${groupId}/${taskListId}/user/${userId}/priority/${date}`,
   );
 
   const querySnapshot = await getDocs(priorityCollectionRef);
