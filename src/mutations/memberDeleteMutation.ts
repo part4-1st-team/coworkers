@@ -23,7 +23,7 @@ function useMemberDeleteMutation(self?: boolean) {
       //     queryKey: [],
       //   })
       if (self) {
-        router.replace('/groups');
+        router.replace('/group/groups');
         toast('Success', '그룹 탈퇴가 완료되었습니다.');
       } else {
         toast('Success', '해당 사용자를 그룹에서 내보냈습니다.');

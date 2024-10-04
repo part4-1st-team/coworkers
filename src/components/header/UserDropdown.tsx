@@ -51,7 +51,7 @@ function UserDropdown({ user }: { user: User | null }) {
             팀 참여하기
           </Dropdown.List>
           <Dropdown.List
-            onClick={() => router.push('/groups')}
+            onClick={() => router.push('/group/groups')}
             onClose={handleOffDropdown}
           >
             그룹 리스트
