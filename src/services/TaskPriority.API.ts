@@ -36,6 +36,8 @@ export async function postTaskPriority(
         },
         { merge: true },
       );
+    } else {
+      console.log('체크 박스 변경');
     }
   } else {
     if (!docSnap.exists()) {

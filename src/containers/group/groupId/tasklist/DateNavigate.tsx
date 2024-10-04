@@ -12,7 +12,7 @@ function DateNavigate() {
   const { pickDate, setPickDate, handleNavigateDay } = useDateStore();
   const router = useRouter();
   const { groupId, taskListId } = router.query;
-  // const { groupId, taskListId } = useQueryParameter();
+
   const queryClient = useQueryClient();
   const { user } = useUserStore();
 
@@ -45,6 +45,7 @@ function DateNavigate() {
                 queryClient,
                 Number(groupId),
                 Number(taskListId),
+                // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
                 user?.id!,
               )
             }
@@ -72,6 +73,7 @@ function DateNavigate() {
                 queryClient,
                 Number(groupId),
                 Number(taskListId),
+                // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
                 user?.id!,
               )
             }

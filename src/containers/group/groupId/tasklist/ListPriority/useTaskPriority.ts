@@ -7,7 +7,9 @@ function useTaskPriority(groupId: number, taskListId: number, date: string) {
   const { user } = useUserStore();
 
   const { data, isLoading, refetch, isError, error } = useQuery({
+    // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
     queryKey: ['getPriorityTasks', groupId, taskListId, date, user?.id!],
+    // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
     queryFn: () => getTaskPriority(groupId, taskListId, date, user?.id!),
     enabled: !Number.isNaN(groupId) && !Number.isNaN(taskListId),
   });
