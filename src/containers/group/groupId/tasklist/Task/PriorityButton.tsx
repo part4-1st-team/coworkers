@@ -35,7 +35,7 @@ function PriorityButton({
       onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         e.stopPropagation();
-        priorityMutation.mutate();
+        priorityMutation.mutate({});
       }}
       className={twMerge(className)}
     >

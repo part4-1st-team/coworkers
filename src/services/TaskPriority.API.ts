@@ -14,20 +14,35 @@ export async function postTaskPriority(
   task: DateTask,
   date: string,
   userId: number,
+  type?: 'patch',
+  done?: boolean,
 ) {
   const docRef = doc(
     fireStore,
     `/tasks/${groupId}/${taskListId}/user/${userId}/priority/${date}/${task.id}`,
   );
 
-  const data = { taskId: task.id, task };
+  const data = { taskId: task.id, task, isDone: !!task.doneAt };
 
   const docSnap = await getDoc(docRef);
 
-  if (!docSnap.exists()) {
-    await setDoc(docRef, data);
+  if (type === 'patch') {
+    if (docSnap.exists()) {
+      await setDoc(
+        docRef,
+        {
+          isDone: done,
+          task: done ? { doneAt: new Date() } : { doneAt: null },
+        },
+        { merge: true },
+      );
+    }
   } else {
-    await deleteDoc(docRef);
+    if (!docSnap.exists()) {
+      await setDoc(docRef, data);
+    } else {
+      await deleteDoc(docRef);
+    }
   }
 }
 

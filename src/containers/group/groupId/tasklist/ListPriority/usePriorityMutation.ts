@@ -14,14 +14,23 @@ function usePriorityMutation(
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: () =>
+    mutationFn: ({
+      isPatch = false,
+      done = false,
+    }: {
+      isPatch?: boolean;
+      done?: boolean;
+    }) =>
       postTaskPriority(
         Number(groupId),
         Number(taskListId),
         task,
         getMonthDay(pickDate),
         userId,
+        isPatch ? 'patch' : undefined,
+        done,
       ),
+
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [
