@@ -36,7 +36,7 @@ function GroupMembers({ Members, groupId }: GroupMembersProps) {
           {totalPages > 1 && (
             <>
               <button
-                className={`cursor-pointer ${currentPage === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                className={`${currentPage === 0 ? 'opacity-50 cursor-default' : 'cursor-pointer '}`}
                 type='button'
                 onClick={handlePrevPage}
                 aria-label='이전 페이지로 이동'
@@ -44,7 +44,7 @@ function GroupMembers({ Members, groupId }: GroupMembersProps) {
                 <IconArrowLeft className='size-12' />
               </button>
               <button
-                className={`cursor-pointer ${currentPage === totalPages - 1 ? 'opacity-50 cursor-not-allowed ' : ''}`}
+                className={`cursor-pointer ${currentPage === totalPages - 1 ? 'opacity-50 cursor-default ' : 'cursor-pointer '}`}
                 onClick={handleNextPage}
                 type='button'
                 aria-label='다음 페이지로 이동'
