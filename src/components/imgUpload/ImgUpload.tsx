@@ -17,7 +17,7 @@ function ImgUpload({ prevImg, setImgUrl }: ImgUploadProps) {
 
   useEffect(() => {
     if (prevImg) {
-      setLocalImgUrl(prevImg); // prevImg가 있으면 설정
+      setLocalImgUrl(prevImg);
     }
   }, [prevImg]);
 
@@ -49,7 +49,10 @@ function ImgUpload({ prevImg, setImgUrl }: ImgUploadProps) {
   };
 
   return (
-    <div className='relative w-64 h-64 rounded-full bg-background-secondary border-2 border-border-primary flex justify-center items-center'>
+    <div
+      className='relative w-64 h-64 rounded-full bg-background-secondary dark:bg-background-secondary-dark border-2 
+    border-border-primary dark:border-border-primary-dark flex justify-center items-center'
+    >
       {localImgUrl ? (
         <img
           src={localImgUrl}
@@ -59,14 +62,12 @@ function ImgUpload({ prevImg, setImgUrl }: ImgUploadProps) {
       ) : (
         <IconImg />
       )}
-      <div className='w-18 h-18 absolute bottom-0 right-0 flex items-center justify-center rounded-full border-2 border-background-primary bg-background-tertiary'>
-        <button
-          type='button'
-          aria-label='이미지 파일 업로드'
+      <div className='absolute bottom-0 right-0 flex items-center justify-center rounded-full'>
+        <EditButton
+          size='sm'
+          className='flex justify-center items-center'
           onClick={handleEditButtonClick}
-        >
-          <EditButton size='sm' />
-        </button>
+        />
         <input
           ref={fileInputRef}
           type='file'
