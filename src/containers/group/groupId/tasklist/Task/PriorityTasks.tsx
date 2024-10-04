@@ -19,7 +19,7 @@ function PriorityTasks() {
 
   if (isLoading) return <>임시 로딩</>;
 
-  if (!priorityTasks || priorityTasks?.length === 0)
+  if (!priorityTasks?.length)
     return (
       <EmptyTasks
         message={`아직 즐겨찾기한 할 일 목록이 없습니다. \n 할 일을 즐겨찾기 해보세요!`}
