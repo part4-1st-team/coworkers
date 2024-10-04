@@ -16,7 +16,12 @@ interface FormState {
 
 function GroupEditModal() {
   const { toast } = useToast();
-  const { control, handleSubmit, reset } = useForm<FormState>();
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<FormState>();
   const [group, setGroup] = useState<Group | null>(null);
   const [currentImage, setCurrentImage] = useState<string | null>(null);
   const [prevImg, setPrevImg] = useState<string | undefined>();
@@ -73,22 +78,37 @@ function GroupEditModal() {
     >
       <Modal.Title title='팀 수정하기' />
       <Modal.Description description='팀 이름은 회사명이나 모임 이름 등으로 설정하면 좋아요.' />
-      <div className='w-full my-16'>
+      <div className='w-full my-24'>
         <div className='left-0 mb-8 text-text-primary dark:text-text-primary-dark'>
           팀 프로필
         </div>
         <ImgUpload prevImg={prevImg} setImgUrl={setCurrentImage} />
       </div>
-      <div className='w-full mb-24'>
+      <div className='w-full mb-42'>
         <Controller
           name='name'
           control={control}
+          rules={{
+            required: '팀 이름을 입력해주세요.',
+            maxLength: {
+              value: 29,
+              message: '팀 이름은 30글자 이상 넘어갈 수 없습니다.',
+            },
+          }}
           render={({ field }) => (
-            <Input
-              placeholder='팀 이름을 입력해주세요.'
-              value={field.value || ''}
-              onChange={field.onChange}
-            />
+            <>
+              <Input
+                placeholder='팀 이름을 입력해주세요.'
+                value={field.value}
+                onChange={field.onChange}
+                error={!!errors.name}
+              />
+              {errors.name && (
+                <div className='fixed text-status-danger text-sm mt-6 ml-6'>
+                  {errors.name.message}
+                </div>
+              )}
+            </>
           )}
         />
       </div>
