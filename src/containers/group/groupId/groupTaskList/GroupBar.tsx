@@ -26,7 +26,7 @@ function GroupBar({ groupId, groupName, isAdmin, children }: Props) {
   return (
     <div
       className='relative w-full h-64 bg-background-secondary rounded-12 font-medium px-24 border-2 border-border-primary
-    dark:bg-background-secondary-dark dark:border-border-primary-dark'
+    dark:bg-background-secondary-dark dark:border-border-primary-dark dark:text-text-primary-dark'
     >
       <div className='relative'>
         <Image
