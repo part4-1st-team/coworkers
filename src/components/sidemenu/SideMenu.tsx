@@ -40,7 +40,10 @@ function SideMenu({ onClose }: { onClose: () => void }) {
             onClick={() => {
               onClose();
             }}
-            className='w-248 h-45 flex items-center py-7 px-8 hover:bg-background-primary dark:hover:bg-background-tertiary-dark rounded-8'
+            className={`w-248 h-45 flex items-center py-7 px-8 hover:bg-background-primary 
+              dark:hover:bg-background-tertiary-dark rounded-8
+              ${String(groupId) === String(membership.groupId) ? 'bg-background-primary dark:bg-background-primary-dark' : ''}
+              `}
           >
             {String(groupId) === String(membership.groupId) && (
               <div className='absolute size-8 rounded-full bg-brand-primary' />
@@ -58,7 +61,9 @@ function SideMenu({ onClose }: { onClose: () => void }) {
           onClick={() => {
             onClose();
           }}
-          className='w-248 h-45 flex items-center py-6 px-8 hover:bg-background-primary dark:hover:bg-background-tertiary-dark rounded-8'
+          className={`w-248 h-45 flex items-center py-6 px-8 hover:bg-background-primary 
+          dark:hover:bg-background-tertiary-dark rounded-8 
+          ${router.pathname === '/board' ? 'bg-background-primary dark:bg-background-primary-dark' : ''} `}
         >
           {router.pathname === '/board' && (
             <div className='absolute size-8 rounded-full bg-brand-primary' />
