@@ -20,7 +20,7 @@ function MemberInfo({ member }: { member: IMember }) {
         <div className='flex flex-col items-start justify-center w-fill h-33 gap-2'>
           <b className='relative flex items-center gap-4 text-text-primary dark:text-text-primary-dark text-md'>
             {userName}
-            {role === 'ADMIN' ? <CrownIcon /> : <></>}
+            {role === 'ADMIN' ? <CrownIcon /> : <> </>}
           </b>
           <p className='hidden tablet:inline-block text-text-default dark:text-text-default-dark text-xs'>
             {userEmail}
