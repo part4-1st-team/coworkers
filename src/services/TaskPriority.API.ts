@@ -26,6 +26,7 @@ export async function postTaskPriority(
 
   const docSnap = await getDoc(docRef);
 
+  // 조건 간단하게 되긴 하는데 간단하게 하면 안되길래 여러가지 하다가 정착..
   if (type === 'patch') {
     if (docSnap.exists()) {
       await setDoc(
@@ -40,6 +41,7 @@ export async function postTaskPriority(
       console.log('체크 박스 변경');
     }
   } else {
+    // eslint-disable-next-line no-lonely-if
     if (!docSnap.exists()) {
       await setDoc(docRef, data);
     } else {
