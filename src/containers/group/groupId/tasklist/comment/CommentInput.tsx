@@ -1,4 +1,4 @@
-import ReplyInput from '@/components/input/replyInput';
+import ReplyInput from '@/components/input/ReplyInput';
 import { postTaskComment } from '@/services/TaskCommentAPI';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
@@ -34,7 +34,22 @@ function CommentInput({ taskId }: { taskId: number }) {
       <Controller
         name='content'
         control={control}
-        render={({ field }) => <ReplyInput {...field} />}
+        render={({ field }) => (
+          <ReplyInput
+            disabled={
+              !field.value ||
+              field.value.trim() === '' ||
+              postTaskCommentMutation.isPending
+            }
+            {...field}
+            onKeyDown={(e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handleSubmit(handleSubmitComment)();
+              }
+            }}
+          />
+        )}
       />
     </form>
   );

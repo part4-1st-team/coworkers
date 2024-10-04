@@ -99,7 +99,7 @@ function HalfPageContent({ task, isDone, setIsDone }: Props) {
   return (
     <section
       className={clsx(
-        'h-[96vh] w-full relative border-x pt-80 px-40 pb-40',
+        'h-[96vh] w-full relative border-x pt-80 px-40 pb-40 overflow-y-auto',
         'bg-background-secondary dark:bg-background-secondary-dark border-border-primary dark:border-border-primary-dark',
       )}
     >

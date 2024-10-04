@@ -1,12 +1,12 @@
+import useUserStore from '@/stores/userStore';
 import Head from 'next/head';
 import AccountSettingForm from './AccountSettingForm';
 import ChangePasswordButton from './ChangePasswordButton';
 import UserSecessionButton from './UserSecessionButton';
 
 function AccountSetting() {
-  // const { isSocialLogin } = useUserStore();
+  const { isSocialLogin } = useUserStore();
 
-  const isSocialLogin: 'kakao' | 'google' | null = 'kakao';
   return (
     <>
       <Head>

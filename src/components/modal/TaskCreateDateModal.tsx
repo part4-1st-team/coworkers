@@ -128,7 +128,7 @@ function TaskCreateDateModal({
             trigger={
               <button
                 type='button'
-                className='w-full h-48 py-10 px-12 rounded-12 bg-dropdown-button text-text-default text-md font-medium'
+                className='w-full h-48 py-10 px-12 rounded-12 border border-border-primary dark:bg-dropdown-button dark:border-none text-text-default text-md font-medium'
               >
                 {`매달 ${monthDay.getDate()}일 반복`}
               </button>

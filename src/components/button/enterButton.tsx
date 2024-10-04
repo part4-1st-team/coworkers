@@ -11,7 +11,8 @@ type EnterButtonProps = {
 
 function EnterButton({ className, disabled, onClick }: EnterButtonProps) {
   const buttonClass = clsx(
-    'w-24 h-24 border-none bg-icon-primary hover:bg-interaction-hover active:bg-icon-brand',
+    'w-24 h-24 border-none active:bg-icon-brand',
+    disabled ? 'bg-icon-primary' : 'bg-interaction-hover',
     className,
   );
 

@@ -2,7 +2,11 @@ import Image from 'next/image';
 import IconEmail from '@/assets/images/ic_mail.png';
 import IconEmailLight from '@/assets/images/ic_mail_light.png';
 
-function EmailIcon({ size, theme }: { size: number; theme: 'light' | 'dark' }) {
+interface EmailIconProps extends IconProps {
+  theme: 'light' | 'dark';
+}
+
+function EmailIcon({ size, theme }: EmailIconProps) {
   return (
     <Image
       src={theme === 'light' ? IconEmail : IconEmailLight}

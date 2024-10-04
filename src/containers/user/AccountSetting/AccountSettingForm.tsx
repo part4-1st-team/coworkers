@@ -32,9 +32,7 @@ function AccountSettingForm() {
   const imageMutation = useImageMutation();
   const { user, isLoading: isUserLoading } = useUser();
 
-  //   const { isSocialLogin } = useUserStore();
-
-  const isSocialLogin: 'kakao' | 'google' | null = 'kakao';
+  const { isSocialLogin } = useUserStore();
 
   const updateUserMutation = useMutation({
     mutationFn: async (name: string) => {
