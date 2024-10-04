@@ -45,7 +45,7 @@ function UserDropdown({ user }: { user: User | null }) {
       ) : (
         <Dropdown.Menu isOpen={isOpen} className='right-0 top-45'>
           <Dropdown.List
-            onClick={() => router.push('/groups')}
+            onClick={() => router.push('/group/groups')}
             onClose={handleOffDropdown}
           >
             그룹 리스트
