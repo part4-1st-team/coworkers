@@ -23,8 +23,17 @@ import { useMediaQuery } from 'react-responsive';
 import EditDeleteDropdown from '../../EditDeleteDropdown';
 import HalfPageContent from '../HalfPage/HalfListContent';
 import TaskDoneHandler from '../TaskDoneHandler';
+import PriorityButton from './PriorityButton';
 
-function Task({ task, index }: { task: DateTask; index: number }) {
+function Task({
+  task,
+  index,
+  isPriority,
+}: {
+  task: DateTask;
+  index: number;
+  isPriority?: boolean;
+}) {
   const { id: taskId, name, commentCount, frequency, doneAt, date } = task;
 
   // 완료했는지 체크할 상태 (이걸로 먼저 화면 업데이트)
@@ -66,7 +75,7 @@ function Task({ task, index }: { task: DateTask; index: number }) {
             )
           }
           className={clsx(
-            'cursor-pointer flex flex-col gap-10 rounded-8 py-12 px-14',
+            'cursor-pointer flex flex-col gap-10 rounded-8 py-12 px-12 tablet:px-14',
             'transition-transform duration-300 ease-in-out',
             snapshot.isDragging && 'scale-105',
             'bg-background-tertiary dark:bg-background-tertiary-dark',
@@ -81,7 +90,7 @@ function Task({ task, index }: { task: DateTask; index: number }) {
         >
           <div className='flex justify-between w-full items-center'>
             <div className='flex gap-12'>
-              <div className='flex gap-8 items-center'>
+              <div className='flex gap-6 tablet:gap-8 items-center'>
                 <Checkbox checked={isDone} handleClick={handleDoneTask} />
                 <div className='relative'>
                   {isDone && (
@@ -107,31 +116,49 @@ function Task({ task, index }: { task: DateTask; index: number }) {
               </div>
             </div>
 
-            <EditDeleteDropdown
-              trigger={<IconKebabSmall />}
-              handleEdit={() => setModalOpen(<TaskEditModal task={task} />)}
-              handleDelete={() => setModalOpen(<TaskDeleteModal task={task} />)}
-            />
+            <div className='flex items-baseline'>
+              <PriorityButton
+                task={task}
+                isPriority={isPriority}
+                className='hidden tablet:block'
+              />
+              <EditDeleteDropdown
+                trigger={<IconKebabSmall />}
+                handleEdit={() => setModalOpen(<TaskEditModal task={task} />)}
+                handleDelete={() =>
+                  setModalOpen(<TaskDeleteModal task={task} />)
+                }
+              />
+            </div>
           </div>
 
-          <div className='flex items-center gap-10'>
-            <div className='flex gap-6 items-center'>
-              <IconCalendar width={16} height={16} />
+          <div className='flex justify-between'>
+            <div className='flex items-center gap-10'>
+              <div className='flex gap-6 items-center'>
+                <IconCalendar width={16} height={16} />
 
-              <span className='text-xs font-normal text-text-default dark:text-text-default-dark'>
-                {isMobile ? getMonthDay(date, undefined, false) : getDate(date)}
-              </span>
+                <span className='text-xs font-normal text-text-default dark:text-text-default-dark'>
+                  {isMobile
+                    ? getMonthDay(date, undefined, false)
+                    : getDate(date)}
+                </span>
+              </div>
+
+              <div className='w-1 h-8 rounded bg-text-default' />
+
+              <div className='flex gap-6 items-center'>
+                <IconRepeat />
+
+                <span className='text-xs font-normal text-text-default dark:text-text-default-dark'>
+                  {getDaily(frequency)}
+                </span>
+              </div>
             </div>
-
-            <div className='w-1 h-8 rounded bg-text-default' />
-
-            <div className='flex gap-6 items-center'>
-              <IconRepeat />
-
-              <span className='text-xs font-normal text-text-default dark:text-text-default-dark'>
-                {getDaily(frequency)}
-              </span>
-            </div>
+            <PriorityButton
+              task={task}
+              isPriority={isPriority}
+              className='block tablet:hidden'
+            />
           </div>
         </div>
       )}

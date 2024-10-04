@@ -1,5 +1,6 @@
 import useQueryParameter from '@/hooks/useQueryParameter';
 import useTaskLists from '@/hooks/useTaskLists';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Droppable } from 'react-beautiful-dnd';
 import TaskList from './TaskList';
@@ -7,7 +8,9 @@ import TaskList from './TaskList';
 function TaskLists() {
   const [mounted, setMounted] = useState<boolean>(false);
 
-  const { groupId, taskListId } = useQueryParameter();
+  const { groupId } = useQueryParameter();
+  const router = useRouter();
+  const { taskListId } = router.query;
 
   const { taskLists, isLoading: isListLoading } = useTaskLists(groupId);
 
@@ -32,7 +35,7 @@ function TaskLists() {
               taskList={taskList}
               key={taskList.id}
               groupId={groupId}
-              taskListId={taskListId}
+              taskListId={Number(taskListId)}
               index={index}
             />
           ))}

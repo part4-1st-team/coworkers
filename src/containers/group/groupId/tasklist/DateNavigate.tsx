@@ -3,12 +3,15 @@ import Calendar from '@/components/calendar/Calendar';
 import useQueryParameter from '@/hooks/useQueryParameter';
 import getMonthDay from '@/utils/getMonthDay';
 import { useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
 import useDateStore from '../useDateStore';
 import UnderLine from './underline';
 
 function DateNavigate() {
   const { pickDate, setPickDate, handleNavigateDay } = useDateStore();
-  const { groupId, taskListId } = useQueryParameter();
+  const router = useRouter();
+  const { groupId, taskListId } = router.query;
+  // const { groupId, taskListId } = useQueryParameter();
   const queryClient = useQueryClient();
 
   return (
@@ -35,7 +38,12 @@ function DateNavigate() {
             type='button'
             className='p-10 text-text-primary dark:text-text-primary-dark text-md tablet:text-lg desktop:text-2lg'
             onClick={() =>
-              handleNavigateDay('prev', queryClient, groupId, taskListId)
+              handleNavigateDay(
+                'prev',
+                queryClient,
+                Number(groupId),
+                Number(taskListId),
+              )
             }
           >
             {getMonthDay(pickDate, 'prev', false)}
@@ -56,7 +64,12 @@ function DateNavigate() {
             type='button'
             className='p-10 text-text-primary dark:text-text-primary-dark text-md tablet:text-lg desktop:text-2lg'
             onClick={() =>
-              handleNavigateDay('next', queryClient, groupId, taskListId)
+              handleNavigateDay(
+                'next',
+                queryClient,
+                Number(groupId),
+                Number(taskListId),
+              )
             }
           >
             {getMonthDay(pickDate, 'next', false)}

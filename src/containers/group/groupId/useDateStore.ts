@@ -33,6 +33,14 @@ const useDateStore = create<DateState>((set) => ({
       queryClient.invalidateQueries({
         queryKey: ['getTasks', groupId, taskListId, getMonthDay(newDate)],
       });
+      queryClient.invalidateQueries({
+        queryKey: [
+          'getPriorityTasks',
+          groupId,
+          taskListId,
+          getMonthDay(newDate),
+        ],
+      });
       return { pickDate: newDate };
     }),
 }));
