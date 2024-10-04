@@ -43,7 +43,7 @@ import IconXDark from './icons/ic_x_dark.svg';
 import IconProfileLarge from './icons/ic_profile_large.svg';
 import IconHandLike from './icons/ic_handlike.svg';
 import IconFolder from './icons/ic_folder.svg';
-import IconMessage from './icons/ic_Message_alt_fill.svg';
+import IconMessage from './icons/ic_message.svg';
 import IconSubtract from './icons/ic_Subtract.svg';
 
 export {
