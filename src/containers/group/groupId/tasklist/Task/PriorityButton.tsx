@@ -26,6 +26,7 @@ function PriorityButton({
     taskListId,
     task,
     pickDate,
+    // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
     user?.id!,
   );
 
