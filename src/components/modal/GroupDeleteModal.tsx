@@ -20,7 +20,7 @@ function GroupDeleteModal() {
       queryClient.invalidateQueries({
         queryKey: ['group'],
       });
-      router.replace('/group/groups');
+      router.replace('/groups');
       toast('Success', '그룹이 성공적으로 삭제되었습니다.');
     },
     onError: () => {
