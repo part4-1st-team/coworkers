@@ -24,7 +24,7 @@ interface UserStoreState {
     user: User,
     atoken: string,
     rToken: string,
-    isSocialLogin?: string,
+    isSocialLogin?: string | null,
   ) => void;
   setLogout: () => void;
   setToken: (aToken: string, rToken: string) => void;

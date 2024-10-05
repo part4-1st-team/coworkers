@@ -43,7 +43,7 @@ function SignInPage() {
       const response = await login({ email, password });
       const { user, accessToken, refreshToken } = response;
       // 유저 정보 저장, 쿠키에 토큰 저장
-      setLogin(user, accessToken, refreshToken);
+      setLogin(user, accessToken, refreshToken, null);
       // 에러 메시지 초기화
       setError(null);
       // 로그인 성공 시 그룹 가입 페이지로 이동
