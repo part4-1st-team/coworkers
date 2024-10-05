@@ -13,20 +13,40 @@ export async function postTaskPriority(
   taskListId: number,
   task: DateTask,
   date: string,
+  userId: number,
+  type?: 'patch',
+  done?: boolean,
 ) {
   const docRef = doc(
     fireStore,
-    `/tasks/${groupId}/${taskListId}/priority/${date}/${task.id}`,
+    `/tasks/${groupId}/${taskListId}/user/${userId}/priority/${date}/${task.id}`,
   );
 
-  const data = { taskId: task.id, task };
+  const data = { taskId: task.id, task, isDone: !!task.doneAt };
 
   const docSnap = await getDoc(docRef);
 
-  if (!docSnap.exists()) {
-    await setDoc(docRef, data);
+  // 조건 간단하게 되긴 하는데 간단하게 하면 안되길래 여러가지 하다가 정착..
+  if (type === 'patch') {
+    if (docSnap.exists()) {
+      await setDoc(
+        docRef,
+        {
+          isDone: done,
+          task: done ? { doneAt: new Date() } : { doneAt: null },
+        },
+        { merge: true },
+      );
+    } else {
+      console.log('체크 박스 변경');
+    }
   } else {
-    await deleteDoc(docRef);
+    // eslint-disable-next-line no-lonely-if
+    if (!docSnap.exists()) {
+      await setDoc(docRef, data);
+    } else {
+      await deleteDoc(docRef);
+    }
   }
 }
 
@@ -35,11 +55,12 @@ export async function getTaskPriority(
   groupId: number,
   taskListId: number,
   date: string,
+  userId: number,
 ) {
   // 하위 컬렉션 참조
   const priorityCollectionRef = collection(
     fireStore,
-    `/tasks/${groupId}/${taskListId}/priority/${date}`,
+    `/tasks/${groupId}/${taskListId}/user/${userId}/priority/${date}`,
   );
 
   const querySnapshot = await getDocs(priorityCollectionRef);
