@@ -4,12 +4,11 @@ import { useRouter } from 'next/router';
 
 const useRefreshAccessToken = () => {
   const router = useRouter();
-  const setLogin = useUserStore((state) => state.setLogin);
-  const setLogout = useUserStore((state) => state.setLogout);
-  const refreshToken = useUserStore((state) => state.refreshToken);
-  const setToken = useUserStore((state) => state.setToken);
 
   const refreshAccessToken = async (): Promise<string> => {
+    const { refreshToken, setLogout, setLogin, setToken } =
+      useUserStore.getState(); // 구조 분해 할당
+
     if (!refreshToken) throw new Error('리프레시 토큰이 없습니다.');
 
     try {
@@ -23,15 +22,18 @@ const useRefreshAccessToken = () => {
       setLogin(user, accessToken, newRefreshToken);
 
       // userStore에 토큰 저장
-      setToken(accessToken, refreshToken);
+      setToken(accessToken, newRefreshToken);
 
       return accessToken;
     } catch (error) {
-      setLogout();
       console.error('리프레시 토큰 갱신 실패:', error);
 
-      // 로그아웃 후 로그인 페이지로 리다이렉트
-      router.push('/auth/signin');
+      // 리프레시 토큰 만료 시 로그아웃 후 로그인 페이지로 이동
+      if (axios.isAxiosError(error) && error.response?.status === 401) {
+        setLogout();
+        alert('세션이 만료되었습니다. 다시 로그인하세요.'); // 사용자에게 알림
+        router.push('/auth/signin');
+      }
 
       throw new Error('토큰 갱신 실패. 다시 로그인하세요.');
     }
