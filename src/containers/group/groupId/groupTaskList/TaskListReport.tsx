@@ -71,7 +71,7 @@ function TaskListReport({ Lists }: { Lists: TaskList[] }) {
   };
 
   return (
-    <div className='flex flex-col desktop:grid grid-cols-2 gap-8'>
+    <div className='flex flex-col desktop:grid grid-cols-2 gap-16'>
       {Lists.length === 0 ? (
         <div className='text-14 font-md text-text-default mx-auto mt-64 mb-48 desktop:mb-64'>
           아직 할 일 목록이 없습니다.

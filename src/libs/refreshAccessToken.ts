@@ -19,7 +19,8 @@ const useRefreshAccessToken = () => {
       const { accessToken, newRefreshToken, user } = response.data;
 
       // 새로운 액세스 및 리프레시 토큰 저장
-      setLogin(user, accessToken, newRefreshToken);
+      setLogin(user, accessToken, newRefreshToken, null);
+      // TODO 여기 로그인 상태 설정
 
       // userStore에 토큰 저장
       setToken(accessToken, newRefreshToken);

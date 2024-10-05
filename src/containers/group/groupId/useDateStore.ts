@@ -10,6 +10,7 @@ interface DateState {
     queryClient: QueryClient,
     groupId: number,
     taskListId: number,
+    userId: number,
   ) => void;
 }
 
@@ -21,6 +22,7 @@ const useDateStore = create<DateState>((set) => ({
     queryClient: QueryClient,
     groupId: number,
     taskListId: number,
+    userId: number,
   ) =>
     set((state) => {
       const newDate = new Date(state.pickDate);
@@ -32,6 +34,15 @@ const useDateStore = create<DateState>((set) => ({
 
       queryClient.invalidateQueries({
         queryKey: ['getTasks', groupId, taskListId, getMonthDay(newDate)],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [
+          'getPriorityTasks',
+          groupId,
+          taskListId,
+          getMonthDay(newDate),
+          userId,
+        ],
       });
       return { pickDate: newDate };
     }),

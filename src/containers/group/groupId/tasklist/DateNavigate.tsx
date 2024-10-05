@@ -1,15 +1,20 @@
 import { IconCalendar } from '@/assets/IconList';
 import Calendar from '@/components/calendar/Calendar';
 import useQueryParameter from '@/hooks/useQueryParameter';
+import useUserStore from '@/stores/userStore';
 import getMonthDay from '@/utils/getMonthDay';
 import { useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
 import useDateStore from '../useDateStore';
 import UnderLine from './underline';
 
 function DateNavigate() {
   const { pickDate, setPickDate, handleNavigateDay } = useDateStore();
-  const { groupId, taskListId } = useQueryParameter();
+  const router = useRouter();
+  const { groupId, taskListId } = router.query;
+
   const queryClient = useQueryClient();
+  const { user } = useUserStore();
 
   return (
     <div className='flex items-center'>
@@ -35,7 +40,14 @@ function DateNavigate() {
             type='button'
             className='p-10 text-text-primary dark:text-text-primary-dark text-md tablet:text-lg desktop:text-2lg'
             onClick={() =>
-              handleNavigateDay('prev', queryClient, groupId, taskListId)
+              handleNavigateDay(
+                'prev',
+                queryClient,
+                Number(groupId),
+                Number(taskListId),
+                // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+                user?.id!,
+              )
             }
           >
             {getMonthDay(pickDate, 'prev', false)}
@@ -56,7 +68,14 @@ function DateNavigate() {
             type='button'
             className='p-10 text-text-primary dark:text-text-primary-dark text-md tablet:text-lg desktop:text-2lg'
             onClick={() =>
-              handleNavigateDay('next', queryClient, groupId, taskListId)
+              handleNavigateDay(
+                'next',
+                queryClient,
+                Number(groupId),
+                Number(taskListId),
+                // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+                user?.id!,
+              )
             }
           >
             {getMonthDay(pickDate, 'next', false)}

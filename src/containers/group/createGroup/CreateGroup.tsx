@@ -14,7 +14,11 @@ interface FormState {
 
 function CreateGroup() {
   const { toast } = useToast();
-  const { control, handleSubmit } = useForm<FormState>();
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormState>();
   const [groupName, setGroupName] = useState<string>('');
   const [imgUrl, setImgUrl] = useState<string | null>(null);
   const queryClient = useQueryClient();
@@ -37,8 +41,13 @@ function CreateGroup() {
       router.push(`/group/${response.id}`);
     },
     onError: () => {
+      if (!imgUrl) {
+        toast('Error', '이미지 파일을 업로드해주세요.');
+        return;
+      }
       if (!groupName) {
         toast('Error', '팀 이름을 입력해주세요.');
+        return;
       }
       toast('Error', '팀 생성에 실패했습니다.');
     },
@@ -52,7 +61,7 @@ function CreateGroup() {
 
   return (
     <div className='main-container '>
-      <div className='mx-16 tablet:mx-142 desktop:mx-430 mt-132 text-lg text-text-primary'>
+      <div className='mx-16 tablet:mx-142 desktop:mx-430 mt-132 text-lg text-text-primary dark:text-text-primary-dark'>
         <div className='w-full flex flex-col items-center gap-24'>
           <div className='text-4xl'>팀 생성하기</div>
           <form className='w-full' onSubmit={handleSubmit(handleCreateGroup)}>
@@ -65,12 +74,27 @@ function CreateGroup() {
               <Controller
                 name='name'
                 control={control}
+                rules={{
+                  required: '팀 이름을 입력해주세요.',
+                  maxLength: {
+                    value: 29,
+                    message: '팀 이름은 30글자 이상 넘어갈 수 없습니다.',
+                  },
+                }}
                 render={({ field }) => (
-                  <Input
-                    placeholder='팀 이름을 입력해주세요.'
-                    value={field.value}
-                    onChange={field.onChange}
-                  />
+                  <>
+                    <Input
+                      placeholder='팀 이름을 입력해주세요.'
+                      value={field.value}
+                      onChange={field.onChange}
+                      error={!!errors.name}
+                    />
+                    {errors.name && (
+                      <div className='fixed text-status-danger text-sm mt-6 ml-6'>
+                        {errors.name.message}
+                      </div>
+                    )}
+                  </>
                 )}
               />
             </div>

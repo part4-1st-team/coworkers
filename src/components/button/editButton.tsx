@@ -1,4 +1,5 @@
 /* eslint-disable react/require-default-props */
+import { SetStateAction } from 'react';
 import { IconEdit } from '@/assets/IconList';
 import clsx from 'clsx';
 import CircleButton from './CircleButton';
@@ -8,6 +9,7 @@ type SizeType = 'sm' | 'lg';
 interface EditButtonProps {
   size: SizeType;
   className?: string;
+  onClick: () => SetStateAction<any>;
 }
 
 /**
@@ -24,21 +26,22 @@ interface EditButtonProps {
  *
  * @returns {JSX.Element} 주어진 크기와 스타일을 적용한 편집 아이콘이 있는 원형 버튼을 반환합니다.
  */
-function EditButton({ size, className }: EditButtonProps) {
+function EditButton({ size, className, onClick }: EditButtonProps) {
   const buttonClass = clsx(
     size === 'lg'
       ? 'w-32 h-32'
       : 'w-18 h-18 border-1 border-background-primary dark:border-background-primary-dark',
-    'w-4 h-4 border-none bg-background-tertiary dark:bg-background-tertiary-dark hover:bg-interaction-hover focus:bg-interaction-pressed',
+    'border-none bg-background-tertiary dark:bg-background-tertiary-dark hover:bg-interaction-hover focus:bg-interaction-pressed pl-1 pt-1',
     className,
   );
 
-  const iconClass = clsx(size === 'lg' ? 'w-14 h-18' : 'w-7 h-9');
+  const iconClass = clsx(size === 'lg' ? 'w-14' : 'w-10');
 
   return (
     <CircleButton
       icon={<IconEdit className={iconClass} />}
       className={buttonClass}
+      onClick={onClick}
     />
   );
 }

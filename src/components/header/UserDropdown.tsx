@@ -45,6 +45,12 @@ function UserDropdown({ user }: { user: User | null }) {
       ) : (
         <Dropdown.Menu isOpen={isOpen} className='right-0 top-45'>
           <Dropdown.List
+            onClick={() => router.push('/group/join-group')}
+            onClose={handleOffDropdown}
+          >
+            팀 참여하기
+          </Dropdown.List>
+          <Dropdown.List
             onClick={() => router.push('/groups')}
             onClose={handleOffDropdown}
           >

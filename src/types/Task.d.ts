@@ -81,3 +81,9 @@ interface OrderTask {
   taskId: number;
   displayIndex: number;
 }
+
+interface PriorityTask {
+  taskId: string | number;
+  task: DateTask;
+  isDone: boolean;
+}

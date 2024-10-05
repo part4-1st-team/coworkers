@@ -57,7 +57,6 @@ instance.interceptors.response.use(
         originalRequest.headers.Authorization = `Bearer ${accessToken}`;
         return await axios(originalRequest);
       } catch (err) {
-        // window.location.href = '/auth/signin';
         return Promise.reject(err);
       }
     }

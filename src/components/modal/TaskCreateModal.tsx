@@ -13,7 +13,11 @@ interface FormState {
 }
 
 function TaskCreateModal({ groupId }: { groupId: number }) {
-  const { handleSubmit, control } = useForm<FormState>();
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<FormState>();
   const { setModalClose } = useModalStore();
 
   const queryClient = useQueryClient();
@@ -46,12 +50,26 @@ function TaskCreateModal({ groupId }: { groupId: number }) {
           <Controller
             name='list'
             control={control}
+            rules={{
+              required: '목록 명을 입력해주세요.',
+              maxLength: {
+                value: 29,
+                message: '목록 명은 29글자를 넘어갈 수 없습니다.',
+              },
+            }}
             render={({ field }) => (
-              <Input
-                placeholder='목록 명을 입력해주세요'
-                {...field}
-                className='w-full h-48'
-              />
+              <>
+                <Input
+                  placeholder='목록 명을 입력해주세요'
+                  {...field}
+                  className='w-full h-48 mb-12'
+                />
+                {errors.list && (
+                  <div className='absolute text-status-danger text-sm mt-90'>
+                    {errors.list.message}
+                  </div>
+                )}
+              </>
             )}
           />
         </div>

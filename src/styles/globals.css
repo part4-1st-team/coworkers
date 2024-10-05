@@ -36,6 +36,12 @@
   }
 }
 
+.bg-clip-text {
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 @media (max-width: 767px) {
   .best-article-grid > *:nth-child(n + 2) {
     display: none;
