@@ -4,7 +4,6 @@ import LogoSmall from '@/assets/images/img_logo_small.svg';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import useUser from '@/hooks/useUser';
 import useUserStore from '@/stores/userStore';
 import HeaderGroupDropdown from './HeaderGroupDropdown';
 import UserDropdown from './UserDropdown';
@@ -14,8 +13,7 @@ function Header() {
   const router = useRouter();
   const currentPath = router.pathname;
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
-  const { user } = useUser();
-  const { isLoggedIn } = useUserStore();
+  const { user, isLoggedIn } = useUserStore();
 
   const toggleSideMenu = () => {
     setIsSideMenuOpen((prev) => !prev);
