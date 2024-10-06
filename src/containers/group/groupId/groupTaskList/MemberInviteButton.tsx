@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import MemberInviteModal from '@/components/modal/MemberInviteModal';
 import { getGroupInvitation } from '@/services/GroupAPI';
 import useToast from '@/components/toast/useToast';

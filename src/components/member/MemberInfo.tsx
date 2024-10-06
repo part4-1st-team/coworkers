@@ -1,11 +1,18 @@
 import React from 'react';
-import IconKebabSmall from '@/assets/icons/ic_kebab_small.svg';
 import useModalStore from '@/stores/ModalStore';
 import ProfileModal from '../modal/ProfileModal';
 import ProfileImage from './ProfileImage';
 import CrownIcon from '../icon/Crown';
+import { IconUserExport } from '@/assets/IconList';
+import GroupMemberRemoveModal from '../modal/GroupMemberRemoveModal';
 
-function MemberInfo({ member }: { member: IMember }) {
+function MemberInfo({
+  member,
+  isAdmin,
+}: {
+  member: IMember;
+  isAdmin?: boolean;
+}) {
   const { setModalOpen } = useModalStore();
   const { role, userName, userEmail, userImage } = member;
 
@@ -27,7 +34,23 @@ function MemberInfo({ member }: { member: IMember }) {
           </p>
         </div>
       </button>
-      <IconKebabSmall />
+
+      {isAdmin && role === 'MEMBER' && (
+        <button
+          type='button'
+          aria-label='그룹에서 내보내기 모달'
+          onClick={() =>
+            setModalOpen(
+              <GroupMemberRemoveModal
+                userId={member.userId}
+                userName={member.userName}
+              />,
+            )
+          }
+        >
+          <IconUserExport className='size-24 fill-icon-primary' />
+        </button>
+      )}
     </div>
   );
 }

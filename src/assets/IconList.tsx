@@ -45,6 +45,7 @@ import IconHandLike from './icons/ic_handlike.svg';
 import IconFolder from './icons/ic_folder.svg';
 import IconMessage from './icons/ic_message.svg';
 import IconSubtract from './icons/ic_Subtract.svg';
+import IconUserExport from './icons/ic_user_export.svg';
 
 export {
   IconX,
@@ -94,4 +95,5 @@ export {
   IconFolder,
   IconMessage,
   IconSubtract,
+  IconUserExport,
 };
