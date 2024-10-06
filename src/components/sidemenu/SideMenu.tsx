@@ -33,6 +33,20 @@ function SideMenu({ onClose }: { onClose: () => void }) {
             <IconX className='w-24 h-24' />
           </button>
         </div>
+        <Link
+          href='/groups'
+          onClick={() => {
+            onClose();
+          }}
+          className={`w-248 h-45 flex items-center py-6 px-8 hover:bg-background-primary 
+          dark:hover:bg-background-tertiary-dark rounded-8 
+          ${router.pathname === '/groups' && 'bg-background-primary dark:bg-[#2e3b4c]'} `}
+        >
+          {router.pathname === '/groups' && (
+            <div className='absolute size-8 rounded-full bg-brand-primary' />
+          )}
+          <span className='pl-14'>내 팀 목록</span>
+        </Link>
         {memberships.map((membership: Membership) => (
           <Link
             key={membership.groupId}

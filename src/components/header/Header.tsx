@@ -43,11 +43,10 @@ function Header() {
           <div className='w-full flex justify-between items-center'>
             <div className='flex items-center '>
               {isLoggedIn && (
-                <div className='hidden ml-32 tablet:flex items-center gap-40'>
+                <div className='hidden ml-32 tablet:flex items-center gap-28 desktop:gap-32'>
                   <HeaderGroupDropdown />
-                  <Link href='/board' className='desktop:ml-40'>
-                    자유게시판
-                  </Link>
+                  <Link href='/groups'>내 팀 목록</Link>
+                  <Link href='/board'>자유게시판</Link>
                 </div>
               )}
             </div>
