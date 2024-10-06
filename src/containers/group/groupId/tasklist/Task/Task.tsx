@@ -17,6 +17,7 @@ import Checkbox from '@/components/checkbox/Checkbox';
 import TaskDeleteModal from '@/components/modal/TaskDeleteModal';
 import TaskEditModal from '@/components/modal/TaskEditModal';
 import useModalStore from '@/stores/ModalStore';
+import useUserStore from '@/stores/userStore';
 import getMonthDay from '@/utils/getMonthDay';
 import { Draggable } from 'react-beautiful-dnd';
 import { useMediaQuery } from 'react-responsive';
@@ -24,7 +25,6 @@ import EditDeleteDropdown from '../../EditDeleteDropdown';
 import HalfPageContent from '../HalfPage/HalfListContent';
 import TaskDoneHandler from '../TaskDoneHandler';
 import PriorityButton from './PriorityButton';
-import useUserStore from '@/stores/userStore';
 
 function Task({
   task,
