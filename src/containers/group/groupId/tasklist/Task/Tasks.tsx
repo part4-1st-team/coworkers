@@ -1,4 +1,3 @@
-import useQueryParameter from '@/hooks/useQueryParameter';
 import useTasks from '@/hooks/useTasks';
 import getMonthDay from '@/utils/getMonthDay';
 import { useRouter } from 'next/router';
@@ -10,18 +9,18 @@ import Task from './Task';
 
 function Tasks() {
   const { pickDate } = useDateStore();
-  const { groupId } = useQueryParameter();
 
   const router = useRouter();
-  const { taskListId } = router.query;
+  const { groupId, taskListId } = router.query;
+
   const { tasks, isLoading } = useTasks(
-    groupId,
+    Number(groupId),
     Number(taskListId),
     String(pickDate),
   );
 
   const { priorityTasks, isLoading: isPriorityLoading } = useTaskPriority(
-    groupId,
+    Number(groupId),
     Number(taskListId),
     getMonthDay(pickDate),
   );

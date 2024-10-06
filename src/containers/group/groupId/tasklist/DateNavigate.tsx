@@ -1,6 +1,5 @@
 import { IconCalendar } from '@/assets/IconList';
 import Calendar from '@/components/calendar/Calendar';
-import useQueryParameter from '@/hooks/useQueryParameter';
 import useUserStore from '@/stores/userStore';
 import getMonthDay from '@/utils/getMonthDay';
 import { useQueryClient } from '@tanstack/react-query';
