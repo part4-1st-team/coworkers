@@ -41,10 +41,6 @@ function CreateGroup() {
       router.push(`/group/${response.id}`);
     },
     onError: () => {
-      if (!imgUrl) {
-        toast('Error', '이미지 파일을 업로드해주세요.');
-        return;
-      }
       if (!groupName) {
         toast('Error', '팀 이름을 입력해주세요.');
         return;
@@ -78,7 +74,7 @@ function CreateGroup() {
                   required: '팀 이름을 입력해주세요.',
                   maxLength: {
                     value: 29,
-                    message: '팀 이름은 30글자 이상 넘어갈 수 없습니다.',
+                    message: '팀 이름은 30글자 미만으로 입력해주세요.',
                   },
                 }}
                 render={({ field }) => (
