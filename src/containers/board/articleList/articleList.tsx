@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useInView } from 'react-intersection-observer';
 import { getArticles } from '@/services/ArticleAPI';
+import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 import SortDropdown from '@/components/board/sortDropdown';
 import ArticleCard from './articleListCard/articleListCard';
 
@@ -9,26 +10,6 @@ type ArticleOrder = 'like' | 'recent';
 
 interface ArticleListProps {
   searchValue?: string;
-}
-
-interface UseInfiniteScrollProps {
-  inView: boolean;
-  hasNextPage: boolean | undefined;
-  isFetchingNextPage: boolean;
-  fetchNextPage: () => void;
-}
-
-function useInfiniteScroll({
-  inView,
-  hasNextPage,
-  isFetchingNextPage,
-  fetchNextPage,
-}: UseInfiniteScrollProps) {
-  useEffect(() => {
-    if (inView && hasNextPage && !isFetchingNextPage) {
-      fetchNextPage();
-    }
-  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 }
 
 function ArticleList({ searchValue }: ArticleListProps) {
@@ -55,7 +36,7 @@ function ArticleList({ searchValue }: ArticleListProps) {
   // 마지막 게시글 감지
   const { ref: lastArticleRef, inView } = useInView({ threshold: 0.1 });
 
-  // 스크롤 페이징 처리
+  // 분리된 훅 사용
   useInfiniteScroll({ inView, hasNextPage, isFetchingNextPage, fetchNextPage });
 
   // 데이터 플래튼

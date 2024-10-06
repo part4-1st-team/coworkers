@@ -1,6 +1,7 @@
 import { IconMedal, IconHeart } from '@/assets/IconList';
 import ProfileImage from '@/components/member/ProfileImage';
 import { useRouter } from 'next/router';
+import useArticleDetail from '@/hooks/useArticleDetail';
 import Image from 'next/image';
 import clsx from 'clsx';
 
@@ -10,7 +11,8 @@ interface BestArticleCardProps {
 }
 
 function BestArticleCard({ article, className }: BestArticleCardProps) {
-  const { createdAt, title, image, writer, id, likeCount, isLiked } = article;
+  const { createdAt, title, image, writer, id } = article;
+  const { articleDetail } = useArticleDetail(id as number);
   const router = useRouter();
 
   const handleClick = () => {
@@ -36,7 +38,7 @@ function BestArticleCard({ article, className }: BestArticleCardProps) {
         className,
       )}
     >
-      <div className='flex gap-4'>
+      <div className='pt-15 w-54 h-26 flex items-center gap-4'>
         <IconMedal />
         <p className='text-md text-text-inverse dark:text-text-inverse-dark font-bold'>
           Best
@@ -71,11 +73,11 @@ function BestArticleCard({ article, className }: BestArticleCardProps) {
         <div className='flex items-center gap-12'>
           <div className='flex gap-4'>
             <IconHeart
-              color={isLiked ? 'gray' : 'gray'}
-              fill={isLiked ? 'gray' : 'none'}
+              color={articleDetail?.isLiked ? 'gray' : 'gray'}
+              fill={articleDetail?.isLiked ? 'gray' : 'none'}
             />
             <p className='text-md text-text-disabled dark:text-text-disabled-dark flex items-center'>
-              {likeCount}
+              {articleDetail?.likeCount}
             </p>
           </div>
         </div>

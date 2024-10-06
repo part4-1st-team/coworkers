@@ -1,4 +1,3 @@
-import { useCallback, useState } from 'react';
 import SearchInput from '@/components/input/searchInput';
 import BestArticleList from '@/containers/board/bestArticleList/bestArticleList';
 import ArticleList from '@/containers/board/articleList/articleList';
