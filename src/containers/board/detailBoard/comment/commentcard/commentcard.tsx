@@ -8,9 +8,9 @@ import {
   patchArticleComment,
   deleteArticleComment,
 } from '@/services/ArticleCommentAPI';
-import useUser from '@/hooks/useUser';
 import useToast from '@/components/toast/useToast';
 import ReportDropdownMenu from '@/components/board/ReportDropdownMenu';
+import useUserStore from '@/stores/userStore';
 import clsx from 'clsx';
 import Button from '@/components/button/button';
 import LikeIcon from './likeIcon';
@@ -23,8 +23,8 @@ interface CommentCardProps {
 function CommentCard({ comment, onDeleteSuccess }: CommentCardProps) {
   const { writer, createdAt, id } = comment;
 
-  // useUser 훅을 사용하여 로그인된 사용자 정보 가져오기
-  const { user: currentUser, isLoading: isUserLoading } = useUser();
+  // useUserStore 훅을 사용하여 로그인된 사용자 정보 가져오기
+  const { user: currentUser, isLoggedIn } = useUserStore();
   const isCommentAuthor = currentUser?.id === writer.id;
   const { toast } = useToast();
 
@@ -87,7 +87,7 @@ function CommentCard({ comment, onDeleteSuccess }: CommentCardProps) {
   };
 
   // 로딩 상태 처리
-  if (isUserLoading) {
+  if (!isLoggedIn) {
     return (
       <p className='flex items-center text-text-primary dark:text-text-primary-dark font-medium text-md'>
         Loading...

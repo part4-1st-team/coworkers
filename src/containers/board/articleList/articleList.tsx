@@ -4,7 +4,6 @@ import { useInView } from 'react-intersection-observer';
 import { getArticles } from '@/services/ArticleAPI';
 import SortDropdown from '@/components/board/sortDropdown';
 import ArticleCard from './articleListCard/articleListCard';
-import useLikeStore from '../commponent/useLikeStore';
 
 type ArticleOrder = 'like' | 'recent';
 
@@ -34,7 +33,6 @@ function useInfiniteScroll({
 
 function ArticleList({ searchValue }: ArticleListProps) {
   const [orderBy, setOrderBy] = useState<ArticleOrder>('recent');
-  const { likeCounts } = useLikeStore(); // 전역 상태에서 likeCounts를 가져옴
   const pageSize = 4;
 
   const {
@@ -66,9 +64,7 @@ function ArticleList({ searchValue }: ArticleListProps) {
   // 좋아요 순으로 정렬
   const sortedArticles =
     orderBy === 'like'
-      ? articles.sort(
-          (a, b) => (likeCounts[b.id] || 0) - (likeCounts[a.id] || 0),
-        )
+      ? articles.sort((a, b) => b.likeCount - a.likeCount)
       : articles;
 
   const handleSortChange = (sortType: ArticleOrder) => setOrderBy(sortType);
@@ -79,10 +75,7 @@ function ArticleList({ searchValue }: ArticleListProps) {
 
   if (error) {
     return (
-      <div
-        className='flex flex-col justify-center items-center,
-        text-text-primary dark:text-text-primary-dark font-medium text-md'
-      >
+      <div className='flex flex-col justify-center items-center text-text-primary dark:text-text-primary-dark font-medium text-md'>
         <p>에러가 발생했습니다: {error.message}</p>
       </div>
     );
@@ -91,10 +84,7 @@ function ArticleList({ searchValue }: ArticleListProps) {
   return (
     <div className='max-w-desktop h-auto overflow-hidden my-auto flex flex-col gap-32'>
       <div className='flex items-center justify-between'>
-        <p
-          className='text-lg font-medium tablet:text-xl tablet:font-bold,
-        text-text-primary dark:text-text-primary-dark'
-        >
+        <p className='text-lg font-medium tablet:text-xl tablet:font-bold text-text-primary dark:text-text-primary-dark'>
           게시글
         </p>
         <SortDropdown orderBy={orderBy} onSortChange={handleSortChange} />
@@ -112,19 +102,13 @@ function ArticleList({ searchValue }: ArticleListProps) {
       </div>
 
       {sortedArticles.length === 0 && !isLoading && !error && (
-        <div
-          className='mt-180 tablet:mt-158 flex justify-center font-medium text-md tablet:text-lg,
-        text-text-default dark:text-text-default-dark'
-        >
+        <div className='mt-180 tablet:mt-158 flex justify-center font-medium text-md tablet:text-lg text-text-default dark:text-text-default-dark'>
           검색 결과가 없습니다.
         </div>
       )}
 
       {isFetchingNextPage && (
-        <div
-          className='flex justify-center items-center font-medium text-md,
-        text-text-default dark:text-text-default-dark'
-        >
+        <div className='flex justify-center items-center font-medium text-md text-text-default dark:text-text-default-dark'>
           <div className='loader'>Loading...</div>
         </div>
       )}

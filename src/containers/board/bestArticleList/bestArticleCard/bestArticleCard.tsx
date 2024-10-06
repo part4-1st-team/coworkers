@@ -4,17 +4,14 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import clsx from 'clsx';
 
-import useLikeStore from '../../commponent/useLikeStore';
-
 interface BestArticleCardProps {
   article: Article;
   className?: string;
 }
 
 function BestArticleCard({ article, className }: BestArticleCardProps) {
-  const { createdAt, title, image, writer, id } = article;
+  const { createdAt, title, image, writer, id, likeCount, isLiked } = article;
   const router = useRouter();
-  const { likedArticles, likeCounts } = useLikeStore();
 
   const handleClick = () => {
     router.push(`/board/${id}`);
@@ -25,8 +22,6 @@ function BestArticleCard({ article, className }: BestArticleCardProps) {
       handleClick();
     }
   };
-
-  const LikeCount = likeCounts[id] || 0;
 
   return (
     <button
@@ -69,18 +64,18 @@ function BestArticleCard({ article, className }: BestArticleCardProps) {
           <div className='w-32 h-32'>
             <ProfileImage userImage={writer.image} size={32} />
           </div>
-          <p className='text-text-primary dark:text-text-primary-dark text-md font-medium'>
+          <p className='text-text-primary dark:text-text-primary-dark text-sm tablet:text-md font-medium'>
             {writer.nickname}
           </p>
         </div>
         <div className='flex items-center gap-12'>
           <div className='flex gap-4'>
             <IconHeart
-              color={likedArticles[id as number] ? 'gray' : 'gray'}
-              fill={likedArticles[id as number] ? 'gray' : 'none'}
+              color={isLiked ? 'gray' : 'gray'}
+              fill={isLiked ? 'gray' : 'none'}
             />
             <p className='text-md text-text-disabled dark:text-text-disabled-dark flex items-center'>
-              {LikeCount}
+              {likeCount}
             </p>
           </div>
         </div>

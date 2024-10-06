@@ -77,7 +77,7 @@ function AddPostPage() {
   };
 
   return (
-    <main className='main-container relative'>
+    <main className='main-container relative min-w-375'>
       <div className='flex items-center justify-between'>
         <p className='text-lg font-medium tablet:text-xl tablet:font-bold text-text-primary dark:text-text-primary-dark'>
           게시글 쓰기

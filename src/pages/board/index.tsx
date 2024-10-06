@@ -4,35 +4,24 @@ import BestArticleList from '@/containers/board/bestArticleList/bestArticleList'
 import ArticleList from '@/containers/board/articleList/articleList';
 import FloatingActionButton from '@/containers/board/commponent/floatingActionButton';
 import BoardHeader from '@/containers/board/commponent/boardHeader';
-
-// 커스텀 훅으로 검색 로직 분리 (SRP 적용)
-function useSearch() {
-  const [searchValue, setSearchValue] = useState('');
-
-  const handleSearchChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setSearchValue(e.target.value);
-    },
-    [],
-  );
-
-  return { searchValue, handleSearchChange };
-}
+import useSearch from '@/hooks/useSearch';
 
 function BoardPage() {
-  const { searchValue, handleSearchChange } = useSearch();
+  const { searchValue, searchQuery, handleSearchChange, handleKeyPress } =
+    useSearch();
 
   return (
-    <main className='main-container relative'>
+    <main className='main-container relative min-w-375'>
       <div className='flex flex-col gap-24'>
         <BoardHeader title='자유게시판' />
         <SearchInput
-          placeholder='검색어를 입력해 주세요'
+          placeholder='검색어를 입력하세요'
           value={searchValue}
           onChange={handleSearchChange}
+          onKeyPress={handleKeyPress}
         />
         <BestArticleList />
-        <ArticleList searchValue={searchValue} />
+        <ArticleList searchValue={searchQuery} />
         <FloatingActionButton href='/board/add-post' text='글쓰기' />
       </div>
     </main>
