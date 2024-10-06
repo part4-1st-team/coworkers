@@ -1,7 +1,18 @@
 import { ReactNode } from 'react';
+import { twMerge } from 'tailwind-merge';
 
-function ButtonWrapper({ children }: { children: ReactNode }) {
-  return <div className='flex gap-8 w-full items-center'>{children}</div>;
+function ButtonWrapper({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <div className={twMerge('flex gap-8 w-full items-center', className)}>
+      {children}
+    </div>
+  );
 }
 
 export default ButtonWrapper;
