@@ -28,7 +28,7 @@ function Groups() {
 
   return (
     <div className='main-container'>
-      <div className='text-xl text-text-primary dark:text-text-primary-dark flex items-center justify-between'>
+      <div className='text-xl text-text-primary dark:text-text-primary-dark flex items-end justify-between'>
         <p>내 팀 목록</p>
         <div className='flex gap-8'>
           <Button
