@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import useToastStore, { Toast } from './ToastStore';
 
-const DURATION = 2000;
+const DURATION = 200000;
 const ANIMATION = 500;
 
 function ToastItem({ toast }: { toast: Toast }) {
@@ -38,7 +38,7 @@ function ToastItem({ toast }: { toast: Toast }) {
       animate={{ opacity: visible ? 1 : 0 }}
       transition={{ duration: 0.5, ease: 'easeInOut' }}
       className={clsx(
-        'bg-background-secondary w-300 h-70 relative rounded-4 overflow-hidden flex items-center py-20 px-25 justify-between',
+        'bg-background-secondary dark:bg-background-secondary-dark shadow-md w-[90%] tablet:w-full h-fit relative rounded-4 overflow-hidden flex items-center py-12 px-25 justify-between',
       )}
     >
       <div
@@ -61,8 +61,10 @@ function ToastItem({ toast }: { toast: Toast }) {
           )}
         </div>
         <div className='flex flex-col gap-5'>
-          <span className='text-text-primary text-md font-medium'>{type}</span>
-          <span className='text-text-secondary text-md font-normal'>
+          <span className='text-text-primary dark:text-text-primary-dark text-md font-medium'>
+            {type}
+          </span>
+          <span className='text-text-secondary dark:text-text-secondary-dark text-md font-normal'>
             {message}
           </span>
         </div>
