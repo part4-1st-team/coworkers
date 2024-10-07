@@ -9,6 +9,7 @@ import type { AppProps } from 'next/app';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import '@/components/calendar/calendar.css';
 import { ThemeProvider } from '@/hooks/useThemeContext';
+import '@/components/switch/ThemeSwitch.css';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
