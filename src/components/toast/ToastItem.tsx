@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import useToastStore, { Toast } from './ToastStore';
 
-const DURATION = 200000;
+const DURATION = 2000;
 const ANIMATION = 500;
 
 function ToastItem({ toast }: { toast: Toast }) {
