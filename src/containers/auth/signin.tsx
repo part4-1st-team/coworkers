@@ -145,15 +145,15 @@ function SignInPage() {
                 비밀번호를 잊으셨나요?
               </span>
             </button>
-            {error && (
-              <div className='text-status-danger text-md text-center h-35 rounded-5 pl-5 mt-16 mb-8'>
-                {' '}
-                {/* 에러 창 디자인 논의 필요 */}
-                입력하신 이메일 또는 비밀번호가 올바르지 않습니다. <br />
-                다시 시도해 주세요.
-              </div>
-            )}
           </div>
+          {error && (
+            <div className='text-status-danger text-md text-center h-35 rounded-5 pl-5 -mt-24 mb-8'>
+              {' '}
+              {/* 에러 창 디자인 논의 필요 */}
+              입력하신 이메일 또는 비밀번호가 올바르지 않습니다. <br />
+              다시 시도해 주세요.
+            </div>
+          )}
           <Button type='submit' color='primary' size='lg' className='w-full'>
             로그인
           </Button>
