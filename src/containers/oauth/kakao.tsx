@@ -11,9 +11,9 @@ function KakaoSignIn() {
   const { setLogin } = useUserStore();
 
   useEffect(() => {
-    const { code, state } = router.query; // code와 state를 router.query에서 추출
+    const { code } = router.query; // code와 state를 router.query에서 추출
 
-    if (!code && !state) return; // code가 없으면 요청 중단
+    if (!code) return; // code가 없으면 요청 중단
 
     const fetchKakaoToken = async () => {
       try {
@@ -27,31 +27,38 @@ function KakaoSignIn() {
           code: code as string,
         });
 
-        // 카카오 토큰 요청
-        const kakaoTokenResponse = await axios.post(
-          `https://kauth.kakao.com/oauth/token`,
-          params,
-          {
-            headers: {
-              'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-            },
-          },
-        );
+        const config = {
+          redirectUri: KAKAO_REDIRECT_URI,
+          token: code as string,
+        };
+
+        const response = await axios.post(`auth/signIn/KAKAO`, config);
+
+        // // 카카오 토큰 요청
+        // const kakaoTokenResponse = await axios.post(
+        //   `https://kauth.kakao.com/oauth/token`,
+        //   params,
+        //   {
+        //     headers: {
+        //       'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+        //     },
+        //   },
+        // );
 
         // 콘솔에 액세스 토큰 출력
-        const kakaoAccessToken = kakaoTokenResponse.data.access_token;
+        // const kakaoAccessToken = kakaoTokenResponse.data.access_token;
 
         // 백엔드에 토큰 전송
-        const backendResponse = await axios.post(
-          `/auth/signIn/KAKAO`, // 상대 경로 사용
-          {
-            state: String(state),
-            redirectUri: KAKAO_REDIRECT_URI,
-            token: kakaoAccessToken,
-          },
-        );
+        // const backendResponse = await axios.post(
+        //   `/auth/signin/KAKAO`, // 상대 경로 사용
+        //   {
+        //     // state: String(state),
+        //     redirectUri: KAKAO_REDIRECT_URI,
+        //     token: kakaoAccessToken,
+        //   },
+        // );
 
-        const { user, accessToken, refreshToken } = backendResponse.data;
+        const { user, accessToken, refreshToken } = response.data;
 
         setLogin(user, accessToken, refreshToken, 'kakao');
         // 로그인 후 리디렉션 처리
