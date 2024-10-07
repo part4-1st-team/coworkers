@@ -28,6 +28,10 @@
   .auth-container {
     @apply my-84 px-16 tablet:px-142 tablet:mt-160 desktop:mx-auto desktop:max-w-460 desktop:p-0;
   }
+
+  .skeleton {
+    @apply animate-shimmer bg-gradient-skeleton bg-skeleton;
+  }
 }
 
 @layer utilities {
