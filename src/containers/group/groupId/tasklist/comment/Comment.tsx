@@ -2,6 +2,7 @@ import { IconKebabSmall } from '@/assets/IconList';
 import Button from '@/components/button/button';
 import ProfileImage from '@/components/member/ProfileImage';
 import { deleteTaskComment, patchTaskComment } from '@/services/TaskCommentAPI';
+import useUserStore from '@/stores/userStore';
 import getDate from '@/utils/getDate';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
@@ -24,6 +25,8 @@ function Comment({ comment }: { comment: Comment }) {
   } = comment;
 
   const { nickname, image: userImage } = user;
+
+  const { user: currentUser } = useUserStore();
 
   const queryClient = useQueryClient();
 
@@ -65,16 +68,24 @@ function Comment({ comment }: { comment: Comment }) {
     },
   });
 
+  if (!currentUser) return null;
+
   if (isEditing)
     return (
-      <div className='w-full pb-16 border-b border-background-tertiary border-opacity-10'>
+      <div className='w-full pb-16 border-b border-border-primary dark:border-border-primary-dark border-opacity-10'>
         <form
           className='flex flex-col gap-8'
           onSubmit={handleSubmit(handlePatchTaskComment)}
         >
           <textarea
-            className='bg-background-secondary w-full h-fit resize-none text-md font-normal text-text-primary outline-none'
+            className='bg-background-secondary dark:bg-background-secondary-dark w-full h-fit resize-none text-md font-normal text-text-primary dark:text-text-primary-dark outline-none'
             placeholder='댓글을 입력해주세요'
+            onKeyPress={(e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handleSubmit(handlePatchTaskComment)();
+              }
+            }}
             {...register('content')}
           />
           <div className='flex justify-end'>
@@ -101,11 +112,13 @@ function Comment({ comment }: { comment: Comment }) {
         <span className='text-md font-normal text-text-primary dark:text-text-primary-dark'>
           {commentContent}
         </span>
-        <EditDeleteDropdown
-          trigger={<IconKebabSmall />}
-          handleEdit={handleEditing}
-          handleDelete={deleteTaskCommentMutation.mutate}
-        />
+        {userId === currentUser.id! && (
+          <EditDeleteDropdown
+            trigger={<IconKebabSmall />}
+            handleEdit={handleEditing}
+            handleDelete={deleteTaskCommentMutation.mutate}
+          />
+        )}
       </div>
       <div className='flex justify-between items-center'>
         <div className='flex gap-12 items-center'>

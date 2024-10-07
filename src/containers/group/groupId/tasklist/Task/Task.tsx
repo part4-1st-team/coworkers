@@ -17,6 +17,7 @@ import Checkbox from '@/components/checkbox/Checkbox';
 import TaskDeleteModal from '@/components/modal/TaskDeleteModal';
 import TaskEditModal from '@/components/modal/TaskEditModal';
 import useModalStore from '@/stores/ModalStore';
+import useUserStore from '@/stores/userStore';
 import getMonthDay from '@/utils/getMonthDay';
 import { Draggable } from 'react-beautiful-dnd';
 import { useMediaQuery } from 'react-responsive';
@@ -34,7 +35,15 @@ function Task({
   index: number;
   isPriority?: boolean;
 }) {
-  const { id: taskId, name, commentCount, frequency, doneAt, date } = task;
+  const {
+    id: taskId,
+    name,
+    commentCount,
+    frequency,
+    doneAt,
+    date,
+    writer,
+  } = task;
 
   // 완료했는지 체크할 상태 (이걸로 먼저 화면 업데이트)
   const [isDone, setIsDone] = useState<boolean>(!!doneAt);
@@ -43,6 +52,8 @@ function Task({
   const { setHalfPageOpen } = useHalfPageStore();
 
   const handleDoneTask = TaskDoneHandler(task, isDone, setIsDone);
+
+  const { user: currentUser } = useUserStore();
 
   const { setModalOpen } = useModalStore();
   const isMobile = useMediaQuery({ maxWidth: 768 });
@@ -54,6 +65,7 @@ function Task({
   }, []);
 
   if (!mounted) return null;
+  if (!currentUser) return null;
 
   return (
     /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -122,13 +134,15 @@ function Task({
                 isPriority={isPriority}
                 className='hidden tablet:block'
               />
-              <EditDeleteDropdown
-                trigger={<IconKebabSmall />}
-                handleEdit={() => setModalOpen(<TaskEditModal task={task} />)}
-                handleDelete={() =>
-                  setModalOpen(<TaskDeleteModal task={task} />)
-                }
-              />
+              {currentUser.id === writer.id && (
+                <EditDeleteDropdown
+                  trigger={<IconKebabSmall />}
+                  handleEdit={() => setModalOpen(<TaskEditModal task={task} />)}
+                  handleDelete={() =>
+                    setModalOpen(<TaskDeleteModal task={task} />)
+                  }
+                />
+              )}
             </div>
           </div>
 
