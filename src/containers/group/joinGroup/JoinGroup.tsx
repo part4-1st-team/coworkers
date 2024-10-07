@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Button from '@/components/button/button';
 import Input from '@/components/input/input';
 import { postGroupInvitation } from '@/services/GroupAPI';
@@ -18,6 +18,7 @@ function JoinGroup() {
   const { control, handleSubmit } = useForm<FormState>();
   const [userEmail, setUserEmail] = useState<string>('');
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const fetchUserEmail = async () => {
     try {
@@ -39,6 +40,9 @@ function JoinGroup() {
     },
     onSuccess: (response) => {
       toast('Success', '그룹 참여에 성공했습니다.');
+      queryClient.invalidateQueries({
+        queryKey: ['groups'],
+      });
       router.push(`/group/${response.groupId}`);
     },
     onError: () => {
