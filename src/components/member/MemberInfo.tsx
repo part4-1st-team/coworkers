@@ -1,10 +1,10 @@
 import React from 'react';
 import useModalStore from '@/stores/ModalStore';
+import { IconUserExport } from '@/assets/IconList';
 import ProfileModal from '../modal/ProfileModal';
 import ProfileImage from './ProfileImage';
 import CrownIcon from '../icon/Crown';
 import GroupMemberRemoveModal from '../modal/GroupMemberRemoveModal';
-import { IconUserExport } from '@/assets/IconList';
 
 function MemberInfo({
   member,
