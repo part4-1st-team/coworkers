@@ -16,7 +16,10 @@ function GroupReport({ doneCount = 0, totalCount = 0, todayCount = 0 }: Props) {
   return (
     <section className='w-full mt-48 desktop:mt-64'>
       <p className='mb-16'>리포트</p>
-      <section className='w-full h-224 desktop:h-210 shadow-lg bg-background-secondary dark:bg-background-secondary-dark rounded-12 p-24 tablet:px-36 desktop:px-48 desktop:py-auto'>
+      <section
+        className='w-full h-224 desktop:h-210 shadow-lg bg-background-secondary dark:bg-background-secondary-dark rounded-12 
+      px-8 py-24 tablet:p-24 desktop:flex items-center tablet:px-36 desktop:px-48'
+      >
         <div className='w-fill flex justify-between '>
           <ProgressChart percentage={taskPercent} labelToChartGap='gap-[5vw]' />
           <section className='w-1/2 max-w-400 flex flex-col gap-16'>
