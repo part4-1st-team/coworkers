@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
 type Type = 'button' | 'submit';
 type ColorType = 'primary' | 'white' | 'red' | 'outline';
@@ -60,7 +60,7 @@ function Button({
 
   const roundedStyle = rounded ? 'rounded-full' : 'rounded-xl';
 
-  const buttonClass = clsx(
+  const buttonClass = twMerge(
     baseButton,
     !disabled ? colorStyle[color!] : disabledColorStyle[color!],
     roundedStyle,
@@ -72,7 +72,10 @@ function Button({
     // eslint-disable-next-line react/button-has-type
     <button type={type} {...props} className={buttonClass}>
       <span
-        className={clsx('flex items-center', icon && children ? 'gap-8' : '')}
+        className={twMerge(
+          'flex items-center',
+          icon && children ? 'gap-8' : '',
+        )}
       >
         {icon && <span className='icon'>{icon}</span>}
         {children && <span className='text'>{children}</span>}
