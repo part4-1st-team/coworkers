@@ -24,7 +24,7 @@ function GroupTask({ Lists }: { Lists: TaskList[] }) {
   );
 
   return (
-    <section className='w-full mt-24 flex flex-col gap-16'>
+    <section className='w-full mt-24 flex flex-col gap-16 desktop:mt-64'>
       <div className='w-full flex justify-between'>
         <div className='flex gap-8 items-center'>
           <p>할 일 목록</p>

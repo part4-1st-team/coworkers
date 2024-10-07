@@ -33,6 +33,20 @@ function SideMenu({ onClose }: { onClose: () => void }) {
             <IconX className='w-24 h-24' />
           </button>
         </div>
+        <Link
+          href='/groups'
+          onClick={() => {
+            onClose();
+          }}
+          className={`w-248 h-45 flex items-center py-6 px-8 hover:bg-background-primary 
+          dark:hover:bg-background-tertiary-dark rounded-8 
+          ${router.pathname === '/groups' && 'bg-background-primary dark:bg-[#2e3b4c]'} `}
+        >
+          {router.pathname === '/groups' && (
+            <div className='absolute size-8 rounded-full bg-brand-primary' />
+          )}
+          <span className='pl-14'>내 팀 목록</span>
+        </Link>
         {memberships.map((membership: Membership) => (
           <Link
             key={membership.groupId}
@@ -42,11 +56,11 @@ function SideMenu({ onClose }: { onClose: () => void }) {
             }}
             className={`w-248 h-45 flex items-center py-7 px-8 hover:bg-background-primary 
               dark:hover:bg-background-tertiary-dark rounded-8
-              ${String(groupId) === String(membership.groupId) ? 'bg-background-primary dark:bg-background-primary-dark' : ''}
+              ${String(groupId) === String(membership.groupId) && 'bg-background-primary dark:bg-[#2e3b4c]'}
               `}
           >
             {String(groupId) === String(membership.groupId) && (
-              <div className='absolute size-8 rounded-full bg-brand-primary' />
+              <div className='absolute size-8 rounded-full bg-brand-primary ' />
             )}
             <div className='pl-14 flex items-center gap-6'>
               <span className='truncate max-w-150'>
@@ -63,7 +77,7 @@ function SideMenu({ onClose }: { onClose: () => void }) {
           }}
           className={`w-248 h-45 flex items-center py-6 px-8 hover:bg-background-primary 
           dark:hover:bg-background-tertiary-dark rounded-8 
-          ${router.pathname === '/board' ? 'bg-background-primary dark:bg-background-primary-dark' : ''} `}
+          ${router.pathname === '/board' && 'bg-background-primary dark:bg-[#2e3b4c]'} `}
         >
           {router.pathname === '/board' && (
             <div className='absolute size-8 rounded-full bg-brand-primary' />
