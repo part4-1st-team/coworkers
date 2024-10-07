@@ -1,12 +1,14 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import useToast from '@/components/toast/useToast';
+import useUserStore from '@/stores/userStore';
 import Button from '@/components/button/button';
 
 function Terms() {
   const [isChecked, setIsChecked] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
+  const { hasAgreedToTerms, setAgreedToTerms } = useUserStore();
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsChecked(e.target.checked); // 체크 박스 상태 업데이트
@@ -14,6 +16,10 @@ function Terms() {
 
   const handleSubmit = () => {
     if (isChecked) {
+      if (!hasAgreedToTerms) {
+        // 약관에 이미 동의한 경우 상태를 업데이트하지 않음
+        setAgreedToTerms(true); // 약관 동의 상태 업데이트
+      }
       // 약관 동의 시 회원가입 페이지로 이동
       router.push('/auth/signup');
     } else {
