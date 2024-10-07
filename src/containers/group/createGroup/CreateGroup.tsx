@@ -4,6 +4,7 @@ import Input from '@/components/input/input';
 import useToast from '@/components/toast/useToast';
 import { postGroup } from '@/services/GroupAPI';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
@@ -41,10 +42,6 @@ function CreateGroup() {
       router.push(`/group/${response.id}`);
     },
     onError: () => {
-      if (!imgUrl) {
-        toast('Error', '이미지 파일을 업로드해주세요.');
-        return;
-      }
       if (!groupName) {
         toast('Error', '팀 이름을 입력해주세요.');
         return;
@@ -61,7 +58,7 @@ function CreateGroup() {
 
   return (
     <div className='main-container '>
-      <div className='mx-16 tablet:mx-142 desktop:mx-430 mt-132 text-lg text-text-primary dark:text-text-primary-dark'>
+      <div className='mx-16 tablet:mx-142 desktop:mx-340 mt-132 text-lg text-text-primary dark:text-text-primary-dark'>
         <div className='w-full flex flex-col items-center gap-24'>
           <div className='text-4xl'>팀 생성하기</div>
           <form className='w-full' onSubmit={handleSubmit(handleCreateGroup)}>
@@ -78,7 +75,7 @@ function CreateGroup() {
                   required: '팀 이름을 입력해주세요.',
                   maxLength: {
                     value: 29,
-                    message: '팀 이름은 30글자 이상 넘어갈 수 없습니다.',
+                    message: '팀 이름은 30글자 미만으로 입력해주세요.',
                   },
                 }}
                 render={({ field }) => (
@@ -104,6 +101,22 @@ function CreateGroup() {
           </form>
           <div>팀 이름은 회사명이나 모임 이름 등으로 설정하면 좋아요.</div>
         </div>
+        <div className='flex items-center mt-24 '>
+          <div className='flex-grow border-t border-border-primary dark:border-border-primary-dark' />
+          <div className='border-border-primary dark:border-border-primary-dark mx-24 text-text-primary dark:text-text-primary-dark'>
+            OR
+          </div>
+          <div className='flex-grow border-t border-border-primary dark:border-border-primary-dark' />
+        </div>
+        <span className='flex justify-center gap-12 text-text-primary dark:text-text-primary-dark font-500 w-full mt-24 mb-16'>
+          <p>초대 링크가 있으신가요?</p>
+          <Link
+            href='/group/join-group'
+            className='text-interaction-focus underline decoration-interaction-focus'
+          >
+            팀 참여하기
+          </Link>
+        </span>
       </div>
     </div>
   );

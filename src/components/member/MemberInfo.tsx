@@ -1,11 +1,18 @@
 import React from 'react';
-import IconKebabSmall from '@/assets/icons/ic_kebab_small.svg';
 import useModalStore from '@/stores/ModalStore';
+import { IconUserExport } from '@/assets/IconList';
 import ProfileModal from '../modal/ProfileModal';
 import ProfileImage from './ProfileImage';
 import CrownIcon from '../icon/Crown';
+import GroupMemberRemoveModal from '../modal/GroupMemberRemoveModal';
 
-function MemberInfo({ member }: { member: IMember }) {
+function MemberInfo({
+  member,
+  isAdmin,
+}: {
+  member: IMember;
+  isAdmin?: boolean;
+}) {
   const { setModalOpen } = useModalStore();
   const { role, userName, userEmail, userImage } = member;
 
@@ -20,14 +27,30 @@ function MemberInfo({ member }: { member: IMember }) {
         <div className='flex flex-col items-start justify-center w-fill h-33 gap-2'>
           <b className='relative flex items-center gap-4 text-text-primary dark:text-text-primary-dark text-md'>
             {userName}
-            {role === 'ADMIN' ? <CrownIcon /> : <> </>}
+            {role === 'ADMIN' && <CrownIcon />}
           </b>
           <p className='hidden tablet:inline-block text-text-default dark:text-text-default-dark text-xs'>
             {userEmail}
           </p>
         </div>
       </button>
-      <IconKebabSmall />
+
+      {isAdmin && role === 'MEMBER' && (
+        <button
+          type='button'
+          aria-label='그룹에서 내보내기 모달'
+          onClick={() =>
+            setModalOpen(
+              <GroupMemberRemoveModal
+                userId={member.userId}
+                userName={member.userName}
+              />,
+            )
+          }
+        >
+          <IconUserExport className='size-24 fill-icon-primary' />
+        </button>
+      )}
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import Button from '@/components/button/button';
-import useQueryParameter from '@/hooks/useQueryParameter';
+import { useRouter } from 'next/router';
 import { Dispatch, SetStateAction } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import useTaskMutation from '../hooks/useTaskMutation';
@@ -28,7 +28,9 @@ function HalfEditForm({
   content,
 }: Props) {
   const { name, description } = task;
-  const { groupId, taskListId } = useQueryParameter();
+
+  const router = useRouter();
+  const { groupId, taskListId } = router.query;
 
   const { register, handleSubmit } = useForm<HalfFormState>({
     defaultValues: {
@@ -37,7 +39,11 @@ function HalfEditForm({
     },
   });
 
-  const patchMutation = useTaskMutation(task, groupId, taskListId);
+  const patchMutation = useTaskMutation(
+    task,
+    Number(groupId),
+    Number(taskListId),
+  );
   const onEditSubmit: SubmitHandler<HalfFormState> = (data) => {
     const { dataTitle, dataContent } = data;
 
@@ -47,7 +53,6 @@ function HalfEditForm({
     handleCancelEdit();
   };
 
-  // TODO UI 변경하기 (임시)
   return (
     <form
       onSubmit={handleSubmit(onEditSubmit)}

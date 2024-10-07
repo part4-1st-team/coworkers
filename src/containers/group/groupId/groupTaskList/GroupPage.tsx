@@ -130,12 +130,14 @@ function GroupPage() {
                   >
                     {group.name}
                   </GroupBar>
-                  <GroupTask Lists={taskLists} />
-                  <GroupReport
-                    doneCount={doneTaskCount}
-                    totalCount={totalTaskCount}
-                    todayCount={todayTaskCount}
-                  />
+                  <div className='desktop:flex flex-row-reverse gap-12'>
+                    <GroupTask Lists={taskLists} />
+                    <GroupReport
+                      doneCount={doneTaskCount}
+                      totalCount={totalTaskCount}
+                      todayCount={todayTaskCount}
+                    />
+                  </div>
                   <GroupMembers Members={groupMembers} groupId={groupId} />
                 </div>
               ) : (

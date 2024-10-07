@@ -54,7 +54,7 @@ function TaskCreateModal({ groupId }: { groupId: number }) {
               required: '목록 명을 입력해주세요.',
               maxLength: {
                 value: 29,
-                message: '목록 명은 29글자를 넘어갈 수 없습니다.',
+                message: '목록 명은 30글자 미만으로 입력해주세요.',
               },
             }}
             render={({ field }) => (

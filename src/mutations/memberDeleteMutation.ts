@@ -18,10 +18,9 @@ function useMemberDeleteMutation(self?: boolean) {
   return useMutation({
     mutationFn: (memberId: number) => deleteGroupMember(groupId, memberId),
     onSuccess: () => {
-      // TODO 그룹에 있는 유저 리스트 받아오는거 invalidQueries
-      //   queryClient.invalidateQueries({
-      //     queryKey: [],
-      //   })
+      queryClient.invalidateQueries({
+        queryKey: ['group', groupId],
+      });
       if (self) {
         router.replace('/groups');
         toast('Success', '그룹 탈퇴가 완료되었습니다.');

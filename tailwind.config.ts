@@ -137,6 +137,8 @@ const config: Config = {
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
         'brand-gradient': 'linear-gradient(to right, #10B981, #A3E635)',
         modifyProfile: "url('/public/svgs/ic_modifyProfile.svg')",
+        'gradient-skeleton':
+          'linear-gradient(to right, #D9D9D9 0%, #EDEEF1 50%, #D9D9D9 100%)',
       },
       boxShadow: {
         'shadow-xl': 'var(--shadow-xl)',
@@ -154,12 +156,20 @@ const config: Config = {
     },
     animation: {
       'line-through': 'line-through 0.3s forwards',
+      shimmer: 'shimmer 1.5s infinite linear',
     },
     keyframes: {
       'line-through': {
         '0%': { width: '0%' },
         '100%': { width: '100%' },
       },
+      shimmer: {
+        '0%': { backgroundPosition: '200%' },
+        '100%': { backgroundPosition: '-200%' },
+      },
+    },
+    backgroundSize: {
+      skeleton: '300% 100%',
     },
   },
   plugins: [require('@tailwindcss/line-clamp')],

@@ -11,7 +11,7 @@ function LandingTasklistContentImage() {
             <Image
               src={LandingTasklistContentImgae}
               alt='LandingTasklistContentImgae'
-              className='w-232 '
+              width={232}
             />
             <div className='flex flex-col gap-16 tablet:mt-126'>
               <div className='flex items-center justify-center w-48 h-48 rounded-12 border border-border-primary dark:border-border-primary-dark border-opacity-10 bg-background-secondary dark:bg-background-secondary-dark'>

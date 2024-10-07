@@ -1,8 +1,9 @@
 import Button from '@/components/button/button';
 import Input from '@/components/input/input';
 import useTaskMutation from '@/containers/group/groupId/tasklist/hooks/useTaskMutation';
-import useQueryParameter from '@/hooks/useQueryParameter';
 import useModalStore from '@/stores/ModalStore';
+import { useParams } from 'next/navigation';
+import { useRouter } from 'next/router';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import FormFieldSet from '../form/FormFieldset';
 import BoxInput from '../input/boxInput';
@@ -25,8 +26,14 @@ function TaskEditModal({ task }: { task: DateTask }) {
 
   const { setModalClose } = useModalStore();
 
-  const { groupId, taskListId } = useQueryParameter();
-  const taskPatchMutation = useTaskMutation(task, groupId, taskListId);
+  const router = useRouter();
+  const { groupId, taskListId } = router.query;
+
+  const taskPatchMutation = useTaskMutation(
+    task,
+    Number(groupId),
+    Number(taskListId),
+  );
 
   const handleTaskEdit: SubmitHandler<FormState> = (data) => {
     const { title, memo } = data;

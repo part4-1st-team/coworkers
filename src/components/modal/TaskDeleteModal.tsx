@@ -1,9 +1,10 @@
 import Button from '@/components/button/button';
 import useDeleteRecurringMutation from '@/containers/group/groupId/tasklist/hooks/useDeleteRecurringMutation';
 import useDeleteTaskMutation from '@/containers/group/groupId/tasklist/hooks/useDeleteTaskMutation';
-import useQueryParameter from '@/hooks/useQueryParameter';
 import useHalfPageStore from '@/stores/HalfPageStore';
 import useModalStore from '@/stores/ModalStore';
+import { useRouter } from 'next/router';
+
 import Modal from './Modal';
 
 function TaskDeleteModal({ task }: { task: DateTask }) {
@@ -11,18 +12,19 @@ function TaskDeleteModal({ task }: { task: DateTask }) {
   const { setHalfPageClose } = useHalfPageStore();
 
   const { name, id: taskId, date, recurringId } = task;
-  const { groupId, taskListId } = useQueryParameter();
+  const router = useRouter();
+  const { groupId, taskListId } = router.query;
 
   const deleteTaskMutation = useDeleteTaskMutation(
-    groupId,
-    taskListId,
+    Number(groupId),
+    Number(taskListId),
     taskId,
     date,
   );
 
   const deleteRecurringMutation = useDeleteRecurringMutation(
-    groupId,
-    taskListId,
+    Number(groupId),
+    Number(taskListId),
     taskId,
     recurringId,
     date,
@@ -34,7 +36,7 @@ function TaskDeleteModal({ task }: { task: DateTask }) {
         <Modal.Title title={`'<b>${name}</b>' 일정을 삭제하시겠습니까?`} />
         <Modal.Description description='삭제 시 선택한 날짜의 일정만 삭제되며,<br/>반복 삭제 시 반복 설정이 삭제됩니다.' />
       </div>
-      <Modal.Buttons>
+      <Modal.Buttons className='w-full tablet:w-230'>
         <Button
           type='button'
           onClick={() => {

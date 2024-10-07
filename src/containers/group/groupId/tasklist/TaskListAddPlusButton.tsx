@@ -1,13 +1,14 @@
 import { IconPlus } from '@/assets/IconList';
 import TaskCreateModal from '@/components/modal/TaskCreateModal';
 import TooltipWrapper from '@/components/tooltip/TooltipWrapper';
-import useQueryParameter from '@/hooks/useQueryParameter';
 import useModalStore from '@/stores/ModalStore';
+import { useRouter } from 'next/router';
 
 function TaskListAddPlusButton() {
   const { setModalOpen } = useModalStore();
 
-  const { groupId } = useQueryParameter();
+  const router = useRouter();
+  const { groupId } = router.query;
 
   return (
     <TooltipWrapper
@@ -17,7 +18,9 @@ function TaskListAddPlusButton() {
     >
       <button
         type='button'
-        onClick={() => setModalOpen(<TaskCreateModal groupId={groupId} />)}
+        onClick={() =>
+          setModalOpen(<TaskCreateModal groupId={Number(groupId)} />)
+        }
         className='shadow-md bg-brand-primary hover:bg-interaction-hover text-white size-60 tablet:size-80 rounded-12 flex items-center justify-center'
         aria-label='새로운 목록 추가 버튼'
       >

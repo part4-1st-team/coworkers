@@ -54,8 +54,8 @@ function SignInPage() {
       setLogin(loggedInUser, accessToken, refreshToken, null);
       // 에러 메시지 초기화
       setError(null);
-      // 로그인 성공 시 그룹 가입 페이지로 이동
-      router.push('/group/join-group');
+      // 로그인 성공 시 그룹 페이지로 이동
+      router.push('/groups');
     } catch (err: unknown) {
       // 에러 처리
       if (isAxiosError(err)) {

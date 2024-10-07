@@ -20,7 +20,7 @@ function GroupBar({ groupId, groupName, isAdmin, children }: Props) {
   const router = useRouter();
   const { setModalOpen } = useModalStore();
   const handleGroupClick = () => {
-    router.push(`/group/${groupId}`); // 그룹 클릭 시 해당 URL로 이동
+    router.push(`/group/${groupId}`);
   };
 
   return (

@@ -11,8 +11,6 @@ import PriorityTasks from './PriorityTasks';
 import Tasks from './Tasks';
 
 function TasksSection({ priority = false }: { priority?: boolean }) {
-  // NOTE 일정 리스트 말고도 중요도 또는 분류하는 탭 추가 하면 좋을듯
-
   const queryClient = useQueryClient();
   const { pickDate } = useDateStore();
   const { groupId } = useQueryParameter();

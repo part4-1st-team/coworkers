@@ -5,6 +5,7 @@ import useQueryParameter from '@/hooks/useQueryParameter';
 import useTaskCommentList from '@/hooks/useTaskCommentList';
 import useHalfPageStore from '@/stores/HalfPageStore';
 import useModalStore from '@/stores/ModalStore';
+import useUserStore from '@/stores/userStore';
 import clsx from 'clsx';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -33,7 +34,8 @@ function HalfPageContent({ task, isDone, setIsDone }: Props) {
   const [isTitleEditing, setisTitleEditing] = useState<boolean>(false);
   const [isAllEditing, setIsAllEditing] = useState<boolean>(false);
 
-  const { id: taskId, name, description, date } = task;
+  const { id: taskId, name, description, date, writer } = task;
+  const { id: writerId } = writer;
 
   const [title, setTitle] = useState<string>(name);
   const [content, setContent] = useState<string>(description);
@@ -41,6 +43,7 @@ function HalfPageContent({ task, isDone, setIsDone }: Props) {
 
   const { taskCommentList } = useTaskCommentList(taskId);
   const { setModalOpen } = useModalStore();
+  const { user: currentUser } = useUserStore();
 
   const { handleSubmit, register } = useForm<TitleEditForm>({
     mode: 'onSubmit',
@@ -66,6 +69,8 @@ function HalfPageContent({ task, isDone, setIsDone }: Props) {
       setisTitleEditing(false);
     };
   }, []);
+
+  if (!currentUser) return null;
 
   if (isAllEditing) {
     return (
@@ -134,17 +139,23 @@ function HalfPageContent({ task, isDone, setIsDone }: Props) {
                   {title}
                 </p>
               )}
-              <EditPencilButton
-                isEditing={isTitleEditing}
-                setIsEditing={setisTitleEditing}
-              />
+              {currentUser.id === writerId && (
+                <EditPencilButton
+                  isEditing={isTitleEditing}
+                  setIsEditing={setisTitleEditing}
+                />
+              )}
             </form>
 
-            <EditDeleteDropdown
-              trigger={<IconKebabLarge />}
-              handleEdit={() => setIsAllEditing(true)}
-              handleDelete={() => setModalOpen(<TaskDeleteModal task={task} />)}
-            />
+            {currentUser.id === writerId && (
+              <EditDeleteDropdown
+                trigger={<IconKebabLarge />}
+                handleEdit={() => setIsAllEditing(true)}
+                handleDelete={() =>
+                  setModalOpen(<TaskDeleteModal task={task} />)
+                }
+              />
+            )}
           </div>
           <HalfUserInfo task={task} />
         </div>

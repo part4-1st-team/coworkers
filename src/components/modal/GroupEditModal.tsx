@@ -92,16 +92,15 @@ function GroupEditModal() {
             required: '팀 이름을 입력해주세요.',
             maxLength: {
               value: 29,
-              message: '팀 이름은 30글자 이상 넘어갈 수 없습니다.',
+              message: '팀 이름은 30글자 미만으로 입력해주세요.',
             },
           }}
           render={({ field }) => (
             <>
               <Input
                 placeholder='팀 이름을 입력해주세요.'
-                value={field.value}
-                onChange={field.onChange}
                 error={!!errors.name}
+                {...field}
               />
               {errors.name && (
                 <div className='fixed text-status-danger text-sm mt-6 ml-6'>
