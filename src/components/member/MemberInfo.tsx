@@ -3,8 +3,8 @@ import useModalStore from '@/stores/ModalStore';
 import ProfileModal from '../modal/ProfileModal';
 import ProfileImage from './ProfileImage';
 import CrownIcon from '../icon/Crown';
-import { IconUserExport } from '@/assets/IconList';
 import GroupMemberRemoveModal from '../modal/GroupMemberRemoveModal';
+import { IconUserExport } from '@/assets/IconList';
 
 function MemberInfo({
   member,

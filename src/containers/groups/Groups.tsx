@@ -1,8 +1,8 @@
 import useUser from '@/hooks/useUser';
 import { useRouter } from 'next/router';
+import Button from '@/components/button/button';
 import EmptyGroup from '../group/groupId/groupTaskList/EmptyGroup';
 import GroupBar from '../group/groupId/groupTaskList/GroupBar';
-import Button from '@/components/button/button';
 
 function Groups() {
   const { user } = useUser();
@@ -32,7 +32,7 @@ function Groups() {
         <p>내 팀 목록</p>
         <div className='flex gap-8'>
           <Button
-            type={'button'}
+            type='button'
             size='sm'
             color='outline'
             onClick={handleJoinGroup}
@@ -40,7 +40,7 @@ function Groups() {
             팀 참여하기
           </Button>
           <Button
-            type={'button'}
+            type='button'
             size='sm'
             color='outline'
             onClick={handleCreateGroup}
