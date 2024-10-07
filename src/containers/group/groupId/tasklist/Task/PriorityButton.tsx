@@ -1,12 +1,10 @@
 import StarActiveIcon from '@/components/icon/StarActive';
 import StarEmptyIcon from '@/components/icon/StarEmtpy';
-import useToast from '@/components/toast/useToast';
-import { postTaskPriority } from '@/services/TaskPriority.API';
-import getMonthDay from '@/utils/getMonthDay';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import useUserStore from '@/stores/userStore';
 import { useRouter } from 'next/router';
 import { twMerge } from 'tailwind-merge';
 import useDateStore from '../../useDateStore';
+import usePriorityMutation from '../ListPriority/usePriorityMutation';
 
 function PriorityButton({
   task,
@@ -19,24 +17,18 @@ function PriorityButton({
 }) {
   const router = useRouter();
   const { groupId, taskListId } = router.query;
-  const { toast } = useToast();
-  const queryClient = useQueryClient();
+
+  const { user } = useUserStore();
   const { pickDate } = useDateStore();
 
-  const priorityMutation = useMutation({
-    mutationFn: () =>
-      postTaskPriority(
-        Number(groupId),
-        Number(taskListId),
-        task,
-        getMonthDay(pickDate),
-      ),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['getPriorityTasks', Number(groupId), Number(taskListId)],
-      });
-    },
-  });
+  const priorityMutation = usePriorityMutation(
+    groupId,
+    taskListId,
+    task,
+    pickDate,
+    // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+    user?.id!,
+  );
 
   return (
     <button
@@ -44,7 +36,7 @@ function PriorityButton({
       onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         e.stopPropagation();
-        priorityMutation.mutate();
+        priorityMutation.mutate({});
       }}
       className={twMerge(className)}
     >

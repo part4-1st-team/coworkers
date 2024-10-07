@@ -4,18 +4,9 @@ import { persist } from 'zustand/middleware';
 import { setTokenCookies, removeTokenCookies } from '@/utils/cookieUtils';
 
 // user 인터페이스 추가
-interface User {
-  id: number;
-  email: string;
-  nickname: string;
-  updatedAt: string;
-  createdAt: string;
-  image: string | null;
-  teamId: string;
-}
 
 interface UserStoreState {
-  user: User | null;
+  user: BasicUser | null;
   accessToken: string | null;
   refreshToken: string | null;
   isLoggedIn: boolean;

@@ -1,6 +1,6 @@
 import useUser from '@/hooks/useUser';
-import EmptyGroup from './groupId/groupTaskList/EmptyGroup';
-import GroupBar from './groupId/groupTaskList/GroupBar';
+import EmptyGroup from '../group/groupId/groupTaskList/EmptyGroup';
+import GroupBar from '../group/groupId/groupTaskList/GroupBar';
 
 function Groups() {
   const { user } = useUser();

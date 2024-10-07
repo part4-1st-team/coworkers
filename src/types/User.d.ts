@@ -19,14 +19,17 @@ interface Membership {
   userId: number;
 }
 
-interface User {
-  teamId: string;
-  image: string;
+interface BasicUser {
+  id: number;
+  email: string;
   nickname: string;
   updatedAt: string;
   createdAt: string;
-  email: string;
-  id: number;
+  image: string | null;
+  teamId: string;
+}
+
+interface User extends BasicUser {
   memberships: Membership[];
 }
 

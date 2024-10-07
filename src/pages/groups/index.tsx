@@ -1,4 +1,4 @@
-import Groups from '@/containers/group/Groups';
+import Groups from '@/containers/groups/Groups';
 
 function GroupsPage() {
   return <Groups />;
