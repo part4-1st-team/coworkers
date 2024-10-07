@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import Link from 'next/link';
 import useBestArticles from '@/hooks/useBestArticles';
 import BestArticleCard from './bestArticleCard/bestArticleCard';
 
@@ -26,7 +27,11 @@ function BestArticleList() {
         <div className='text-lg font-medium tablet:text-xl tablet:font-bold text-text-primary dark:text-text-primary-dark'>
           베스트 게시글
         </div>
-        <div className='text-sm tablet:text-md text-text-disabled'>더보기</div>
+        <Link href='/board/best-article' passHref>
+          <div className='text-sm tablet:text-md text-text-disabled cursor-pointer hover:text-text-primary  dark:hover:text-text-primary-dark'>
+            더보기
+          </div>
+        </Link>
       </div>
 
       <div className='flex flex-row gap-16'>

@@ -13,13 +13,12 @@ import BoardDropdownMenu from '@/components/board/boardDropdown';
 import ArticleEdit from '@/hooks/useArticleEdit';
 import EditInput from '@/components/input/editCommentInput';
 import BoardProfile from '@/components/profile/boardProfile';
-import useUser from '@/hooks/useUser';
 import useArticleDetail from '@/hooks/useArticleDetail';
 import Image from 'next/image';
 import useModalStore from '@/stores/ModalStore';
 import DeleteArticleModal from '@/components/modal/DeleteArticleModal';
 import TitleEditInput from '@/components/input/titleEditInput';
-import useLikeStore from '../../commponent/useLikeStore';
+import useUserStore from '@/stores/userStore';
 
 interface DetailContentProps {
   boardId: number | number[] | undefined;
@@ -27,9 +26,7 @@ interface DetailContentProps {
 
 function DetailContent({ boardId }: DetailContentProps) {
   const router = useRouter();
-  const { user: currentUser, isLoading, error: userError } = useUser();
-  const { likedArticles, toggleLike, likeCounts, setLikeCount } =
-    useLikeStore();
+  const { user: currentUser } = useUserStore();
 
   // 게시글 세부 정보, 댓글, 좋아요 등을 불러오는 훅
   const { articleDetail, error, isFetching, refetch } = useArticleDetail(
@@ -37,6 +34,8 @@ function DetailContent({ boardId }: DetailContentProps) {
   );
 
   const [viewCount, setViewCount] = useState<number>(0);
+  const [likeCount, setLikeCount] = useState<number>(0);
+  const [isLiked, setIsLiked] = useState<boolean>(false);
 
   // 게시글 수정 모드를 관리하는 훅 (제목 및 본문 수정)
   const {
@@ -53,10 +52,9 @@ function DetailContent({ boardId }: DetailContentProps) {
   // 조회수를 Firestore에서 가져오는 useEffect
   useEffect(() => {
     if (boardId) {
-      // 조회수 가져오는 함수 호출
       getArticleViewCount(boardId as number, () => {}).then((views) => {
         if (views !== null) {
-          setViewCount(views); // 조회수 상태에 저장
+          setViewCount(views);
         }
       });
     }
@@ -65,17 +63,17 @@ function DetailContent({ boardId }: DetailContentProps) {
   // 게시글 데이터가 변경될 때마다 상태값 업데이트
   useEffect(() => {
     if (articleDetail) {
-      setLikeCount(articleDetail.id, articleDetail.likeCount || 0); // likeCount를 Zustand에 저장
-      toggleLike(articleDetail.id, articleDetail.isLiked || false);
+      setLikeCount(articleDetail.likeCount || 0);
+      setIsLiked(articleDetail.isLiked || false);
       setContent(articleDetail.content);
       setTitle(articleDetail.title);
     }
-  }, [articleDetail, setContent, setTitle, toggleLike, setLikeCount]);
+  }, [articleDetail, setContent, setTitle]);
 
   // 페이지가 다시 열릴 때마다 서버에서 최신 데이터 가져오기
   useEffect(() => {
     if (boardId) {
-      refetch(); // 서버에서 최신 데이터를 다시 가져옴
+      refetch();
     }
   }, [router.asPath, boardId, refetch]);
 
@@ -83,8 +81,8 @@ function DetailContent({ boardId }: DetailContentProps) {
   const likeMutation = useMutation({
     mutationFn: () => postArticleLike(boardId as number),
     onSuccess: (data) => {
-      setLikeCount(boardId as number, data.likeCount); // likeCount 상태 업데이트
-      toggleLike(boardId as number, true);
+      setLikeCount(data.likeCount);
+      setIsLiked(true);
     },
   });
 
@@ -92,8 +90,8 @@ function DetailContent({ boardId }: DetailContentProps) {
   const dislikeMutation = useMutation({
     mutationFn: () => deleteArticleLike(boardId as number),
     onSuccess: (data) => {
-      setLikeCount(boardId as number, data.likeCount); // likeCount 상태 업데이트
-      toggleLike(boardId as number, false);
+      setLikeCount(data.likeCount);
+      setIsLiked(false);
     },
   });
 
@@ -132,12 +130,12 @@ function DetailContent({ boardId }: DetailContentProps) {
 
   // 좋아요 또는 좋아요 취소 버튼 클릭 시 호출되는 함수
   const handleLikeClick = useCallback(() => {
-    if (likedArticles[boardId as number]) {
+    if (isLiked) {
       dislikeMutation.mutate();
     } else {
       likeMutation.mutate();
     }
-  }, [likedArticles, boardId, likeMutation, dislikeMutation]);
+  }, [isLiked, likeMutation, dislikeMutation]);
 
   // 게시글 수정 완료 버튼 클릭 시 호출되는 함수
   const handleSaveEdit = useCallback(() => {
@@ -155,7 +153,7 @@ function DetailContent({ boardId }: DetailContentProps) {
   }, [toggleEditMode]);
 
   // 데이터 로딩 상태 처리
-  if (isFetching || isLoading)
+  if (isFetching)
     return (
       <div className='flex items-center text-text-primary dark:text-text-primary-dark font-medium text-md'>
         Loading...
@@ -163,8 +161,7 @@ function DetailContent({ boardId }: DetailContentProps) {
     );
 
   // 에러 처리
-  if (error || userError)
-    return <div>{error?.message || userError?.message || 'Unknown error'}</div>;
+  if (error) return <div>{error?.message || 'Unknown error'}</div>;
 
   // 데이터가 없을 경우
   if (!articleDetail) return <div>Loading...</div>;
@@ -172,7 +169,7 @@ function DetailContent({ boardId }: DetailContentProps) {
   const { commentCount, writer, createdAt, image } = articleDetail;
 
   return (
-    <div className='p-30 rounded-12 bg-background-secondary dark:bg-background-secondary-dark border border-background-tertiary dark:border-background-tertiary-dark shadow-md'>
+    <div className='p-16 tablet:p-30 rounded-12 bg-background-secondary dark:bg-background-secondary-dark border border-background-tertiary dark:border-background-tertiary-dark shadow-md'>
       <div>
         <div className='flex justify-between'>
           {isEditing ? (
@@ -191,8 +188,8 @@ function DetailContent({ boardId }: DetailContentProps) {
           )}
         </div>
         <div className='mt-16 w-full border-t border-border-primary dark:border-border-primary-dark border-opacity-10' />
-        <div className='mt-16 flex justify-between gap-16'>
-          <div className='flex items-center gap-10'>
+        <div className='mt-16 flex justify-between gap-8 tablet:gap-16'>
+          <div className='flex items-center gap-6 tablet:gap-16'>
             <div className='w-32 h-32'>
               <BoardProfile
                 size={32}
@@ -200,15 +197,15 @@ function DetailContent({ boardId }: DetailContentProps) {
                 image={writer.image}
               />
             </div>
-            <p className='text-text-primary dark:text-text-primary-dark text-md font-medium'>
+            <p className='text-text-primary dark:text-text-primary-dark text-sm tablet:text-md font-medium'>
               {writer.nickname}
             </p>
             <div className='h-12 border border-background-tertiary dark:border-background-tertiary-dark' />
-            <p className='text-md text-text-disabled dark:text-text-disabled-dark'>
+            <p className='text-sm tablet:text-md text-text-disabled dark:text-text-disabled-dark'>
               {new Date(createdAt).toLocaleDateString()}
             </p>
           </div>
-          <div className='flex items-center gap-16'>
+          <div className='flex items-center gap-6 tablet:gap-16'>
             <div className='flex gap-4'>
               <IconSearch
                 width={20}
@@ -228,12 +225,12 @@ function DetailContent({ boardId }: DetailContentProps) {
             <div className='flex items-center gap-4'>
               <IconHeart
                 onClick={handleLikeClick}
-                color={likedArticles[boardId as number] ? 'gray' : 'gray'}
-                fill={likedArticles[boardId as number] ? 'gray' : 'none'}
+                color={isLiked ? 'gray' : 'gray'}
+                fill={isLiked ? 'gray' : 'none'}
                 style={{ cursor: 'pointer' }}
               />
               <p className='text-md text-text-disabled dark:text-text-disabled-dark flex items-center'>
-                {likeCounts[boardId as number] || 0}
+                {likeCount}
               </p>
             </div>
           </div>
