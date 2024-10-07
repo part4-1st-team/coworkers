@@ -33,7 +33,7 @@ function LandingTiteleContent() {
             handleButtonClick();
           }}
         >
-          지금시작하기
+          지금 시작하기
         </button>
       </div>
     </div>
