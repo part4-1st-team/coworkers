@@ -15,6 +15,7 @@ function GroupMemberRemoveModal({
 
   const handleRemoveGroupMember = () => {
     leaveGroupMutation.mutate(userId);
+    setModalClose();
   };
 
   return (

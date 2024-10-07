@@ -37,7 +37,7 @@ function ArticleDetailPage() {
   }, [numberBoardId, toast]);
 
   return (
-    <main className='main-container relative mt-116'>
+    <main className='main-container relative mt-116 min-w-375'>
       <DetailContent boardId={numberBoardId} />
       <AddComment boardId={numberBoardId} />
       <CommentList articleId={numberBoardId} limit={10} />

@@ -8,9 +8,9 @@ import {
   patchArticleComment,
   deleteArticleComment,
 } from '@/services/ArticleCommentAPI';
-import useUser from '@/hooks/useUser';
 import useToast from '@/components/toast/useToast';
 import ReportDropdownMenu from '@/components/board/ReportDropdownMenu';
+import useUserStore from '@/stores/userStore';
 import clsx from 'clsx';
 import Button from '@/components/button/button';
 import LikeIcon from './likeIcon';
@@ -23,8 +23,8 @@ interface CommentCardProps {
 function CommentCard({ comment, onDeleteSuccess }: CommentCardProps) {
   const { writer, createdAt, id } = comment;
 
-  // useUser 훅을 사용하여 로그인된 사용자 정보 가져오기
-  const { user: currentUser, isLoading: isUserLoading } = useUser();
+  // useUserStore 훅을 사용하여 로그인된 사용자 정보 가져오기
+  const { user: currentUser, isLoggedIn } = useUserStore();
   const isCommentAuthor = currentUser?.id === writer.id;
   const { toast } = useToast();
 
@@ -87,7 +87,7 @@ function CommentCard({ comment, onDeleteSuccess }: CommentCardProps) {
   };
 
   // 로딩 상태 처리
-  if (isUserLoading) {
+  if (!isLoggedIn) {
     return (
       <p className='flex items-center text-text-primary dark:text-text-primary-dark font-medium text-md'>
         Loading...
@@ -97,7 +97,7 @@ function CommentCard({ comment, onDeleteSuccess }: CommentCardProps) {
 
   // clsx를 사용하여 작성자인 경우와 아닌 경우의 border 색상 설정
   const commentCardClass = clsx(
-    'pt-24 pb-24 px-32 rounded-12',
+    'p-12 tablet:py-20 tablet:px-24 rounded-12',
     'bg-background-secondary dark:bg-background-secondary-dark',
     'border border-background-tertiary dark:border-background-tertiary-dark shadow-md',
     isCommentAuthor ? ' shadow-lg' : '',
@@ -108,7 +108,7 @@ function CommentCard({ comment, onDeleteSuccess }: CommentCardProps) {
       <div className='flex flex-col justify-between h-full'>
         {!isEditing && (
           <div className='mt-10 flex justify-between'>
-            <p className='w-auto text-lg text-text-secondary dark:text-text-secondary-dark font-medium'>
+            <p className='w-auto text-md tablet:text-lg text-text-secondary dark:text-text-secondary-dark font-medium'>
               {content}
             </p>
 
@@ -134,19 +134,19 @@ function CommentCard({ comment, onDeleteSuccess }: CommentCardProps) {
 
         {/* isEditing이 false일 때만 프로필 정보를 보여줌 */}
         {!isEditing && (
-          <div className='mt-15 flex justify-between gap-16'>
-            <div className='flex items-center gap-10'>
+          <div className='mt-15 flex justify-between gap-6 tablet:gap-16'>
+            <div className='flex items-center gap-4 tablet:gap-10'>
               <div className='w-32 h-32'>
                 <ProfileImage userImage={writer.image} size={32} />
               </div>
-              <p className='text-text-primary dark:text-text-primary-dark text-md font-medium'>
+              <p className='text-text-primary dark:text-text-primary-dark text-xs tablet:text-md font-medium'>
                 {writer.nickname}
               </p>
               <div className='h-12 border border-background-tertiary dark:border-background-tertiary-dark' />
-              <p className='text-md text-text-disabled dark:text-text-disabled-dark flex items-center'>
+              <p className='text-xs tablet:text-md text-text-disabled dark:text-text-disabled-dark flex items-center'>
                 {new Date(createdAt).toLocaleDateString()}
               </p>
-              <div className='ml-15 flex flex-row items-center gap-10'>
+              <div className='ml-15 flex flex-row items-center gap-2 tablet:gap-10'>
                 <LikeIcon icon='Like' />
                 <div>
                   <LikeIcon icon='DisLike' />
@@ -158,7 +158,7 @@ function CommentCard({ comment, onDeleteSuccess }: CommentCardProps) {
             <button
               type='button'
               onClick={handleReplyClick}
-              className='text-text-primary dark:text-text-primary-dark text-md font-medium'
+              className='text-text-primary dark:text-text-primary-dark text-xs tablet:text-md font-medium'
             >
               답글 달기
             </button>

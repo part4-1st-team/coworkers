@@ -8,9 +8,24 @@ function LandingFooter() {
           </p>
         </div>
         <div className='flex space-x-4 justify-between'>
-          <p className='text-sm hover:text-brand-primary'>Privacy Policy</p>
-          <p className='text-sm hover:text-brand-primary'>Terms of Service</p>
-          <p className='text-sm hover:text-brand-primary'>Contact Us</p>
+          <a
+            href='/privacy-policy'
+            className='text-sm hover:text-brand-primary hover:cursor-pointer'
+          >
+            Privacy Policy
+          </a>
+          <a
+            href='/terms-of-service'
+            className='text-sm hover:text-brand-primary hover:cursor-pointer'
+          >
+            Terms of Service
+          </a>
+          <a
+            href='/contact-us'
+            className='text-sm hover:text-brand-primary hover:cursor-pointer'
+          >
+            Contact Us
+          </a>
         </div>
       </div>
     </footer>

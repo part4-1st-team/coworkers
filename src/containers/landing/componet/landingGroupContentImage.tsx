@@ -14,7 +14,8 @@ function LandingGroupContentImage() {
             <Image
               src={LandingGroupContent}
               alt='LandingGroupContent'
-              className='w-232 hidden tablet:block'
+              className='hidden tablet:block'
+              width={232}
             />
             <div className='flex flex-col gap-16 tablet:mt-43'>
               <div className='flex items-center justify-center w-48 h-48 rounded-12 border border-border-primary dark:border-border-primary-dark border-opacity-10 bg-background-secondary dark:bg-background-secondary-dark'>
@@ -28,7 +29,8 @@ function LandingGroupContentImage() {
             <Image
               src={LandingGroupContent}
               alt='LandingGroupContent'
-              className='w-232 tablet:hidden'
+              className='tablet:hidden'
+              width={232}
             />
           </div>
         </div>

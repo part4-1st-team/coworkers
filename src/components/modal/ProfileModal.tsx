@@ -23,9 +23,8 @@ function ProfileModal({ member }: { member: IMember }) {
     <Modal.Close>
       <div className='px-16 pt-32 flex flex-col items-center gap-24'>
         <ProfileImage userImage={userImage} size={52} />
-        {/* TODO : 텍스트 생략 */}
         <div className='text-center'>
-          <p className='text-text-primary-dark text-md font-medium mb-8 overflow-hidden whitespace-nowrap text-ellipsis'>
+          <p className='text-text-primary dark:text-text-primary-dark text-md font-medium mb-8 overflow-hidden whitespace-nowrap text-ellipsis'>
             {userName}
           </p>
           <p className='text-text-secondary-dark text-xs font-normal overflow-hidden whitespace-nowrap text-ellipsis'>
