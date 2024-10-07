@@ -27,19 +27,21 @@ function KakaoSignIn() {
           code: code as string,
         });
 
-        // 카카오 토큰 요청
-        const kakaoTokenResponse = await axios.post(
-          `https://kauth.kakao.com/oauth/token`,
-          params,
-          {
-            headers: {
-              'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-            },
-          },
-        );
+        // // 카카오 토큰 요청
+        // const kakaoTokenResponse = await axios.post(
+        //   `https://kauth.kakao.com/oauth/token`,
+        //   params,
+        //   {
+        //     headers: {
+        //       'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+        //     },
+        //   },
+        // );
 
         // 콘솔에 액세스 토큰 출력
-        const kakaoAccessToken = kakaoTokenResponse.data.access_token;
+        // console.log(kakaoTokenResponse);
+
+        // const kakaoAccessToken = kakaoTokenResponse.data.code;
 
         // 백엔드에 토큰 전송
         const backendResponse = await axios.post(
@@ -47,7 +49,7 @@ function KakaoSignIn() {
           {
             state: String(state),
             redirectUri: KAKAO_REDIRECT_URI,
-            token: kakaoAccessToken,
+            token: code,
           },
         );
 
