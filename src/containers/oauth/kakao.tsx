@@ -17,32 +17,6 @@ function KakaoSignIn() {
 
     const fetchKakaoToken = async () => {
       try {
-        // console.log('카카오 토큰 요청');
-
-        // // URL 인코딩된 데이터 생성
-        // const params = qs.stringify({
-        //   grant_type: 'authorization_code',
-        //   client_id: KAKAO_CLIENT_ID!,
-        //   redirect_uri: KAKAO_REDIRECT_URI,
-        //   code: code as string,
-        // });
-
-        // // 카카오 토큰 요청
-        // const kakaoTokenResponse = await axios.post(
-        //   `https://kauth.kakao.com/oauth/token`,
-        //   params,
-        //   {
-        //     headers: {
-        //       'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-        //     },
-        //   },
-        // );
-
-        // 콘솔에 액세스 토큰 출력
-        // console.log(kakaoTokenResponse);
-
-        // const kakaoAccessToken = kakaoTokenResponse.data.code;
-
         // 백엔드에 토큰 전송
         const backendResponse = await axios.post(
           `/auth/signIn/KAKAO`, // 상대 경로 사용
@@ -52,8 +26,6 @@ function KakaoSignIn() {
             token: code,
           },
         );
-
-        console.log(backendResponse);
         const { user, accessToken, refreshToken } = backendResponse.data;
 
         setLogin(user, accessToken, refreshToken, 'kakao');
