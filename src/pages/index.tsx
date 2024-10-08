@@ -1,11 +1,23 @@
 import LandingContentImage from '@/containers/landing/landingContentImage/landingContentImage';
 import LandingFooter from '@/containers/landing/landingFooter/landingFooter';
-
+import { useRouter } from 'next/router';
+import useUserStore from '@/stores/userStore';
 import LandingTitle from '@/containers/landing/componet/landingTitle';
 import { motion } from 'framer-motion';
 import { twMerge } from 'tailwind-merge';
 
 export default function Home() {
+  const router = useRouter();
+  const { isLoggedIn } = useUserStore();
+
+  const handleButtonClick = () => {
+    if (isLoggedIn) {
+      router.push('/group/create-group');
+    } else {
+      router.push('/auth/signup');
+    }
+  };
+
   return (
     <main className='mt-60'>
       <motion.section
@@ -26,8 +38,11 @@ export default function Home() {
       >
         <LandingTitle />
         <button
-          className='bg-gradient-to-r from-brand-primary to-brand-tertiary rounded-full w-343 px-13 py-14 text-lg font-semibold'
+          className='bg-gradient-to-r from-brand-primary to-brand-tertiary rounded-full text-text-primary-dark w-343 px-13 py-14 text-lg font-semibold hover:bg-gradient-to-r hover:from-brand-tertiary hover:to-brand-primary hover:text-text-secondary-dark'
           type='button'
+          onClick={() => {
+            handleButtonClick();
+          }}
         >
           지금시작하기
         </button>
