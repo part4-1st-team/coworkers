@@ -6,7 +6,7 @@ import Dropdown from '../dropdown/Dropdown';
 import ProfileImage from '../member/ProfileImage';
 import LogoutModal from '../modal/LogoutModal';
 
-function UserDropdown({ user }: { user: BasicUser | null }) {
+function UserDropdown({ user }: { user: BasicUser | User | null }) {
   const { handleOffDropdown, handleToggleDropdown, isOpen } = useDropdown();
   const router = useRouter();
   const { setModalOpen } = useModalStore();
