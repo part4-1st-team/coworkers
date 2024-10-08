@@ -1,11 +1,11 @@
 import useUser from '@/hooks/useUser';
 import { useRouter } from 'next/router';
 import Button from '@/components/button/button';
-import EmptyGroup from '../group/groupId/groupTaskList/EmptyGroup';
-import GroupBar from '../group/groupId/groupTaskList/GroupBar';
 import useMemberships from '@/hooks/useMemberships';
 import { useEffect } from 'react';
 import useGroups from '@/hooks/useGroups';
+import EmptyGroup from '../group/groupId/groupTaskList/EmptyGroup';
+import GroupBar from '../group/groupId/groupTaskList/GroupBar';
 
 function Groups() {
   const { user } = useUser();

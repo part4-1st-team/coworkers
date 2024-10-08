@@ -3,6 +3,8 @@ import { useEffect, useState, useMemo } from 'react';
 import useQueryParameter from '@/hooks/useQueryParameter';
 import useGroups from '@/hooks/useGroups';
 import useUser from '@/hooks/useUser';
+import useTaskLists from '@/hooks/useTaskLists';
+import { useQueryClient } from '@tanstack/react-query';
 import EmptyGroup from './EmptyGroup';
 import GroupBar from './GroupBar';
 import GroupTask from './GroupTask';
@@ -10,8 +12,6 @@ import GroupReport from './GroupReport';
 import GroupMembers from './GroupMembers';
 import UnderLine from '../tasklist/underline';
 import TaskListReport from './TaskListReport';
-import useTaskLists from '@/hooks/useTaskLists';
-import { useQueryClient } from '@tanstack/react-query';
 
 function GroupPage() {
   const router = useRouter();

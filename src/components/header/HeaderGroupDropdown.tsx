@@ -45,8 +45,8 @@ function HeaderGroupDropdown({
       <Dropdown.Menu isOpen={isOpen}>
         {groups.map((group: ResponseGroup) => {
           const membership = memberships.find(
-            (membership: Membership) =>
-              membership.groupId === group.id && membership.role === 'ADMIN',
+            (data: Membership) =>
+              data.groupId === group.id && data.role === 'ADMIN',
           );
           const isOwner = !!membership;
 

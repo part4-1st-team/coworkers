@@ -5,13 +5,13 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import useUserStore from '@/stores/userStore';
+import useMemberships from '@/hooks/useMemberships';
+import useGroups from '@/hooks/useGroups';
+import useUser from '@/hooks/useUser';
 import HeaderGroupDropdown from './HeaderGroupDropdown';
 import UserDropdown from './UserDropdown';
 import SideMenu from '../sidemenu/SideMenu';
-import useMemberships from '@/hooks/useMemberships';
-import useGroups from '@/hooks/useGroups';
 import ThemeSwitch from '../switch/ThemeSwitch';
-import useUser from '@/hooks/useUser';
 
 function Header() {
   const router = useRouter();
