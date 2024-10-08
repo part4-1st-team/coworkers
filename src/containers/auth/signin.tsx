@@ -70,16 +70,12 @@ function SignInPage() {
   };
 
   // 카카오 로그인 요청 URL
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const handleKakaoLogin = () => {
     const state = generateState();
-
-    // 환경 변수 체크
-    if (!KAKAO_CLIENT_ID || !KAKAO_REDIRECT_URI) {
-      console.error('Kakao client ID or redirect URI is undefined.');
-      return; // 환경 변수가 정의되지 않으면 함수 종료
-    }
-
-    const loginUrl = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${KAKAO_CLIENT_ID}&redirect_uri=${encodeURIComponent(KAKAO_REDIRECT_URI)}&state=${state}`;
+    const loginUrl =
+      `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${KAKAO_CLIENT_ID}&redirect_uri=${encodeURIComponent(String(KAKAO_REDIRECT_URI!))}&state=${state}` ||
+      '';
     window.location.href = loginUrl;
   };
 
