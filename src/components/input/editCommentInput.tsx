@@ -42,19 +42,16 @@ function EditInput({
   };
 
   return (
-    <div className='py-[16px] border-b border-b-background-tertiary dark:border-b-background-tertiary-dark flex items-center'>
+    <div className='py-16 border-b border-b-background-tertiary dark:border-b-background-tertiary-dark flex items-center'>
       <div className='w-full'>
         <textarea
           ref={textareaRef}
-          className={`w-full text-text-primary dark:text-text-primary-dark resize-none focus:outline-none focus:ring-0 ${className}`}
+          className={`w-full text-text-primary dark:text-text-primary-dark resize-none focus:outline-none focus:ring-0 ${className}  min-h-18 max-h-400 overflow-y-auto`}
           placeholder={placeholder}
           value={value}
           onChange={handleInputChange}
           rows={rows}
           style={{
-            minHeight: '17px',
-            maxHeight: '400px',
-            overflowY: 'auto',
             backgroundColor: 'transparent',
           }}
         />

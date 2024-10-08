@@ -5,7 +5,7 @@ import BoxInput from '@/components/input/boxInput';
 import { postArticle } from '@/services/ArticleAPI';
 import useImageMutation from '@/hooks/useImageMutation';
 import ImageAddButton from '@/components/button/ImageAddButton';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import useToast from '@/components/toast/useToast';
 
@@ -13,6 +13,7 @@ function AddPostPage() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [imageUrl, setImageUrl] = useState<string>('');
+  const queryClient = useQueryClient();
   const { toast } = useToast();
 
   const router = useRouter(); // useRouter 초기화
@@ -30,6 +31,7 @@ function AddPostPage() {
       setContent('');
       setImageUrl('');
       toast('Success', '게시글이 성공적으로 등록되었습니다.');
+      queryClient.invalidateQueries({ queryKey: ['articles'] });
       // 게시글 등록 성공 후 게시판 페이지로 이동
       router.push('/board');
     },
