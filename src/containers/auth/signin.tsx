@@ -90,7 +90,7 @@ function SignInPage() {
   // 구글 로그인 요청 URL
   const handleGoogleLogin = () => {
     // const state = generateState();
-    const loginUrl = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${encodeURIComponent(GOOGLE_REDIRECT_URI)}&scope=email%20profile&state=${state}`;
+    const loginUrl = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${encodeURIComponent(GOOGLE_REDIRECT_URI)}&scope=email%20profile`;
     window.location.href = loginUrl;
   };
 
