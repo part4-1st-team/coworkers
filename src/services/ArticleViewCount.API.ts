@@ -21,7 +21,6 @@ export async function postArticleViewCount(
       await setDoc(articleRef, { views: 1 });
     }
   } catch (error) {
-    console.error('Firestore update error:', error);
     toast('Error', '조회수 등록에 실패했습니다.');
   }
 }
