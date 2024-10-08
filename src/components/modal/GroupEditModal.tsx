@@ -5,7 +5,6 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { getGroup, patchGroup } from '@/services/GroupAPI';
 import { useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import useQueryParameter from '@/hooks/useQueryParameter';
 import Modal from './Modal';
 import useToast from '../toast/useToast';
 import ImgUpload from '../imgUpload/ImgUpload';

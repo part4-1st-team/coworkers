@@ -78,7 +78,12 @@ function GroupMembers({ Members, groupId }: GroupMembersProps) {
       </div>
       <section className='mt-24 grid grid-cols-1 tablet:grid-cols-3 gap-24'>
         {paginatedLists.map((item) => (
-          <MemberInfo member={item} key={item.userId} isAdmin={isAdmin} />
+          <MemberInfo
+            member={item}
+            key={item.userId}
+            isAdmin={isAdmin}
+            groupId={groupId}
+          />
         ))}
       </section>
     </section>
