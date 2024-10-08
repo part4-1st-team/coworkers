@@ -10,9 +10,9 @@ function KakaoSignIn() {
   const { setLogin } = useUserStore();
 
   useEffect(() => {
-    const { code, state } = router.query; // code와 state를 router.query에서 추출
+    const { code } = router.query; // code와 state를 router.query에서 추출
 
-    if (!code && !state) return; // code가 없으면 요청 중단
+    if (!code) return; // code가 없으면 요청 중단
 
     const fetchKakaoToken = async () => {
       try {
@@ -20,9 +20,9 @@ function KakaoSignIn() {
         const backendResponse = await axios.post(
           `/auth/signIn/KAKAO`, // 상대 경로 사용
           {
-            state: String(state),
+            // state: String(state),
             redirectUri: KAKAO_REDIRECT_URI,
-            token: code,
+            token: code as string,
           },
         );
         const { user, accessToken, refreshToken } = backendResponse.data;

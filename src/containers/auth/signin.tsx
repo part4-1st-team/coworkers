@@ -72,24 +72,24 @@ function SignInPage() {
     }
   };
 
-  // 임의의 state 값 생성 함수 (CSRF 방지용)
-  const generateState = () => {
-    return Math.random().toString(36).substring(2);
-  };
+  // // 임의의 state 값 생성 함수 (CSRF 방지용)
+  // const generateState = () => {
+  //   return Math.random().toString(36).substring(2);
+  // };
 
   // 카카오 로그인 요청 URL
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const handleKakaoLogin = () => {
-    const state = generateState();
+    // const state = generateState();
     const loginUrl =
-      `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${KAKAO_CLIENT_ID}&redirect_uri=${encodeURIComponent(String(KAKAO_REDIRECT_URI!))}&state=${state}` ||
+      `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${KAKAO_CLIENT_ID}&redirect_uri=${encodeURIComponent(String(KAKAO_REDIRECT_URI!))}` ||
       '';
     window.location.href = loginUrl;
   };
 
   // 구글 로그인 요청 URL
   const handleGoogleLogin = () => {
-    const state = generateState();
+    // const state = generateState();
     const loginUrl = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${encodeURIComponent(GOOGLE_REDIRECT_URI)}&scope=email%20profile&state=${state}`;
     window.location.href = loginUrl;
   };
