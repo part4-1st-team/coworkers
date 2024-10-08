@@ -36,7 +36,7 @@ function UserDropdown({ user }: { user: BasicUser | null }) {
             로그인
           </Dropdown.List>
           <Dropdown.List
-            onClick={() => router.push('/auth/signup')}
+            onClick={() => router.push('/terms')}
             onClose={handleOffDropdown}
           >
             회원가입

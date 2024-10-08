@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
 import axios from '@/libs/axios';
 import { isAxiosError } from 'axios';
-import { KAKAO_CLIENT_ID, KAKAO_REDIRECT_URI } from '@/constants/authConstants';
-import qs from 'qs'; // qs 라이브러리 임포트
+import { KAKAO_REDIRECT_URI } from '@/constants/authConstants';
 import { useRouter } from 'next/router';
 import useUserStore from '@/stores/userStore';
 
@@ -11,46 +10,21 @@ function KakaoSignIn() {
   const { setLogin } = useUserStore();
 
   useEffect(() => {
-    const { code, state } = router.query; // code와 state를 router.query에서 추출
+    const { code } = router.query; // code와 state를 router.query에서 추출
 
-    if (!code && !state) return; // code가 없으면 요청 중단
+    if (!code) return; // code가 없으면 요청 중단
 
     const fetchKakaoToken = async () => {
       try {
-        console.log('카카오 토큰 요청');
-
-        // URL 인코딩된 데이터 생성
-        const params = qs.stringify({
-          grant_type: 'authorization_code',
-          client_id: KAKAO_CLIENT_ID!,
-          redirect_uri: KAKAO_REDIRECT_URI,
-          code: code as string,
-        });
-
-        // 카카오 토큰 요청
-        const kakaoTokenResponse = await axios.post(
-          `https://kauth.kakao.com/oauth/token`,
-          params,
-          {
-            headers: {
-              'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-            },
-          },
-        );
-
-        // 콘솔에 액세스 토큰 출력
-        const kakaoAccessToken = kakaoTokenResponse.data.access_token;
-
         // 백엔드에 토큰 전송
         const backendResponse = await axios.post(
           `/auth/signIn/KAKAO`, // 상대 경로 사용
           {
-            state: String(state),
+            // state: String(state),
             redirectUri: KAKAO_REDIRECT_URI,
-            token: kakaoAccessToken,
+            token: code as string,
           },
         );
-
         const { user, accessToken, refreshToken } = backendResponse.data;
 
         setLogin(user, accessToken, refreshToken, 'kakao');

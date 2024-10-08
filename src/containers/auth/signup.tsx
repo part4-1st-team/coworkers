@@ -63,7 +63,7 @@ function SignUpPage() {
 
   // 카카오 로그인 요청 URL
   const handleKakaoLogin = () => {
-    const loginUrl = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${KAKAO_CLIENT_ID}&redirect_uri=${encodeURIComponent(KAKAO_REDIRECT_URI)}`;
+    const loginUrl = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${KAKAO_CLIENT_ID}&redirect_uri=${encodeURIComponent(String(KAKAO_REDIRECT_URI!))}`;
     window.location.href = loginUrl;
   };
 
