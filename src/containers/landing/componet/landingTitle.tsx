@@ -4,7 +4,7 @@ import {
   IconRepairSmall,
 } from '@/assets/IconList';
 
-function LangindTitle() {
+function LandingTitle() {
   return (
     <div className='min-w-375 flex flex-col items-center gap-4 tablet:gap-8 desktop:gap-20'>
       <div className='flex justify-center items-center gap-4'>
@@ -22,4 +22,4 @@ function LangindTitle() {
   );
 }
 
-export default LangindTitle;
+export default LandingTitle;

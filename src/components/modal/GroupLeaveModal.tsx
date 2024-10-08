@@ -1,16 +1,20 @@
 import Button from '@/components/button/button';
 import useMemberDeleteMutation from '@/mutations/memberDeleteMutation';
 import useModalStore from '@/stores/ModalStore';
+import useUserStore from '@/stores/userStore';
 import Modal from './Modal';
 
 function GroupLeaveModal({ groupName }: { groupName: string }) {
   const { setModalClose } = useModalStore();
   const leaveGroupMutation = useMemberDeleteMutation(true);
 
-  const user = JSON.parse(localStorage.getItem('User')!);
+  const { user } = useUserStore();
+
+  if (!user) return null;
 
   const handleLeaveGroup = () => {
     leaveGroupMutation.mutate(user.id);
+    setModalClose();
   };
 
   return (
