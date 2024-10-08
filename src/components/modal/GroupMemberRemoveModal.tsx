@@ -2,6 +2,7 @@ import useMemberDeleteMutation from '@/mutations/memberDeleteMutation';
 import useModalStore from '@/stores/ModalStore';
 import Button from '../button/button';
 import Modal from './Modal';
+
 function GroupMemberRemoveModal({
   userId,
   userName,
