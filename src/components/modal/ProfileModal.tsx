@@ -36,7 +36,7 @@ function ProfileModal({ member }: { member: IMember }) {
           type='button'
           onClick={handleEmailCopy}
           color='primary'
-          className='w-280'
+          className='w-full tablet:w-280'
         >
           이메일 복사하기
         </Button>
