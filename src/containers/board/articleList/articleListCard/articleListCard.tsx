@@ -13,7 +13,7 @@ import ProfileImage from '@/components/member/ProfileImage';
 import useModalStore from '@/stores/ModalStore';
 import DeleteArticleModal from '@/components/modal/DeleteArticleModal';
 import useUserStore from '@/stores/userStore';
-import SkeletonArticleCard from './SkeletonArticleCard';
+import SkeletonArticleCard from '@/containers/board/articleList/articleListCard/skeletonArticleCard';
 
 interface ArticleCardProps {
   article: Article;
