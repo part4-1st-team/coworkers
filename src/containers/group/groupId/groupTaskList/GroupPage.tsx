@@ -1,8 +1,7 @@
 import { useRouter } from 'next/router';
+import { useEffect, useState, useMemo } from 'react';
 import useQueryParameter from '@/hooks/useQueryParameter';
 import useGroups from '@/hooks/useGroups';
-import useTaskLists from '@/hooks/useTaskLists';
-import { useEffect, useState } from 'react';
 import useUser from '@/hooks/useUser';
 import EmptyGroup from './EmptyGroup';
 import GroupBar from './GroupBar';
@@ -11,38 +10,36 @@ import GroupReport from './GroupReport';
 import GroupMembers from './GroupMembers';
 import UnderLine from '../tasklist/underline';
 import TaskListReport from './TaskListReport';
+import useTaskLists from '@/hooks/useTaskLists';
+import { useQueryClient } from '@tanstack/react-query';
 
 function GroupPage() {
   const router = useRouter();
   const { groupId } = useQueryParameter();
-  const { taskLists, isLoading } = useTaskLists(groupId);
   const { user } = useUser();
-  const { group, isGroupLoading, groupTaskLists, groupMembers } =
-    useGroups(groupId);
+  const { group, isGroupLoading, groupMembers } = useGroups(groupId);
+  const { taskLists, isLoading: isTaskListLoading } = useTaskLists(groupId);
+  const queryClient = useQueryClient();
 
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
-  const [doneTaskCount, setTaskDoneCount] = useState<number>(0);
-  const [todayTaskCount, setTodayTaskCount] = useState<number>(0);
-  const [totalTaskCount, setTotalTaskCount] = useState<number>(0);
   const [activeTab, setActiveTab] = useState<'total' | 'progress'>('total');
 
-  const checkRole = () => {
-    if (group && group.members && user) {
+  useEffect(() => {
+    if (group && user) {
       const userMember = group.members.find(
         (member) => member.userId === user.id,
       );
-      return userMember ? userMember.role === 'ADMIN' : false;
+      setIsAdmin(userMember ? userMember.role === 'ADMIN' : false);
     }
-    return false;
-  };
+  }, [group, user]);
 
-  const calculateDoneCount = () => {
+  const doneTaskCount = useMemo(() => {
     return taskLists.reduce((acc, taskList) => {
       return acc + taskList.tasks.filter((task) => task.doneAt !== null).length;
     }, 0);
-  };
+  }, [taskLists]);
 
-  const calculateTodayCount = () => {
+  const todayTaskCount = useMemo(() => {
     const today = new Date();
     return taskLists.reduce((acc, taskList) => {
       return (
@@ -57,29 +54,14 @@ function GroupPage() {
         }).length
       );
     }, 0);
-  };
+  }, [taskLists]);
 
-  useEffect(() => {
-    if (user && group) {
-      const isAdminCheck = checkRole();
-      setIsAdmin(isAdminCheck);
-    }
-  }, [group, user]);
-
-  useEffect(() => {
-    if (groupTaskLists) {
-      const doneCount = calculateDoneCount();
-      const todayCount = calculateTodayCount();
-      const totalCount = groupTaskLists.reduce(
-        (total, taskList) => total + taskList.tasks.length,
-        0,
-      );
-
-      setTaskDoneCount(doneCount);
-      setTodayTaskCount(todayCount);
-      setTotalTaskCount(totalCount);
-    }
-  }, [groupTaskLists]);
+  const totalTaskCount = useMemo(() => {
+    return taskLists.reduce(
+      (total, taskList) => total + taskList.tasks.length,
+      0,
+    );
+  }, [taskLists]);
 
   useEffect(() => {
     if (!isGroupLoading && !group) {
@@ -87,17 +69,21 @@ function GroupPage() {
     }
   }, [isGroupLoading, group, router]);
 
+  useEffect(() => {
+    queryClient.invalidateQueries({ queryKey: ['getTaskLists', groupId] });
+  }, [taskLists, groupId, queryClient]);
+
   const handleTabChange = (tab: 'total' | 'progress') => {
     setActiveTab(tab);
   };
 
-  if (isGroupLoading || isLoading) {
+  if (isGroupLoading || isTaskListLoading) {
     return <div>Loading...</div>;
   }
 
   return (
     <div className='main-container'>
-      <div className='text-text-primary text-lg px-24 dark:text-text-primary-dark'>
+      <div className='text-text-primary text-lg dark:text-text-primary-dark'>
         <section className='w-full desktop:mx-auto pt-24'>
           {group ? (
             <>
@@ -127,9 +113,7 @@ function GroupPage() {
                     groupId={groupId}
                     groupName={group.name}
                     isAdmin={isAdmin}
-                  >
-                    {group.name}
-                  </GroupBar>
+                  />
                   <div className='desktop:flex flex-row-reverse gap-12'>
                     <GroupTask Lists={taskLists} />
                     <GroupReport
@@ -142,7 +126,7 @@ function GroupPage() {
                 </div>
               ) : (
                 <div className='group-progress'>
-                  <TaskListReport Lists={groupTaskLists} />
+                  <TaskListReport Lists={taskLists} />
                 </div>
               )}
             </>

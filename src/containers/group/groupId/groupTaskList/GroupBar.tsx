@@ -13,10 +13,9 @@ interface Props {
   groupId: number;
   groupName: string;
   isAdmin: boolean;
-  children: React.ReactNode;
 }
 
-function GroupBar({ groupId, groupName, isAdmin, children }: Props) {
+function GroupBar({ groupId, groupName, isAdmin }: Props) {
   const router = useRouter();
   const { setModalOpen } = useModalStore();
   const handleGroupClick = () => {
@@ -41,25 +40,29 @@ function GroupBar({ groupId, groupName, isAdmin, children }: Props) {
           type='button'
           onClick={handleGroupClick}
           className='w-fill overflow-hidden text-ellipsis whitespace-nowrap '
-          title={typeof children === 'string' ? children : ''}
+          title={typeof groupName === 'string' ? groupName : ''}
         >
-          {children}
+          {groupName}
         </button>
         <div className='flex items-center h-64'>
           {isAdmin ? (
             <GroupDropDown
               icon='gear'
               handleEdit={() => {
-                setModalOpen(<GroupEditModal />);
+                setModalOpen(<GroupEditModal groupId={groupId} />);
               }}
-              handleDelete={() => setModalOpen(<GroupDeleteModal />)}
+              handleDelete={() =>
+                setModalOpen(<GroupDeleteModal groupId={groupId} />)
+              }
             />
           ) : (
             <button
               type='button'
               aria-label='leave group'
               onClick={() =>
-                setModalOpen(<GroupLeaveModal groupName={groupName} />)
+                setModalOpen(
+                  <GroupLeaveModal groupName={groupName} groupId={groupId} />,
+                )
               }
             >
               <IconSecession />

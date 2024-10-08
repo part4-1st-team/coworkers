@@ -3,21 +3,37 @@ import LogoLarge from '@/assets/images/img_logo_large.svg';
 import LogoSmall from '@/assets/images/img_logo_small.svg';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useUserStore from '@/stores/userStore';
 import HeaderGroupDropdown from './HeaderGroupDropdown';
 import UserDropdown from './UserDropdown';
 import SideMenu from '../sidemenu/SideMenu';
+import useMemberships from '@/hooks/useMemberships';
+import useGroups from '@/hooks/useGroups';
+import ThemeSwitch from '../switch/ThemeSwitch';
+import useUser from '@/hooks/useUser';
 
 function Header() {
   const router = useRouter();
   const currentPath = router.pathname;
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
-  const { user, isLoggedIn } = useUserStore();
+  const { user, refetch: refetchUser } = useUser();
+  const { isLoggedIn } = useUserStore();
+  const { memberships, refetch: refetchMemberships } = useMemberships();
+  const { groups, refetch: refetchGroups } = useGroups();
 
   const toggleSideMenu = () => {
     setIsSideMenuOpen((prev) => !prev);
   };
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      // 새로 로그인 했을 때 memberships와 groups를 재요청
+      refetchMemberships();
+      refetchGroups();
+      refetchUser();
+    }
+  }, [isLoggedIn, refetchMemberships, refetchGroups, refetchUser]);
 
   return (
     <div
@@ -45,7 +61,10 @@ function Header() {
               <div className='flex items-center '>
                 {isLoggedIn && (
                   <div className='hidden ml-32 tablet:flex items-center gap-28 desktop:gap-32'>
-                    <HeaderGroupDropdown />
+                    <HeaderGroupDropdown
+                      memberships={memberships}
+                      groups={groups}
+                    />
                     <Link href='/groups'>내 팀 목록</Link>
                     <Link href='/board'>자유게시판</Link>
                   </div>
@@ -54,7 +73,10 @@ function Header() {
             </div>
           )}
         </div>
-        <UserDropdown user={user ?? null} />
+        <div className='flex items-center gap-12'>
+          <ThemeSwitch />
+          <UserDropdown user={user} isLoggedIn={isLoggedIn} />
+        </div>
         {isSideMenuOpen && <SideMenu onClose={toggleSideMenu} />}
       </div>
     </div>
