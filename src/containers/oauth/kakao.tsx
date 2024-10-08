@@ -20,9 +20,9 @@ function KakaoSignIn() {
         const backendResponse = await axios.post(
           `/auth/signIn/KAKAO`, // 상대 경로 사용
           {
-            // state: String(state),
             redirectUri: KAKAO_REDIRECT_URI,
             token: code as string,
+            provider: 'KAKAO',
           },
         );
         const { user, accessToken, refreshToken } = backendResponse.data;
