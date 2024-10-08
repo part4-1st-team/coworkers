@@ -7,7 +7,13 @@ function WeeklyDatePicker({
   handleClick: Dispatch<React.SetStateAction<number[]>>;
 }) {
   const onClick = (value: number) => {
-    handleClick((prev) => [...prev, value]);
+    handleClick((prev) => {
+      if (prev.includes(value)) {
+        return prev.filter((day) => day !== value);
+      } else {
+        return [...prev, value];
+      }
+    });
   };
 
   return (
