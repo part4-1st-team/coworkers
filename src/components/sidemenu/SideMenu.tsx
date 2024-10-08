@@ -40,7 +40,7 @@ function SideMenu({ onClose }: { onClose: () => void }) {
           }}
           className={`w-248 h-45 flex items-center py-6 px-8 hover:bg-background-primary 
           dark:hover:bg-background-tertiary-dark rounded-8 
-          ${router.pathname === '/groups' && 'bg-background-primary dark:bg-[#2e3b4c]'} `}
+          ${router.pathname === '/groups' && 'font-bold'} `}
         >
           {router.pathname === '/groups' && (
             <div className='absolute size-8 rounded-full bg-brand-primary' />
@@ -56,7 +56,7 @@ function SideMenu({ onClose }: { onClose: () => void }) {
             }}
             className={`w-248 h-45 flex items-center py-7 px-8 hover:bg-background-primary 
               dark:hover:bg-background-tertiary-dark rounded-8
-              ${String(groupId) === String(membership.groupId) && 'bg-background-primary dark:bg-[#2e3b4c]'}
+              ${String(groupId) === String(membership.groupId) && 'font-bold'}
               `}
           >
             {String(groupId) === String(membership.groupId) && (
@@ -77,7 +77,7 @@ function SideMenu({ onClose }: { onClose: () => void }) {
           }}
           className={`w-248 h-45 flex items-center py-6 px-8 hover:bg-background-primary 
           dark:hover:bg-background-tertiary-dark rounded-8 
-          ${router.pathname === '/board' && 'bg-background-primary dark:bg-[#2e3b4c]'} `}
+          ${router.pathname === '/board' && 'font-bold'} `}
         >
           {router.pathname === '/board' && (
             <div className='absolute size-8 rounded-full bg-brand-primary' />
