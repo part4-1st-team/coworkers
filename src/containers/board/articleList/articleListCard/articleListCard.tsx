@@ -13,6 +13,7 @@ import ProfileImage from '@/components/member/ProfileImage';
 import useModalStore from '@/stores/ModalStore';
 import DeleteArticleModal from '@/components/modal/DeleteArticleModal';
 import useUserStore from '@/stores/userStore';
+import SkeletonArticleCard from './SkeletonArticleCard';
 
 interface ArticleCardProps {
   article: Article;
@@ -69,16 +70,12 @@ function ArticleCard({ article, onDeleteSuccess }: ArticleCardProps) {
   // 에러 발생 시 '/board'로 리다이렉션
   useEffect(() => {
     if (error) {
-      router.push('/board');
+      router.push('/auth/signin');
     }
   }, [error, router]);
 
   if (isFetching) {
-    return (
-      <div className='flex items-center text-text-primary dark:text-text-primary-dark font-medium text-md'>
-        Loading...
-      </div>
-    );
+    return <SkeletonArticleCard />;
   }
 
   const isOwner = currentUser?.id === writer.id;

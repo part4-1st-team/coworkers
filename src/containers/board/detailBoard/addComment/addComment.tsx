@@ -21,6 +21,7 @@ function AddComment({ boardId }: AddCommentProps) {
     onSuccess: () => {
       setComment('');
       setError(null);
+      queryClient.invalidateQueries({ queryKey: ['articleDetail', boardId] });
 
       // 댓글 목록을 다시 불러오기 위해 해당 query 무효화
       queryClient.invalidateQueries({
