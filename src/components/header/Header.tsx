@@ -1,15 +1,15 @@
 import { IconMenu } from '@/assets/IconList';
 import LogoLarge from '@/assets/images/img_logo_large.svg';
 import LogoSmall from '@/assets/images/img_logo_small.svg';
+import useUser from '@/hooks/useUser';
+import useUserStore from '@/stores/userStore';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import useUserStore from '@/stores/userStore';
+import SideMenu from '../sidemenu/SideMenu';
+import ThemeSwitch from '../switch/ThemeSwitch';
 import HeaderGroupDropdown from './HeaderGroupDropdown';
 import UserDropdown from './UserDropdown';
-import SideMenu from '../sidemenu/SideMenu';
-import useUser from '@/hooks/useUser';
-import ThemeSwitch from '../switch/ThemeSwitch';
 
 function Header() {
   const router = useRouter();
@@ -35,6 +35,7 @@ function Header() {
                 type='button'
                 onClick={toggleSideMenu}
                 className='w-24 mr-16 tablet:hidden'
+                aria-label='사이드 메뉴 오픈 토글 버튼'
               >
                 <IconMenu />
               </button>

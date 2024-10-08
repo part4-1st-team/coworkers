@@ -10,9 +10,8 @@ function WeeklyDatePicker({
     handleClick((prev) => {
       if (prev.includes(value)) {
         return prev.filter((day) => day !== value);
-      } else {
-        return [...prev, value];
       }
+      return [...prev, value];
     });
   };
 
