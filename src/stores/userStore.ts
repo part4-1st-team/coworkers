@@ -11,15 +11,17 @@ interface UserStoreState {
   refreshToken: string | null;
   isLoggedIn: boolean;
   isSocialLogin: 'kakao' | 'google' | null;
+  hasAgreedToTerms: boolean; // 약관 동의 여부
   setLogin: (
     user: User,
     atoken: string,
     rToken: string,
-    isSocialLogin: 'kakao' | 'google' | null,
+    isSocialLogin?: 'kakao' | 'google' | null,
   ) => void;
   setLogout: () => void;
   setToken: (aToken: string, rToken: string) => void;
   removeToken: () => void;
+  setAgreedToTerms: (agreed: boolean) => void; // 약관 동의 상태 업데이트
 }
 
 const useUserStore = create<UserStoreState>()(
@@ -30,6 +32,7 @@ const useUserStore = create<UserStoreState>()(
       isLoggedIn: false,
       refreshToken: null,
       isSocialLogin: null,
+      hasAgreedToTerms: false,
       setLogin: (
         newUser: User,
         aToken: string,
@@ -54,6 +57,7 @@ const useUserStore = create<UserStoreState>()(
           accessToken: null,
           refreshToken: null,
           isSocialLogin: null, // 로그아웃 시 간편 로그인 여부 초기화
+          hasAgreedToTerms: false,
         });
         // 쿠키에서 토큰 삭제
         removeTokenCookies();
@@ -70,6 +74,11 @@ const useUserStore = create<UserStoreState>()(
           refreshToken: null,
         });
       },
+      setAgreedToTerms: (agreed: boolean) => {
+        set({
+          hasAgreedToTerms: agreed,
+        });
+      }, // 새로운 메서드 구현
     }),
     {
       name: 'User',

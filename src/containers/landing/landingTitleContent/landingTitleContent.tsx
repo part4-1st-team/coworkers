@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router';
 import useUserStore from '@/stores/userStore';
-import LangindTitle from '@/containers/landing/componet/landingTitle';
-import LangindMainImage from '@/containers/landing/componet/landingmainImg';
+import LandingTitle from '@/containers/landing/componet/landingTitle';
+import LandingMainImage from '@/containers/landing/componet/landingmainImg';
 
-function LandingTiteleContent() {
+function LandingTitleContent() {
   const router = useRouter();
   const { isLoggedIn } = useUserStore();
 
@@ -18,12 +18,12 @@ function LandingTiteleContent() {
   return (
     <div className='flex flex-col items-center justify-between h-640 tablet:h-940 desktop:h-1080 '>
       <div className='absolute'>
-        <LangindMainImage size='small' />
-        <LangindMainImage size='medium' />
-        <LangindMainImage size='large' />
+        <LandingMainImage size='small' />
+        <LandingMainImage size='medium' />
+        <LandingMainImage size='large' />
       </div>
       <div className='flex flex-col items-center px-16 pt-55 gap-421 tablet:gap-460 desktop:gap-675'>
-        <LangindTitle />
+        <LandingTitle />
       </div>
       <div className='flex flex-col items-center mb-40 tablet:mb-119 z-50 desktop:mb-120'>
         <button
@@ -40,4 +40,4 @@ function LandingTiteleContent() {
   );
 }
 
-export default LandingTiteleContent;
+export default LandingTitleContent;

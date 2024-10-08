@@ -4,7 +4,7 @@ import LadingMemberContentImage from '../componet/ladingMemberContentImage';
 
 function LandingContentImage() {
   return (
-    <div className='flex flex-col gap-24 desktop:gap-80 px-24'>
+    <div className='flex flex-col gap-24 desktop:gap-80 px-16 tablet:px-24'>
       <LandingGroupContentImage />
       <LadingMemberContentImage />
       <LandingTasklistContentImage />

@@ -54,14 +54,6 @@ function ArticleList({ searchValue }: ArticleListProps) {
     return <div className='loader'>Loading...</div>;
   }
 
-  if (error) {
-    return (
-      <div className='flex flex-col justify-center items-center text-text-primary dark:text-text-primary-dark font-medium text-md'>
-        <p>에러가 발생했습니다: {error.message}</p>
-      </div>
-    );
-  }
-
   return (
     <div className='max-w-desktop h-auto overflow-hidden my-auto flex flex-col gap-32'>
       <div className='flex items-center justify-between'>

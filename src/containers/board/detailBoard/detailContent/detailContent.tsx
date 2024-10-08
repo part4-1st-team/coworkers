@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   postArticleLike,
   deleteArticleLike,
@@ -26,6 +26,7 @@ interface DetailContentProps {
 
 function DetailContent({ boardId }: DetailContentProps) {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const { user: currentUser } = useUserStore();
 
   // 게시글 세부 정보, 댓글, 좋아요 등을 불러오는 훅
@@ -83,6 +84,9 @@ function DetailContent({ boardId }: DetailContentProps) {
     onSuccess: (data) => {
       setLikeCount(data.likeCount);
       setIsLiked(true);
+      queryClient.invalidateQueries({ queryKey: ['articleDetail', boardId] });
+      queryClient.invalidateQueries({ queryKey: ['articles'] });
+      queryClient.invalidateQueries({ queryKey: ['bestArticles'] });
     },
   });
 
@@ -92,6 +96,9 @@ function DetailContent({ boardId }: DetailContentProps) {
     onSuccess: (data) => {
       setLikeCount(data.likeCount);
       setIsLiked(false);
+      queryClient.invalidateQueries({ queryKey: ['articleDetail', boardId] });
+      queryClient.invalidateQueries({ queryKey: ['articles'] });
+      queryClient.invalidateQueries({ queryKey: ['bestArticles'] });
     },
   });
 

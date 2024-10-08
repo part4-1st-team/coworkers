@@ -15,17 +15,22 @@ const instance = axios.create({
 // 요청 인터셉터: 액세스 토큰이 있으면 요청에 추가
 instance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   const user = localStorage.getItem('User');
-
   let token;
+
   if (user) {
     const parseUser = JSON.parse(user);
     token = parseUser.state.accessToken;
   }
 
+  // config를 복사한 후 수정
+  const updatedConfig = {
+    ...config,
+  };
+
   if (token) {
-    config.headers.set('Authorization', `Bearer ${token}`);
+    updatedConfig.headers.Authorization = `Bearer ${token}`;
   }
-  return config;
+  return updatedConfig;
 });
 
 // 응답 인터셉터: 401 에러 발생 시 토큰 갱신 시도
@@ -35,7 +40,7 @@ instance.interceptors.response.use(
     const originalRequest = error.config;
     const { response } = error;
 
-    const setLogout = useUserStore((state) => state.setLogout);
+    const { setLogout } = useUserStore.getState();
 
     // 401 오류 발생 시 (만료된 액세스 토큰 처리)
     // eslint-disable-next-line no-underscore-dangle
@@ -52,8 +57,6 @@ instance.interceptors.response.use(
         originalRequest.headers.Authorization = `Bearer ${accessToken}`;
         return await axios(originalRequest);
       } catch (err) {
-        setLogout();
-        window.location.href = '/auth/signin';
         return Promise.reject(err);
       }
     }

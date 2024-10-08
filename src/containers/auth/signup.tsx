@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import useUserStore from '@/stores/userStore';
 import Image from 'next/image';
 import AuthInput from '@/components/input/authInput';
 import { signup } from '@/services/Auth.API';
@@ -31,6 +32,15 @@ interface SignUpFormValues {
 function SignUpPage() {
   const { toast } = useToast();
   const router = useRouter();
+  const { hasAgreedToTerms } = useUserStore(); // 약관 동의 여부 가져오기
+
+  useEffect(() => {
+    if (!hasAgreedToTerms) {
+      router.push('/terms');
+      toast('Error', '약관 동의 후 회원가입이 가능합니다.');
+    }
+  }, [hasAgreedToTerms, router]);
+
   const {
     control,
     handleSubmit,
@@ -43,9 +53,9 @@ function SignUpPage() {
   // 회원가입 데이터 전송
   const onSubmit: SubmitHandler<SignUpFormValues> = async (data) => {
     try {
-      const response = await signup(data);
-      toast('Success', response);
-      router.push('/auth/signIn');
+      await signup(data);
+      toast('Success', '회원가입이 완료되었습니다.');
+      router.push('/auth/signin');
     } catch (error) {
       toast('Error', '회원가입 실패');
     }
@@ -69,6 +79,7 @@ function SignUpPage() {
         <h1 className='block w-139 text-40 leading-48 font-500 mx-auto mb-80'>
           회원가입
         </h1>
+        {/* 약관 미동의 시 폼 비활성화 */}
         <form
           onSubmit={handleSubmit(onSubmit)}
           className='flex flex-col gap-24'

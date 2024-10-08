@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import AuthInput from '@/components/input/authInput';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import Image from 'next/image';
@@ -26,6 +26,7 @@ type FormValues = {
 
 function SignInPage() {
   const router = useRouter();
+  const { user } = useUserStore();
   const {
     control,
     handleSubmit,
@@ -35,15 +36,22 @@ function SignInPage() {
   const { setLogin } = useUserStore(); // 로그인 상태 저장
   const { setModalOpen } = useModalStore(); // 비밀번호 재설정 링크 모달 상태
 
+  // 컴포넌트 마운트 시 로그인 상태 체크
+  useEffect(() => {
+    if (user) {
+      router.push('/'); // 이미 로그인된 경우 홈 페이지로 리다이렉트
+    }
+  }, [user, router]);
+
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     const { email, password } = data;
 
     try {
       // 로그인 API 요청
       const response = await login({ email, password });
-      const { user, accessToken, refreshToken } = response;
+      const { user: loggedInUser, accessToken, refreshToken } = response;
       // 유저 정보 저장, 쿠키에 토큰 저장
-      setLogin(user, accessToken, refreshToken, null);
+      setLogin(loggedInUser, accessToken, refreshToken, null);
       // 에러 메시지 초기화
       setError(null);
       // 로그인 성공 시 그룹 페이지로 이동
@@ -140,15 +148,15 @@ function SignInPage() {
                 비밀번호를 잊으셨나요?
               </span>
             </button>
-            {error && (
-              <div className='text-status-danger text-md text-center h-35 rounded-5 pl-5 mt-16 mb-8'>
-                {' '}
-                {/* 에러 창 디자인 논의 필요 */}
-                입력하신 이메일 또는 비밀번호가 올바르지 않습니다. <br />
-                다시 시도해 주세요.
-              </div>
-            )}
           </div>
+          {error && (
+            <div className='text-status-danger text-md text-center h-35 rounded-5 pl-5 -mt-24 mb-8'>
+              {' '}
+              {/* 에러 창 디자인 논의 필요 */}
+              입력하신 이메일 또는 비밀번호가 올바르지 않습니다. <br />
+              다시 시도해 주세요.
+            </div>
+          )}
           <Button type='submit' color='primary' size='lg' className='w-full'>
             로그인
           </Button>
