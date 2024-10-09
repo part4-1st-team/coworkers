@@ -7,7 +7,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import SideMenu from '../sidemenu/SideMenu';
-import ThemeSwitch from '../switch/ThemeSwitch';
 import HeaderGroupDropdown from './HeaderGroupDropdown';
 import UserDropdown from './UserDropdown';
 
@@ -62,7 +61,6 @@ function Header() {
           )}
         </div>
         <div>
-          <ThemeSwitch />
           <UserDropdown user={storeUser === null ? null : (user ?? null)} />
         </div>
         {isSideMenuOpen && <SideMenu onClose={toggleSideMenu} />}
