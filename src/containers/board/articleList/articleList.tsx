@@ -50,18 +50,22 @@ function ArticleList({ searchValue }: ArticleListProps) {
 
   const handleSortChange = (sortType: ArticleOrder) => setOrderBy(sortType);
 
-  if (isLoading) {
-    return <div className='loader'>Loading...</div>;
-  }
-
   return (
     <div className='max-w-desktop h-auto overflow-hidden my-auto flex flex-col gap-32'>
-      <div className='flex items-center justify-between'>
-        <p className='text-lg font-medium tablet:text-xl tablet:font-bold text-text-primary dark:text-text-primary-dark'>
-          게시글
-        </p>
-        <SortDropdown orderBy={orderBy} onSortChange={handleSortChange} />
-      </div>
+      {/* 로딩 상태일 때 Header 스켈레톤을 직접 적용 */}
+      {isLoading ? (
+        <div className='flex items-center justify-between'>
+          <div className='skeleton w-42 h-19 bg-gray-300 rounded-md' />
+          <div className='skeleton w-130 h-44 bg-gray-300 rounded-md' />
+        </div>
+      ) : (
+        <div className='flex items-center justify-between'>
+          <p className='text-lg font-medium tablet:text-xl tablet:font-bold text-text-primary dark:text-text-primary-dark'>
+            게시글
+          </p>
+          <SortDropdown orderBy={orderBy} onSortChange={handleSortChange} />
+        </div>
+      )}
 
       <div className='flex flex-col gap-24 desktop:grid desktop:grid-cols-2'>
         {sortedArticles.map((article, index) => {

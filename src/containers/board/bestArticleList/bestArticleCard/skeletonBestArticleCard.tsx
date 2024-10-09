@@ -5,8 +5,8 @@ function SkeletonBestArticleCard() {
     <div
       className={clsx(
         'w-full tablet:h-220 pt-9 pb-16 px-24',
-        'bg-background-secondary dark:bg-background-secondary-dark',
-        'rounded-12 border border-background-tertiary dark:border-background-tertiary-dark shadow-md',
+        'bg-gray-300',
+        'rounded-12 skeleton',
       )}
     >
       <div className='pt-15 w-54 h-26 flex items-center gap-4'>

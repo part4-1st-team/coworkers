@@ -67,7 +67,7 @@ function ArticleCard({ article, onDeleteSuccess }: ArticleCardProps) {
     );
   };
 
-  // 에러 발생 시 '/board'로 리다이렉션
+  // 에러 발생 시 '/auth/signin'로 리다이렉션
   useEffect(() => {
     if (error) {
       router.push('/auth/signin');

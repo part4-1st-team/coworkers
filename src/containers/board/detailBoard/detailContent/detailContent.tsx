@@ -7,7 +7,10 @@ import {
   deleteArticle,
 } from '@/services/ArticleAPI';
 import { useRouter } from 'next/router';
-import { getArticleViewCount } from '@/services/ArticleViewCount.API';
+import {
+  getArticleViewCount,
+  postArticleViewCount,
+} from '@/services/ArticleViewCount.API'; // postArticleViewCount 추가
 import { IconHeart, IconComment, IconSearch } from '@/assets/IconList';
 import BoardDropdownMenu from '@/components/board/boardDropdown';
 import ArticleEdit from '@/hooks/useArticleEdit';
@@ -52,14 +55,37 @@ function DetailContent({ boardId }: DetailContentProps) {
 
   // 조회수를 Firestore에서 가져오는 useEffect
   useEffect(() => {
-    if (boardId) {
-      getArticleViewCount(boardId as number, () => {}).then((views) => {
-        if (views !== null) {
-          setViewCount(views);
-        }
-      });
+    if (router.isReady && boardId) {
+      const viewedArticles = JSON.parse(
+        localStorage.getItem('viewedArticles') || '[]',
+      );
+
+      // 처음 들어왔을 때만 조회수를 증가시키고, 로컬 스토리지에 저장
+      if (!viewedArticles.includes(boardId)) {
+        postArticleViewCount(boardId as number, () => {}).then(() => {
+          // 조회수 증가 후 Firestore에서 조회수 가져오기
+          getArticleViewCount(boardId as number, () => {}).then((views) => {
+            if (views !== null) {
+              setViewCount(views); // 최신 조회수를 가져와서 상태에 설정
+            }
+          });
+        });
+
+        // 로컬 스토리지에 게시글 ID 저장
+        localStorage.setItem(
+          'viewedArticles',
+          JSON.stringify([...viewedArticles, boardId]),
+        );
+      } else {
+        // 이미 조회한 게시글이라면 Firestore에서 조회수 가져오기만 함
+        getArticleViewCount(boardId as number, () => {}).then((views) => {
+          if (views !== null) {
+            setViewCount(views); // 최신 조회수를 가져와서 상태에 설정
+          }
+        });
+      }
     }
-  }, [boardId]);
+  }, [router.isReady, boardId]);
 
   // 게시글 데이터가 변경될 때마다 상태값 업데이트
   useEffect(() => {

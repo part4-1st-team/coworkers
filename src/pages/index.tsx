@@ -1,6 +1,7 @@
 import LandingContentImage from '@/containers/landing/landingContentImage/landingContentImage';
 import LandingFooter from '@/containers/landing/landingFooter/landingFooter';
-
+import { useRouter } from 'next/router';
+import useUserStore from '@/stores/userStore';
 import LandingTitle from '@/containers/landing/componet/landingTitle';
 import { motion } from 'framer-motion';
 import { twMerge } from 'tailwind-merge';
@@ -9,15 +10,16 @@ import LandingTitleContent from '@/containers/landing/landingTitleContent/landin
 import LandingBottomContent from '@/containers/landing/landingBottom/landingBottomContent';
 
 export default function Home() {
+  const router = useRouter();
+  const { isLoggedIn } = useUserStore();
+
   return (
     <main className='mt-60'>
       <LandingTitleContent />
-
       <section className='w-full m-0  desktop:w-996 desktop:mx-auto'>
         <LandingContentImage />
       </section>
       <LandingBottomContent />
-
       <LandingFooter />
     </main>
   );
