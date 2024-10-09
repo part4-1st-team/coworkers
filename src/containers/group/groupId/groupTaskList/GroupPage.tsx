@@ -12,6 +12,7 @@ import GroupReport from './GroupReport';
 import GroupMembers from './GroupMembers';
 import UnderLine from '../tasklist/underline';
 import TaskListReport from './TaskListReport';
+import SkeletonGroupPage from '@/components/group/skeletonGroupPage';
 
 function GroupPage() {
   const router = useRouter();
@@ -78,7 +79,11 @@ function GroupPage() {
   };
 
   if (isGroupLoading || isTaskListLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        <SkeletonGroupPage />
+      </div>
+    );
   }
 
   return (
