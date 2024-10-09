@@ -5,6 +5,7 @@ import useGroups from '@/hooks/useGroups';
 import useUser from '@/hooks/useUser';
 import useTaskLists from '@/hooks/useTaskLists';
 import { useQueryClient } from '@tanstack/react-query';
+import SkeletonGroupPage from '@/components/group/skeletonGroupPage';
 import EmptyGroup from './EmptyGroup';
 import GroupBar from './GroupBar';
 import GroupTask from './GroupTask';
@@ -12,7 +13,6 @@ import GroupReport from './GroupReport';
 import GroupMembers from './GroupMembers';
 import UnderLine from '../tasklist/underline';
 import TaskListReport from './TaskListReport';
-import SkeletonGroupPage from '@/components/group/skeletonGroupPage';
 
 function GroupPage() {
   const router = useRouter();
