@@ -1,17 +1,17 @@
 import { IconMenu } from '@/assets/IconList';
 import LogoLarge from '@/assets/images/img_logo_large.svg';
 import LogoSmall from '@/assets/images/img_logo_small.svg';
+import useGroups from '@/hooks/useGroups';
+import useMemberships from '@/hooks/useMemberships';
 import useUser from '@/hooks/useUser';
 import useUserStore from '@/stores/userStore';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import useMemberships from '@/hooks/useMemberships';
-import useGroups from '@/hooks/useGroups';
 import SideMenu from '../sidemenu/SideMenu';
+import ThemeSwitch from '../switch/ThemeSwitch';
 import HeaderGroupDropdown from './HeaderGroupDropdown';
 import UserDropdown from './UserDropdown';
-import ThemeSwitch from '../switch/ThemeSwitch';
 
 function Header() {
   const router = useRouter();
@@ -20,10 +20,9 @@ function Header() {
 
   const { memberships, refetch: refetchMemberships } = useMemberships();
   const { groups, refetch: refetchGroups } = useGroups();
-  
+
   const { user: storeUser, isLoggedIn } = useUserStore();
   const { user, refetch: refetchUser } = useUser();
-
 
   const toggleSideMenu = () => {
     setIsSideMenuOpen((prev) => !prev);
@@ -82,7 +81,10 @@ function Header() {
         </div>
         <div className='flex items-center gap-12'>
           <ThemeSwitch />
-          <UserDropdown user={storeUser === null ? null : (user ?? null)} isLoggedIn={isLoggedIn} />
+          <UserDropdown
+            user={storeUser === null ? null : (user ?? null)}
+            isLoggedIn={isLoggedIn}
+          />
         </div>
         {isSideMenuOpen && <SideMenu onClose={toggleSideMenu} />}
       </div>
