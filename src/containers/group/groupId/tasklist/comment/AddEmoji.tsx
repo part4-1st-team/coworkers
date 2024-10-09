@@ -68,7 +68,7 @@ function AddEmoji({ comment }: { comment: Comment }) {
         <div
           onMouseEnter={handleEmojiListMouseEnter}
           onMouseLeave={handleEmojiListMouseLeave}
-          className='absolute bg-background-tertiary dark:bg-background-tertiary-dark top-[-45px] rounded-12 flex gap-12 py-7 px-14 text-2lg'
+          className='absolute shadow-md bg-background-tertiary dark:bg-background-tertiary-dark top-[-45px] rounded-12 flex gap-12 py-7 px-14 text-2lg'
         >
           <button type='button' onClick={() => handleClickAddReaction('like')}>
             ❤️

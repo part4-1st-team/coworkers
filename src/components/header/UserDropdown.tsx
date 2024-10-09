@@ -9,7 +9,7 @@ function UserDropdown({
   user,
   isLoggedIn,
 }: {
-  user: BasicUser | undefined;
+  user: BasicUser | User | null
   isLoggedIn: boolean;
 }) {
   const { handleOffDropdown, handleToggleDropdown, isOpen } = useDropdown();

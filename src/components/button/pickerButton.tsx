@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { useState } from 'react';
+import { twMerge } from 'tailwind-merge';
 
 interface PickerProps {
   text: string;
@@ -18,11 +19,12 @@ function PickerButton({ text, value, onClick, className }: PickerProps) {
         onClick(Number(value));
       }}
       value={value}
-      className={clsx(
-        'w-44 h-48 rounded-12 py-8 px-10 bg-background-primary dark:bg-background-primary-dark text-text-default dark:text-text-default-dark text-md font-medium',
+      className={twMerge(
+        'w-44 h-48 rounded-12 py-8 px-10 bg-background-primary dark:bg-background-primary-dark text-md font-medium',
         isChecked
           ? 'bg-brand-primary dark:bg-brand-primary text-text-primary-dark'
           : 'dark:bg-button-background text-text-default dark:text-text-default-dark',
+
         className,
       )}
     >
