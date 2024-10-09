@@ -8,7 +8,6 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import useMemberships from '@/hooks/useMemberships';
 import useGroups from '@/hooks/useGroups';
-import useUser from '@/hooks/useUser';
 import SideMenu from '../sidemenu/SideMenu';
 import HeaderGroupDropdown from './HeaderGroupDropdown';
 import UserDropdown from './UserDropdown';
