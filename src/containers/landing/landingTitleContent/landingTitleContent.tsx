@@ -2,10 +2,14 @@ import { useRouter } from 'next/router';
 import useUserStore from '@/stores/userStore';
 import LandingTitle from '@/containers/landing/componet/landingTitle';
 import LandingMainImage from '@/containers/landing/componet/landingmainImg';
+import { motion } from 'framer-motion';
+import useVisibility from '@/hooks/useVisibility';
 
 function LandingTitleContent() {
   const router = useRouter();
   const { isLoggedIn } = useUserStore();
+
+  const { ref, isVisible } = useVisibility();
 
   const handleButtonClick = () => {
     if (isLoggedIn) {
@@ -16,7 +20,17 @@ function LandingTitleContent() {
   };
 
   return (
-    <div className='flex flex-col items-center justify-between h-640 tablet:h-940 desktop:h-1080 '>
+    <motion.div
+      ref={ref}
+      initial={{ y: -100, opacity: 0 }} // 처음 상태 (위로 100px, 투명)
+      animate={isVisible ? { y: 0, opacity: 1 } : {}}
+      transition={{
+        delay: 0.3, // 애니메이션 시작 지연 시간 (0.3초 후 시작)
+        duration: 1, // 애니메이션이 1초 동안 진행
+        ease: 'easeOut', // 부드러운 가속도 설정
+      }}
+      className='flex flex-col items-center justify-between h-640 tablet:h-940 desktop:h-1080 '
+    >
       <div className='absolute'>
         <LandingMainImage size='small' />
         <LandingMainImage size='medium' />
@@ -36,7 +50,7 @@ function LandingTitleContent() {
           지금 시작하기
         </button>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
