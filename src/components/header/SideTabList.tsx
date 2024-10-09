@@ -5,9 +5,10 @@ import { useRouter } from 'next/router';
 import CrownIcon from '../icon/Crown';
 
 interface ListProps {
-  membership: Membership;
+  group: ResponseGroup;
   onClick: () => void;
   className?: string;
+  OWNER?: boolean;
 }
 
 /**
@@ -17,13 +18,9 @@ interface ListProps {
  * @param className (선택)
  * @returns 누르면 해당 그룹 페이지로 이동하는 컴포넌트
  */
-function SideTabList({ membership, onClick, className }: ListProps) {
+function SideTabList({ group, onClick, className, OWNER }: ListProps) {
   const router = useRouter();
-
-  const { group, role } = membership;
   const { id: groupId, name, image } = group;
-
-  const OWNER = role === 'ADMIN';
 
   return (
     <button

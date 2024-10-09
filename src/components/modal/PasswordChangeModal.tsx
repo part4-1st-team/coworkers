@@ -15,7 +15,7 @@ function PasswordChangeModal() {
       <PasswordChangeForm
         type='modal'
         submitButton={
-          <Modal.Buttons>
+          <Modal.Buttons className='w-full tablet:w-320'>
             <Button
               type='button'
               color='white'

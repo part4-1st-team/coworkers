@@ -3,7 +3,15 @@ import { IconArrowLeft, IconArrowRight } from '@/assets/IconList';
 import GroupTaskList from './GroupTaskList';
 import TaskAddButton from '../TaskAddButton';
 
-const colors = ['purple', 'blue', 'cyan', 'pink', 'rose', 'orange', 'yellow'];
+const colors = [
+  'bg-point-purple',
+  'bg-point-blue',
+  'bg-point-cyan',
+  'bg-point-pink',
+  'bg-point-rose',
+  'bg-point-orange',
+  'bg-point-yellow',
+];
 
 function GroupTask({ Lists }: { Lists: TaskList[] }) {
   const [currentPage, setCurrentPage] = useState(0);
@@ -55,13 +63,14 @@ function GroupTask({ Lists }: { Lists: TaskList[] }) {
               (task) => task.doneAt !== null,
             ).length;
             const totalCount = tasklist.tasks.length;
+            const color = colors[tasklist.id % 7];
 
             return (
               <GroupTaskList
                 key={tasklist.id}
                 doneCount={doneCount}
                 totalCount={totalCount}
-                color={colors[tasklist.id % 7]}
+                color={color}
                 isDone={doneCount === totalCount && totalCount !== 0}
                 groupId={tasklist.groupId}
                 taskListId={tasklist.id}

@@ -9,9 +9,11 @@ import GroupMemberRemoveModal from '../modal/GroupMemberRemoveModal';
 function MemberInfo({
   member,
   isAdmin,
+  groupId,
 }: {
   member: IMember;
   isAdmin?: boolean;
+  groupId: number;
 }) {
   const { setModalOpen } = useModalStore();
   const { role, userName, userEmail, userImage } = member;
@@ -44,6 +46,7 @@ function MemberInfo({
               <GroupMemberRemoveModal
                 userId={member.userId}
                 userName={member.userName}
+                groupId={groupId}
               />,
             )
           }

@@ -5,7 +5,6 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { getGroup, patchGroup } from '@/services/GroupAPI';
 import { useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import useQueryParameter from '@/hooks/useQueryParameter';
 import Modal from './Modal';
 import useToast from '../toast/useToast';
 import ImgUpload from '../imgUpload/ImgUpload';
@@ -14,7 +13,7 @@ interface FormState {
   name: string;
 }
 
-function GroupEditModal() {
+function GroupEditModal({ groupId }: { groupId: number }) {
   const { toast } = useToast();
   const {
     control,
@@ -27,7 +26,6 @@ function GroupEditModal() {
   const [prevImg, setPrevImg] = useState<string | undefined>();
   const queryClient = useQueryClient();
   const { setModalClose } = useModalStore();
-  const { groupId } = useQueryParameter();
 
   const groupSetting = async () => {
     if (groupId) {
@@ -41,10 +39,6 @@ function GroupEditModal() {
     mutationFn: async (name: string) => {
       const data: PatchGroup = {};
 
-      if (currentImage !== null) {
-        data.image = currentImage;
-      }
-
       if (group?.name !== name) {
         data.name = name;
       }
@@ -52,9 +46,8 @@ function GroupEditModal() {
       return patchGroup(Number(groupId), data);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['group'],
-      });
+      queryClient.invalidateQueries({ queryKey: ['group'] });
+      queryClient.invalidateQueries({ queryKey: ['groups'] });
       toast('Success', '팀 설정이 업데이트되었습니다.');
       setModalClose();
     },

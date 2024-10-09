@@ -76,9 +76,14 @@ function GroupMembers({ Members, groupId }: GroupMembersProps) {
         </div>
         <MemberInviteButton groupId={groupId} />
       </div>
-      <section className='mt-24 grid grid-cols-2 tablet:grid-cols-3 gap-24'>
+      <section className='mt-24 grid grid-cols-1 tablet:grid-cols-3 gap-24'>
         {paginatedLists.map((item) => (
-          <MemberInfo member={item} key={item.userId} isAdmin={isAdmin} />
+          <MemberInfo
+            member={item}
+            key={item.userId}
+            isAdmin={isAdmin}
+            groupId={groupId}
+          />
         ))}
       </section>
     </section>

@@ -29,9 +29,6 @@ function TaskCreateDateModal({
 }) {
   const { control, handleSubmit } = useForm<FormState>();
 
-  // 현재 선택한 시간 (오후/오전 시간)
-  const [time, setTime] = useState<string>('12:00');
-
   // 선택한 날짜
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 

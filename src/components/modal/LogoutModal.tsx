@@ -1,5 +1,6 @@
 import useModalStore from '@/stores/ModalStore';
 import useUserStore from '@/stores/userStore';
+import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import Button from '../button/button';
 import Modal from './Modal';
@@ -8,11 +9,15 @@ function LogoutModal() {
   const router = useRouter();
   const { setModalClose } = useModalStore();
   const { setLogout } = useUserStore();
+  const queryClient = useQueryClient();
 
   const handleLogout = () => {
     setLogout();
     setModalClose();
     router.push('/');
+    queryClient.invalidateQueries({
+      queryKey: ['user'],
+    });
   };
 
   return (

@@ -1,27 +1,35 @@
 import useDropdown from '@/hooks/useDropdown';
 import useModalStore from '@/stores/ModalStore';
 import { useRouter } from 'next/router';
-import useUserStore from '@/stores/userStore';
 import Dropdown from '../dropdown/Dropdown';
 import ProfileImage from '../member/ProfileImage';
 import LogoutModal from '../modal/LogoutModal';
 
-function UserDropdown({ user }: { user: BasicUser | null }) {
+function UserDropdown({
+  user,
+  isLoggedIn,
+}: {
+  user: BasicUser | User | null;
+  isLoggedIn: boolean;
+}) {
   const { handleOffDropdown, handleToggleDropdown, isOpen } = useDropdown();
   const router = useRouter();
   const { setModalOpen } = useModalStore();
-  const { isLoggedIn } = useUserStore();
 
   return (
     <Dropdown onClose={handleOffDropdown}>
       <Dropdown.Trigger onClick={handleToggleDropdown}>
         <div className='flex items-center gap-8 w-full'>
-          {!user ? (
+          {!isLoggedIn ? (
             <ProfileImage userImage={null} size={32} />
           ) : (
             <>
-              <ProfileImage userImage={user.image} size={32} />
-              <div className='hidden tablet:inline-block'>{user.nickname}</div>
+              <ProfileImage userImage={user?.image ?? null} size={32} />{' '}
+              {/* user가 null일 경우 null로 설정 */}
+              <div className='hidden tablet:inline-block'>
+                {user?.nickname}
+              </div>{' '}
+              {/* user가 null일 경우 처리 */}
             </>
           )}
         </div>
@@ -36,7 +44,7 @@ function UserDropdown({ user }: { user: BasicUser | null }) {
             로그인
           </Dropdown.List>
           <Dropdown.List
-            onClick={() => router.push('/auth/signup')}
+            onClick={() => router.push('/terms')}
             onClose={handleOffDropdown}
           >
             회원가입
