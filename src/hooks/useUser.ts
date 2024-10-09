@@ -6,12 +6,13 @@ function useUser() {
     data: user,
     isLoading,
     error,
+    refetch,
   } = useQuery<User>({
     queryKey: ['user'],
     queryFn: () => getUser(),
   });
 
-  return { user, isLoading, error };
+  return { user, isLoading, error, refetch };
 }
 
 export default useUser;

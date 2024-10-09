@@ -1,4 +1,3 @@
-import useQueryParameter from '@/hooks/useQueryParameter';
 import { deleteGroup } from '@/services/GroupAPI';
 import useModalStore from '@/stores/ModalStore';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -7,9 +6,8 @@ import Button from '@/components/button/button';
 import useToast from '@/components/toast/useToast';
 import Modal from './Modal';
 
-function GroupDeleteModal() {
+function GroupDeleteModal({ groupId }: { groupId: number }) {
   const { setModalClose } = useModalStore();
-  const { groupId } = useQueryParameter();
   const { toast } = useToast();
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -17,11 +15,10 @@ function GroupDeleteModal() {
   const groupDeleteMutation = useMutation({
     mutationFn: () => deleteGroup(groupId),
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['group'],
-      });
+      queryClient.invalidateQueries({ queryKey: ['groups'] });
       router.replace('/groups');
       toast('Success', '그룹이 성공적으로 삭제되었습니다.');
+      setModalClose();
     },
     onError: () => {
       toast('Error', '그룹을 삭제하는데 실패했습니다.');

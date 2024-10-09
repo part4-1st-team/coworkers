@@ -4,9 +4,15 @@ import useModalStore from '@/stores/ModalStore';
 import useUserStore from '@/stores/userStore';
 import Modal from './Modal';
 
-function GroupLeaveModal({ groupName }: { groupName: string }) {
+function GroupLeaveModal({
+  groupName,
+  groupId,
+}: {
+  groupName: string;
+  groupId: number;
+}) {
   const { setModalClose } = useModalStore();
-  const leaveGroupMutation = useMemberDeleteMutation(true);
+  const leaveGroupMutation = useMemberDeleteMutation(groupId, true);
 
   const { user } = useUserStore();
 

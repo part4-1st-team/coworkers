@@ -2,17 +2,17 @@ import { IconCheck } from '@/assets/IconList';
 import Button from '@/components/button/button';
 import Dropdown from '@/components/dropdown/Dropdown';
 import useDropdown from '@/hooks/useDropdown';
-import useGroups from '@/hooks/useGroups';
-import useMemberships from '@/hooks/useMemberships';
 import { useRouter } from 'next/router';
 import SideTabList from './SideTabList';
 
-function HeaderGroupDropdown() {
+function HeaderGroupDropdown({
+  memberships,
+  groups,
+}: {
+  memberships: Membership[];
+  groups: ResponseGroup[];
+}) {
   const { handleOffDropdown, handleToggleDropdown, isOpen } = useDropdown();
-
-  const { memberships } = useMemberships();
-  const { groups, isGroupsLoading } = useGroups();
-
   const router = useRouter();
   const { groupId } = router.query;
 
@@ -32,8 +32,6 @@ function HeaderGroupDropdown() {
     return '팀 선택하기';
   };
 
-  if (isGroupsLoading) return null;
-
   return (
     <Dropdown onClose={handleOffDropdown}>
       <Dropdown.Trigger onClick={handleToggleDropdown}>
@@ -45,18 +43,26 @@ function HeaderGroupDropdown() {
         </div>
       </Dropdown.Trigger>
       <Dropdown.Menu isOpen={isOpen}>
-        {memberships.map((membership: Membership) => (
-          <SideTabList
-            onClick={handleOffDropdown}
-            key={membership.group.id}
-            membership={membership}
-          />
-        ))}
+        {groups.map((group: ResponseGroup) => {
+          const membership = memberships.find(
+            (data: Membership) =>
+              data.groupId === group.id && data.role === 'ADMIN',
+          );
+          const isOwner = !!membership;
 
+          return (
+            <SideTabList
+              onClick={handleOffDropdown}
+              key={group.id}
+              group={group}
+              OWNER={isOwner}
+            />
+          );
+        })}
         <Button
           color='white'
           type='button'
-          className='w-full'
+          className='w-186'
           onClick={() => {
             handleOffDropdown();
             router.push('/group/create-group');

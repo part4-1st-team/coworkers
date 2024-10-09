@@ -6,12 +6,13 @@ function useMemberships() {
     data: memberships,
     isLoading,
     error,
+    refetch,
   } = useQuery({
     queryKey: ['memberships'],
     queryFn: () => getUserMemberships(),
   });
 
-  return { memberships: memberships ?? [], isLoading, error };
+  return { memberships: memberships ?? [], isLoading, error, refetch };
 }
 
 export default useMemberships;

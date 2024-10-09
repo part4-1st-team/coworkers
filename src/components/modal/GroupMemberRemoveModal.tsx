@@ -6,12 +6,14 @@ import Modal from './Modal';
 function GroupMemberRemoveModal({
   userId,
   userName,
+  groupId,
 }: {
   userId: number;
   userName: string;
+  groupId: number;
 }) {
   const { setModalClose } = useModalStore();
-  const leaveGroupMutation = useMemberDeleteMutation();
+  const leaveGroupMutation = useMemberDeleteMutation(groupId);
 
   const handleRemoveGroupMember = () => {
     leaveGroupMutation.mutate(userId);

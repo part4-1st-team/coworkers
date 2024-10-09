@@ -7,6 +7,7 @@ function useGroups(groupId?: number) {
     data: groups,
     isLoading: isGroupsLoading,
     error: groupsError,
+    refetch,
   } = useQuery({
     queryKey: ['groups'],
     queryFn: () => getUserGroups(),
@@ -34,6 +35,7 @@ function useGroups(groupId?: number) {
     groupError,
     groupMembers,
     groupTaskLists,
+    refetch,
   };
 }
 

@@ -16,7 +16,7 @@ interface Props {
 }
 
 function GroupTaskList({
-  color = 'purple',
+  color = 'bg-point-purple',
   isDone = false,
   doneCount = 0,
   totalCount = 0,
@@ -31,7 +31,7 @@ function GroupTaskList({
       className='relative shadow-md w-full h-40 rounded-12 bg-background-secondary flex text-md text-text-primary
     dark:bg-background-secondary-dark dark:text-text-primary-dark'
     >
-      <div className={`absolute w-12 h-full rounded-l-12 bg-point-${color}`} />
+      <div className={`absolute w-12 h-full rounded-l-12 ${color}`} />
       <div className='w-full px-12 flex items-center justify-between'>
         <Link
           href={`/group/${groupId}/tasklist/${taskListId}`}
