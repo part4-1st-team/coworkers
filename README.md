@@ -89,11 +89,16 @@
 └─ tsconfig.json
 ```
 
+- components 폴더에 재사용 가능한 컴포넌트들을 분리하여 관리
+- `airbnb` eslint 사용
+- `husky` 와 `eslint`를 통해 커밋 일관성을 유지
+
+
 <br/>
 
 ## 팀원 소개
 
-|![최민경](https://github.com/user-attachments/assets/d68dc024-36bf-441a-8fc1-ecd96b48a8e1)|![강효성](https://github.com/user-attachments/assets/e13c5b86-c846-4e01-ae3d-6a62a9a92a1c)|![서향](https://github.com/user-attachments/assets/cddd9eb1-30b7-467a-b865-2ff62f092d59)|![오조환](https://github.com/user-attachments/assets/2623e4eb-13cd-4007-8c6e-59cbeefdc0e8)|
+|<img width='400' src='https://github.com/user-attachments/assets/d68dc024-36bf-441a-8fc1-ecd96b48a8e1'/>|<img src='https://github.com/user-attachments/assets/e13c5b86-c846-4e01-ae3d-6a62a9a92a1c' width='400'/>|<img src='https://github.com/user-attachments/assets/cddd9eb1-30b7-467a-b865-2ff62f092d59' width='500'/>|<img src='https://github.com/user-attachments/assets/2623e4eb-13cd-4007-8c6e-59cbeefdc0e8' width='420'/>|
 |:-:|:-:|:-:|:-:|
 |**최민경 (팀장)**|**강효성**|**서향**|**오조환**|
 |**[@mxkxx1011](https://github.com/mxkxx1011)**|**[@kanghyosung1](https://github.com/kanghyosung1)**|**[@Seo-Hyang](https://github.com/Seo-Hyang)**|**[@ohjohwan](https://github.com/ohjohwan)**|
@@ -106,7 +111,63 @@
 
 ## 페이지별 기능 및 설명
 
-### 
+### 로그인 & 회원가입
+
+|로그인|회원가입|약관동의|
+|:-:|:-:|:-:|
+|<img width="538" alt="스크린샷 2024-10-18 오후 10 15 31" src="https://github.com/user-attachments/assets/f42bf198-f56b-45f5-b5be-3280fabad436">|<img width="619" alt="스크린샷 2024-10-18 오후 10 15 54" src="https://github.com/user-attachments/assets/59bcf6be-f387-49fa-a27f-b6bb7b8e97bf">|<img width="565" alt="스크린샷 2024-10-18 오후 10 17 31" src="https://github.com/user-attachments/assets/2219b2f2-6760-411b-a9d5-5b1067a8ab0a">|
+
+
+react-hook-form과 yup을 활용하여 유효성 검증을 수행하고, 사용자가 입력한 데이터의 유효성을 실시간으로 확인하여 에러 메시지로 사용자에게 즉시 피드백하도록 하였습니다.
+또한 약관동의 페이지를 추가하여 약관 동의 후 회원가입을 처리하게끔 하였습니다.
+
+### 그룹 페이지
+
+|그룹 관리자|그룹 멤버|
+|:-:|:-:|
+|<img width="1221" alt="스크린샷 2024-10-18 오후 10 33 40" src="https://github.com/user-attachments/assets/5ef1db30-2219-48fe-8a5c-2533a47e94b3">|<img width="1236" alt="스크린샷 2024-10-18 오후 10 35 00" src="https://github.com/user-attachments/assets/0803f59d-0520-4a1a-b504-e8ef87675794">|
+|톱니바퀴 버튼을 통해 그룹 수정, 삭제가 가능함|나가기 버튼을 눌러 그룹을 나갈 수 있음)
+
+- 목록의 모든 일정에 대한 진행상황을 그룹 페이지에서 확인할 수 있습니다.
+- 그룹에 존재하는 멤버 리스트를 확인할 수 있으며, 그룹 관리자일 경우 멤버를 내보낼 수 있습니다.
+- 목록을 확인할 수 있으며 목록을 추가할 수 있습니다.
+
+### 할 일 리스트 페이지
+
+
+|리스트 페이지|상세 일정|
+|:-:|:-:|
+|<img width="1221" alt="스크린샷 2024-10-18 오후 10 37 44" src="https://github.com/user-attachments/assets/a27770d4-59cc-4256-9247-2ad896b269de">|<img width="1465" alt="스크린샷 2024-10-18 오후 10 39 53" src="https://github.com/user-attachments/assets/8764e096-7d41-4c21-8a37-63fe7204f018">|
+
+
+- 우측 상단을 통해 현재 날짜를 확인할 수 있고 다른 날짜를 확인할 수 있습니다. 캘린더 버튼을 누를 경우 원하는 날짜를 선택 가능합니다.
+- 왼쪽에는 목록, 오른쪽은 목록의 일정들을 확인할 수 있습니다.
+- 체크박스를 통해 일정을 완료할 수 있습니다.
+- 일정을 누를 경우 일정의 상세 페이지를 확인할 수 있습니다.
+
+### 팀 추가 & 팀 참여
+
+|팀 추가|팀 참여|
+|:-:|:-:|
+|<img width="731" alt="스크린샷 2024-10-18 오후 10 45 19" src="https://github.com/user-attachments/assets/cfd5b10f-b05d-4ae6-a8a2-feeead23816d">|<img width="663" alt="스크린샷 2024-10-18 오후 10 45 58" src="https://github.com/user-attachments/assets/63e328ba-f5ec-4e61-b097-6db43374a662">|
+
+- 팀을 추가하거나 초대 코드를 통해 팀을 참여할 수 있습니다.
+
+
+
+### 마이 히스토리 페이지
+
+![화면 기록 2024-10-18 오후 10 40 59](https://github.com/user-attachments/assets/98579d2e-c284-4d34-864f-cf61f0b6211b)
+- 일주일 간격으로 현재 사용자가 완료한 일정들의 히스토리를 확인할 수 있습니다.
+
+### 게시판 페이지
+
+![화면 기록 2024-10-18 오후 10 43 05](https://github.com/user-attachments/assets/ff94b6aa-2fcd-410d-bb0b-ea6a53c5812f)
+
+
+- 상단에서 좋아요가 많은 베스트 게시글을 확인할 수 있습니다.
+- 하단에서는 전체 게시글을 볼 수 있으며, 최신순/좋아요순 으로 정렬해서 확인할 수 있습니다.
+
 
 
 <br/>
